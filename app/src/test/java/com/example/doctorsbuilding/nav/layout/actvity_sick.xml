@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layoutDirection="rtl"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:clickable="true"
+        android:hint="@string/sickName"
+        android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/sick_family"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:clickable="true"
+        android:hint="@string/sickFamily"
+        android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/sick_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:clickable="true"
+        android:hint="@string/sickAddress"
+        android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/sick_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:clickable="true"
+        android:hint="@string/sickPhone"
+        android:padding="5dp" />
+
+    <ListView
+        android:id="@+id/sick_listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/my_margin"
+        android:layout_marginTop="@dimen/my_margin"
+        android:layout_weight="1"
+        android:padding="@dimen/my_padding">
+
+    </ListView>
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_shadow"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/myNobat_li_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="پنج شنبه 14 اردیبهشت 95"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/myNobat_li_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/myNobat_li_date"
+        android:layout_alignParentLeft="true"
+        android:text="14:30 الی 14:55"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/myNobat_li_date"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorMainContent" />
+
+    <TextView
+        android:id="@+id/myNobat_li_patientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/myNobat_li_date"
+        android:layout_below="@id/myNobat_li_date"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/myNobat_li_taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/myNobat_li_patientName"
+        android:layout_alignParentLeft="true"
+        android:textColor="@android:color/darker_gray"
+        android:textColorHighlight="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/myNobat_li_lblCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/myNobat_li_patientName"
+        android:layout_below="@+id/myNobat_li_patientName"
+        android:layout_marginTop="30dp"
+        android:text="مبلغ پرداختی : "
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/myNobat_li_drCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/myNobat_li_lblCost"
+        android:layout_toLeftOf="@id/myNobat_li_lblCost"
+        android:textColor="@android:color/holo_green_light"
+        android:textColorHighlight="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/myNobat_li_btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/my_delete_button"
+        android:paddingLeft="@dimen/my_padding"
+        android:paddingRight="@dimen/my_padding"
+        android:text="لغو نوبت"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainContent">
+
+    <RelativeLayout
+        android:id="@+id/news_titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/news_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="خبرنامه"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/news_backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/inboxTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_back_white"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/newsTxtNothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/news_titleLayout"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp">
+        <com.example.doctorsbuilding.nav.Util.NonScrollListView
+            android:id="@+id/userNews_listView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@color/colorMainContent"
+            android:dividerHeight="5dp"
+            android:padding="@dimen/my_padding"></com.example.doctorsbuilding.nav.Util.NonScrollListView>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

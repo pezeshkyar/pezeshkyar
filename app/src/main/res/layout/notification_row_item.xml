@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/my_padding">
+
+    <TextView
+        android:id="@+id/notification_rowItem_drName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notification_rowItem_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/notification_rowItem_drName"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorStroke"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/notification_rowItem_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notification_rowItem_date"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorStroke"
+        android:textSize="12sp" />
+</RelativeLayout>

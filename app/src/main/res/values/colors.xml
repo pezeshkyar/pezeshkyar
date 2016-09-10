@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0088cc</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#2196f3</color>
+    <color name="colorMainContent">#e8eded</color>
+    <color name="colorContentRow">#f4f7f9</color>
+    <color name="tabIndicatorColor">#ff4c4c</color>
+    <color name="fabColor">#34bf49</color>
+    <color name="colorDivider">#9c9e9f</color>
+    <color name="rowItem">#e6e6e6</color>
+    <color name="colorStroke">#d0d2d3</color>
+    <color name="colorFragment">#e8eded</color>
+    <color name="delete">#CB2027</color>
+    <color name="drProfileRow">#f4f7f9</color>
+    <color name="expGroupTextColorWhenIsExpanded">#fbbc05</color>
+    <color name="expGroupTextColorWhenNotExpanded">#000000</color>
+    <color name="textColor">#434343</color>
+
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cityListItem_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/my_margin"
+        android:layout_marginTop="@dimen/my_margin"
+        android:padding="@dimen/my_padding"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"/>
+</RelativeLayout>

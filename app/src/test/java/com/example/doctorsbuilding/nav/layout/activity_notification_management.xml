@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/manageNotify_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:background="@drawable/my_text_view"
+        android:clickable="true"
+        android:hint="تاریخ نوبت دهی"
+        android:padding="5dp" />
+
+    <Spinner
+        android:id="@+id/manageNotify_spinner_nobat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:background="@drawable/my_spinner"></Spinner>
+
+    <EditText
+        android:id="@+id/manageNotify_message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/my_margin"
+        android:layout_weight="1"
+        android:background="@drawable/my_edit_text"
+        android:gravity="start"
+        android:hint="متن پیام"
+        android:maxLength="150"
+        android:maxLines="10"
+        android:padding="5dp" />
+
+    <Spinner
+        android:id="@+id/manageNotify_spinner_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/my_margin"
+        android:background="@drawable/my_spinner"></Spinner>
+
+    <Button
+        android:id="@+id/manageNotify_btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/my_margin"
+        android:layout_marginTop="@dimen/my_margin"
+        android:background="@drawable/my_button"
+        android:text="ارسال"
+        android:textColor="@android:color/white" />
+</LinearLayout>

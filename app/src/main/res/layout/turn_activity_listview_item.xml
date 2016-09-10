@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/addTurn_listViewItem_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="محسن سالخورده گرمستانی"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/addTurn_listViewItem_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/addTurn_listViewItem_name"
+        android:layout_alignParentLeft="true"
+        android:text="10:20 الی 11:20"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/addTurn_listViewItem_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/addTurn_listViewItem_name"
+        android:layout_below="@id/addTurn_listViewItem_name"
+        android:layout_marginTop="20dp"
+        android:text="عصب کشی دندان 2 فک بالا"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

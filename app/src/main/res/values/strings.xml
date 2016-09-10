@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">myapp</string>
+    <string name="dr_profile_title">درباره شما ...</string>
+    <string name="dr_clininc_title">درباره مطب ...</string>
+    <string name="dr_nobat_title">مدیریت نوبت</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="pageTitle_nobat">نوبت دهی</string>
+    <string name="pageTitle_info">اطلاعات</string>
+    <string name="pageTitle_comments">اطلاعیه</string>
+
+    <!-- Doctor nobat -->
+
+    <string name="nobat_date">تاریخ نوبت دهی</string>
+    <string name="nobat_start_time">زمان شروع نوبت دهی</string>
+    <string name="nobat_end_time">زمان پایان نوبت دهی</string>
+    <string name="nobat_capacity">حداکثر ظرفیت</string>
+    <string name="nobat_btn_update">ویرایش</string>
+    <string name="nobat_btn_delete">حذف</string>
+    <string name="nobat_btn_insert">ثبت نوبت</string>
+
+    <!--Doctor personalInfo-->
+    <string name="drImgProfile">عکس پروفایل</string>
+    <string name="drFirstName">نام</string>
+    <string name="drLastName">نام خانوادگی</string>
+    <string name="drMobile">موبایل</string>
+    <string name="drUserName">نام کاربری</string>
+    <string name="drPassword">رمز عبور</string>
+    <string name="drConfirmPassword">تکرار رمز عبور</string>
+    <string name="drCity">شهر</string>
+    <string name="personalInfo_btn_insert">ثبت مشخصات</string>
+
+    <!--Doctor clinic-->
+    <string name="drSecretary">نام منشی</string>
+    <string name="drAddress">آدرس</string>
+    <string name="drPhone">تلفن</string>
+    <string name="clinic_btn_insert">ثبت مشخصات</string>
+
+    <!--patients-->
+    <string name="patientsName">نام</string>
+    <string name="patientsFamily">نام خانوادگی</string>
+    <string name="patientsStartDate">از تاریخ</string>
+    <string name="patientsEndDate">تا تاریخ</string>
+    <string name="patientsSearch">جستجو</string>
+
+    <!--sick-->
+    <string name="sickName">نام</string>
+    <string name="sickFamily">نام خانوادگی</string>
+    <string name="sickAddress">آدرس</string>
+    <string name="sickPhone">تلفن</string>
+
+    <!--user profile activity-->
+    <string name="userProfileName">نام</string>
+    <string name="userProfileFamily">نام خانوادگی</string>
+    <string name="userProfileMobile">شماره تلفن همراه</string>
+    <string name="userProfileUserName">نام کاربری</string>
+    <string name="userProfilePassword">رمز عبور</string>
+    <string name="userProfileRePassword">تکرار رمز عبور</string>
+    <string name="userProfileCity">شهر</string>
+    <string name="userProfileBtnInsert">ثبت مشخصات</string>
+    <string name="userProfileBtnUpdate">تغییر مشخصات</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_define_dr">defineDr</string>
+<!--addTurn-->
+    <string name="addTurn_member_username">نام</string>
+    <string name="addTurn_member_family">نام خانوادگی</string>
+    <string name="addTurn_member_mobile">شماره تلفن همراه</string>
+</resources>

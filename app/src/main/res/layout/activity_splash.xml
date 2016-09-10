@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/splash_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center" />
+
+        <ProgressBar
+            android:id="@+id/splash_prbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/splash_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_prbar"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_reload"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/splash_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/splash_img"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/my_delete_button"
+            android:layout_marginTop="40dp"
+            android:text="تلاش مجدد"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

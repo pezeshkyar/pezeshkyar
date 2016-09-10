@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:scrollbars="none"
+    android:background="@color/colorFragment"
+    android:orientation="vertical"
+   >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/clinic_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="مشخصات مطب"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/clinic_backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/inboxTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_back_white"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/dr_office_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/dr_office_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
+            <EditText
+                android:id="@+id/dr_office_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_edit_text"
+                android:hint="@string/drAddress"
+                android:inputType="text|textNoSuggestions"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/dr_office_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_edit_text"
+                android:hint="@string/drPhone"
+                android:inputType="phone|textNoSuggestions"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:padding="8dp" />
+
+            <Spinner
+                android:id="@+id/dr_office_spec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/dr_office_subSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
+            <EditText
+                android:id="@+id/dr_office_secretary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_edit_text"
+                android:hint="منشی"
+                android:inputType="text|textNoSuggestions"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"
+                android:padding="8dp" />
+
+
+            <EditText
+                android:id="@+id/dr_office_biography"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/my_edit_text"
+                android:hint="بیوگرافی"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:gravity="start"
+                android:maxLength="1000"
+                android:maxLines="10"
+                android:padding="8dp" />
+            <Button
+                android:id="@+id/dr_office_btnInsert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/my_button"
+                android:padding="8dp"
+                android:text="@string/clinic_btn_insert"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

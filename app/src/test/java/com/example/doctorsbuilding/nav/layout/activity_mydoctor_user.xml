@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainContent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/my_margin"
+        android:background="@drawable/my_activity_title"
+        android:gravity="center"
+        android:text="لیست پزشک های من"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+    <ListView
+        android:id="@+id/user_mydoctor_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:padding="@dimen/my_padding">
+
+    </ListView>
+
+</LinearLayout>

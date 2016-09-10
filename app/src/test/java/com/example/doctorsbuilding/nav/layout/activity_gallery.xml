@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#434343"
+    android:fitsSystemWindows="true"
+    tools:context=".Dr.Gallery.GalleryActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/gallery_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/gallery_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:tabBackground="@color/colorAccent"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="bottom"
+            app:tabIndicatorHeight="5dp">
+
+        </android.support.design.widget.TabLayout>
+    </FrameLayout>
+
+</RelativeLayout>

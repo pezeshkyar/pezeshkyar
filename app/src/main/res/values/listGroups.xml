@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_groups">
+        <item>شنبه 22 اردیبهشت </item>
+        <item>یکشنبه 23 اردیبهشت </item>
+        <item>دوشنبه 24 اردیبهشت </item>
+        <item>سه شنبه 25 اردیبهشت </item>
+        <item>چهار شنبه 26 اردیبهشت</item>
+        <item>پنچ شنبه 27 اردیبهشت </item>
+        <item>شنبه 30 اردیبهشت </item>
+        <item>پنچ شنبه 27 اردیبهشت </item>
+        <item>شنبه 30 اردیبهشت </item>
+        <item>پنچ شنبه 27 اردیبهشت </item>
+        <item>شنبه 30 اردیبهشت </item>
+        <item>پنچ شنبه 27 اردیبهشت </item>
+        <item>شنبه 30 اردیبهشت </item>
+        <item>پنچ شنبه 27 اردیبهشت </item>
+        <item>شنبه 30 اردیبهشت </item>
+    </string-array>
+</resources>

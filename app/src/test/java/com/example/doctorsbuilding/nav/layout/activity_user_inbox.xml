@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainContent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/my_activity_title"
+        android:gravity="center"
+        android:text="پیام های ارسالی پزشک"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp" />
+    <ListView
+        android:id="@+id/userInbox_listView"
+        android:divider="@color/colorMainContent"
+        android:dividerHeight="8dp"
+        android:paddingRight="@dimen/my_padding"
+        android:paddingLeft="@dimen/my_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
+
+</LinearLayout>

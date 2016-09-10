@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:scrollbars="none"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/patients_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="بیماران"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/patients_backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/inboxTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_back_white"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <EditText
+            android:id="@+id/patients_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/my_margin"
+            android:background="@drawable/my_edit_text"
+            android:hint="@string/patientsName"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/patients_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/my_margin"
+            android:background="@drawable/my_edit_text"
+            android:hint="@string/patientsFamily"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:id="@+id/patients_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/patients_family"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/patients_start_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="@dimen/my_margin"
+                android:layout_weight="1"
+                android:background="@drawable/my_text_view"
+                android:clickable="true"
+                android:hint="@string/patientsStartDate"
+                android:padding="@dimen/my_padding" />
+
+            <TextView
+                android:id="@+id/patients_end_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="@dimen/my_margin"
+                android:layout_weight="1"
+                android:background="@drawable/my_text_view"
+                android:clickable="true"
+                android:hint="@string/patientsEndDate"
+                android:padding="@dimen/my_padding" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/patients_btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/my_margin"
+            android:background="@drawable/my_button"
+            android:text="جستجو"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/patients_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/my_margin"
+            android:layout_marginTop="@dimen/my_margin"
+            android:layout_weight="1"
+            android:padding="@dimen/my_padding">
+
+        </ListView>
+    </LinearLayout>
+</LinearLayout>

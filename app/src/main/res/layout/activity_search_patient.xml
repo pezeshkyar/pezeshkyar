@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/searchPatient_rl1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/searchPatient_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="جستجوی بیمار"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/searchPatient_backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/patientList_Title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_back_white"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/searchPatient_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchPatient_rl1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/searchPatient_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_edit_text"
+            android:hint="نام کاربری"
+            android:inputType="text|textNoSuggestions"
+            android:padding="8dp"
+            android:textColor="@color/textColor" />
+
+        <EditText
+            android:id="@+id/searchPatient_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_edit_text"
+            android:hint="نام"
+            android:inputType="text|textNoSuggestions"
+            android:padding="8dp"
+            android:textColor="@color/textColor" />
+
+        <EditText
+            android:id="@+id/searchPatient_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_edit_text"
+            android:hint="نام خانوادگی"
+            android:inputType="text|textNoSuggestions"
+            android:padding="8dp"
+            android:textColor="@color/textColor" />
+
+        <EditText
+            android:id="@+id/searchPatient_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/my_edit_text"
+            android:digits="0123456789"
+            android:hint="شماره موبایل"
+            android:inputType="number|textNoSuggestions"
+            android:maxLength="11"
+            android:padding="8dp"
+            android:textColor="@color/textColor" />
+
+        <Button
+            android:id="@+id/searchPatient_btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/my_add_button"
+            android:text="جستجو"
+            android:textColor="@android:color/white" />
+
+        <ListView
+            android:id="@+id/searchPatient_listView"
+            android:dividerHeight="0.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+        </ListView>
+
+    </LinearLayout>
+</RelativeLayout>

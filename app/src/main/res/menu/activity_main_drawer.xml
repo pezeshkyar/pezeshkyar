@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/navigation_view_dr"
+        android:checkableBehavior="single"
+        android:visible="false">
+        <item
+            android:id="@+id/nav_dr_profile"
+            android:icon="@drawable/ic_turns"
+            android:title="مشاهده پرفایل" />
+        <item
+            android:id="@+id/nav_dr_clinic"
+            android:icon="@drawable/ic_menu_home"
+            android:title="مطب من" />
+        <item
+            android:id="@+id/nav_dr_personalInfo"
+            android:icon="@drawable/ic_patentes"
+            android:title="مشخصات فردی" />
+        <item
+            android:id="@+id/nav_dr_nobat"
+            android:icon="@drawable/ic_manage_turn"
+            android:title="مدیریت نوبت دهی" />
+        <item
+            android:id="@+id/nav_dr_patients"
+            android:icon="@drawable/ic_patients"
+            android:title="لیست پذیرش" />
+        <item
+            android:id="@+id/nav_dr_patientFile"
+            android:icon="@drawable/ic_nobat"
+            android:title="پرونده بیمار" />
+        <item
+            android:id="@+id/nav_dr_map"
+            android:icon="@drawable/ic_location"
+            android:title="نقشه مطب من" />
+        <item
+            android:id="@+id/nav_dr_notification"
+            android:icon="@drawable/ic_notifications"
+            android:title="مدیریت اعلانات" />
+        <item
+            android:id="@+id/nav_dr_inbox"
+            android:icon="@drawable/ic_menu_inbox"
+            android:title="مدیریت پیام ها" />
+
+
+        <!--<item-->
+        <!--android:id="@+id/nav_dr_patients"-->
+        <!--android:icon="@drawable/ic_patentes"-->
+        <!--android:title="بیماران من" />-->
+        <item
+            android:id="@+id/nav_dr_gallery"
+            android:icon="@drawable/ic_gallery"
+            android:title="گالری عکس" />
+
+        <!--<item-->
+            <!--android:id="@+id/nav_dr_news"-->
+            <!--android:icon="@drawable/ic_menu_news"-->
+            <!--android:title="خبرنامه" />-->
+
+        <item
+            android:id="@+id/nav_dr_call"
+            android:icon="@drawable/ic_menu_call"
+            android:title="تماس با ما" />
+        <item
+            android:id="@+id/nav_dr_logout"
+            android:icon="@drawable/ic_quit"
+            android:title="خروج" />
+
+    </group>
+    <group
+        android:id="@+id/navigation_view_user"
+        android:checkableBehavior="single"
+        android:visible="false">
+        <item
+            android:id="@+id/nav_user_addTurn"
+            android:icon="@drawable/ic_turns"
+            android:title="دریافت نوبت" />
+
+        <item
+            android:id="@+id/nav_user_profile"
+            android:icon="@drawable/ic_info"
+            android:title="پروفایل" />
+        <!--<item-->
+        <!--android:id="@+id/nav_user_doctor"-->
+        <!--android:icon="@drawable/ic_menu_doctors"-->
+        <!--android:title="پزشک من" />-->
+        <item
+            android:id="@+id/nav_user_patientFile"
+            android:icon="@drawable/ic_nobat"
+            android:title="پرونده من" />
+        <item
+            android:id="@+id/nav_user_nobat"
+            android:icon="@drawable/ic_nobat"
+            android:title="نوبت های من" />
+        <item
+            android:id="@+id/nav_user_inbox"
+            android:icon="@drawable/ic_menu_inbox"
+            android:title="پیام های پزشک" />
+        <item
+            android:id="@+id/nav_user_news"
+            android:icon="@drawable/ic_menu_news"
+            android:title="خبرنامه" />
+        <!--<item-->
+            <!--android:id="@+id/nav_user_enteghad"-->
+            <!--android:icon="@drawable/ic_menu_enteghad"-->
+            <!--android:title="انتقادات و پیشنهادات" />-->
+        <item
+            android:id="@+id/nav_user_call"
+            android:icon="@drawable/ic_menu_call"
+            android:title="تماس با ما" />
+        <item
+            android:id="@+id/nav_user_logout"
+            android:icon="@drawable/ic_quit"
+            android:title="خروج" />
+    </group>
+    <group
+        android:id="@+id/navigation_view_signUp"
+        android:checkableBehavior="single"
+        android:visible="false">
+        <item
+            android:id="@+id/nav_signIn"
+            android:icon="@drawable/ic_menu_person"
+            android:title="ورود" />
+        <item
+            android:id="@+id/nav_signUp_user"
+            android:icon="@drawable/ic_person_add"
+            android:title="عضویت" />
+        <item
+            android:id="@+id/nav_signUp_news"
+            android:icon="@drawable/ic_menu_news"
+            android:title="خبرنامه" />
+        <item
+            android:id="@+id/nav_signUp_call"
+            android:icon="@drawable/ic_menu_call"
+            android:title="تماس با ما" />
+    </group>
+</menu>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="categorySpinnerPrompt">
+        <item>پزشک عمومی</item>
+        <item>متخصص</item>
+        <item>جراحی</item>
+        <item>داخلی</item>
+        <item>دندانپزشکی</item>
+        <item>روانپزشکی</item>
+    </array>
+    <array name="dr_public">
+        <item>پزشک عمومی</item>
+    </array>
+    <array name="dr_expert">
+        <item>متخصص رادیولوژی</item>
+        <item>متخصص قلب و عروق</item>
+        <item>متخصص بیماری های عفونی</item>
+        <item>متخصص بیهوشی</item>
+        <item>متخصص رادیولوژی</item>
+        <item>متخصص مغز و اعصاب</item>
+    </array>
+    <array name="dr_surgeon">
+        <item>جراحی عمومی</item>
+        <item>جراحی زیبایی</item>
+        <item>جراحی قلب</item>
+        <item>جراحی مغز و اعصاب</item>
+        <item>جراحی چشم</item>
+        <item>جراحی کلیه و مجاری ادراری</item>
+        <item>جراحی زنان و زایمان</item>
+        <item>جراحی اورتوپدی</item>
+    </array>
+    <array name="dr_internal">
+        <item>ریه</item>
+        <item>کبد و گوارش</item>
+        <item>خون شناسی</item>
+        <item>سرطان شناسی</item>
+        <item>روماتولوژی</item>
+    </array>
+    <array name="dr_dentist">
+        <item>متخصص جراحی لثه</item>
+        <item>اورتودنسی</item>
+        <item>جراح دهان و فک و صورت</item>
+        <item>متخصص دندانپزشکی اطفال</item>
+    </array>
+    <array name="dr_Psychiatry">
+        <item>روانپزشکی</item>
+    </array>
+</resources>

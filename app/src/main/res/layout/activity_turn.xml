@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <CheckBox
+        android:id="@+id/addTurn_chbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:checked="true" />
+
+    <TextView
+        android:id="@+id/addTurn_chbox_textDr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addTurn_chbox"
+        android:layout_marginBottom="30dp"
+        android:layout_toLeftOf="@+id/addTurn_chbox"
+        android:text=" بیمار عضو سامانه می باشد ."
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/addTurn_chbox_textUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addTurn_chbox"
+        android:layout_marginBottom="30dp"
+        android:layout_toLeftOf="@+id/addTurn_chbox"
+        android:text="برای خودم نوبت می خوام ."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/addTask_backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addTurn_chbox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_back"
+        android:textColor="@android:color/white"
+        android:visibility="invisible" />
+
+
+    <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addTurn_viewSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignRight="@+id/addTurn_chbox"
+        android:layout_below="@+id/addTurn_chbox"
+        android:inAnimation="@android:anim/slide_in_left">
+
+        <LinearLayout
+            android:id="@+id/addTurn_member_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/addTurn_member_username"
+                android:inputType="text|textNoSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="نام کاربری"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/addTurn_member_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="نام"
+                android:padding="8dp"
+                android:inputType="text|textNoSuggestions"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/addTurn_member_family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:inputType="text|textNoSuggestions"
+                android:background="@drawable/my_edit_text"
+                android:hint="نام خانوادگی"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/addTurn_member_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:inputType="number|textNoSuggestions"
+                android:background="@drawable/my_edit_text"
+                android:hint="شماره موبایل"
+                android:digits="0123456789"
+                android:maxLength="11"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <Button
+                android:id="@+id/addTurn_member_btnSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_button"
+                android:text="جستجو"
+                android:textColor="@android:color/white" />
+
+            <ListView
+                android:id="@+id/addTurn_listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+            </ListView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/addTurn_nonMembers_view"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/addTurn_nonMember_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="نام"
+                android:inputType="text|textNoSuggestions"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/addTurn_nonMember_family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="نام خانوادگی"
+                android:inputType="text|textNoSuggestions"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <EditText
+                android:id="@+id/addTurn_nonMember_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="شماره موبایل"
+                android:maxLength="11"
+                android:inputType="phone|textNoSuggestions"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <Button
+                android:id="@+id/addTurn_nonMember_searchBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_button"
+                android:text="جستجو"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/addTurn_nonMember_insertBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_button"
+                android:text="ثبت نوبت"
+                android:textColor="@android:color/white"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/addTask_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_text_view"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
+
+            <Spinner
+                android:id="@+id/addTask_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
+            <!--<EditText-->
+                <!--android:id="@+id/addTask_price"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:background="@drawable/my_edit_text"-->
+                <!--android:hint="مبلغ پرداختی"-->
+                <!--android:inputType="number|textNoSuggestions"-->
+                <!--android:padding="8dp"-->
+                <!--android:textColor="@color/textColor" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/addTask_detail"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:background="@drawable/my_edit_text"-->
+                <!--android:gravity="right"-->
+                <!--android:hint="توضیحات"-->
+                <!--android:inputType="textMultiLine|textNoSuggestions"-->
+                <!--android:maxLength="150"-->
+                <!--android:maxLines="5"-->
+                <!--android:padding="8dp"-->
+                <!--android:textColor="@color/textColor" />-->
+
+            <Button
+                android:id="@+id/addTask_addBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_button"
+                android:text="ثبت نوبت"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ViewFlipper>
+
+
+</RelativeLayout>
