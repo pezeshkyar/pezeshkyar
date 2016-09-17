@@ -17,7 +17,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="مدیریت نوبت دهی"
+            android:text="ظ…ط¯غŒط±غŒطھ ظ†ظˆط¨طھ ط¯ظ‡غŒ"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -63,87 +63,11 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/nobat_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/nobat_start_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/my_text_view"
-                        android:clickable="true"
-                        android:hint="از ساعت ..."
-                        android:padding="8dp" />
-
-                    <TextView
-                        android:id="@+id/nobat_end_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/my_text_view"
-                        android:clickable="true"
-                        android:hint="تا ساعت ..."
-                        android:padding="8dp" />
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/nobat_capacity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/my_edit_text"
-                    android:hint="@string/nobat_capacity"
-                    android:digits="0123456789"
-                    android:inputType="phone|textAutoComplete|none"
-                    android:maxLength="2"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textSize="14sp" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/nobat_start_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/my_text_view"
-                        android:clickable="true"
-                        android:hint="از تاریخ ..."
-                        android:padding="8dp" />
-
-                    <TextView
-                        android:id="@+id/nobat_end_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/my_text_view"
-                        android:clickable="true"
-                        android:hint="تا تاریخ ..."
-                        android:padding="8dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
                     android:orientation="horizontal">
 
                     <TableLayout
@@ -166,7 +90,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_column="1"
-                                android:text="شنبه" />
+                                android:text="ط´ظ†ط¨ظ‡" />
 
                             <CheckBox
                                 android:id="@+id/chbox1Shanbe"
@@ -180,7 +104,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_column="2"
-                                android:text="یکشنبه" />
+                                android:text="غŒع©ط´ظ†ط¨ظ‡" />
 
 
                             <CheckBox
@@ -195,7 +119,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_column="3"
-                                android:text="دوشنبه" />
+                                android:text="ط¯ظˆط´ظ†ط¨ظ‡" />
                         </TableRow>
 
                         <TableLayout
@@ -218,7 +142,7 @@
                                     android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_column="1"
-                                    android:text="سه شنبه" />
+                                    android:text="ط³ظ‡ ط´ظ†ط¨ظ‡" />
 
                                 <CheckBox
                                     android:id="@+id/chbox4Shanbe"
@@ -232,7 +156,7 @@
                                     android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_column="2"
-                                    android:text="چهارشنبه" />
+                                    android:text="ع†ظ‡ط§ط±ط´ظ†ط¨ظ‡" />
 
 
                                 <CheckBox
@@ -247,7 +171,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_column="3"
-                                    android:text="پنچشنبه" />
+                                    android:text="ظ¾ظ†ع†ط´ظ†ط¨ظ‡" />
                             </TableRow>
 
                         </TableLayout>
@@ -256,6 +180,84 @@
 
 
                 </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/nobat_start_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/my_text_view"
+                        android:clickable="true"
+                        android:hint="ط§ط² طھط§ط±غŒط® ..."
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/nobat_end_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/my_text_view"
+                        android:clickable="true"
+                        android:hint="طھط§ طھط§ط±غŒط® ..."
+                        android:padding="8dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/nobat_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/nobat_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/my_text_view"
+                        android:clickable="true"
+                        android:hint="ط§ط² ط³ط§ط¹طھ ..."
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/nobat_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/my_text_view"
+                        android:clickable="true"
+                        android:hint="طھط§ ط³ط§ط¹طھ ..."
+                        android:padding="8dp" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/nobat_capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_edit_text"
+                    android:hint="@string/nobat_capacity"
+                    android:digits="0123456789"
+                    android:inputType="phone|textAutoComplete|none"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -270,7 +272,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_button"
-                        android:text="ثبت نوبت"
+                        android:text="ط«ط¨طھ ظ†ظˆط¨طھ"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -283,7 +285,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_add_button"
-                        android:text="مشاهده نوبت"
+                        android:text="ظ…ط´ط§ظ‡ط¯ظ‡ ظ†ظˆط¨طھ"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -291,7 +293,7 @@
                 <TextView
                     android:id="@+id/nobat_wait"
                     android:layout_marginTop="50dp"
-                    android:text="لطفا شکیبا باشید ..."
+                    android:text="ظ„ط·ظپط§ ط´ع©غŒط¨ط§ ط¨ط§ط´غŒط¯ ..."
                     android:visibility="gone"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
