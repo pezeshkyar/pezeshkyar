@@ -11,6 +11,7 @@ import com.example.doctorsbuilding.nav.MessageInfo;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.PatientFile;
 import com.example.doctorsbuilding.nav.PatientInfo;
+import com.example.doctorsbuilding.nav.PhotoDesc;
 import com.example.doctorsbuilding.nav.Reservation;
 import com.example.doctorsbuilding.nav.ReservationByUser;
 import com.example.doctorsbuilding.nav.Rturn;
@@ -34,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class WebService {
@@ -1473,7 +1475,7 @@ public class WebService {
                 PatientFile tempFile = patientFiles.get(i);
                 int totalPayment = tempFile.getPayment();
                 if (temp != null) {
-                    for(int j=0;j<temp.size();j++){
+                    for (int j = 0; j < temp.size(); j++) {
                         totalPayment += temp.get(j).getPayment();
                     }
                     tempFile.setTotalPayment(totalPayment);
@@ -1483,5 +1485,162 @@ public class WebService {
             }
         }
         return map;
+    }
+
+    public static ArrayList<Integer> invokegetAllGalleyPicIdWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        ArrayList<Integer> imageIds= null;
+        String webMethName = "getAllGalleyPicId";
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.bodyIn;
+            if(response != null) {
+                imageIds = new ArrayList<Integer>();
+                for (int i = 0; i < response.getPropertyCount(); i++) {
+                    SoapPrimitive obj = (SoapPrimitive) response.getProperty(i);
+                    imageIds.add(Integer.parseInt(obj.toString()));
+                }
+            }
+
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+
+        return imageIds;
+    }
+    public static PhotoDesc invokeGetGalleryPicWS(String username, String password, int officeId, int picId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "getGalleryPic";
+        PhotoDesc photoDesc = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        request.addProperty("picId", picId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.getResponse();
+            photoDesc = new PhotoDesc();
+            photoDesc.setId(Integer.parseInt(response.getProperty("id").toString()));
+            String pic = response.getProperty("photo").toString();
+            byte[] imgbytes = Base64.decode(pic, Base64.DEFAULT);
+            photoDesc.setPhoto(BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length));
+            photoDesc.setDescription(response.getProperty("description").toString());
+            photoDesc.setDate(response.getProperty("date").toString());
+
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+
+        return photoDesc;
+    }
+
+    public static int invokeSetGalleryPicWS(String username, String password, int officeId, Bitmap pic, String description) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "setGalleryPic";
+        int id = -1;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        byte[] img = getBytes(pic);
+        request.addProperty("pic", Base64.encodeToString(img, Base64.DEFAULT));
+        request.addProperty("description", description);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        new MarshalBase64().register(envelope);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            id = Integer.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return id;
+    }
+    public static void invokeDeleteFromGalleryWS(String username, String password, int officeId, int picId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "deleteFromGallery";
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        request.addProperty("picId", picId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+    }
+
+    public static void invokeChangeGalleryPicDescriptionWS(String username, String password, int officeId, int picId, String description) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "changeGalleryPicDescription";
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        request.addProperty("picId", picId);
+        request.addProperty("description", description);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
     }
 }

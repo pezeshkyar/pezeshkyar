@@ -56,6 +56,7 @@
         android:background="#9f9fa3" />
 
     <RelativeLayout
+        android:id="@+id/gallery2_insert_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingBottom="3dp"
@@ -92,7 +93,8 @@
                 android:layout_weight="6"
                 android:background="@android:color/transparent"
                 android:hint="درباره عکس ..."
-                android:maxLength="200"
+                android:maxLength="150"
+                android:height="20dp"
                 android:inputType="textMultiLine|text"
                 android:lines="5"
                 android:maxLines="10"

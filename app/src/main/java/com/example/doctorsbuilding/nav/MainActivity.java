@@ -28,6 +28,7 @@ import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatActivity;
 import com.example.doctorsbuilding.nav.Dr.Notification.ManagementNotificationActivity;
 import com.example.doctorsbuilding.nav.Dr.Profile.DrProfileActivity;
 import com.example.doctorsbuilding.nav.Dr.Profile.PersonalInfoActivity;
+import com.example.doctorsbuilding.nav.LazyLoad.Gallery3;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.User.UserInboxActivity;
 import com.example.doctorsbuilding.nav.User.UserMyNobatActivity;
@@ -290,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
                 break;
             case R.id.nav_dr_gallery:
+//                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
+                startActivity(new Intent(MainActivity.this, gallery2.class));
+                break;
+            case R.id.nav_user_gallery:
 //                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
                 startActivity(new Intent(MainActivity.this, gallery2.class));
                 break;

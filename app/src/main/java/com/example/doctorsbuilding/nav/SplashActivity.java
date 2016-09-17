@@ -137,7 +137,7 @@ public class SplashActivity extends AppCompatActivity {
                     G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                     //G.doctorImageProfile = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                 }
-            }catch (PException ex){
+            } catch (PException ex) {
                 msg = ex.getMessage();
             }
             return null;
@@ -167,10 +167,11 @@ public class SplashActivity extends AppCompatActivity {
 //                    G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
 //                }
 
-                if(database.openConnection()){
-                    database.initialize();
+                database = new DatabaseAdapter(SplashActivity.this);
+                database.initialize();
+                if (database.openConnection()) {
                     G.doctorImageProfile = database.getImageProfile(1);
-                    if(G.doctorImageProfile == null){
+                    if (G.doctorImageProfile == null) {
                         G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
                     }
                     database.closeConnection();

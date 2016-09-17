@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.example.doctorsbuilding.nav.Expert;
+import com.example.doctorsbuilding.nav.PhotoDesc;
 import com.example.doctorsbuilding.nav.MessageInfo;
 import com.example.doctorsbuilding.nav.SubExpert;
 import com.example.doctorsbuilding.nav.User.City;
@@ -35,6 +36,12 @@ public class DatabaseAdapter {
     private static final String CITY_ID = "id";
     private static final String CITY_STATE_ID = "stateID";
     private static final String CITY_NAME = "name";
+    ////////////////////////////////////////////////////////////////
+    private static final String TABLE_GALLERY = "tbl_Gallery";
+    private static final String GALLERY_ID = "id";
+    private static final String GALLERY_DESCRIPTION = "description";
+    private static final String GALLERY_DATE = "date";
+    private static final String GALLERY_DATA = "data";
     ////////////////////////////////////////////////////////////////
     private static final String TABLE_IMAGE = "tbl_image";
     private static final String IMAGE_ID = "id";
@@ -79,6 +86,10 @@ public class DatabaseAdapter {
         String create_tbl_image = "create table if not exists " + TABLE_IMAGE + " (" + IMAGE_ID + " integer not null" +
                 ", " + IMAGE_DATA + " blob not null, primary key (" + IMAGE_ID + ") )";
 
+        String create_tbl_gallery = "create table if not exists " + TABLE_GALLERY + " ( " + GALLERY_ID + " integer not null, " +
+                GALLERY_DATE + " nvarchar(50), " + GALLERY_DESCRIPTION + " nvarchar(200), " +
+                GALLERY_DATA + " blob not null, primary key (" + GALLERY_ID + ") )";
+
         String create_tbl_state = "create table if not exists " + TABLE_STATE + " (" + STATE_ID + " integer not null" +
                 ", " + STATE_NAME + " nvarchar(50) not null, primary key (" + STATE_ID + ") )";
 
@@ -102,7 +113,9 @@ public class DatabaseAdapter {
                 " nvarchar(50) not null, primary key (" + MESSAGE_ID + ") )";
 
         try {
+            openConnection();
             database.execSQL(create_tbl_image);
+            database.execSQL(create_tbl_gallery);
             database.execSQL(create_tbl_state);
             database.execSQL(create_tbl_city);
             database.execSQL(create_tbl_expert);
@@ -122,6 +135,7 @@ public class DatabaseAdapter {
             database.execSQL("drop table if exists " + TABLE_EXPERT);
             database.execSQL("drop table if exists " + TABLE_SUB_EXPERT);
             database.execSQL("drop table if exists " + TABLE_MESSAGE);
+            database.execSQL("drop table if exists " + TABLE_GALLERY);
             initialize();
 
         } catch (Exception ex) {
@@ -177,6 +191,79 @@ public class DatabaseAdapter {
             new MessageBox(context, "عملیات دریافت عکس با مشکل مواجه شده است !!!").show();
         }
         return imageProfile;
+    }
+
+    public long saveImageToGallery(int id, String date, String description, byte[] image) {
+        long result = -1;
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(GALLERY_ID, id);
+            cv.put(GALLERY_DESCRIPTION, description);
+            cv.put(GALLERY_DATE, date);
+            cv.put(GALLERY_DATA, image);
+            result = database.insert(TABLE_GALLERY, null, cv);
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات ذخیره کردن عکس با مشکل مواجه شده است !!!").show();
+        }
+        return result;
+    }
+
+    public PhotoDesc getImageFromGallery(int id) {
+        PhotoDesc gallery = new PhotoDesc();
+        try {
+            String query = "select " + GALLERY_ID + " , " + GALLERY_DESCRIPTION + " , " + GALLERY_DATE + " , " + GALLERY_DATA + " from " +
+                    TABLE_GALLERY + " where " + GALLERY_ID + " = " + id;
+            Cursor cursor = database.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                byte[] image = cursor.getBlob(cursor.getColumnIndex(GALLERY_DATA));
+                gallery.setId(cursor.getInt(cursor.getColumnIndex(GALLERY_ID)));
+                gallery.setDate(cursor.getString(cursor.getColumnIndex(GALLERY_DATE)));
+                gallery.setPhoto(DbBitmapUtility.getImage(image));
+                gallery.setDescription(cursor.getString(cursor.getColumnIndex(GALLERY_DESCRIPTION)));
+
+            }
+            cursor.close();
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات دریافت عکس با مشکل مواجه شده است !!!").show();
+        }
+        return gallery;
+    }
+
+    public void deleteImageFromGallery(int id) {
+        try {
+            String query = "delete from " + TABLE_GALLERY + " where " + GALLERY_ID + " = " + id;
+            database.execSQL(query);
+
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات حذف عکس با مشکل مواجه شده است !!!").show();
+        }
+
+    }
+
+    public void updateImageInGallery(int picId, String description) {
+
+        try {
+            String query = "UPDATE "+TABLE_GALLERY+ " SET " + GALLERY_DESCRIPTION + "  = '" + description + "' " +
+                    "WHERE " + GALLERY_ID + " = " + picId;
+            database.execSQL(query);
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات بروز رسانی عکس با مشکل مواجه شده است !!!").show();
+        }
+    }
+
+    public ArrayList<Integer> getImageIds() {
+        ArrayList<Integer> imageIds = new ArrayList<Integer>();
+        try {
+            String query = "select " + GALLERY_ID + " from " + TABLE_GALLERY;
+            Cursor cursor = database.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                imageIds.add(cursor.getInt(cursor.getColumnIndex(GALLERY_ID)));
+            }
+            cursor.close();
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات دریافت شناسه عکس بامشکل مواجه شده است !!!").show();
+        }
+        return imageIds;
     }
 
     private void deleteImageProfile(int id) {
@@ -275,11 +362,11 @@ public class DatabaseAdapter {
         return cities;
     }
 
-    public void deleteCities(){
+    public void deleteCities() {
         try {
-            String query = "delete from "+TABLE_CITY;
+            String query = "delete from " + TABLE_CITY;
             database.execSQL(query);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             new MessageBox(context, "عملیات حذف شهر ها با مشکل مواجه شده است !!!").show();
         }
     }
@@ -319,11 +406,11 @@ public class DatabaseAdapter {
         return experts;
     }
 
-    public void deleteExperts(){
+    public void deleteExperts() {
         try {
-            String query = "delete from "+TABLE_EXPERT;
+            String query = "delete from " + TABLE_EXPERT;
             database.execSQL(query);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             new MessageBox(context, "عملیات حذف تخصص ها با مشکل مواجه شده است !!!").show();
         }
     }
@@ -364,14 +451,16 @@ public class DatabaseAdapter {
         }
         return subExperts;
     }
-    public void deleteSubExperts(){
+
+    public void deleteSubExperts() {
         try {
-            String query = "delete from "+TABLE_SUB_EXPERT;
+            String query = "delete from " + TABLE_SUB_EXPERT;
             database.execSQL(query);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             new MessageBox(context, "عملیات حذف زیر تخصص ها با مشکل مواجه شده است !!!").show();
         }
     }
+
     public long insertMessages(ArrayList<MessageInfo> messages) {
         long result = -1;
         try {
@@ -419,11 +508,12 @@ public class DatabaseAdapter {
         }
         return messages;
     }
-    public void deleteMessages(){
+
+    public void deleteMessages() {
         try {
-            String query = "delete from "+TABLE_MESSAGE;
+            String query = "delete from " + TABLE_MESSAGE;
             database.execSQL(query);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             new MessageBox(context, "عملیات حذف پیام ها با مشکل مواجه شده است !!!").show();
         }
     }

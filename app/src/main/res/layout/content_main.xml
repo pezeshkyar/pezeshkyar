@@ -35,15 +35,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="10dp">
 
+
+            <ImageView
+                android:id="@+id/content_main_resize_icon"
+                android:src="@drawable/ic_more_horiz_black_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/content_main_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/content_main_resize_icon"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:text=""
@@ -73,7 +84,7 @@
                 android:layout_marginTop="10dp"
                 android:text=""
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/content_main_tel"
@@ -91,7 +102,7 @@
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:layout_below="@id/content_main_tel"
                 android:layout_marginTop="20dp"
                 tools:context="com.example.doctorsbuilding.nav.Map" />
