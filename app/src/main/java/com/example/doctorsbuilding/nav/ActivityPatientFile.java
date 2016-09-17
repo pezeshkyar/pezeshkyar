@@ -29,6 +29,7 @@ public class ActivityPatientFile extends AppCompatActivity {
     ExpandableListView expListView;
     int lastExpandedPosition = -1;
     int lastClickedPosition = 0;
+    int a = 0;
     String patientUserName = null;
     Button backBtn;
     TextView nothing;
