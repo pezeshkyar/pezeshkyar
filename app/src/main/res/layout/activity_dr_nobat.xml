@@ -17,7 +17,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="ظ…ط¯غŒط±غŒطھ ظ†ظˆط¨طھ ط¯ظ‡غŒ"
+            android:text="مدیریت نوبت دهی"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -90,7 +90,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_column="1"
-                                android:text="ط´ظ†ط¨ظ‡" />
+                                android:text="شنبه" />
 
                             <CheckBox
                                 android:id="@+id/chbox1Shanbe"
@@ -104,7 +104,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_column="2"
-                                android:text="غŒع©ط´ظ†ط¨ظ‡" />
+                                android:text="یکشنبه" />
 
 
                             <CheckBox
@@ -119,7 +119,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_column="3"
-                                android:text="ط¯ظˆط´ظ†ط¨ظ‡" />
+                                android:text="دوشنبه" />
                         </TableRow>
 
                         <TableLayout
@@ -142,7 +142,7 @@
                                     android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_column="1"
-                                    android:text="ط³ظ‡ ط´ظ†ط¨ظ‡" />
+                                    android:text="سه شنبه" />
 
                                 <CheckBox
                                     android:id="@+id/chbox4Shanbe"
@@ -156,7 +156,7 @@
                                     android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_column="2"
-                                    android:text="ع†ظ‡ط§ط±ط´ظ†ط¨ظ‡" />
+                                    android:text="چهارشنبه" />
 
 
                                 <CheckBox
@@ -171,7 +171,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_column="3"
-                                    android:text="ظ¾ظ†ع†ط´ظ†ط¨ظ‡" />
+                                    android:text="پنچشنبه" />
                             </TableRow>
 
                         </TableLayout>
@@ -198,7 +198,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
-                        android:hint="ط§ط² طھط§ط±غŒط® ..."
+                        android:hint="از تاریخ ..."
                         android:padding="8dp" />
 
                     <TextView
@@ -209,7 +209,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
-                        android:hint="طھط§ طھط§ط±غŒط® ..."
+                        android:hint="تا تاریخ ..."
                         android:padding="8dp" />
 
                 </LinearLayout>
@@ -230,7 +230,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
-                        android:hint="ط§ط² ط³ط§ط¹طھ ..."
+                        android:hint="از ساعت ..."
                         android:padding="8dp" />
 
                     <TextView
@@ -241,7 +241,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
-                        android:hint="طھط§ ط³ط§ط¹طھ ..."
+                        android:hint="تا ساعت ..."
                         android:padding="8dp" />
                 </LinearLayout>
                 <EditText
@@ -272,7 +272,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_button"
-                        android:text="ط«ط¨طھ ظ†ظˆط¨طھ"
+                        android:text="ثبت نوبت"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -285,7 +285,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_add_button"
-                        android:text="ظ…ط´ط§ظ‡ط¯ظ‡ ظ†ظˆط¨طھ"
+                        android:text="مشاهده نوبت"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                 <TextView
                     android:id="@+id/nobat_wait"
                     android:layout_marginTop="50dp"
-                    android:text="ظ„ط·ظپط§ ط´ع©غŒط¨ط§ ط¨ط§ط´غŒط¯ ..."
+                    android:text="لطفا شکیبا باشید ..."
                     android:visibility="gone"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
