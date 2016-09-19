@@ -25,8 +25,8 @@ public class ExpChild {
     public String getTime() {
         int endHour = turn.getHour() + turn.getDuration() / 60;
         int endMinute = turn.getMin() + turn.getDuration() % 60;
-        return "از " + String.valueOf(turn.getMin()) + " : "
-                + String.valueOf(turn.getHour()) + " تا " + String.valueOf(endMinute) + " : " + String.valueOf(endHour);
+        return String.valueOf(turn.getMin()) + " : "
+                + String.valueOf(turn.getHour()) + "  الی  " + String.valueOf(endMinute) + " : " + String.valueOf(endHour);
     }
 
     public Turn getTurn() {

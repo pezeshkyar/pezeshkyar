@@ -2,12 +2,15 @@ package com.example.doctorsbuilding.nav;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,8 +47,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
         , OnMapReadyCallback {
@@ -68,6 +74,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BadgeView badge;
     DatabaseAdapter database;
     private final static int imagePrdileId = 1;
+    private static ViewPager mPager;
+    private static int currentPage = 0;
+    private static int NUM_PAGES = 0;
+    private ArrayList<Bitmap> ImagesArray;
+    private asyncGetGalleryPic asyncGetGalleryPic;
+
+
+    private ArrayList<Integer> imageIdsInPhone;
+    private ArrayList<Integer> subscriptionList;
+    Timer swipeTimer;
+
+
 //    double latitude;
 //    double longitiude;
 
@@ -87,9 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         loadUser();
         initViews();
-        AsyncGetDoctorPic task = new AsyncGetDoctorPic();
-        task.execute();
-        updatePage();
+
+
+//        AsyncGetDoctorPic task1 = new AsyncGetDoctorPic();
+//        task1.execute(String.valueOf(-1));
+        // updatePage();
 //
 //        if (menu != UserType.Guest) {
 //            AsyncUserInfoWs taskUserInfo = new AsyncUserInfoWs();
@@ -110,7 +130,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         updatePage();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (asyncGetGalleryPic != null)
+            asyncGetGalleryPic.cancel(true);
+        if (swipeTimer != null) {
+            swipeTimer.cancel();
+            currentPage = 0;
+        }
+    }
+
     private void updatePage() {
+
         if (G.UserInfo == null) {
             G.UserInfo = new User();
             G.UserInfo.setUserName(settings.getString("user", ""));
@@ -135,28 +167,106 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (G.doctorImageProfile != null) {
-            drImgProfile.setImageBitmap(G.doctorImageProfile);
+//            drImgProfile.setImageBitmap(G.doctorImageProfile);
             G.UserInfo.setImgProfile(G.doctorImageProfile);
         } else {
             int id = R.mipmap.doctor;
-            drImgProfile.setImageResource(id);
+//            drImgProfile.setImageResource(id);
             G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
         }
         if (unreadMessages != null) {
             unreadMessages.clear();
         }
+
+        AsyncGetDoctorPic getDoctorPic = new AsyncGetDoctorPic();
+        getDoctorPic.execute();
+
+        database = new DatabaseAdapter(MainActivity.this);
+        subscriptionList = new ArrayList<Integer>();
+        if (database.openConnection()) {
+            imageIdsInPhone = database.getImageIds();
+        }
+
+        ImagesArray = new ArrayList<Bitmap>();
+        asyncGetImageIds slideTask = new asyncGetImageIds();
+        slideTask.execute();
+
         AsyncCallGetUnreadMessagesWs task = new AsyncCallGetUnreadMessagesWs();
         task.execute();
 
 
     }
 
+    private void initSlideShow(ArrayList<Integer> imageIdsInWeb) {
+        for (int i = 0; i < imageIdsInWeb.size(); i++)
+            ImagesArray.add(BitmapFactory.decodeResource(getResources(), R.mipmap.image_holder));
+
+        mPager = (ViewPager) findViewById(R.id.pager);
+
+
+        mPager.setAdapter(new SlidingImage_Adapter(MainActivity.this, ImagesArray));
+
+
+        CirclePageIndicator indicator = (CirclePageIndicator)
+                findViewById(R.id.indicator);
+
+        indicator.setViewPager(mPager);
+
+        final float density = getResources().getDisplayMetrics().density;
+
+        //Set circle indicator radius
+        indicator.setRadius(5 * density);
+
+        NUM_PAGES = ImagesArray.size();
+
+        // Auto start of viewpager
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == NUM_PAGES) {
+                    currentPage = 0;
+                }
+                mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 3000, 3000);
+
+        // Pager listener over indicator
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+//                AsyncGetDoctorPic task = new AsyncGetDoctorPic();
+//                task.execute(String.valueOf(position));
+//                Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrolled(int pos, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int pos) {
+
+            }
+        });
+
+    }
+
     private void initViews() {
-        database = new DatabaseAdapter(MainActivity.this);
+
         btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage);
         badge = new BadgeView(MainActivity.this, btnUnreadMessage);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-        drImgProfile = (ImageView) findViewById(R.id.content_main_img);
+        // drImgProfile = (ImageView) findViewById(R.id.content_main_img);
         drName = (TextView) findViewById(R.id.content_main_name);
         drExpert = (TextView) findViewById(R.id.content_main_expert);
         drAddress = (TextView) findViewById(R.id.content_main_address);
@@ -397,6 +507,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }, 2000);
     }
 
+
     private class AsyncCallGetUnreadMessagesWs extends AsyncTask<String, Void, Void> {
 
         String msg = null;
@@ -456,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new MessageBox(MainActivity.this, msg).show();
             } else {
                 if (G.doctorImageProfile != null) {
-                    drImgProfile.setImageBitmap(G.doctorImageProfile);
+                    //drImgProfile.setImageBitmap(G.doctorImageProfile);
                     if (database.openConnection()) {
                         database.saveImageProfile(imagePrdileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
                     }
@@ -464,12 +575,125 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     int id = R.mipmap.doctor;
                     G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
-                    drImgProfile.setImageBitmap(G.doctorImageProfile);
+                    //drImgProfile.setImageBitmap(G.doctorImageProfile);
                     if (database.openConnection()) {
                         database.saveImageProfile(imagePrdileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
                     }
                 }
-                database.closeConnection();
+            }
+        }
+    }
+
+    private class asyncGetImageIds extends AsyncTask<String, Void, Void> {
+
+        private ArrayList<Integer> imageIdsInWeb = null;
+        private ArrayList<Integer> differenceList = null;
+        private String msg = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (msg != null) {
+                new MessageBox(MainActivity.this, msg).show();
+            } else {
+                if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
+
+                    initSlideShow(imageIdsInWeb);
+
+                    differenceList = findNewIds(imageIdsInPhone, imageIdsInWeb);
+                    if (subscriptionList != null && subscriptionList.size() > 0) {
+                        showPhotosInFirstTime(subscriptionList);
+                    }
+
+                }
+                if (differenceList != null && differenceList.size() > 0) {
+                    for (int i = 0; i < differenceList.size(); i++) {
+                        asyncGetGalleryPic = new asyncGetGalleryPic();
+                        asyncGetGalleryPic.execute(String.valueOf(differenceList.get(i)));
+                    }
+                }
+            }
+        }
+
+        private void showPhotosInFirstTime(ArrayList<Integer> photoList) {
+            for (int i = 0; i < photoList.size(); i++) {
+                ImagesArray.set(i, database.getImageFromGallery(photoList.get(i)).getPhoto());
+                mPager.setAdapter(new SlidingImage_Adapter(MainActivity.this, ImagesArray));
+            }
+
+        }
+
+        private ArrayList<Integer> findNewIds(ArrayList<Integer> imageIdsInPhone, ArrayList<Integer> imageIdsInWeb) {
+            int i = 0;
+            ArrayList<Integer> differenceList = new ArrayList<Integer>();
+            while (i < imageIdsInWeb.size()) {
+                int j = 0;
+                while (j < imageIdsInPhone.size()) {
+                    if (imageIdsInWeb.get(i).equals(imageIdsInPhone.get(j))) {
+                        subscriptionList.add(imageIdsInWeb.get(i));
+                        i++;
+                        break;
+                    }
+
+                    j++;
+                }
+                if (j == imageIdsInPhone.size()) {
+                    differenceList.add(imageIdsInWeb.get(i));
+                    i++;
+                }
+
+            }
+            return differenceList;
+        }
+
+    }
+
+    private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {
+        private String msg = null;
+        private PhotoDesc photo;
+        private int photoId;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                photoId = Integer.parseInt(strings[0]);
+                photo = WebService.invokeGetGalleryPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword()
+                        , G.officeId, photoId);
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (msg != null) {
+                new MessageBox(MainActivity.this, msg).show();
+            } else {
+                if (photo != null) {
+                    if (database.openConnection()) {
+                        database.saveImageToGallery(photo.getId(), photo.getDate(),
+                                photo.getDescription(), DbBitmapUtility.getBytes(photo.getPhoto()));
+                        imageIdsInPhone.add(photo.getId());
+                        ImagesArray.set(imageIdsInPhone.size() - 1, photo.getPhoto());
+                        mPager.setAdapter(new SlidingImage_Adapter(MainActivity.this, ImagesArray));
+
+                    }
+                }
+
             }
         }
     }

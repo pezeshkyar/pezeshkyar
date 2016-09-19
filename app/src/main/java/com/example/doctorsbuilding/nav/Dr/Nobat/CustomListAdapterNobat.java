@@ -120,9 +120,9 @@ public class CustomListAdapterNobat extends BaseAdapter {
         } else {
             holder = (Holder) rowView.getTag();
         }
-        holder.addBtn.setVisibility(View.INVISIBLE);
-        holder.addNobatBtn.setVisibility(View.INVISIBLE);
-        holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
+        holder.addBtn.setVisibility(View.GONE);
+        holder.addNobatBtn.setVisibility(View.GONE);
+        holder.fullCapacityBtn.setVisibility(View.GONE);
         holder.deleteButton.setVisibility(View.VISIBLE);
         holder.turn = child.getTurn();
         holder.date.setText(child.getDate());
