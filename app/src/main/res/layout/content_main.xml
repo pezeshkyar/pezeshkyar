@@ -35,19 +35,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="10dp">
+            android:paddingTop="4dp">
 
 
             <ImageView
                 android:id="@+id/content_main_resize_icon"
-                android:src="@drawable/ic_more_horiz_black_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/ic_more_horiz_black_24dp" />
+
 
             <TextView
                 android:id="@+id/content_main_name"
@@ -73,15 +74,24 @@
                 android:text=""
                 android:textSize="14sp"
                 android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/content_main_img_map"
+                android:layout_width="25dp"
+                android:layout_height="35dp"
+                android:layout_below="@id/content_main_expert"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_company_address"/>
 
             <TextView
                 android:id="@+id/content_main_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/content_main_expert"
                 android:layout_below="@id/content_main_expert"
+                android:drawablePadding="5dp"
+                android:singleLine="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/content_main_img_map"
                 android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
@@ -108,10 +118,10 @@
                 tools:context="com.example.doctorsbuilding.nav.Map" />
 
             <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_below="@id/map"-->
-                <!--android:background="@android:color/darker_gray" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_below="@id/map"-->
+            <!--android:background="@android:color/darker_gray" />-->
 
             <ScrollView
                 android:id="@+id/SCROLLER_ID"

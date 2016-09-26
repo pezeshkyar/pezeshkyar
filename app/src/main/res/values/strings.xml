@@ -69,4 +69,11 @@
     <string name="addTurn_member_username">نام</string>
     <string name="addTurn_member_family">نام خانوادگی</string>
     <string name="addTurn_member_mobile">شماره تلفن همراه</string>
+    <!--call with us-->
+    <string name="company_name">شرکت کسب و کار برتر اندیشان پارس کیمیا</string>
+    <string name="company_address">ساری-خیابان دخانیات-ابتدای خیابان پژمان-مجتمع میلاد نور-پلاک68</string>
+    <string name="company_tell">01133293353</string>
+    <string name="company_postalcode">4813815683</string>
+    <string name="company_email">pezeshkyar@yahoo.com</string>
+    <string name="company_site">Http://www.pezashkyar.ir</string>
 </resources>
