@@ -42,7 +42,7 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://192.168.1.123:8080/docTurn/services/Webservices?wsdl";
+    private static String URL = "http://79.175.163.179:8080/docTurn/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
