@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.CancelReservationDialog;
@@ -45,11 +46,18 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
             rowView = inf.inflate(R.layout.exp_lv_group, null);
         }
         TextView groupName = (TextView) rowView.findViewById(R.id.lbl_groupItem);
+        ImageView expand_more = (ImageView) rowView.findViewById(R.id.turns_ic_expand_more);
+        ImageView expand_less = (ImageView) rowView.findViewById(R.id.turns_ic_expand_less);
+
         groupName.setText(group.getName());
 
         if (isExpanded) {
+            expand_more.setVisibility(View.GONE);
+            expand_less.setVisibility(View.VISIBLE);
             groupName.setTextColor(ContextCompat.getColor(context, R.color.expGroupTextColorWhenIsExpanded));
         } else {
+            expand_less.setVisibility(View.GONE);
+            expand_more.setVisibility(View.VISIBLE);
             groupName.setTextColor(ContextCompat.getColor(context, R.color.textColor));
         }
         return rowView;

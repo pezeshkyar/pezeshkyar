@@ -23,13 +23,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/content_main_img"
+            <!--<ImageView-->
+            <!--android:id="@+id/content_main_img"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true" />-->
+
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentTop="true" />
 
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom"
+                android:padding="10dip"
+                app:centered="true"
+                app:fillColor="@color/colorAccent"
+                app:pageColor="@color/colorMainContent"
+                app:snap="false" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -41,21 +60,13 @@
             android:paddingTop="4dp">
 
 
-            <ImageView
-                android:id="@+id/content_main_resize_icon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_more_horiz_black_24dp" />
-
 
             <TextView
                 android:id="@+id/content_main_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/content_main_resize_icon"
+                android:layout_alignParentTop="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:text=""

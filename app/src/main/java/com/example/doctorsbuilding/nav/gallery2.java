@@ -66,6 +66,7 @@ public class gallery2 extends Activity {
     private DatabaseAdapter database;
     private ArrayList<Integer> subscriptionList;
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
+    asyncGetGalleryPic asyncGetPic;
     private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -109,6 +110,8 @@ public class gallery2 extends Activity {
             mode = null;
             cabMode = null;
             layout.setVisibility(View.VISIBLE);
+            insertPic.setVisibility(View.VISIBLE);
+            editPic.setVisibility(View.GONE);
             selectedRow.setBackgroundColor(mListView.getSolidColor());
             mListView.setItemChecked(selectedPosition, false);
             selectedPosition = -1;
@@ -131,6 +134,14 @@ public class gallery2 extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initViews();
         eventListener();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(asyncGetPic != null){
+            asyncGetPic.cancel(true);
+        }
     }
 
     private void initViews() {
@@ -205,7 +216,7 @@ public class gallery2 extends Activity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (aboutPic.getText().toString().equals("")) {
+                if (aboutPic.getText().toString().equals("") && selectedPosition == -1) {
                     insertPic.setVisibility(View.VISIBLE);
                     editPic.setVisibility(View.GONE);
                 }
@@ -297,6 +308,7 @@ public class gallery2 extends Activity {
                 new MessageBox(gallery2.this, msg).show();
             } else {
                 if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
+
                     differenceList = findNewIds(imageIdsInPhone, imageIdsInWeb);
                     if (subscriptionList != null && subscriptionList.size() > 0) {
                         showPhotosInFirstTime(subscriptionList);
@@ -305,8 +317,8 @@ public class gallery2 extends Activity {
                 }
                 if (differenceList != null && differenceList.size() > 0) {
                     for (int i = 0; i < differenceList.size(); i++) {
-                        asyncGetGalleryPic task = new asyncGetGalleryPic();
-                        task.execute(String.valueOf(differenceList.get(i)));
+                        asyncGetPic = new asyncGetGalleryPic();
+                        asyncGetPic.execute(String.valueOf(differenceList.get(i)));
                     }
                 }
             }
@@ -344,6 +356,19 @@ public class gallery2 extends Activity {
             return differenceList;
         }
 
+    }
+
+    private boolean updateListView(int position, PhotoDesc photo){
+        int first = mListView.getFirstVisiblePosition();
+        int last = mListView.getLastVisiblePosition();
+        if(position < first || position > last){
+            return false;
+        }else {
+            View convertView = mListView.getChildAt(position - first);
+            ImageView image = (ImageView)convertView.findViewById(R.id.gallery2_image);
+            image.setImageBitmap(photo.getPhoto());
+            return true;
+        }
     }
 
     private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {
