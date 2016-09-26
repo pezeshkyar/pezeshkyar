@@ -37,6 +37,7 @@
     <TextView
         android:id="@+id/message_error"
         android:layout_width="wrap_content"
+        android:textSize="16sp"
         android:layout_height="wrap_content"
         android:layout_below="@id/msgLine"
         android:layout_centerInParent="true"
@@ -61,6 +62,7 @@
         android:layout_below="@id/msgLine1"
         android:layout_gravity="center_horizontal"
         android:clickable="true"
+        android:textSize="14sp"
         android:text="قبول"
         android:textColor="@android:color/white" />
 

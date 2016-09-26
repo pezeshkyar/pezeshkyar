@@ -48,7 +48,8 @@
                 app:centered="true"
                 app:fillColor="@color/colorAccent"
                 app:pageColor="@color/colorMainContent"
-                app:snap="false" />
+                app:snap="false"
+                sothree:strokeColor="@color/colorAccent" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -60,93 +61,110 @@
             android:paddingTop="4dp">
 
 
-            <TextView
-                android:id="@+id/content_main_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/content_main_expert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/content_main_name"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/content_main_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/content_main_expert"
-                android:layout_below="@id/content_main_expert"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/content_main_tel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/content_main_address"
-                android:layout_below="@id/content_main_address"
-                android:paddingTop="10dp"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_below="@id/content_main_tel"
-                android:layout_marginTop="20dp"
-                tools:context="com.example.doctorsbuilding.nav.Map" />
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@color/colorFragment"
+                android:orientation="vertical">
 
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:layout_below="@id/map"-->
-            <!--android:background="@android:color/darker_gray" />-->
 
-            <ScrollView
-                android:id="@+id/SCROLLER_ID"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/content_main_expert"
-                android:layout_below="@id/map"
-                android:fillViewport="true"
-                android:scrollbars="vertical">
-
-                <TextView
-                    android:id="@+id/content_main_biography"
+                <LinearLayout
+                    android:id="@+id/content_main_info"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_weight="1"
-                    android:lineSpacingExtra="10dp"
-                    android:maxLines="10"
-                    android:scrollbars="vertical"
-                    android:text=""
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            </ScrollView>
+                    <TextView
+                        android:id="@+id/content_main_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/content_main_expert"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/content_main_name"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/content_main_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/content_main_expert"
+                        android:layout_below="@id/content_main_expert"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/content_main_tel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/content_main_address"
+                        android:layout_below="@id/content_main_address"
+                        android:paddingTop="10dp"
+                        android:text=""
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_below="@id/content_main_tel"
+                        android:layout_marginTop="20dp"
+                        tools:context="com.example.doctorsbuilding.nav.Map" />
+
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_below="@id/map"-->
+                    <!--android:background="@android:color/darker_gray" />-->
+
+                    <!--<ScrollView-->
+                    <!--android:id="@+id/SCROLLER_ID"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignRight="@id/content_main_expert"-->
+                    <!--android:layout_below="@id/map"-->
+                    <!--android:fillViewport="true"-->
+                    <!--android:scrollbars="vertical">-->
+
+                    <TextView
+                        android:id="@+id/content_main_biography"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="10dp"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:text=""
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+            <!--</ScrollView>-->
             <!--<TextView-->
             <!--android:id="@+id/content_main_biography"-->
             <!--android:layout_width="match_parent"-->

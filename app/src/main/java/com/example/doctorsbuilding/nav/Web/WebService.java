@@ -42,7 +42,7 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://79.175.163.179:8080/docTurn/services/Webservices?wsdl";
+    private static String URL = "http://192.168.1.123:8080/docTurn/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -136,6 +136,7 @@ public class WebService {
         request.addProperty("name", user.getFirstName());
         request.addProperty("lastname", user.getLastName());
         request.addProperty("mobileno", user.getPhone());
+        request.addProperty("email", user.getEmail());
         request.addProperty("username", user.getUserName());
         request.addProperty("password", user.getPassword());
         request.addProperty("role", user.getRole());
@@ -170,6 +171,7 @@ public class WebService {
         request.addProperty("name", user.getFirstName());
         request.addProperty("lastname", user.getLastName());
         request.addProperty("mobileno", user.getPhone());
+        request.addProperty("email", user.getEmail());
         request.addProperty("cityid", user.getCityID());
         request.addProperty("newPassword", user.getPassword());
 
@@ -287,6 +289,11 @@ public class WebService {
             user.setFirstName(response.getProperty("name").toString());
             user.setLastName(response.getProperty("lastname").toString());
             user.setPhone(response.getProperty("mobileno").toString());
+            try {
+                user.setEmail(response.getProperty("email").toString());
+            }catch(Exception ex){
+                user.setEmail("");
+            }
             user.setUserName(response.getProperty("username").toString());
             user.setRole(Integer.parseInt(response.getProperty("role").toString()));
             user.setCityID(Integer.parseInt(response.getProperty("cityid").toString()));

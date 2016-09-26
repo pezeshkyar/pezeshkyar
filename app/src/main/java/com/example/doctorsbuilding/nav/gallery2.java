@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -47,6 +49,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 9/8/2016.
  */
@@ -66,6 +70,7 @@ public class gallery2 extends Activity {
     private DatabaseAdapter database;
     private ArrayList<Integer> subscriptionList;
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
+    private asyncGetImageIds task;
     asyncGetGalleryPic asyncGetPic;
     private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
         @Override
@@ -127,6 +132,7 @@ public class gallery2 extends Activity {
         this.finish();
     }
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,12 +141,18 @@ public class gallery2 extends Activity {
         initViews();
         eventListener();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onPause() {
         super.onPause();
         if(asyncGetPic != null){
             asyncGetPic.cancel(true);
+        }
+        if(task != null){
+            task.cancel(true);
         }
     }
 
@@ -171,7 +183,7 @@ public class gallery2 extends Activity {
     private void eventListener() {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
+                if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                     if (cabMode != null) {
                         return false;
                     }
@@ -181,7 +193,7 @@ public class gallery2 extends Activity {
                     mListView.setOnItemClickListener(null);
                     cabMode = startActionMode(modeCallBack);
                     view.setSelected(true);
-                    view.setBackgroundColor(Color.parseColor("#332196f3"));
+                    view.setBackgroundColor(Color.parseColor("#BBDEFB"));
                     return true;
                 }
                 return false;
@@ -232,6 +244,12 @@ public class gallery2 extends Activity {
             @Override
             public void onClick(View view) {
                 changePic();
+                try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception ex) {
+
+                }
             }
         });
     }
@@ -280,7 +298,12 @@ public class gallery2 extends Activity {
     private boolean edit() {
         aboutPic.setText(photos.get(selectedPosition).getDescription());
         insertPic.setVisibility(View.GONE);
-        editPic.setVisibility(View.VISIBLE);
+        editPic.setVisibility(View.VISIBLE);  try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(aboutPic, InputMethodManager.SHOW_IMPLICIT);
+        }catch (Exception ex) {
+        }
+
         return true;
     }
 
@@ -569,7 +592,11 @@ public class gallery2 extends Activity {
                 aboutPic.setText("");
                 insertPic.setVisibility(View.VISIBLE);
                 editPic.setVisibility(View.GONE);
-
+                try {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }catch (Exception ex) {
+                }
             }
         }
     }

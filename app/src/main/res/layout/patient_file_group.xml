@@ -13,6 +13,7 @@
     <TextView
         android:id="@+id/patient_file_task"
         android:layout_width="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -20,12 +21,22 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/patient_file_price"
+    <ImageView
+        android:id="@+id/patient_file_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:src="@drawable/ic_expand_more" />
+
+    <TextView
+        android:id="@+id/patient_file_price"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/patient_file_arrow"
         android:text="مبلغ کل : 1200000"
         android:textSize="16sp"
         android:textStyle="bold" />

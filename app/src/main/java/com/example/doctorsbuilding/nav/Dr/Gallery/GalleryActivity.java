@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav.Dr.Gallery;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
 import com.example.doctorsbuilding.nav.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GalleryActivity extends AppCompatActivity {
     @Override
@@ -37,5 +40,9 @@ public class GalleryActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

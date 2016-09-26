@@ -30,19 +30,22 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_prbar"
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:src="@drawable/ic_reload"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/splash_btn"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/splash_img"
-            android:textColor="@android:color/white"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/my_delete_button"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="40dp"
+            android:background="@drawable/my_delete_button"
             android:text="تلاش مجدد"
+            android:textColor="@android:color/white"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 5/23/2016.
  */
@@ -51,6 +54,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private EditText txtUserName;
     private EditText txtPassword;
     private EditText txtRePassword;
+    private EditText txtEmail;
     private Spinner spinnerState;
     private Spinner spinnerCity;
     private Button btnInsert;
@@ -108,6 +112,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     private void showDrInfo() {
 
         txtFirstName.setText(G.UserInfo.getFirstName());
@@ -117,6 +126,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         txtRePassword.setText(G.UserInfo.getPassword());
         txtLastName.setText(G.UserInfo.getLastName());
         txtMobile.setText(G.UserInfo.getPhone());
+        txtEmail.setText(G.UserInfo.getEmail());
 
 
 
@@ -135,6 +145,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         txtUserName = (EditText) findViewById(R.id.dr_UserName);
         txtPassword = (EditText) findViewById(R.id.dr_Password);
         txtRePassword = (EditText) findViewById(R.id.dr_ConfirmPassword);
+        txtEmail = (EditText)findViewById(R.id.dr_email);
         spinnerState = (Spinner) findViewById(R.id.dr_profile_state);
         spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
         btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
@@ -482,6 +493,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             user.setUserName(txtUserName.getText().toString().trim());
             user.setPassword(txtPassword.getText().toString().trim());
             user.setPhone(txtMobile.getText().toString().trim());
+            user.setEmail(txtEmail.getText().toString().trim());
             if (role == UserType.Dr.ordinal() || role == UserType.User.ordinal() || role == UserType.secretary.ordinal()) {
                 user.setRole(role);
             } else {

@@ -19,12 +19,12 @@ import java.util.ArrayList;
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private ArrayList<Bitmap> IMAGES;
+    private ArrayList<PhotoDesc> IMAGES;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<Bitmap> IMAGES) {
+    public SlidingImage_Adapter(Context context, ArrayList<PhotoDesc> IMAGES) {
         this.context = context;
         this.IMAGES = IMAGES;
         inflater = LayoutInflater.from(context);
@@ -49,7 +49,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 .findViewById(R.id.image);
 
 
-        imageView.setImageBitmap(IMAGES.get(position));
+        imageView.setImageBitmap(IMAGES.get(position).getPhoto());
 
         view.addView(imageLayout, 0);
 
@@ -64,7 +64,10 @@ public class SlidingImage_Adapter extends PagerAdapter {
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
     }
-
+    @Override
+    public int getItemPosition(Object object){
+        return PagerAdapter.POSITION_NONE;
+    }
     @Override
     public Parcelable saveState() {
         return null;

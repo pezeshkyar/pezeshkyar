@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 9/6/2016.
@@ -41,7 +44,10 @@ public class ActivitySearchPatient extends AppCompatActivity {
         intiViews();
         eventsListener();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void intiViews() {
         username = (EditText) findViewById(R.id.searchPatient_username);
         name = (EditText) findViewById(R.id.searchPatient_name);

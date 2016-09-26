@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav.User;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.example.doctorsbuilding.nav.R;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/13/2016.
@@ -28,7 +31,10 @@ public class UserNewsActivity extends AppCompatActivity {
         initViews();
         nothingTxt.setText("هیچ خبرنامه ای درج نشده است .");
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void initViews() {
         backBtn = (Button)findViewById(R.id.news_backBtn);
         nothingTxt = (TextView)findViewById(R.id.newsTxtNothing);

@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -18,6 +19,8 @@ import android.widget.ViewFlipper;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/18/2016.
@@ -40,7 +43,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         settings = getSharedPreferences("doctorBuilding", 0);
         initViews();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void initViews() {
         viewFlipper = (ViewFlipper) findViewById(R.id.login_viewFlipper);
         backButton = (Button) viewFlipper.findViewById(R.id.login_btnBack);

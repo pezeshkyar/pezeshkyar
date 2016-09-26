@@ -26,6 +26,8 @@ import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 7/24/2016.
  */
@@ -51,6 +53,12 @@ public class SplashActivity extends AppCompatActivity {
         database = new DatabaseAdapter(SplashActivity.this);
 
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -148,8 +156,8 @@ public class SplashActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (msg != null) {
                 new MessageBox(SplashActivity.this, msg).show();
-                splashTv.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                splashTv.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 reloadImg.setVisibility(View.VISIBLE);
                 reloadBtn.setVisibility(View.VISIBLE);
                 reloadBtn.setOnClickListener(new View.OnClickListener() {

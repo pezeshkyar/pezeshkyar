@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.Dr.Profile.ExpChild;
@@ -24,6 +25,7 @@ import java.util.List;
 public class PatientFileListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<PatientFileGroup> groups;
+
 
     public PatientFileListAdapter(Context context, ArrayList<PatientFileGroup> groups) {
         this.context = context;
@@ -43,6 +45,13 @@ public class PatientFileListAdapter extends BaseExpandableListAdapter {
         groupTaskName.setText(group.getTaskName());
         TextView groupPrice = (TextView) rowView.findViewById(R.id.patient_file_price);
         groupPrice.setText(group.getPriceString());
+        ImageView arrow_group = (ImageView)rowView.findViewById(R.id.patient_file_arrow);
+        if(isExpanded){
+            arrow_group.setImageResource(R.drawable.ic_expand_less);
+        }else{
+            arrow_group.setImageResource(R.drawable.ic_expand_more);
+        }
+
         return rowView;
     }
 

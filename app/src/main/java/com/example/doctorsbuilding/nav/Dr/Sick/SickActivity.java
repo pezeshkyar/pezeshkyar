@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav.Dr.Sick;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/8/2016.
@@ -34,6 +37,10 @@ public class SickActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initViews();
         setViews();
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void initViews() {
         backBtn = (Button)findViewById(R.id.sick_backBtn);

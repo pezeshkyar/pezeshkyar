@@ -20,6 +20,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 9/4/2016.
  */
@@ -52,7 +54,10 @@ public class ActivityAddNextTurn extends AppCompatActivity {
         task.execute();
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void setListener(){
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

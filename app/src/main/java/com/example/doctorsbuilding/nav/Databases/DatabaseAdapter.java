@@ -209,12 +209,13 @@ public class DatabaseAdapter {
     }
 
     public PhotoDesc getImageFromGallery(int id) {
-        PhotoDesc gallery = new PhotoDesc();
+        PhotoDesc gallery = null;
         try {
             String query = "select " + GALLERY_ID + " , " + GALLERY_DESCRIPTION + " , " + GALLERY_DATE + " , " + GALLERY_DATA + " from " +
                     TABLE_GALLERY + " where " + GALLERY_ID + " = " + id;
             Cursor cursor = database.rawQuery(query, null);
             while (cursor.moveToNext()) {
+                gallery = new PhotoDesc();
                 byte[] image = cursor.getBlob(cursor.getColumnIndex(GALLERY_DATA));
                 gallery.setId(cursor.getInt(cursor.getColumnIndex(GALLERY_ID)));
                 gallery.setDate(cursor.getString(cursor.getColumnIndex(GALLERY_DATE)));

@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav.Dr.Nobat;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import com.example.doctorsbuilding.nav.Util.NonScrollListView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 5/23/2016.
@@ -69,6 +72,11 @@ public class DrNobatActivity extends AppCompatActivity {
         initViews();
         eventListener();
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initViews() {

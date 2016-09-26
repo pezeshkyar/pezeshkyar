@@ -41,6 +41,7 @@
         <com.example.doctorsbuilding.nav.Util.NonScrollExpanableListView
             android:id="@+id/addNextTurn_explv"
             android:layout_width="match_parent"
+            android:groupIndicator="@null"
             android:layout_height="match_parent"
             android:childDivider="#eeeeee"
             android:dividerHeight="1dp"

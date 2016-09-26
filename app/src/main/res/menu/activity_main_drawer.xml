@@ -51,11 +51,15 @@
             android:id="@+id/nav_dr_gallery"
             android:icon="@drawable/ic_gallery"
             android:title="گالری عکس" />
+        <item
+            android:id="@+id/nav_dr_laws"
+            android:icon="@drawable/ic_laws"
+            android:title="قوانین"/>
 
         <!--<item-->
-            <!--android:id="@+id/nav_dr_news"-->
-            <!--android:icon="@drawable/ic_menu_news"-->
-            <!--android:title="خبرنامه" />-->
+        <!--android:id="@+id/nav_dr_news"-->
+        <!--android:icon="@drawable/ic_menu_news"-->
+        <!--android:title="خبرنامه" />-->
 
         <item
             android:id="@+id/nav_dr_call"
@@ -106,9 +110,9 @@
             android:icon="@drawable/ic_menu_news"
             android:title="خبرنامه" />
         <!--<item-->
-            <!--android:id="@+id/nav_user_enteghad"-->
-            <!--android:icon="@drawable/ic_menu_enteghad"-->
-            <!--android:title="انتقادات و پیشنهادات" />-->
+        <!--android:id="@+id/nav_user_enteghad"-->
+        <!--android:icon="@drawable/ic_menu_enteghad"-->
+        <!--android:title="انتقادات و پیشنهادات" />-->
         <item
             android:id="@+id/nav_user_call"
             android:icon="@drawable/ic_menu_call"

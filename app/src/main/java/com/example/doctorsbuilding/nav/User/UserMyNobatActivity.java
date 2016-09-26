@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav.User;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/9/2016.
@@ -48,7 +51,10 @@ public class UserMyNobatActivity extends AppCompatActivity {
         task.execute();
         eventListener();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void initViews() {
         turnTxtNothing = (TextView) findViewById(R.id.turnTxtNothing);
         listView = (ListView) findViewById(R.id.user_my_nobat_listview);

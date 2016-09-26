@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav.Dr.Nobat;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,8 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DrNobatFragment extends Fragment {
 
@@ -86,7 +89,6 @@ public class DrNobatFragment extends Fragment {
         return rootView;
 
     }
-
 
     private class asyncCallTurn extends AsyncTask<String, Void, Void> {
         ArrayList<Turn> result;

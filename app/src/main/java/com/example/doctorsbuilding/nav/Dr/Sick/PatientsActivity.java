@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav.Dr.Sick;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.example.doctorsbuilding.nav.Util.CustomDatePickerDialog;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.R;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/6/2016.
@@ -49,7 +52,10 @@ public class PatientsActivity extends AppCompatActivity implements View.OnClickL
         backBtn.setOnClickListener(this);
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void setListView() {
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.list_groups));
         listView.setAdapter(adapter);

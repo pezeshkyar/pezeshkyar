@@ -111,6 +111,17 @@
                 android:maxLength="11"
                 android:maxLines="1"
                 android:padding="8dp" />
+            <EditText
+                android:id="@+id/dr_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_edit_text"
+                android:hint="آدرس ایمیل"
+                android:inputType="phone|textNoSuggestions"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:padding="8dp" /> />
 
             <EditText
                 android:id="@+id/dr_UserName"

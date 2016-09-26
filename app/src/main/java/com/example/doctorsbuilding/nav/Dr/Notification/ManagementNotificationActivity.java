@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav.Dr.Notification;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/8/2016.
@@ -52,6 +55,11 @@ public class ManagementNotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_management);
         initViews();
         eventListener();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initViews() {

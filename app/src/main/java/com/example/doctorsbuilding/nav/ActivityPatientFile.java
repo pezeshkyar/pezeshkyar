@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 9/4/2016.
  */
@@ -31,6 +35,7 @@ public class ActivityPatientFile extends AppCompatActivity {
     int lastClickedPosition = 0;
     String patientUserName = null;
     Button backBtn;
+
     TextView nothing;
 
     @Override
@@ -54,7 +59,10 @@ public class ActivityPatientFile extends AppCompatActivity {
         }
 
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void setListener(){
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
@@ -82,7 +90,6 @@ public class ActivityPatientFile extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     private class asyncGetPatientFile extends AsyncTask<String, Void, Void> {

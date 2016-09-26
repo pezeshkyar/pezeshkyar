@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav.User;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -26,6 +27,8 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/9/2016.
@@ -59,7 +62,10 @@ public class UserProfileActivity extends AppCompatActivity {
         task.execute();
         eventListener();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void initViews() {
         backBtn = (Button) findViewById(R.id.userProfile_backBtn);
         txtFirstName = (EditText) findViewById(R.id.user_profile_name);

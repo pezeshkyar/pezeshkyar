@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 9/3/2016.
  */
@@ -47,7 +50,10 @@ public class ActivityReception extends AppCompatActivity {
         initViews();
         eventListener();
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void initViews() {
         nameTxt = (TextView) findViewById(R.id.reception_name);
         taskTxt = (TextView) findViewById(R.id.reception_task);

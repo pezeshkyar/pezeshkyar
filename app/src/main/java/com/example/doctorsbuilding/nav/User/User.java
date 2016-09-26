@@ -13,6 +13,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String phone;
+    private String email;
     private String userName;
     private String password;
     private int role;
@@ -62,6 +63,14 @@ public class User {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public int getRole() {
         return this.role;
     }
@@ -109,7 +118,6 @@ public class User {
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
-
 
 
 }
