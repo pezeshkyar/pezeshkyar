@@ -54,7 +54,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-        , OnMapReadyCallback {
+        ,    OnMapReadyCallback {
 
     boolean doubleBackToExitPressedOnce = false;
     NavigationView navigationView = null;
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (G.doctorImageProfile != null) {
-            drImgProfile.setImageBitmap(G.doctorImageProfile);
+          //  drImgProfile.setImageBitmap(G.doctorImageProfile);
             G.UserInfo.setImgProfile(G.doctorImageProfile);
         } else {
             int id = R.mipmap.doctor;
