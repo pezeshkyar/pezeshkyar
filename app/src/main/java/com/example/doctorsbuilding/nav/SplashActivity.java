@@ -146,7 +146,10 @@ public class SplashActivity extends AppCompatActivity {
                     //G.doctorImageProfile = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                 }
             } catch (PException ex) {
-                msg = ex.getMessage();
+                if (G.UserInfo.getRole() != UserType.None.ordinal()) {
+                    msg = ex.getMessage();
+                }
+
             }
             return null;
         }
@@ -174,36 +177,39 @@ public class SplashActivity extends AppCompatActivity {
 //                if (G.doctorImageProfile == null) {
 //                    G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
 //                }
-
-                database = new DatabaseAdapter(SplashActivity.this);
-                database.initialize();
-                if (database.openConnection()) {
-                    G.doctorImageProfile = database.getImageProfile(1);
-                    if (G.doctorImageProfile == null) {
-                        G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-                    }
-                    database.closeConnection();
-                }
-
-                if (G.UserInfo != null && G.officeInfo != null) {
-                    Intent i = new Intent(SplashActivity.this,
-                            MainActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-
-                    final MessageBox errorMessage = new MessageBox(SplashActivity.this, "خطای در برقراری ارتباط رخ داده است !");
-                    errorMessage.setCancelable(false);
-                    errorMessage.show();
-                    errorMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            if (errorMessage.pressAcceptButton()) {
-                                finish();
-                            }
+                if (G.UserInfo.getRole() != UserType.None.ordinal()) {
+                    database = new DatabaseAdapter(SplashActivity.this);
+                    database.initialize();
+                    if (database.openConnection()) {
+                        G.doctorImageProfile = database.getImageProfile(1);
+                        if (G.doctorImageProfile == null) {
+                            G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
                         }
-                    });
+                        database.closeConnection();
+                    }
 
+                    if (G.UserInfo != null && G.officeInfo != null) {
+                        Intent i = new Intent(SplashActivity.this,
+                                MainActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+
+                        final MessageBox errorMessage = new MessageBox(SplashActivity.this, "خطای در برقراری ارتباط رخ داده است !");
+                        errorMessage.setCancelable(false);
+                        errorMessage.show();
+                        errorMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                if (errorMessage.pressAcceptButton()) {
+                                    finish();
+                                }
+                            }
+                        });
+
+                    }
+                } else {
+                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                 }
             }
         }
