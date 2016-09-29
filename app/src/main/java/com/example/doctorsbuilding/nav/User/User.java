@@ -22,6 +22,7 @@ public class User {
     private int stateID;
     private String stateName;
     private Bitmap imgProfile;
+    private int i = 0;
 
     public String getFirstName() {
         return this.firstName;
