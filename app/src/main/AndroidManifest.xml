@@ -127,6 +127,10 @@
             android:name=".LazyLoad.Gallery3"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ContactUs"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"/>
 
     </application>
 

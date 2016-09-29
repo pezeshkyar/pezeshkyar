@@ -65,7 +65,7 @@ import java.util.Timer;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-        , OnMapReadyCallback {
+        ,    OnMapReadyCallback {
 
     boolean doubleBackToExitPressedOnce = false;
     NavigationView navigationView = null;
@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (G.doctorImageProfile != null) {
+          //  drImgProfile.setImageBitmap(G.doctorImageProfile);
             G.UserInfo.setImgProfile(G.doctorImageProfile);
         } else {
             int id = R.mipmap.doctor;
@@ -505,6 +506,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_signUp_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
+            case R.id.nav_dr_call:
+                startActivity(new Intent(MainActivity.this,ContactUs.class));
+                break;
+            case R.id.nav_user_call:
+                startActivity(new Intent(MainActivity.this,ContactUs.class));
+                break;
             case R.id.nav_signUp_call:
                 break;
             case R.id.nav_signIn:
@@ -598,7 +605,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                G.doctorImageProfile = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                String username = G.UserInfo.getUserName();
+                String password = G.UserInfo.getPassword();
+                G.doctorImageProfile = WebService.invokeGetDoctorPicWS(username, password, G.officeId);
+                G.UserInfo.setImgProfile(WebService.invokeGetUserPicWS(username, password));
 
             } catch (PException ex) {
                 msg = ex.getMessage();

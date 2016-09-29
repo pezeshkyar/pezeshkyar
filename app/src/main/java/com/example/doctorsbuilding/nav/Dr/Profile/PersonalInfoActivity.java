@@ -129,10 +129,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
         txtEmail.setText(G.UserInfo.getEmail());
 
 
-
         if (G.UserInfo.getImgProfile() != null) {
-            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-            profileImage.setImageBitmap(imgRound);
+            if (role == UserType.Dr.ordinal()) {
+                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                profileImage.setImageBitmap(imgRound);
+            } else {
+                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                profileImage.setImageBitmap(imgRound);
+            }
         }
     }
 
@@ -153,10 +157,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
         btnImgSelect = (Button) findViewById(R.id.dr_btnImgProfile);
         database = new DatabaseAdapter(PersonalInfoActivity.this);
         if (role == UserType.Dr.ordinal()) {
-            Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
+            //Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
         } else {
-            profileImage.setVisibility(View.GONE);
-            btnImgSelect.setVisibility(View.GONE);
+            //Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_user_profile);
+            //profileImage.setImageBitmap(bmpImg);
+//            profileImage.setVisibility(View.GONE);
+//            btnImgSelect.setVisibility(View.GONE);
         }
 
     }
@@ -212,7 +218,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
@@ -224,6 +229,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         Bitmap bmp = RoundedImageView.getCroppedBitmap(scaled, 200);
                         drPic = scaled;
                         roundedDrPic = bmp;
+                        G.UserInfo.setImgProfile(roundedDrPic);
                         AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
                         updateDrPicWS.execute();
 
@@ -502,8 +508,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
             user.setStateID((stateList.get(spinnerState.getSelectedItemPosition()).GetStateID()));
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
             if (role == UserType.Dr.ordinal()) {
-                Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                user.setImgProfile(imgUser);
+                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                user.setImgProfile(imgRound);
+            }
+            else {
+                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                user.setImgProfile(imgRound);
             }
             return user;
         }
@@ -579,14 +589,27 @@ public class PersonalInfoActivity extends AppCompatActivity {
             } else {
                 if (result) {
                     profileImage.setImageBitmap(roundedDrPic);
-                    G.doctorImageProfile = drPic;
-                    if (database.openConnection()) {
-                        database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                        database.closeConnection();
+                    if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
+                        G.doctorImageProfile = drPic;
+
+                        if (database.openConnection()) {
+                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
+                            database.closeConnection();
+                        }else {
+                            dialog.dismiss();
+                            new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                        }
+                    } else {
+                        G.doctorImageProfile = drPic;
+
+                        if (database.openConnection()) {
+                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
+                            database.closeConnection();
+                        }else {
+                            dialog.dismiss();
+                            new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                        }
                     }
-                } else {
-                    dialog.dismiss();
-                    new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
                 }
                 dialog.dismiss();
             }

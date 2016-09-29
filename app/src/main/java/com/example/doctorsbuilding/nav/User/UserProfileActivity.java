@@ -3,12 +3,15 @@ package com.example.doctorsbuilding.nav.User;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,16 +19,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.UserType;
+import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
+import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -43,11 +52,17 @@ public class UserProfileActivity extends AppCompatActivity {
     private Spinner spinnerState;
     private Spinner spinnerCity;
     private Button btnInsert;
+    private ImageView profileImage;
+    private Button btnImgSelect;
+    private Bitmap drPic;
+    private Bitmap roundedDrPic;
     private ArrayAdapter<String> stateAdapter;
     private ArrayAdapter<String> cityAdapter;
     private ArrayList<State> stateList;
     private ArrayList<City> cityList;
     private ProgressBar progressBar;
+    private DatabaseAdapter database;
+
     private int stateID = -1;
     Button backBtn;
 
@@ -56,7 +71,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_profile_user);
+        setContentView(R.layout.activity_personal_info);
         initViews();
         AsyncCallStateWS task = new AsyncCallStateWS();
         task.execute();
@@ -67,17 +82,24 @@ public class UserProfileActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.userProfile_backBtn);
-        txtFirstName = (EditText) findViewById(R.id.user_profile_name);
-        txtLastName = (EditText) findViewById(R.id.user_profile_family);
-        txtMobile = (EditText) findViewById(R.id.user_profile_mobile);
-        txtUserName = (EditText) findViewById(R.id.user_profile_username);
-        txtPassword = (EditText) findViewById(R.id.user_profile_password);
-        txtRePassword = (EditText) findViewById(R.id.user_profile_rePassword);
-        spinnerState = (Spinner) findViewById(R.id.user_profile_state);
-        spinnerCity = (Spinner) findViewById(R.id.user_profile_city);
-        btnInsert = (Button) findViewById(R.id.user_profile_brnInsert);
-        progressBar = (ProgressBar) findViewById(R.id.user_profile_progressBar);
+        database = new DatabaseAdapter(UserProfileActivity.this);
+        profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
+        Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_user_profile);
+        profileImage.setImageBitmap(bmpImg);
+        backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
+        txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
+        txtLastName = (EditText) findViewById(R.id.dr_LastName);
+        txtMobile = (EditText) findViewById(R.id.dr_Mobile);
+        txtUserName = (EditText) findViewById(R.id.dr_UserName);
+        txtPassword = (EditText) findViewById(R.id.dr_Password);
+        txtRePassword = (EditText) findViewById(R.id.dr_ConfirmPassword);
+        spinnerState = (Spinner) findViewById(R.id.dr_profile_state);
+        spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
+        btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
+        profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
+        btnImgSelect=(Button) findViewById(R.id.dr_btnImgProfile);
+        btnImgSelect.setText("انتخاب عکس");
+       // progressBar = (ProgressBar) findViewById(R.id.user_profile_progressBar);
     }
 
     private void eventListener() {
@@ -109,6 +131,107 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+        btnImgSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, 0);
+                changePic();
+            }
+        });
+    }
+
+    private void changePic() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "?????? ???"), 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                        int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                        Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                        Bitmap bmp = RoundedImageView.getCroppedBitmap(scaled, 200);
+                        drPic = scaled;
+                        roundedDrPic = bmp;
+                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
+                        updateDrPicWS.execute();
+
+
+//                        currentUser.image = resizedBitmap;
+//                        Database.UpdateCurrentUser(currentUser);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+    }
+    private class AsyncUpdateDrPicWS extends AsyncTask<String, Void, Void> {
+        private boolean result;
+        String msg = null;
+        ProgressDialog dialog;
+        final int imageProfileId = 1;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(UserProfileActivity.this, "", "در حال تغییر عکس پروفایل ...");
+            dialog.getWindow().setGravity(Gravity.END);
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                result = WebService.invokeUpdateDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), drPic);
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (msg != null) {
+                dialog.dismiss();
+                new MessageBox(UserProfileActivity.this, msg).show();
+            } else {
+                if (result) {
+                    profileImage.setImageBitmap(roundedDrPic);
+                    if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
+                        G.doctorImageProfile = drPic;
+
+                        if (database.openConnection()) {
+                           database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
+                            database.closeConnection();
+                        }else {
+                            dialog.dismiss();
+                            new MessageBox(UserProfileActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                        }
+                    } else {
+                        if (database.openConnection()) {
+                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
+                            database.closeConnection();
+                        }else {
+                            dialog.dismiss();
+                            new MessageBox(UserProfileActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                        }
+                    }
+                }
+                dialog.dismiss();
+            }
+        }
     }
 
     private void clearForm(ViewGroup group) {
@@ -271,8 +394,10 @@ public class UserProfileActivity extends AppCompatActivity {
             user.setPhone(txtMobile.getText().toString().trim());
             user.setRole(UserType.User.getUsertype());
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
+
             Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             user.setImgProfile(imgUser);
+
             return user;
         }
 

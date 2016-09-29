@@ -100,17 +100,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/content_main_address"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignRight="@id/content_main_expert"
-                        android:layout_below="@id/content_main_expert"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text=""
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
+                        android:layout_below="@id/content_main_expert">
+
+                        <TextView
+                            android:id="@+id/content_main_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/content_main_img_map"
+                            android:layout_width="25dp"
+                            android:layout_height="35dp"
+                            android:layout_toLeftOf="@+id/content_main_address"
+                            android:src="@drawable/ic_company_address" />
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/content_main_tel"
