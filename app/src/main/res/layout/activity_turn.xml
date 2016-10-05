@@ -22,7 +22,7 @@
         android:layout_alignBaseline="@+id/addTurn_chbox"
         android:layout_marginBottom="30dp"
         android:layout_toLeftOf="@+id/addTurn_chbox"
-        android:text=" بیمار عضو سامانه می باشد ."
+        android:text="مشتری عضو سامانه می باشد ."
         android:textSize="16sp"
         android:textStyle="bold" />
 

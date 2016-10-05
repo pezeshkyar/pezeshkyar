@@ -108,7 +108,7 @@
                 android:background="@drawable/my_edit_text"
                 android:hint="@string/drMobile"
                 android:inputType="phone|textNoSuggestions"
-                android:maxLength="11"
+                android:maxLength="25"
                 android:maxLines="1"
                 android:padding="8dp" />
             <EditText
@@ -118,8 +118,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/my_edit_text"
                 android:hint="آدرس ایمیل"
-                android:inputType="phone|textNoSuggestions"
-                android:maxLength="11"
+                android:inputType="textEmailAddress|textNoSuggestions"
+                android:maxLength="50"
                 android:maxLines="1"
                 android:padding="8dp" /> />
 

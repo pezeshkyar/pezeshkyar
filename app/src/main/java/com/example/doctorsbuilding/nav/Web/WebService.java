@@ -42,7 +42,8 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://79.175.163.179:8080/docTurn/services/Webservices?wsdl";
+    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
+//    private static String URL = "http://192.168.1.123:8080/docTurn/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -123,25 +124,26 @@ public class WebService {
         return result;
     }
 
+
     public static String invokeRegisterWS(User user) throws PException {
 
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
 
-        String webMethName = "register";
+        String webMethName = "register2";
         String result = null;
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
         request.addProperty("name", user.getFirstName());
         request.addProperty("lastname", user.getLastName());
         request.addProperty("mobileno", user.getPhone());
-        request.addProperty("email", user.getEmail());
         request.addProperty("username", user.getUserName());
         request.addProperty("password", user.getPassword());
         request.addProperty("role", user.getRole());
         request.addProperty("cityid", user.getCityID());
         request.addProperty("pic", null);
+        request.addProperty("email", user.getEmail());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -163,7 +165,7 @@ public class WebService {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
-        String webMethName = "updateUserInfo2";
+        String webMethName = "updateUserInfo3";
         String result = null;
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
         request.addProperty("username", username);
@@ -171,9 +173,9 @@ public class WebService {
         request.addProperty("name", user.getFirstName());
         request.addProperty("lastname", user.getLastName());
         request.addProperty("mobileno", user.getPhone());
-        request.addProperty("email", user.getEmail());
         request.addProperty("cityid", user.getCityID());
         request.addProperty("newPassword", user.getPassword());
+        request.addProperty("email", user.getEmail());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);

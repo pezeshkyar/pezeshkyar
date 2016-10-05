@@ -35,6 +35,7 @@ import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
+import com.example.doctorsbuilding.nav.Util.FormatHelper;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
@@ -137,6 +138,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                 profileImage.setImageBitmap(imgRound);
             }
+        } else {
+            profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 200));
         }
     }
 
@@ -149,7 +152,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         txtUserName = (EditText) findViewById(R.id.dr_UserName);
         txtPassword = (EditText) findViewById(R.id.dr_Password);
         txtRePassword = (EditText) findViewById(R.id.dr_ConfirmPassword);
-        txtEmail = (EditText)findViewById(R.id.dr_email);
+        txtEmail = (EditText) findViewById(R.id.dr_email);
         spinnerState = (Spinner) findViewById(R.id.dr_profile_state);
         spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
         btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
@@ -510,8 +513,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             if (role == UserType.Dr.ordinal()) {
                 Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                 user.setImgProfile(imgRound);
-            }
-            else {
+            } else {
                 Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                 user.setImgProfile(imgRound);
             }
@@ -534,6 +536,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         G.UserInfo.setFirstName(user.getFirstName());
                         G.UserInfo.setLastName(user.getLastName());
                         G.UserInfo.setPassword(user.getPassword());
+                        G.UserInfo.setEmail(user.getEmail());
                         G.UserInfo.setPhone(user.getPhone());
                         G.UserInfo.setStateID(user.getStateID());
                         G.UserInfo.setCityID(user.getCityID());
@@ -541,6 +544,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     } else {
                         G.UserInfo.setFirstName(user.getFirstName());
                         G.UserInfo.setLastName(user.getLastName());
+                        G.UserInfo.setEmail(user.getEmail());
                         G.UserInfo.setPassword(user.getPassword());
                         G.UserInfo.setPhone(user.getPhone());
                         G.UserInfo.setStateID(user.getStateID());
@@ -595,7 +599,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         if (database.openConnection()) {
                             database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
                             database.closeConnection();
-                        }else {
+                        } else {
                             dialog.dismiss();
                             new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
                         }
@@ -605,7 +609,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         if (database.openConnection()) {
                             database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
                             database.closeConnection();
-                        }else {
+                        } else {
                             dialog.dismiss();
                             new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
                         }

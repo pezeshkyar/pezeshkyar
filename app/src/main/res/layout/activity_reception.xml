@@ -138,5 +138,5 @@
         android:layout_marginTop="10dp"
         android:textColor="@android:color/white"
         android:background="@drawable/my_delete_button"
-        android:text="مشاهده پرونده" />
+        android:text="سابقه مشتری" />
 </RelativeLayout>

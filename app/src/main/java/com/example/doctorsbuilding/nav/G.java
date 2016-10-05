@@ -2,7 +2,9 @@ package com.example.doctorsbuilding.nav;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -39,5 +41,13 @@ public class G extends Application {
                 (ConnectivityManager) instance.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        return instance.getSharedPreferences("arayeshyarDemo", 0);
+    }
+
+    public static Typeface getPersianNumberFont() {
+        return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
     }
 }

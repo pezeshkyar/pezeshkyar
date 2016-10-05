@@ -13,7 +13,7 @@
         android:name=".G"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="پزشک یار"
+        android:label="آرایشیار"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
         <meta-data
@@ -21,7 +21,7 @@
             android:value="com.example.doctorsbuilding.nav.MainActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDPxvHFihvS4p2yPFoH53zZ6X8Ex0CZIww" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -130,7 +130,15 @@
         <activity
             android:name=".ContactUs"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme"/>
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ActivityManagementTaskes"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ActivityImageShow"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
 
     </application>
 

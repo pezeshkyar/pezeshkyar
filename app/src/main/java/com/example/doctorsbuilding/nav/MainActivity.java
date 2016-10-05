@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,16 +18,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,17 +53,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.readystatesoftware.viewbadger.BadgeView;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-        ,    OnMapReadyCallback {
+        , OnMapReadyCallback {
 
     boolean doubleBackToExitPressedOnce = false;
     NavigationView navigationView = null;
@@ -92,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     AsyncCallGetUnreadMessagesWs asyncGetMessage;
     ArrayList<Boolean> banerTaskList;
     asyncGetImageIdFromWeb asyncBaner;
+    ImageView btn_menu;
+    DrawerLayout mDrawerLayout;
+    ImageView menu_header_image;
+    TextView menu_header_name;
+    TextView menu_header_version;
+    ProgressBar baner_progress;
 
 
     @Override
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        settings = getSharedPreferences("doctorBuilding", 0);
+        settings = G.getSharedPreferences();
         loadUser();
         initViews();
 
@@ -148,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 G.UserInfo.setPassword("8512046384");
                 G.UserInfo.setRole(UserType.Guest.ordinal());
             }
+        } else {
+            setNavigationViewMenu(menu);
         }
         if (G.officeInfo != null) {
 
@@ -161,7 +164,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (G.doctorImageProfile != null) {
-          //  drImgProfile.setImageBitmap(G.doctorImageProfile);
+            //  drImgProfile.setImageBitmap(G.doctorImageProfile);
+            setNavigationViewMenu(menu);
             G.UserInfo.setImgProfile(G.doctorImageProfile);
         } else {
             int id = R.mipmap.doctor;
@@ -181,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
         asyncGetMessage.execute();
-
 
     }
 
@@ -252,14 +255,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initViews() {
 
-        final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        //final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
-        layout.setDragView(findViewById(R.id.content_main_info));
+        //layout.setDragView(findViewById(R.id.content_main_info));
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar33);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
+
 //        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 //        collapsingToolbar.setTitleEnabled(false);
 //        collapsingToolbar.setTitle("Second Activity");
@@ -267,7 +270,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mPager = (ViewPager) findViewById(R.id.pager);
         indicator = (CirclePageIndicator)
                 findViewById(R.id.indicator);
-        btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage);
+        baner_progress = (ProgressBar) findViewById(R.id.baner_progress);
+        btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage33);
         badge = new BadgeView(MainActivity.this, btnUnreadMessage);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
         drName = (TextView) findViewById(R.id.content_main_name);
@@ -275,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drAddress = (TextView) findViewById(R.id.content_main_address);
         drPhone = (TextView) findViewById(R.id.content_main_tel);
         drBiography = (TextView) findViewById(R.id.content_main_biography);
+        btn_menu = (ImageView) findViewById(R.id.menu_btn);
 
         setNavigationDrawer();
 
@@ -293,6 +298,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Toast.makeText(MainActivity.this, "هیچ پیام جدیدی برای خواندن وجود ندارد .", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
 
@@ -331,14 +343,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logOut() {
+        if (asyncGetGalleryPic != null)
+            asyncGetGalleryPic.cancel(true);
+
+        if (getDoctorPic != null) {
+            getDoctorPic.cancel(true);
+        }
+
+        if (asyncGetMessage != null) {
+            asyncGetMessage.cancel(true);
+        }
+        if (asyncBaner != null) {
+            asyncBaner.cancel(true);
+        }
         settings.edit().remove("user").apply();
         settings.edit().remove("pass").apply();
         settings.edit().remove("role").apply();
         setNavigationViewMenu(UserType.Guest);
         G.UserInfo = null;
         badge.hide();
-        startActivity(new Intent(MainActivity.this, SignInActivity.class));
-        finish();
+//
+//        startActivity(new Intent(MainActivity.this, SignInActivity.class));
+//        finish();
 
     }
 
@@ -346,14 +372,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        setNavigationViewMenu(menu);
+        menu_header_image = (ImageView) navigationView.findViewById(R.id.img_profile33);
+        menu_header_name = (TextView) navigationView.findViewById(R.id.name33);
+        menu_header_version = (TextView) navigationView.findViewById(R.id.pezashyar_type33);
+//        setNavigationViewMenu(menu);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -381,52 +410,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/IRANSans.ttf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
         mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mi.setTitle(mNewTitle);
     }
 
     private void setNavigationViewMenu(UserType menu) {
-        ImageView imgProfile = (ImageView) navigationView.findViewById(R.id.img_profile33);
-        TextView username = (TextView) navigationView.findViewById(R.id.name33);
-        TextView version = (TextView) navigationView.findViewById(R.id.pezashyar_type33);
 
         switch (menu) {
             case Guest:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, true);
-                username.setText("کاربر میهمان");
-                version.setText("");
-                imgProfile.setImageResource(R.drawable.ic_guest);
+                menu_header_name.setText("کاربر میهمان");
+                menu_header_version.setText("");
+                menu_header_image.setImageResource(R.drawable.ic_guest);
                 break;
             case Dr:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
-                username.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
-                version.setText("نسخه پزشک");
+                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
+                menu_header_version.setText("نسخه آرایشگر");
                 Bitmap drPic = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                imgProfile.setImageBitmap(drPic);
+                menu_header_image.setImageBitmap(drPic);
                 break;
             case secretary:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
-                username.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
-                version.setText("نسخه منشی");
+                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
+                menu_header_version.setText("نسخه منشی");
                 Bitmap drSecretary = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                imgProfile.setImageBitmap(drSecretary);
+                menu_header_image.setImageBitmap(drSecretary);
                 break;
             case User:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
-                username.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
-                version.setText("نسخه بیمار");
+                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
+                menu_header_version.setText("نسخه مشتری");
                 Bitmap userPic = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                imgProfile.setImageBitmap(userPic);
+                menu_header_image.setImageBitmap(userPic);
                 break;
         }
 
@@ -506,11 +532,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_signUp_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
+            case R.id.nav_dr_laws:
+                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
+                break;
             case R.id.nav_dr_call:
-                startActivity(new Intent(MainActivity.this,ContactUs.class));
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
                 break;
             case R.id.nav_user_call:
-                startActivity(new Intent(MainActivity.this,ContactUs.class));
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
                 break;
             case R.id.nav_signUp_call:
                 break;
@@ -630,6 +659,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     int id = R.mipmap.doctor;
                     G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
+                    G.UserInfo.setImgProfile(G.doctorImageProfile);
                     if (database.openConnection()) {
                         database.saveImageProfile(imagePrdileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
                     }
@@ -694,6 +724,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         private String msg = null;
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (banerTaskList == null)
+                baner_progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected Void doInBackground(String... strings) {
             try {
                 imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
@@ -706,6 +743,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            baner_progress.setVisibility(View.GONE);
             if (msg != null) {
                 new MessageBox(MainActivity.this, msg).show();
             } else {

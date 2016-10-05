@@ -15,6 +15,8 @@ public class Reservation {
     int firstReservationId;
     int payment;
     int numberOfTurns;
+    int price;
+
 
     public int getId() {
         return id;
@@ -102,5 +104,13 @@ public class Reservation {
 
     public void setNumberOfTurns(int numberOfTurns) {
         this.numberOfTurns = numberOfTurns;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

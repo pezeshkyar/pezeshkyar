@@ -99,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadUser() {
 
-        settings = getSharedPreferences("doctorBuilding", 0);
+        settings = G.getSharedPreferences();
         menu = UserType.values()[settings.getInt("role", 0)];
         switch (menu) {
             case Dr:

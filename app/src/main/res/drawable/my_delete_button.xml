@@ -8,6 +8,14 @@
             <size android:height="20dp"/>
         </shape>
     </item>
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#f5acaf" />
+            <stroke android:width="2dp" android:color="#f5acaf" />
+            <corners android:radius="2dp" />
+            <size android:height="20dp"/>
+        </shape>
+    </item>
     <item>
         <shape>
             <gradient android:angle="270" android:endColor="#a11a1f" android:startColor="#CB2027" />

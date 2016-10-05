@@ -84,8 +84,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private void initViews() {
         database = new DatabaseAdapter(UserProfileActivity.this);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
-        Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_user_profile);
-        profileImage.setImageBitmap(bmpImg);
+        Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
+        profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(bmpImg, 160));
         backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);

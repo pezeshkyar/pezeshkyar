@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.doctorsbuilding.nav.ActivityImageShow;
 import com.example.doctorsbuilding.nav.Dr.Gallery.GalleryActivity;
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatFragment;
 import com.example.doctorsbuilding.nav.Dr.Notification.NotificationFragment;
@@ -30,7 +31,7 @@ import com.example.doctorsbuilding.nav.gallery2;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DrProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class DrProfileActivity extends AppCompatActivity{
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -77,7 +78,19 @@ public class DrProfileActivity extends AppCompatActivity implements View.OnClick
             profileImage.setImageBitmap(imgRound);
         }
         btnGallery = (ImageButton) findViewById(R.id.drProfile_btnGallery);
-        btnGallery.setOnClickListener(this);
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DrProfileActivity.this, gallery2.class));
+            }
+        });
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(DrProfileActivity.this, ActivityImageShow.class));
+            }
+        });
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -119,17 +132,6 @@ public class DrProfileActivity extends AppCompatActivity implements View.OnClick
                     return getResources().getString(R.string.pageTitle_comments);
             }
             return null;
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.drProfile_btnGallery:
-                startActivity(new Intent(DrProfileActivity.this, gallery2.class));
-                break;
-            default:
-                break;
         }
     }
 

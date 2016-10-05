@@ -40,7 +40,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sign_in);
-        settings = getSharedPreferences("doctorBuilding", 0);
+        settings = G.getSharedPreferences();
         initViews();
     }
     @Override
