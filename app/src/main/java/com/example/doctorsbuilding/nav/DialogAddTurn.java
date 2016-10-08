@@ -16,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +23,6 @@ import android.widget.ViewFlipper;
 
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
-import com.example.doctorsbuilding.nav.Util.MoneyTextWatcher;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
@@ -36,6 +34,7 @@ public class DialogAddTurn extends Dialog {
     private Context context;
     private int turnId;
     private int resevationId = 0;
+    private Spinner taskGroupSpinner;
     private Spinner taskSpinner;
     private Button taskBackBtn;
     private Button addTurnBtn;
@@ -78,10 +77,11 @@ public class DialogAddTurn extends Dialog {
     }
 
     private void initViews() {
+        taskSpinner = (Spinner)findViewById(R.id.addTask_subtask);
         taskes = new ArrayList<Task>();
         viewFlipper = (ViewFlipper) findViewById(R.id.addTurn_viewSwitcher);
         myCheckBox = (CheckBox) findViewById(R.id.addTurn_chbox);
-        taskSpinner = (Spinner) findViewById(R.id.addTask_task);
+        taskGroupSpinner = (Spinner) findViewById(R.id.addTask_task);
         taskBackBtn = (Button) findViewById(R.id.addTask_backBtn);
         addTurnBtn = (Button) findViewById(R.id.addTask_addBtn);
         addTurnPatientName = (TextView) findViewById(R.id.addTask_patient_name);
@@ -155,7 +155,7 @@ public class DialogAddTurn extends Dialog {
             }
         });
 
-        taskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        taskGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(context.getResources().getColor(R.color.textColor));
@@ -316,7 +316,7 @@ public class DialogAddTurn extends Dialog {
             reservation = new Reservation();
             reservation.setTurnId(turnId);
             reservation.setFirstReservationId(0);
-            reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
+            reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
             reservation.setNumberOfTurns(1);
         }
         @Override
@@ -367,7 +367,7 @@ public class DialogAddTurn extends Dialog {
             if (G.UserInfo.getRole() == UserType.User.ordinal()) {
                 reservation.setTaskId(1);
             } else {
-                reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
+                reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
             }
             reservation.setNumberOfTurns(1);
         }
@@ -465,7 +465,7 @@ public class DialogAddTurn extends Dialog {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                taskes = WebService.invokeGetTaskWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                taskes = WebService.invokeGetTaskWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId , 1);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -481,7 +481,7 @@ public class DialogAddTurn extends Dialog {
             } else {
                 if (taskes != null && taskes.size() != 0) {
                     ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(context, R.layout.spinner_item, taskes);
-                    taskSpinner.setAdapter(adapter);
+                    taskGroupSpinner.setAdapter(adapter);
                     taskBackBtn.setVisibility(View.VISIBLE);
                     viewFlipper.setDisplayedChild(2);
                 }
@@ -508,7 +508,7 @@ public class DialogAddTurn extends Dialog {
             if (G.UserInfo.getRole() == UserType.User.ordinal()) {
                 reservation.setTaskId(1);
             } else {
-                reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
+                reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
             }
             reservation.setNumberOfTurns(1);
         }

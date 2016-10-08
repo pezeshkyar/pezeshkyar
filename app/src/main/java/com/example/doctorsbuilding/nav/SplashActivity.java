@@ -72,17 +72,7 @@ public class SplashActivity extends AppCompatActivity {
             loadData();
         } else {
             new MessageBox(this, "دسترسی به اینترنت امکان پذیر نمی باشد، لطفا تنظیمات اینترنت خود را چک نمایید .").show();
-            reloadBtn.setVisibility(View.VISIBLE);
-            reloadImg.setVisibility(View.VISIBLE);
-            reloadBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    reloadBtn.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                    reloadImg.setVisibility(View.GONE);
-                    checkIsOnline();
-                }
-            });
+            reloadPage();
         }
     }
 
@@ -100,22 +90,6 @@ public class SplashActivity extends AppCompatActivity {
     private void loadUser() {
 
         settings = G.getSharedPreferences();
-        menu = UserType.values()[settings.getInt("role", 0)];
-        switch (menu) {
-            case Dr:
-                menu = UserType.Dr;
-                break;
-            case User:
-                menu = UserType.User;
-                break;
-            case secretary:
-                menu = UserType.Dr;
-                break;
-            case None:
-                menu = UserType.Guest;
-            default:
-                break;
-        }
         G.UserInfo.setUserName(settings.getString("user", ""));
         G.UserInfo.setPassword(settings.getString("pass", ""));
         if (G.UserInfo.getUserName().length() == 0 && G.UserInfo.getPassword().length() == 0) {
@@ -123,6 +97,22 @@ public class SplashActivity extends AppCompatActivity {
             G.UserInfo.setPassword("8512046384");
         }
 
+    }
+
+    private void reloadPage() {
+        splashTv.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        reloadImg.setVisibility(View.VISIBLE);
+        reloadBtn.setVisibility(View.VISIBLE);
+        reloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reloadBtn.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                reloadImg.setVisibility(View.GONE);
+                checkIsOnline();
+            }
+        });
     }
 
     private boolean isOnline() {
@@ -134,49 +124,44 @@ public class SplashActivity extends AppCompatActivity {
 
     private class AsyncCallGetData extends AsyncTask<String, Void, Void> {
         String msg = null;
+        int role = -1;
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                if (menu != UserType.Guest) {
+
+                role = WebService.invokeLoginWS(G.officeId, setUserData());
+                if (role > 0 && role != UserType.Guest.ordinal()) {
                     G.UserInfo = WebService.invokeGetUserInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                } else {
+                    G.UserInfo.setUserName("guest");
+                    G.UserInfo.setPassword("8512046384");
+                    G.UserInfo.setRole(UserType.Guest.ordinal());
                 }
-                if (G.UserInfo != null) {
-                    G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-                    //G.doctorImageProfile = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-                }
+                G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
-                if (G.UserInfo.getRole() != UserType.None.ordinal()) {
-                    msg = ex.getMessage();
-                }
+                msg = ex.getMessage();
 
             }
             return null;
         }
+
+        private User setUserData() {
+            User user = new User();
+            user.setUserName(G.UserInfo.getUserName());
+            user.setPassword(G.UserInfo.getPassword());
+            return user;
+        }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
                 new MessageBox(SplashActivity.this, msg).show();
-                splashTv.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                reloadImg.setVisibility(View.VISIBLE);
-                reloadBtn.setVisibility(View.VISIBLE);
-                reloadBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        reloadBtn.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        reloadImg.setVisibility(View.GONE);
-                        checkIsOnline();
-                    }
-                });
+                reloadPage();
             } else {
 
-//                if (G.doctorImageProfile == null) {
-//                    G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-//                }
                 if (G.UserInfo.getRole() != UserType.None.ordinal()) {
                     database = new DatabaseAdapter(SplashActivity.this);
                     database.initialize();
@@ -188,28 +173,22 @@ public class SplashActivity extends AppCompatActivity {
                         database.closeConnection();
                     }
 
-                    if (G.UserInfo != null && G.officeInfo != null) {
-                        Intent i = new Intent(SplashActivity.this,
-                                MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    } else {
-
-                        final MessageBox errorMessage = new MessageBox(SplashActivity.this, "خطای در برقراری ارتباط رخ داده است !");
-                        errorMessage.setCancelable(false);
-                        errorMessage.show();
-                        errorMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialogInterface) {
-                                if (errorMessage.pressAcceptButton()) {
-                                    finish();
-                                }
-                            }
-                        });
-
-                    }
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
                 } else {
-                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+
+                    final MessageBox errorMessage = new MessageBox(SplashActivity.this, "خطای در برقراری ارتباط رخ داده است !");
+                    errorMessage.setCancelable(false);
+                    errorMessage.show();
+                    errorMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            if (errorMessage.pressAcceptButton()) {
+                                finish();
+                            }
+                        }
+                    });
+
                 }
             }
         }

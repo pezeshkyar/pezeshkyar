@@ -1,25 +1,15 @@
 package com.example.doctorsbuilding.nav;
 
 /**
- * Created by hossein on 7/31/2016.
+ * Created by hossein on 10/6/2016.
  */
-public class Task {
+public class TaskGroup {
     private int id;
-    private int groupId;
     private int officeId;
     private String name;
-    private int price;
 
     public int getId() {
         return id;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
     }
 
     public void setId(int id) {
@@ -42,16 +32,8 @@ public class Task {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
-        return getName();
+        return name;
     }
 }

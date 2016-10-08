@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:layout_toLeftOf="@id/drProfile_btnDrPhoto"
                     android:text="دکتر شمس السادات رضوی"
                     android:textColor="@android:color/white"
@@ -59,7 +59,7 @@
                     android:layout_marginTop="10dp"
                     android:text="فوق تخصص گوش و حلق و بینی"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <ImageButton

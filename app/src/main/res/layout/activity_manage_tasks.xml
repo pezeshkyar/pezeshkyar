@@ -225,7 +225,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:weightSum="2">
+                android:weightSum="3">
 
                 <Button
                     android:id="@+id/subTask_deleteBtn"
@@ -248,6 +248,18 @@
                     android:text="ویرایش"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/subTask_addBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/my_add_button"
+                    android:text="افزودن"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <FrameLayout

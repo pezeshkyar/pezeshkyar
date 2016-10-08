@@ -64,7 +64,12 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseAdapter database;
 
     private int stateID = -1;
+    private static int imageProfileId = 1;
     Button backBtn;
+
+    private AsyncCallRegisterWS registerTask;
+    private AsyncCallCityWS cityTask;
+    private AsyncCallStateWS stateTask;
 
 
     @Override
@@ -73,14 +78,30 @@ public class UserProfileActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_personal_info);
         initViews();
-        AsyncCallStateWS task = new AsyncCallStateWS();
-        task.execute();
+        stateTask = new AsyncCallStateWS();
+        stateTask.execute();
         eventListener();
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (registerTask != null) {
+            registerTask.cancel(true);
+        }
+        if (cityTask != null) {
+            cityTask.cancel(true);
+        }
+        if (stateTask != null) {
+            stateTask.cancel(true);
+        }
+    }
+
     private void initViews() {
         database = new DatabaseAdapter(UserProfileActivity.this);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
@@ -97,9 +118,9 @@ public class UserProfileActivity extends AppCompatActivity {
         spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
         btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
-        btnImgSelect=(Button) findViewById(R.id.dr_btnImgProfile);
+        btnImgSelect = (Button) findViewById(R.id.dr_btnImgProfile);
         btnImgSelect.setText("انتخاب عکس");
-       // progressBar = (ProgressBar) findViewById(R.id.user_profile_progressBar);
+        // progressBar = (ProgressBar) findViewById(R.id.user_profile_progressBar);
     }
 
     private void eventListener() {
@@ -113,8 +134,8 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 stateID = stateList.get(position).GetStateID();
-                AsyncCallCityWS task = new AsyncCallCityWS();
-                task.execute();
+                cityTask = new AsyncCallCityWS();
+                cityTask.execute();
             }
 
             @Override
@@ -126,8 +147,8 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkFields()) {
-                    AsyncCallRegisterWS task = new AsyncCallRegisterWS();
-                    task.execute();
+                    registerTask = new AsyncCallRegisterWS();
+                    registerTask.execute();
                 }
             }
         });
@@ -163,8 +184,9 @@ public class UserProfileActivity extends AppCompatActivity {
                         Bitmap bmp = RoundedImageView.getCroppedBitmap(scaled, 200);
                         drPic = scaled;
                         roundedDrPic = bmp;
-                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-                        updateDrPicWS.execute();
+                        profileImage.setImageBitmap(roundedDrPic);
+//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
+//                        updateDrPicWS.execute();
 
 
 //                        currentUser.image = resizedBitmap;
@@ -174,62 +196,6 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
 
                 }
-            }
-        }
-    }
-    private class AsyncUpdateDrPicWS extends AsyncTask<String, Void, Void> {
-        private boolean result;
-        String msg = null;
-        ProgressDialog dialog;
-        final int imageProfileId = 1;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = ProgressDialog.show(UserProfileActivity.this, "", "در حال تغییر عکس پروفایل ...");
-            dialog.getWindow().setGravity(Gravity.END);
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                result = WebService.invokeUpdateDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), drPic);
-            } catch (PException ex) {
-                msg = ex.getMessage();
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (msg != null) {
-                dialog.dismiss();
-                new MessageBox(UserProfileActivity.this, msg).show();
-            } else {
-                if (result) {
-                    profileImage.setImageBitmap(roundedDrPic);
-                    if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
-                        G.doctorImageProfile = drPic;
-
-                        if (database.openConnection()) {
-                           database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                            database.closeConnection();
-                        }else {
-                            dialog.dismiss();
-                            new MessageBox(UserProfileActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
-                        }
-                    } else {
-                        if (database.openConnection()) {
-                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                            database.closeConnection();
-                        }else {
-                            dialog.dismiss();
-                            new MessageBox(UserProfileActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
-                        }
-                    }
-                }
-                dialog.dismiss();
             }
         }
     }
@@ -249,6 +215,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private class AsyncCallStateWS extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
+
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(UserProfileActivity.this);
@@ -256,6 +223,7 @@ public class UserProfileActivity extends AppCompatActivity {
             dialog.setCancelable(false);
             dialog.show();
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -274,10 +242,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(msg!=null){
+            if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(UserProfileActivity.this, msg).show();
-            }else {
+            } else {
                 setStateSpinner();
                 if (stateID != -1) {
                     setCitySpinner();
@@ -315,6 +283,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private class AsyncCallCityWS extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -323,6 +292,7 @@ public class UserProfileActivity extends AppCompatActivity {
             dialog.setCancelable(false);
             dialog.show();
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -369,11 +339,10 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(UserProfileActivity.this);
-            dialog.setTitle("در حال ارسال اطلاعات ...");
-            dialog.setCancelable(false);
-            dialog.show();
+            dialog = ProgressDialog.show(UserProfileActivity.this, "", "در حال ذخیره اطلاعات ...");
+            dialog.getWindow().setGravity(Gravity.END);
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             user = setUserData();
@@ -381,6 +350,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 result = WebService.invokeRegisterWS(user);
             } catch (PException ex) {
                 msg = ex.getMessage();
+
             }
             return null;
         }
@@ -392,11 +362,16 @@ public class UserProfileActivity extends AppCompatActivity {
             user.setUserName(txtUserName.getText().toString().trim());
             user.setPassword(txtPassword.getText().toString().trim());
             user.setPhone(txtMobile.getText().toString().trim());
-            user.setRole(UserType.User.getUsertype());
+            user.setRole(UserType.User.ordinal());
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
 
-            Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            user.setImgProfile(imgUser);
+//            Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            if (drPic == null) {
+                Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                user.setImgProfile(imgUser);
+            } else {
+                user.setImgProfile(drPic);
+            }
 
             return user;
         }
@@ -410,12 +385,11 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (result.equals("OK")) {
                     dialog.dismiss();
                     Toast.makeText(UserProfileActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
-                    finish();
                 } else {
                     dialog.dismiss();
-                    new MessageBox(UserProfileActivity.this, "ثبت اطلاعات با مشکل مواجه شد !").show();
+                    new MessageBox(UserProfileActivity.this, result).show();
                 }
-                dialog.dismiss();
+
             }
         }
 

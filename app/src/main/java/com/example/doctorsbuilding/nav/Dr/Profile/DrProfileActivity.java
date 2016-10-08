@@ -54,6 +54,8 @@ public class DrProfileActivity extends AppCompatActivity{
 
         TextView drName = (TextView)findViewById(R.id.tv_doctorName);
         TextView drExpert = (TextView) findViewById(R.id.tv_doctorInfo);
+        drName.setTypeface(G.getBoldFont());
+        drExpert.setTypeface(G.getBoldFont());
         drName.setText(G.officeInfo.getFirstname()+" "+G.officeInfo.getLastname());
         drExpert.setText(G.officeInfo.getSubExpertName());
         setImageProfile();

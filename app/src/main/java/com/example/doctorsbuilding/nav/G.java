@@ -47,7 +47,7 @@ public class G extends Application {
         return instance.getSharedPreferences("arayeshyarDemo", 0);
     }
 
-    public static Typeface getPersianNumberFont() {
-        return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
+    public static Typeface getBoldFont() {
+        return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile_Bold.ttf");
     }
 }

@@ -221,6 +221,15 @@
 
             </Spinner>
 
+            <Spinner
+                android:id="@+id/addTask_subtask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_spinner">
+
+            </Spinner>
+
             <!--<EditText-->
                 <!--android:id="@+id/addTask_price"-->
                 <!--android:layout_width="match_parent"-->

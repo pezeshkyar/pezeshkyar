@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -175,16 +176,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             unreadMessages.clear();
         }
 
-        getDoctorPic = new AsyncGetDoctorPic();
-        getDoctorPic.execute();
-
         database = new DatabaseAdapter(MainActivity.this);
-
         asyncBaner = new asyncGetImageIdFromWeb();
         asyncBaner.execute();
 
-        asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
-        asyncGetMessage.execute();
+        if(G.UserInfo.getRole()!=0) {
+            getDoctorPic = new AsyncGetDoctorPic();
+            getDoctorPic.execute();
+            asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
+            asyncGetMessage.execute();
+        }
+
 
     }
 
@@ -274,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage33);
         badge = new BadgeView(MainActivity.this, btnUnreadMessage);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+        badge.setBadgeBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.blueColor));
         drName = (TextView) findViewById(R.id.content_main_name);
         drExpert = (TextView) findViewById(R.id.content_main_expert);
         drAddress = (TextView) findViewById(R.id.content_main_address);
@@ -291,12 +294,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnUnreadMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (unreadMessages != null && unreadMessages.size() != 0) {
-                    ActivityNotificationDialog dialog = new ActivityNotificationDialog(MainActivity.this,
-                            android.R.style.Theme_DeviceDefault_Dialog_MinWidth, unreadMessages);
-                    dialog.show();
-                } else {
-                    Toast.makeText(MainActivity.this, "هیچ پیام جدیدی برای خواندن وجود ندارد .", Toast.LENGTH_SHORT).show();
+                if(menu != UserType.Guest) {
+                    if (unreadMessages != null && unreadMessages.size() != 0) {
+                        ActivityNotificationDialog dialog = new ActivityNotificationDialog(MainActivity.this,
+                                android.R.style.Theme_DeviceDefault_Dialog_MinWidth, unreadMessages);
+                        dialog.show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "هیچ پیام جدیدی برای خواندن وجود ندارد .", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -322,8 +327,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void loadUser() {
+//        try {
+//            menu = UserType.values()[settings.getInt("role", 0)];
+//        }catch (Exception ex){
+//            menu = UserType.Guest;
+//        }
+        menu = UserType.values()[G.UserInfo.getRole()];
 
-        menu = UserType.values()[settings.getInt("role", 0)];
         switch (menu) {
             case Dr:
                 menu = UserType.Dr;
@@ -433,8 +443,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه آرایشگر");
-                Bitmap drPic = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                menu_header_image.setImageBitmap(drPic);
+                try {
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }catch (Exception ex){
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }
+
                 break;
             case secretary:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
@@ -442,8 +458,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه منشی");
-                Bitmap drSecretary = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                menu_header_image.setImageBitmap(drSecretary);
+                try {
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }catch (Exception ex){
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }
                 break;
             case User:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
@@ -451,8 +472,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه مشتری");
-                Bitmap userPic = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-                menu_header_image.setImageBitmap(userPic);
+                try {
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }catch (Exception ex){
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    menu_header_image.setImageBitmap(drPic);
+                }
                 break;
         }
 
@@ -681,7 +707,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 photoId = Integer.parseInt(strings[0]);
                 currentPageNum = Integer.parseInt(strings[1]);
-                photo = database.getImageFromGallery(photoId);
+                if(database.openConnection()) {
+                    photo = database.getImageFromGallery(photoId);
+                }
                 if (photo == null) {
                     existInPhone = false;
                     photo = WebService.invokeGetGalleryPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword()
