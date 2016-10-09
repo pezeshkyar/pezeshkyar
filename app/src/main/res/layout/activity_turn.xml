@@ -230,16 +230,14 @@
 
             </Spinner>
 
-            <!--<EditText-->
-                <!--android:id="@+id/addTask_price"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:background="@drawable/my_edit_text"-->
-                <!--android:hint="مبلغ پرداختی"-->
-                <!--android:inputType="number|textNoSuggestions"-->
-                <!--android:padding="8dp"-->
-                <!--android:textColor="@color/textColor" />-->
+            <TextView
+                android:id="@+id/addTask_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_text_view"
+                android:padding="8dp"
+                android:textColor="@color/textColor" />
 
             <!--<EditText-->
                 <!--android:id="@+id/addTask_detail"-->
@@ -259,7 +257,7 @@
                 android:id="@+id/addTask_addBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/my_button"
                 android:text="ثبت نوبت"
                 android:textColor="@android:color/white" />
