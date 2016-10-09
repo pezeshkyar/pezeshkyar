@@ -187,7 +187,7 @@ public class DialogAddTurn extends Dialog {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         taskBackBtn.setVisibility(View.INVISIBLE);
                         viewFlipper.setDisplayedChild(0);
-                    }else {
+                    } else {
                         taskBackBtn.setVisibility(View.INVISIBLE);
                         viewFlipper.setDisplayedChild(1);
                     }
@@ -195,7 +195,7 @@ public class DialogAddTurn extends Dialog {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         taskBackBtn.setVisibility(View.INVISIBLE);
                         viewFlipper.setDisplayedChild(1);
-                    }else {
+                    } else {
                         taskBackBtn.setVisibility(View.INVISIBLE);
                         viewFlipper.setDisplayedChild(1);
                     }
@@ -211,19 +211,19 @@ public class DialogAddTurn extends Dialog {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         asyncCallReserveForUserWS task = new asyncCallReserveForUserWS();
                         task.execute(users.get(selectedItem).getUserName());
-                    }else {
+                    } else {
                         asyncCallReserveForMeWS task = new asyncCallReserveForMeWS();
-                            task.execute();
+                        task.execute();
                     }
                 } else {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         asyncCallReserveForGuestWS task = new asyncCallReserveForGuestWS();
                         task.execute(nonMemberName.getText().toString().trim()
                                 , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
-                    }else {
+                    } else {
                         asyncCallReserveForGuestWS task = new asyncCallReserveForGuestWS();
-                            task.execute(nonMemberName.getText().toString().trim()
-                                    , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                        task.execute(nonMemberName.getText().toString().trim()
+                                , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
                     }
                 }
             }
@@ -358,7 +358,7 @@ public class DialogAddTurn extends Dialog {
             reservation = new Reservation();
             reservation.setTurnId(turnId);
             reservation.setFirstReservationId(0);
-            reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
+            reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
             reservation.setNumberOfTurns(1);
         }
 
@@ -408,11 +408,11 @@ public class DialogAddTurn extends Dialog {
             reservation = new Reservation();
             reservation.setTurnId(turnId);
             reservation.setFirstReservationId(0);
-            if (G.UserInfo.getRole() == UserType.User.ordinal()) {
-                reservation.setTaskId(1);
-            } else {
-                reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
-            }
+//            if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+//                reservation.setTaskId(1);
+//            } else {
+            reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
+//            }
             reservation.setNumberOfTurns(1);
         }
 
@@ -615,11 +615,11 @@ public class DialogAddTurn extends Dialog {
             reservation = new Reservation();
             reservation.setTurnId(turnId);
             reservation.setFirstReservationId(0);
-            if (G.UserInfo.getRole() == UserType.User.ordinal()) {
-                reservation.setTaskId(1);
-            } else {
-                reservation.setTaskId(((Task) taskGroupSpinner.getSelectedItem()).getId());
-            }
+//            if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+//                reservation.setTaskId(1);
+//            } else {
+            reservation.setTaskId(((Task) taskSpinner.getSelectedItem()).getId());
+//            }
             reservation.setNumberOfTurns(1);
         }
 
