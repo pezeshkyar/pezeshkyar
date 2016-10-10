@@ -13,7 +13,7 @@
         android:name=".G"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="آرایشیار"
+        android:label="آرایش یار"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
         <meta-data

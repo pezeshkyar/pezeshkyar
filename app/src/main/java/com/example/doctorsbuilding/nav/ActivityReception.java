@@ -34,6 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ActivityReception extends AppCompatActivity {
     private TextView nameTxt;
     private TextView taskTxt;
+    private TextView taskGroupName;
     private EditText costTxt;
     private EditText detailsTxt;
     private Button insertBtn;
@@ -56,6 +57,7 @@ public class ActivityReception extends AppCompatActivity {
     }
     private void initViews() {
         nameTxt = (TextView) findViewById(R.id.reception_name);
+        taskGroupName = (TextView)findViewById(R.id.reception_taskGroup);
         taskTxt = (TextView) findViewById(R.id.reception_task);
         costTxt = (EditText) findViewById(R.id.reception_price);
         detailsTxt = (EditText) findViewById(R.id.reception_detail);
@@ -66,6 +68,7 @@ public class ActivityReception extends AppCompatActivity {
         patientInfo = (PatientInfo) getIntent().getSerializableExtra("patientInfo");
         if (patientInfo != null) {
             nameTxt.setText(patientInfo.getFirstName().concat(" " + patientInfo.getLastName()));
+            taskGroupName.setText(patientInfo.getTaskGroupName());
             taskTxt.setText(patientInfo.getTaskName());
 
             if (patientInfo.getPayment() != 0)

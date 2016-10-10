@@ -7,11 +7,17 @@ package com.example.doctorsbuilding.nav;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.v4.view.PagerAdapter;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.doctorsbuilding.nav.Util.ScaleImageView;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 
@@ -64,10 +70,12 @@ public class SlidingImage_Adapter extends PagerAdapter {
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
     }
+
     @Override
-    public int getItemPosition(Object object){
+    public int getItemPosition(Object object) {
         return PagerAdapter.POSITION_NONE;
     }
+
     @Override
     public Parcelable saveState() {
         return null;

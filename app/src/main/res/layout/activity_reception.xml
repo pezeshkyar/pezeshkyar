@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -36,107 +37,130 @@
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/reception_rl2"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reception_rl1"
-        android:layout_margin="8dp"
-        android:gravity="right">
+        android:layout_below="@+id/reception_rl1"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/reception_name"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/my_text_view"
-            android:padding="8dp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/reception_task"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/reception_name"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/my_text_view"
-            android:padding="8dp" />
+            <RelativeLayout
+                android:id="@+id/reception_rl2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/reception_rl1"
+                android:layout_margin="8dp"
+                android:gravity="right">
 
-        <EditText
-            android:id="@+id/reception_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/reception_task"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/my_edit_text"
-            android:digits="0123456789"
-            android:hint="مبلغ پرداختی"
-            android:inputType="phone|textNoSuggestions"
-            android:maxLength="10"
-            android:padding="8dp"
-            android:textColor="@color/textColor" />
+                <TextView
+                    android:id="@+id/reception_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_text_view"
+                    android:padding="8dp" />
 
-        <EditText
-            android:id="@+id/reception_detail"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@id/reception_price"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/my_edit_text"
-            android:gravity="right"
-            android:hint="توضیحات"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:maxLength="500"
-            android:maxLines="10"
-            android:padding="10dp"
-            android:textColor="@color/textColor" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/reception_taskGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reception_name"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_text_view"
+                    android:padding="8dp" />
 
-    <LinearLayout
-        android:id="@+id/reception_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reception_rl2"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+                <TextView
+                    android:id="@+id/reception_task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reception_taskGroup"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_text_view"
+                    android:padding="8dp" />
 
-        <Button
-            android:id="@+id/reception_addNextBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/my_add_button"
-            android:text="دریافت نوبت بعدی"
-            android:textColor="@android:color/white" />
+                <EditText
+                    android:id="@+id/reception_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reception_task"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/my_edit_text"
+                    android:digits="0123456789"
+                    android:hint="مبلغ پرداختی"
+                    android:inputType="phone|textNoSuggestions"
+                    android:maxLength="10"
+                    android:padding="8dp"
+                    android:textColor="@color/textColor" />
 
-        <Button
-            android:id="@+id/reception_addBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/my_button"
-            android:text="ثبت"
-            android:textColor="@android:color/white" />
+                <EditText
+                    android:id="@+id/reception_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@id/reception_price"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/my_edit_text"
+                    android:gravity="right"
+                    android:hint="توضیحات"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:maxLength="500"
+                    android:maxLines="10"
+                    android:padding="10dp"
+                    android:textColor="@color/textColor" />
+            </RelativeLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/reception_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/reception_rl2"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-    <Button
-        android:id="@+id/reception_showFileBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reception_ll"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/my_delete_button"
-        android:text="سابقه مشتری" />
+                <Button
+                    android:id="@+id/reception_addNextBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/my_add_button"
+                    android:text="دریافت نوبت بعدی"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/reception_addBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/my_button"
+                    android:text="ثبت"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/reception_showFileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reception_ll"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_delete_button"
+                android:text="سابقه مشتری"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

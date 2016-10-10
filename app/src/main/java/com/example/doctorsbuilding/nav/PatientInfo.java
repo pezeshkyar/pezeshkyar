@@ -14,6 +14,8 @@ public class PatientInfo implements Serializable {
     private int firstReservationId;
     private int taskId;
     private String taskName;
+    private int taskGroupId;
+    private String taskGroupName;
     private int payment;
     private String description;
 
@@ -91,6 +93,22 @@ public class PatientInfo implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getTaskGroupId() {
+        return taskGroupId;
+    }
+
+    public void setTaskGroupId(int taskGroupId) {
+        this.taskGroupId = taskGroupId;
+    }
+
+    public String getTaskGroupName() {
+        return taskGroupName;
+    }
+
+    public void setTaskGroupName(String taskGroupName) {
+        this.taskGroupName = taskGroupName;
     }
 
     public void setDescription(String description) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -270,6 +271,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        collapsingToolbar.setTitle("Second Activity");
 
         mPager = (ViewPager) findViewById(R.id.pager);
+
+//        mPager.setPageMargin(20);
+//        mPager.setPageMarginDrawable(R.color.blueColor);
+//        mPager.setPageMarginDrawable(int)
+
+//        int pagerPadding = 50;
+//        mPager.setClipToPadding(false);
+//        mPager.setPadding(pagerPadding, 0, pagerPadding, 0);
         indicator = (CirclePageIndicator)
                 findViewById(R.id.indicator);
         baner_progress = (ProgressBar) findViewById(R.id.baner_progress);

@@ -1480,6 +1480,8 @@ public class WebService {
                         } catch (Exception ex) {
                             patientInfo.setDescription("");
                         }
+                        patientInfo.setTaskGroupId(Integer.valueOf(obj.getProperty("taskGroupId").toString()));
+                        patientInfo.setTaskGroupName(obj.getProperty("taskGroupName").toString());
                         patientInfos.add(patientInfo);
                     }
                 }

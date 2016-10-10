@@ -244,15 +244,14 @@ public class DialogAddTurn extends Dialog {
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
                             asyncGetTaskGroups = new asyncCallGetTaskGroups();
                             asyncGetTaskGroups.execute();
-                            viewFlipper.setDisplayedChild(2);
-                            taskBackBtn.setVisibility(View.VISIBLE);
+
                         } else {
 
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
                             asyncGetTaskGroups = new asyncCallGetTaskGroups();
                             asyncGetTaskGroups.execute();
-                            viewFlipper.setDisplayedChild(2);
-                            taskBackBtn.setVisibility(View.VISIBLE);
+//                            viewFlipper.setDisplayedChild(2);
+//                            taskBackBtn.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -498,13 +497,13 @@ public class DialogAddTurn extends Dialog {
 
     private class asyncCallGetTaskGroups extends AsyncTask<String, Void, Void> {
         String msg = null;
-//        ProgressDialog dialog;
+        ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
-//            dialog.getWindow().setGravity(Gravity.END);
+            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
+            dialog.getWindow().setGravity(Gravity.END);
         }
 
         @Override
@@ -521,10 +520,14 @@ public class DialogAddTurn extends Dialog {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-//                dialog.dismiss();
+                dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
                 if (taskGroups != null && taskGroups.size() != 0) {
+
+                    taskBackBtn.setVisibility(View.VISIBLE);
+                    viewFlipper.setDisplayedChild(2);
+
                     taskGroup_adapter = new ArrayAdapter<TaskGroup>(context, R.layout.spinner_item, taskGroups);
                     taskGroupSpinner.setAdapter(taskGroup_adapter);
 
@@ -540,25 +543,24 @@ public class DialogAddTurn extends Dialog {
 
                         }
                     });
-                    taskBackBtn.setVisibility(View.VISIBLE);
-                    viewFlipper.setDisplayedChild(2);
+
                 }
-//                dialog.dismiss();
+                dialog.dismiss();
             }
         }
     }
 
     private class asyncCallGetTaskes extends AsyncTask<String, Void, Void> {
         String msg = null;
-        ProgressDialog dialog;
+//        ProgressDialog dialog;
         int taskGroupId;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             taskGroupId = ((TaskGroup) taskGroupSpinner.getSelectedItem()).getId();
-            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
-            dialog.getWindow().setGravity(Gravity.END);
+//            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
+//            dialog.getWindow().setGravity(Gravity.END);
         }
 
         @Override
@@ -575,7 +577,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-                dialog.dismiss();
+//                dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
@@ -595,7 +597,7 @@ public class DialogAddTurn extends Dialog {
 
 
                 }
-                dialog.dismiss();
+//                dialog.dismiss();
             }
         }
     }

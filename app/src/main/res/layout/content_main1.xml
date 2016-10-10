@@ -22,15 +22,17 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:fitsSystemWindows="true"
                 android:paddingTop="?attr/actionBarSize"
-                android:paddingBottom="20dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorMainContent">
+                android:background="@color/colorContentRow"
+                android:layout_height="match_parent">
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <android.support.v4.view.ViewPager
                         android:id="@+id/pager"
+                        android:layout_margin="0dp"
+                        android:padding="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentTop="true" />
@@ -53,7 +55,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="bottom"
-                    android:padding="10dip"
+                    android:padding="10dp"
                     app:centered="true"
                     app:fillColor="@color/colorAccent"
                     app:pageColor="@color/colorMainContent"
@@ -84,7 +86,7 @@
                         android:background="@drawable/ic_menu_black_24dp"
                         android:paddingTop="10dp" />
                     <TextView
-                        android:text="آرایشیار"
+                        android:text="آرایش یار"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
                         android:textSize="18sp"
