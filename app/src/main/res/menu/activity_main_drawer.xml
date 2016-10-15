@@ -29,6 +29,7 @@
             android:id="@+id/nav_dr_patientFile"
             android:icon="@drawable/ic_nobat"
             android:title="سابقه مشتری" />
+
         <item
             android:id="@+id/nav_dr_map"
             android:icon="@drawable/ic_location"
@@ -42,29 +43,18 @@
             android:icon="@drawable/ic_menu_inbox"
             android:title="مدیریت پیام ها" />
 
-
-        <!--<item-->
-        <!--android:id="@+id/nav_dr_patients"-->
-        <!--android:icon="@drawable/ic_patentes"-->
-        <!--android:title="بیماران من" />-->
         <item
             android:id="@+id/nav_dr_taskes"
             android:icon="@drawable/ic_service"
             android:title="مدیریت خدمات" />
         <item
             android:id="@+id/nav_dr_secretary"
-            android:icon="@drawable/ic_service"
+            android:icon="@drawable/ic_secretary_manage"
             android:title="مدیریت منشی" />
         <item
             android:id="@+id/nav_dr_gallery"
             android:icon="@drawable/ic_gallery"
             android:title="گالری عکس" />
-
-        <!--<item-->
-        <!--android:id="@+id/nav_dr_news"-->
-        <!--android:icon="@drawable/ic_menu_news"-->
-        <!--android:title="خبرنامه" />-->
-
         <item
             android:id="@+id/nav_dr_call"
             android:icon="@drawable/ic_menu_call"
@@ -75,6 +65,66 @@
             android:title="خروج" />
 
     </group>
+
+    <group
+        android:id="@+id/navigation_view_secretary"
+        android:checkableBehavior="single"
+        android:visible="false">
+        <item
+            android:id="@+id/nav_secretary_profile"
+            android:icon="@drawable/ic_turns"
+            android:title="دریافت نوبت" />
+        <item
+            android:id="@+id/nav_secretary_clinic"
+            android:icon="@drawable/ic_menu_home"
+            android:title="آرایشگاه من" />
+        <item
+            android:id="@+id/nav_secretary_personalInfo"
+            android:icon="@drawable/ic_patentes"
+            android:title="مشخصات فردی" />
+        <item
+            android:id="@+id/nav_secretary_nobat"
+            android:icon="@drawable/ic_manage_turn"
+            android:title="مدیریت نوبت دهی" />
+        <item
+            android:id="@+id/nav_secretary_patients"
+            android:icon="@drawable/ic_patients"
+            android:title="لیست پذیرش" />
+        <item
+            android:id="@+id/nav_secretary_patientFile"
+            android:icon="@drawable/ic_nobat"
+            android:title="سابقه مشتری" />
+        <item
+            android:id="@+id/nav_secretary_map"
+            android:icon="@drawable/ic_location"
+            android:title="نقشه آرایشگاه من" />
+        <item
+            android:id="@+id/nav_secretary_notification"
+            android:icon="@drawable/ic_notifications"
+            android:title="مدیریت اعلانات" />
+        <item
+            android:id="@+id/nav_secretary_inbox"
+            android:icon="@drawable/ic_menu_inbox"
+            android:title="مدیریت پیام ها" />
+        <item
+            android:id="@+id/nav_secretary_taskes"
+            android:icon="@drawable/ic_service"
+            android:title="مدیریت خدمات" />
+        <item
+            android:id="@+id/nav_secretary_gallery"
+            android:icon="@drawable/ic_gallery"
+            android:title="گالری عکس" />
+        <item
+            android:id="@+id/nav_secretary_call"
+            android:icon="@drawable/ic_menu_call"
+            android:title="تماس با ما" />
+        <item
+            android:id="@+id/nav_secretary_logout"
+            android:icon="@drawable/ic_quit"
+            android:title="خروج" />
+
+    </group>
+
     <group
         android:id="@+id/navigation_view_user"
         android:checkableBehavior="single"
@@ -88,10 +138,7 @@
             android:id="@+id/nav_user_profile"
             android:icon="@drawable/ic_info"
             android:title="پروفایل" />
-        <!--<item-->
-        <!--android:id="@+id/nav_user_doctor"-->
-        <!--android:icon="@drawable/ic_menu_doctors"-->
-        <!--android:title="پزشک من" />-->
+
         <item
             android:id="@+id/nav_user_patientFile"
             android:icon="@drawable/ic_nobat"
@@ -113,10 +160,6 @@
             android:id="@+id/nav_user_news"
             android:icon="@drawable/ic_menu_news"
             android:title="خبرنامه" />
-        <!--<item-->
-        <!--android:id="@+id/nav_user_enteghad"-->
-        <!--android:icon="@drawable/ic_menu_enteghad"-->
-        <!--android:title="انتقادات و پیشنهادات" />-->
         <item
             android:id="@+id/nav_user_call"
             android:icon="@drawable/ic_menu_call"

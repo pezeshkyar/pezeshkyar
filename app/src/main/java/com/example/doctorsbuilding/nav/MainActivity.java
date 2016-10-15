@@ -441,7 +441,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case Guest:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
+                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, true);
+
                 menu_header_name.setText("کاربر میهمان");
                 menu_header_version.setText("");
                 menu_header_image.setImageResource(R.drawable.ic_guest);
@@ -449,7 +451,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case Dr:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
+                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
+
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه آرایشگر");
                 try {
@@ -464,7 +468,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case secretary:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
+                navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
+                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه منشی");
                 try {
@@ -478,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case User:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
+                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه مشتری");
@@ -510,19 +516,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
                 break;
             case R.id.nav_dr_gallery:
-//                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
-                startActivity(new Intent(MainActivity.this, gallery2.class));
-                break;
-            case R.id.nav_user_gallery:
-//                startActivity(new Intent(MainActivity.this, GalleryActivity.class));
                 startActivity(new Intent(MainActivity.this, gallery2.class));
                 break;
             case R.id.nav_dr_patients:
                 startActivity(new Intent(MainActivity.this, ActivityPatientListToday.class));
                 break;
-//            case R.id.nav_dr_patients:
-//                startActivity(new Intent(MainActivity.this, PatientsActivity.class));
-//                break;
+            case R.id.nav_dr_taskes:
+                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
+                break;
+            case R.id.nav_dr_secretary:
+                startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
+                break;
+            case R.id.nav_dr_call:
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
+                break;
             case R.id.nav_dr_notification:
                 startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
                 break;
@@ -535,12 +542,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
                 break;
+            case R.id.nav_dr_logout:
+                logOut();
+                break;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            case R.id.nav_secretary_clinic:
+                startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
+                break;
+            case R.id.nav_secretary_profile:
+                startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
+                break;
+            case R.id.nav_secretary_personalInfo:
+                startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
+                break;
+            case R.id.nav_secretary_nobat:
+                startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
+                break;
+            case R.id.nav_secretary_gallery:
+                startActivity(new Intent(MainActivity.this, gallery2.class));
+                break;
+            case R.id.nav_secretary_patients:
+                startActivity(new Intent(MainActivity.this, ActivityPatientListToday.class));
+                break;
+            case R.id.nav_secretary_taskes:
+                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
+                break;
+            case R.id.nav_secretary_call:
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
+                break;
+            case R.id.nav_secretary_notification:
+                startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
+                break;
+            case R.id.nav_secretary_inbox:
+                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
+                break;
+            case R.id.nav_secretary_map:
+                startActivity(new Intent(MainActivity.this, MapActivity.class));
+                break;
+            case R.id.nav_secretary_patientFile:
+                startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
+                break;
+            case R.id.nav_secretary_logout:
+                logOut();
+                break;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_user_addTurn:
                 startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
                 break;
-//            case R.id.nav_user_profile:
-//                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-//                break;
             case R.id.nav_user_profile:
                 startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
                 break;
@@ -548,6 +596,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, ActivityPatientFile.class);
                 intent.putExtra("patientUserName", G.UserInfo.getUserName());
                 startActivity(intent);
+                break;
+            case R.id.nav_user_call:
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
                 break;
             case R.id.nav_user_nobat:
                 startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
@@ -558,38 +609,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_user_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
-//            case R.id.nav_signUp_dr:
-//                startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
-//                break;
+            case R.id.nav_user_gallery:
+                startActivity(new Intent(MainActivity.this, gallery2.class));
+                break;
+            case R.id.nav_user_logout:
+                logOut();
+                break;
+            //////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_signUp_user:
                 startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
                 break;
             case R.id.nav_signUp_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
-            case R.id.nav_dr_taskes:
-                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
-                break;
-            case R.id.nav_dr_secretary:
-                startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
-                break;
-            case R.id.nav_dr_call:
-                startActivity(new Intent(MainActivity.this, ContactUs.class));
-                break;
-            case R.id.nav_user_call:
-                startActivity(new Intent(MainActivity.this, ContactUs.class));
-                break;
             case R.id.nav_signUp_call:
                 break;
             case R.id.nav_signIn:
                 startSignInActivity();
                 break;
-            case R.id.nav_dr_logout:
-                logOut();
-                break;
-            case R.id.nav_user_logout:
-                logOut();
-                break;
+
+
             default:
                 break;
         }
