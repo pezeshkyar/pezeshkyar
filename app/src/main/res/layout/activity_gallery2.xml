@@ -35,20 +35,20 @@
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/gallery2_scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/gallery2_scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1">-->
 
-        <com.example.doctorsbuilding.nav.Util.NonScrollListView
+        <ListView
             android:id="@+id/gallery2_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0dp">
 
-        </com.example.doctorsbuilding.nav.Util.NonScrollListView>
-    </android.support.v4.widget.NestedScrollView>
+        </ListView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <View
         android:layout_width="match_parent"

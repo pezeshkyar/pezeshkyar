@@ -567,8 +567,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_signUp_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
-            case R.id.nav_dr_laws:
+            case R.id.nav_dr_taskes:
                 startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
+                break;
+            case R.id.nav_dr_secretary:
+                startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
                 break;
             case R.id.nav_dr_call:
                 startActivity(new Intent(MainActivity.this, ContactUs.class));

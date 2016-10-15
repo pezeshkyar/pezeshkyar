@@ -120,5 +120,8 @@ public class User {
         this.stateName = stateName;
     }
 
-
+    @Override
+    public String toString() {
+        return getFirstName().concat(" "+getLastName());
+    }
 }

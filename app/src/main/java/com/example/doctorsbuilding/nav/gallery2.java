@@ -4,46 +4,34 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.transition.Fade;
 import android.view.ActionMode;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
-import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
-import com.example.doctorsbuilding.nav.Util.RoundedImageView;
-import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.io.IOException;
@@ -54,7 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by hossein on 9/8/2016.
  */
-public class gallery2 extends Activity {
+public class gallery2 extends Activity{
     private ListView mListView;
     private CustomListAdapterGallery2 adapter;
     private ArrayList<Integer> imageIdsInPhone;
@@ -141,17 +129,19 @@ public class gallery2 extends Activity {
         initViews();
         eventListener();
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        if(asyncGetPic != null){
+        if (asyncGetPic != null) {
             asyncGetPic.cancel(true);
         }
-        if(task != null){
+        if (task != null) {
             task.cancel(true);
         }
     }
@@ -179,6 +169,10 @@ public class gallery2 extends Activity {
         task.execute();
 
     }
+
+
+    private int firstVisibleRow;
+    private int lastVisibleRow;
 
     private void eventListener() {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -238,6 +232,8 @@ public class gallery2 extends Activity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+
+
             }
         });
         insertPic.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +248,10 @@ public class gallery2 extends Activity {
                 }
             }
         });
+
+
     }
+
 
     private void changePic() {
         Intent intent = new Intent();
@@ -298,10 +297,11 @@ public class gallery2 extends Activity {
     private boolean edit() {
         aboutPic.setText(photos.get(selectedPosition).getDescription());
         insertPic.setVisibility(View.GONE);
-        editPic.setVisibility(View.VISIBLE);  try {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        editPic.setVisibility(View.VISIBLE);
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(aboutPic, InputMethodManager.SHOW_IMPLICIT);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
         }
 
         return true;
@@ -381,14 +381,14 @@ public class gallery2 extends Activity {
 
     }
 
-    private boolean updateListView(int position, PhotoDesc photo){
+    private boolean updateListView(int position, PhotoDesc photo) {
         int first = mListView.getFirstVisiblePosition();
         int last = mListView.getLastVisiblePosition();
-        if(position < first || position > last){
+        if (position < first || position > last) {
             return false;
-        }else {
+        } else {
             View convertView = mListView.getChildAt(position - first);
-            ImageView image = (ImageView)convertView.findViewById(R.id.gallery2_image);
+            ImageView image = (ImageView) convertView.findViewById(R.id.gallery2_image);
             image.setImageBitmap(photo.getPhoto());
             return true;
         }
@@ -425,13 +425,14 @@ public class gallery2 extends Activity {
                         photos.add(photo);
                         adapter = new CustomListAdapterGallery2(gallery2.this, photos);
                         mListView.setAdapter(adapter);
-                       // updateView(photos.size());
+                        // updateView(photos.size());
                     }
                 }
 
             }
         }
     }
+
 
     private void updateView(int index) {
         View v = mListView.getChildAt(index - mListView.getFirstVisiblePosition());
@@ -593,9 +594,9 @@ public class gallery2 extends Activity {
                 insertPic.setVisibility(View.VISIBLE);
                 editPic.setVisibility(View.GONE);
                 try {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                 }
             }
         }

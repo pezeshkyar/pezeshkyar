@@ -48,9 +48,13 @@
         <!--android:icon="@drawable/ic_patentes"-->
         <!--android:title="بیماران من" />-->
         <item
-            android:id="@+id/nav_dr_laws"
+            android:id="@+id/nav_dr_taskes"
             android:icon="@drawable/ic_service"
-            android:title="مدیریت خدمات"/>
+            android:title="مدیریت خدمات" />
+        <item
+            android:id="@+id/nav_dr_secretary"
+            android:icon="@drawable/ic_service"
+            android:title="مدیریت منشی" />
         <item
             android:id="@+id/nav_dr_gallery"
             android:icon="@drawable/ic_gallery"

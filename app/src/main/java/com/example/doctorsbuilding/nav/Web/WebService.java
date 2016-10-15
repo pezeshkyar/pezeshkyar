@@ -44,8 +44,8 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://79.175.163.179:8080/arayeshyar/services/Webservices?wsdl";
-//    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
+//    private static String URL = "http://79.175.163.179:8080/arayeshyar/services/Webservices?wsdl";
+    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -145,7 +145,7 @@ public class WebService {
         request.addProperty("role", user.getRole());
         request.addProperty("cityid", user.getCityID());
         byte[] picbytes = getBytes(user.getImgProfile());
-        request.addProperty("pic",  Base64.encodeToString(picbytes, Base64.DEFAULT));
+        request.addProperty("pic", Base64.encodeToString(picbytes, Base64.DEFAULT));
         request.addProperty("email", user.getEmail());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -311,7 +311,7 @@ public class WebService {
             user.setPassword(password);
             try {
                 user.setEmail(response.getProperty("email").toString());
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 user.setEmail("");
             }
         } catch (ConnectException ex) {
@@ -898,7 +898,7 @@ public class WebService {
             for (int i = 0; i < response.getPropertyCount(); i++) {
 
                 SoapObject obj = (SoapObject) response.getProperty(i);
-                if(obj != null) {
+                if (obj != null) {
                     task = new TaskGroup();
                     task.setId(Integer.parseInt(obj.getProperty("id").toString()));
                     task.setOfficeId(Integer.parseInt(obj.getProperty("officeId").toString()));
@@ -1578,7 +1578,7 @@ public class WebService {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
-        ArrayList<Integer> imageIds= null;
+        ArrayList<Integer> imageIds = null;
         String webMethName = "getAllGalleyPicId";
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
@@ -1593,7 +1593,7 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapObject response = (SoapObject) envelope.bodyIn;
-            if(response != null) {
+            if (response != null) {
                 imageIds = new ArrayList<Integer>();
                 for (int i = 0; i < response.getPropertyCount(); i++) {
                     SoapPrimitive obj = (SoapPrimitive) response.getProperty(i);
@@ -1609,6 +1609,7 @@ public class WebService {
 
         return imageIds;
     }
+
     public static PhotoDesc invokeGetGalleryPicWS(String username, String password, int officeId, int picId) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
@@ -1678,6 +1679,7 @@ public class WebService {
         }
         return id;
     }
+
     public static void invokeDeleteFromGalleryWS(String username, String password, int officeId, int picId) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
@@ -1730,6 +1732,7 @@ public class WebService {
             throw new PException(otherMessage);
         }
     }
+
     public static int invokeAddTaskGroupWS(String username, String password, int officeId, String taskNameGroup) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
@@ -1759,6 +1762,7 @@ public class WebService {
         }
         return result;
     }
+
     public static String invokeUpdateTaskGroupWS(String username, String password, int officeId, int taskGroupId, String taskNameGroup) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
@@ -1943,5 +1947,111 @@ public class WebService {
             throw new PException(otherMessage);
         }
         return result;
+    }
+
+
+    public static User invokeAddSecretaryWS(String username, String password, int officeId, String secretary_username) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "addSecretaryToOffice2";
+        User user = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        request.addProperty("secretary", secretary_username);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.getResponse();
+            if (Integer.valueOf(response.getProperty("role").toString()) != 0) {
+                user = new User();
+                user.setFirstName(response.getProperty("name").toString());
+                user.setLastName(response.getProperty("lastname").toString());
+                user.setUserName(response.getProperty("username").toString());
+            }
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return user;
+    }
+
+    public static boolean invokeRemoveSecretaryWS(String username, String password, int officeId, String secretary_username) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "removeSecretaryFromOffice";
+        boolean result = false;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+        request.addProperty("secretary", secretary_username);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = Boolean.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static ArrayList<User> invokeGetSecretaryInfoWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "getSecretaryInfo";
+        User secretary = null;
+        ArrayList<User> secretary_list = new ArrayList<User>();
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.bodyIn;
+            for(int i=0;i<response.getPropertyCount();i++){
+                SoapObject obj = (SoapObject) response.getProperty(i);
+                if(obj!= null){
+                    secretary = new User();
+                    secretary.setFirstName(obj.getProperty("name").toString());
+                    secretary.setLastName(obj.getProperty("lastname").toString());
+                    secretary.setUserName(obj.getProperty("username").toString());
+
+                    secretary_list.add(secretary);
+                }
+            }
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return secretary_list;
     }
 }

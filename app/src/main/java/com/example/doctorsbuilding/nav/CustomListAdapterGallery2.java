@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -7,6 +8,7 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
@@ -102,7 +106,11 @@ public class CustomListAdapterGallery2 extends BaseAdapter {
             lastPosition = position;
         }
     }
-//    private class asyncGetpicFromDatabase extends AsyncTask<String, Void, Void>{
+
+
+
+
+    //    private class asyncGetpicFromDatabase extends AsyncTask<String, Void, Void>{
 //
 //        @Override
 //        protected Void doInBackground(String... strings) {

@@ -604,7 +604,9 @@ public class PersonalInfoActivity extends AppCompatActivity {
                             new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
                         }
                     } else {
-                        G.doctorImageProfile = drPic;
+                        int nh = (int) (drPic.getHeight() * (64.0 / drPic.getWidth()));
+                        Bitmap scaled = Bitmap.createScaledBitmap(drPic, 64, nh, true);
+                        G.doctorImageProfile = scaled;
 
                         if (database.openConnection()) {
                             database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
