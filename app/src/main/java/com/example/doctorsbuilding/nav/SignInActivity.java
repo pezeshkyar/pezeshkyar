@@ -33,6 +33,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private EditText txtUserName;
     private EditText txtPassword;
     private SharedPreferences settings;
+    AsyncCallLoginWS loginWS;
 
 
     @Override
@@ -47,6 +48,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(loginWS != null){
+            loginWS.cancel(true);
+        }
+    }
+
     private void initViews() {
         viewFlipper = (ViewFlipper) findViewById(R.id.login_viewFlipper);
         backButton = (Button) viewFlipper.findViewById(R.id.login_btnBack);
@@ -77,8 +87,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private void signIn() {
         if(checkField()) {
-            AsyncCallLoginWS task = new AsyncCallLoginWS();
-            task.execute();
+            loginWS = new AsyncCallLoginWS();
+            loginWS.execute();
         }
     }
     private boolean checkField(){

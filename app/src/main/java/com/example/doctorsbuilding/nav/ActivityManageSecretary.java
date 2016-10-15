@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.MediaRouter;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.sql.Array;
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 10/15/2016.
@@ -75,6 +78,11 @@ public class ActivityManageSecretary extends AppCompatActivity {
         if (asyncRemoveSecretary != null) {
             asyncRemoveSecretary.cancel(true);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initView() {
@@ -171,8 +179,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                secretaries  = WebService.invokeGetSecretaryInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-            }catch (PException ex){
+                secretaries = WebService.invokeGetSecretaryInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+            } catch (PException ex) {
                 msg = ex.getMessage();
             }
             return null;
@@ -228,7 +236,7 @@ public class ActivityManageSecretary extends AppCompatActivity {
                     mAdpater = new ArrayAdapter<User>(ActivityManageSecretary.this, R.layout.spinner_item, secretaries);
                     mListview.setAdapter(mAdpater);
                     mAdpater.notifyDataSetChanged();
-                }else {
+                } else {
                     new MessageBox(ActivityManageSecretary.this, "نام کاربری وارد شده مجاز نیست .").show();
                 }
             }
