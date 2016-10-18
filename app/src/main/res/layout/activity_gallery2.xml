@@ -35,20 +35,38 @@
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/gallery2_scrollView"
+    <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:id="@+id/gallery2_scrollView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1">-->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.example.doctorsbuilding.nav.Util.NonScrollListView
+        <ListView
             android:id="@+id/gallery2_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0dp">
 
-        </com.example.doctorsbuilding.nav.Util.NonScrollListView>
-    </android.support.v4.widget.NestedScrollView>
+        </ListView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/loading_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </FrameLayout>
+
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <View
         android:layout_width="match_parent"
@@ -57,6 +75,7 @@
 
     <RelativeLayout
         android:id="@+id/gallery2_insert_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingBottom="3dp"
@@ -91,12 +110,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="6"
+                android:height="20dp"
                 android:background="@android:color/transparent"
                 android:hint="درباره عکس ..."
-                android:maxLength="150"
-                android:height="20dp"
                 android:inputType="textMultiLine|text"
                 android:lines="5"
+                android:maxLength="150"
                 android:maxLines="10"
                 android:padding="8dp"
                 android:paddingRight="10dp"

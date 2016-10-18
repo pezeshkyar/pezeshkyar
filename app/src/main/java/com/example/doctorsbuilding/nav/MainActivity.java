@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             aks.setId(imageIdsInWeb.get(i));
             aks.setDescription("");
             aks.setDate("");
-            aks.setPhoto(BitmapFactory.decodeResource(getResources(), R.mipmap.image_holder));
+            aks.setPhoto(BitmapFactory.decodeResource(getResources(), R.mipmap.image_placeholder));
             baners.add(aks);
         }
         mPager.setAdapter(new SlidingImage_Adapter(MainActivity.this, baners));
@@ -285,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage33);
         badge = new BadgeView(MainActivity.this, btnUnreadMessage);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-        badge.setBadgeBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.blueColor));
         drName = (TextView) findViewById(R.id.content_main_name);
         drExpert = (TextView) findViewById(R.id.content_main_expert);
         drAddress = (TextView) findViewById(R.id.content_main_address);

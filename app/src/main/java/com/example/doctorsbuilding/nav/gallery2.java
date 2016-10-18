@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,24 +44,31 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by hossein on 9/8/2016.
  */
-public class gallery2 extends Activity{
+public class gallery2 extends Activity {
     private ListView mListView;
     private CustomListAdapterGallery2 adapter;
-    private ArrayList<Integer> imageIdsInPhone;
     private int selectedPosition;
     private ActionMode cabMode = null;
     private ActionMode modeState = null;
     private RelativeLayout layout;
+    private RelativeLayout insertLayout;
     private View selectedRow;
     private EditText aboutPic;
     private ImageView editPic;
     private ImageView insertPic;
     private Button backBtn;
     private DatabaseAdapter database;
-    private ArrayList<Integer> subscriptionList;
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
-    private asyncGetImageIds task;
+    ProgressBar loading_progress;
+    ArrayList<Boolean> visist_list;
+
+    asyncGetImageIdFromWeb asyncgetImageId;
     asyncGetGalleryPic asyncGetPic;
+    asyncDeletePicFromGallery asyncRemovePic;
+    asyncChangeGalleryPicDescription asyncUpdatePic;
+    asyncSetGalleryPic asyncSetPic;
+
+
     private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -141,17 +150,29 @@ public class gallery2 extends Activity{
         if (asyncGetPic != null) {
             asyncGetPic.cancel(true);
         }
-        if (task != null) {
-            task.cancel(true);
+        if (asyncgetImageId != null) {
+            asyncgetImageId.cancel(true);
         }
+        if (asyncUpdatePic != null) {
+            asyncUpdatePic.cancel(true);
+        }
+        if (asyncRemovePic != null) {
+            asyncRemovePic.cancel(true);
+        }
+        if (asyncSetPic != null) {
+            asyncSetPic.cancel(true);
+        }
+
     }
 
     private void initViews() {
+        insertLayout = (RelativeLayout) findViewById(R.id.gallery2_insert_layout);
         mListView = (ListView) findViewById(R.id.gallery2_listView);
         aboutPic = (EditText) findViewById(R.id.gallery2_about);
         editPic = (ImageView) findViewById(R.id.gallery2_apply_edit);
         insertPic = (ImageView) findViewById(R.id.gallery2_apply_image);
         backBtn = (Button) findViewById(R.id.gallery2_backBtn);
+        loading_progress = (ProgressBar) findViewById(R.id.loading_progress);
         mListView.setDivider(null);
         mListView.setDividerHeight(0);
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.gallery2_insert_layout);
@@ -159,14 +180,8 @@ public class gallery2 extends Activity{
             rl.setVisibility(View.GONE);
         }
         database = new DatabaseAdapter(gallery2.this);
-        subscriptionList = new ArrayList<Integer>();
-
-
-        if (database.openConnection()) {
-            imageIdsInPhone = database.getImageIds();
-        }
-        asyncGetImageIds task = new asyncGetImageIds();
-        task.execute();
+        asyncgetImageId = new asyncGetImageIdFromWeb();
+        asyncgetImageId.execute();
 
     }
 
@@ -202,8 +217,8 @@ public class gallery2 extends Activity{
         editPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                asyncChangeGalleryPicDescription task = new asyncChangeGalleryPicDescription(selectedPosition, aboutPic.getText().toString().trim());
-                task.execute();
+                asyncUpdatePic = new asyncChangeGalleryPicDescription(selectedPosition, aboutPic.getText().toString().trim());
+                asyncUpdatePic.execute();
             }
         });
         aboutPic.addTextChangedListener(new TextWatcher() {
@@ -229,7 +244,22 @@ public class gallery2 extends Activity{
             @Override
             public void onClick(View view) {
                 onBackPressed();
-
+                // getTop() and getBottom() are relative to the ListView,
+                //   so if getTop() is negative, it is not fully visible
+//                int first = 0;
+//                if(mListView.getChildAt(first).getTop() < 0)
+//                    first++;
+//
+//                int last = mListView.getChildCount() - 1;
+//                if(mListView.getChildAt(last).getBottom() > mListView.getHeight())
+//                    last--;
+//
+//                // Now loop through your rows
+//                for( ; first <= last; first++) {
+//                    // Do something
+//                    View row = mListView.getChildAt(first);
+//                    Toast.makeText(gallery2.this, String.valueOf(first), Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });
@@ -245,6 +275,49 @@ public class gallery2 extends Activity{
                 }
             }
         });
+
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    int first = mListView.getFirstVisiblePosition();
+                    int last = mListView.getLastVisiblePosition();
+
+                    for (int i = first; i <= last; i++) {
+                        if (!visist_list.get(i)) {
+                            asyncGetGalleryPic task = new asyncGetGalleryPic();
+                            task.execute(String.valueOf(photos.get(i).getId()), String.valueOf(i));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+                int x = 0;
+
+            }
+        });
+//        mListView.setOnTouchListener(new View.OnTouchListener() {
+//            float height;
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                float height = event.getY();
+//                if(action == MotionEvent.ACTION_DOWN){
+//                    this.height = height;
+//                }else if(action == MotionEvent.ACTION_UP){
+//                    if(this.height < height){
+////                        Log.v(TAG, "Scrolled up");
+//                    }else if(this.height > height){
+////                        Log.v(TAG, "Scrolled down");
+//                        Toast.makeText(gallery2.this, String.valueOf(mListView.getLastVisiblePosition()), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                return false;
+//            }
+//        });
 
 
     }
@@ -269,8 +342,8 @@ public class gallery2 extends Activity{
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                         Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                        asyncSetGalleryPic updateDrPicWS = new asyncSetGalleryPic(scaled, aboutPic.getText().toString());
-                        updateDrPicWS.execute();
+                        asyncSetPic = new asyncSetGalleryPic(scaled, aboutPic.getText().toString());
+                        asyncSetPic.execute();
 
 
 //                        currentUser.image = resizedBitmap;
@@ -285,8 +358,8 @@ public class gallery2 extends Activity{
     }
 
     private boolean remove() {
-        asyncDeletePicFromGallery task = new asyncDeletePicFromGallery(selectedPosition);
-        task.execute();
+        asyncRemovePic = new asyncDeletePicFromGallery(selectedPosition);
+        asyncRemovePic.execute();
         return true;
 
     }
@@ -304,79 +377,6 @@ public class gallery2 extends Activity{
         return true;
     }
 
-    private class asyncGetImageIds extends AsyncTask<String, Void, Void> {
-
-        private ArrayList<Integer> imageIdsInWeb = null;
-        private ArrayList<Integer> differenceList = null;
-        private String msg = null;
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-            } catch (PException ex) {
-                msg = ex.getMessage();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (msg != null) {
-                new MessageBox(gallery2.this, msg).show();
-            } else {
-                if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
-
-                    differenceList = findNewIds(imageIdsInPhone, imageIdsInWeb);
-                    if (subscriptionList != null && subscriptionList.size() > 0) {
-                        showPhotosInFirstTime(subscriptionList);
-                    }
-
-                }
-                if (differenceList != null && differenceList.size() > 0) {
-                    for (int i = 0; i < differenceList.size(); i++) {
-                        asyncGetPic = new asyncGetGalleryPic();
-                        asyncGetPic.execute(String.valueOf(differenceList.get(i)));
-                    }
-                }
-            }
-        }
-
-        private void showPhotosInFirstTime(ArrayList<Integer> photoList) {
-            for (int i = 0; i < photoList.size(); i++) {
-                photos.add(database.getImageFromGallery(photoList.get(i)));
-                adapter = new CustomListAdapterGallery2(gallery2.this, photos);
-                mListView.setAdapter(adapter);
-            }
-
-        }
-
-        private ArrayList<Integer> findNewIds(ArrayList<Integer> imageIdsInPhone, ArrayList<Integer> imageIdsInWeb) {
-            int i = 0;
-            ArrayList<Integer> differenceList = new ArrayList<Integer>();
-            while (i < imageIdsInWeb.size()) {
-                int j = 0;
-                while (j < imageIdsInPhone.size()) {
-                    if (imageIdsInWeb.get(i).equals(imageIdsInPhone.get(j))) {
-                        subscriptionList.add(imageIdsInWeb.get(i));
-                        i++;
-                        break;
-                    }
-
-                    j++;
-                }
-                if (j == imageIdsInPhone.size()) {
-                    differenceList.add(imageIdsInWeb.get(i));
-                    i++;
-                }
-
-            }
-            return differenceList;
-        }
-
-    }
 
     private boolean updateListView(int position, PhotoDesc photo) {
         int first = mListView.getFirstVisiblePosition();
@@ -388,45 +388,6 @@ public class gallery2 extends Activity{
             ImageView image = (ImageView) convertView.findViewById(R.id.gallery2_image);
             image.setImageBitmap(photo.getPhoto());
             return true;
-        }
-    }
-
-    private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {
-        private String msg = null;
-        private PhotoDesc photo;
-        private int photoId;
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                photoId = Integer.parseInt(strings[0]);
-                photo = WebService.invokeGetGalleryPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword()
-                        , G.officeId, photoId);
-            } catch (PException ex) {
-                msg = ex.getMessage();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (msg != null) {
-                new MessageBox(gallery2.this, msg).show();
-            } else {
-                if (photo != null) {
-                    if (database.openConnection()) {
-                        database.saveImageToGallery(photo.getId(), photo.getDate(),
-                                photo.getDescription(), DbBitmapUtility.getBytes(photo.getPhoto()));
-                        photos.add(photo);
-                        adapter = new CustomListAdapterGallery2(gallery2.this, photos);
-                        mListView.setAdapter(adapter);
-                        // updateView(photos.size());
-                    }
-                }
-
-            }
         }
     }
 
@@ -485,8 +446,17 @@ public class gallery2 extends Activity{
                 if (id != -1) {
                     dialog_wait.dismiss();
                     Toast.makeText(gallery2.this, "عملیات ثبت با موفقیت انجام شده است .", Toast.LENGTH_SHORT).show();
-                    asyncGetGalleryPic task = new asyncGetGalleryPic();
-                    task.execute(String.valueOf(id));
+                    PhotoDesc aks = new PhotoDesc();
+                    aks.setId(id);
+                    aks.setPhoto(photo);
+                    aks.setDate("");
+                    aks.setDescription(description);
+                    photos.add(aks);
+                    visist_list.add(true);
+                    adapter.notifyDataSetChanged();
+                    mListView.setSelection(photos.size()-1);
+
+
                 }
             }
         }
@@ -532,6 +502,7 @@ public class gallery2 extends Activity{
                 database.deleteImageFromGallery(picId);
                 Toast.makeText(gallery2.this, "عملیات حذف با موفقیت انجام شده است .", Toast.LENGTH_SHORT).show();
                 photos.remove(position);
+                visist_list.remove(position);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -598,6 +569,130 @@ public class gallery2 extends Activity{
             }
         }
     }
+
+
+    private class asyncGetImageIdFromWeb extends AsyncTask<String, Void, Void> {
+
+        private ArrayList<Integer> imageIdsInWeb = null;
+        private String msg = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (visist_list == null)
+                loading_progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            loading_progress.setVisibility(View.GONE);
+            if (msg != null) {
+                new MessageBox(gallery2.this, msg).show();
+            } else {
+                if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
+
+                    initSlideShow(imageIdsInWeb);
+
+                }
+            }
+        }
+    }
+
+    private void initSlideShow(ArrayList<Integer> imageIdsInWeb) {
+
+        visist_list = new ArrayList<Boolean>();
+        photos = new ArrayList<PhotoDesc>();
+        for (int i = 0; i < imageIdsInWeb.size(); i++) {
+            visist_list.add(false);
+            PhotoDesc aks = new PhotoDesc();
+            aks.setId(imageIdsInWeb.get(i));
+            aks.setDescription("");
+            aks.setDate("");
+            aks.setPhoto(BitmapFactory.decodeResource(getResources(), R.mipmap.image_placeholder));
+            photos.add(aks);
+        }
+        adapter = new CustomListAdapterGallery2(gallery2.this, photos);
+        mListView.setAdapter(adapter);
+        insertLayout.setVisibility(View.VISIBLE);
+
+
+        for (int i = 0; i < 2; i++) {
+            visist_list.set(i, true);
+            asyncGetGalleryPic task = new asyncGetGalleryPic();
+            task.execute(String.valueOf(photos.get(i).getId()), String.valueOf(i));
+        }
+
+    }
+
+    private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {
+        private String msg = null;
+        private PhotoDesc photo;
+        private int photoId;
+        private int currentPageNum;
+        private boolean existInPhone = true;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+
+                photoId = Integer.parseInt(strings[0]);
+                currentPageNum = Integer.parseInt(strings[1]);
+                visist_list.set(currentPageNum, true);
+                if (database.openConnection()) {
+                    photo = database.getImageFromGallery(photoId);
+                }
+                if (photo == null) {
+                    existInPhone = false;
+                    photo = WebService.invokeGetGalleryPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword()
+                            , G.officeId, photoId);
+                }
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (msg != null) {
+                new MessageBox(gallery2.this, msg).show();
+            } else {
+                if (photo != null) {
+                    if (!existInPhone) {
+                        if (database.openConnection()) {
+                            database.saveImageToGallery(photo.getId(), photo.getDate(),
+                                    photo.getDescription(), DbBitmapUtility.getBytes(photo.getPhoto()));
+                        }
+                    }
+
+                    photos.set(currentPageNum, photo);
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+
+        }
+    }
+
 }
 
 

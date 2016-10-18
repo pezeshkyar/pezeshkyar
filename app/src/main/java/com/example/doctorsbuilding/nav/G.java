@@ -17,7 +17,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by hossein on 7/18/2016.
  */
 public class G extends Application {
-    public static final int officeId = 15;
+    public static final int officeId = 1;
     public static User UserInfo;
     public static Office officeInfo;
     public static Bitmap doctorImageProfile;
