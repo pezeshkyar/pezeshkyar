@@ -207,10 +207,13 @@ public class ActivityManageSecretary extends AppCompatActivity {
         private String msg = null;
         private User result;
         private String secretary_username;
+        ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = ProgressDialog.show(ActivityManageSecretary.this,"", "در حال افزودن منشی ...");
+            dialog.getWindow().setGravity(Gravity.END);
             secretary_username = txt_username.getText().toString().trim();
         }
 
@@ -228,7 +231,9 @@ public class ActivityManageSecretary extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            dialog.dismiss();
             if (msg != null) {
+                dialog.dismiss();
                 new MessageBox(ActivityManageSecretary.this, msg).show();
             } else {
                 if (result != null) {
@@ -236,7 +241,9 @@ public class ActivityManageSecretary extends AppCompatActivity {
                     mAdpater = new ArrayAdapter<User>(ActivityManageSecretary.this, R.layout.spinner_item, secretaries);
                     mListview.setAdapter(mAdpater);
                     mAdpater.notifyDataSetChanged();
+                    dialog.dismiss();
                 } else {
+                    dialog.dismiss();
                     new MessageBox(ActivityManageSecretary.this, "نام کاربری وارد شده مجاز نیست .").show();
                 }
             }
@@ -249,10 +256,13 @@ public class ActivityManageSecretary extends AppCompatActivity {
         private String msg = null;
         private boolean result;
         private String secretary_username;
+        ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = ProgressDialog.show(ActivityManageSecretary.this, "", "در حال حذف منشی ...");
+            dialog.getWindow().setGravity(Gravity.END);
             secretary_username = txt_username.getText().toString().trim();
         }
 
@@ -271,12 +281,14 @@ public class ActivityManageSecretary extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
+                dialog.dismiss();
                 new MessageBox(ActivityManageSecretary.this, msg).show();
             } else {
                 if (result) {
                     secretaries.remove(selected_id);
                     mAdpater = new ArrayAdapter<User>(ActivityManageSecretary.this, R.layout.spinner_item, secretaries);
                     mAdpater.notifyDataSetChanged();
+                    dialog.dismiss();
                     refreshForm();
                 }
             }
