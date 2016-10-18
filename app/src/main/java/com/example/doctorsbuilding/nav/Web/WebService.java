@@ -45,7 +45,7 @@ public class WebService {
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
     private static String URL = "http://185.129.168.135:8080/pezeshkyar_mostafavi/services/Webservices?wsdl";
-//    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
+    //    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -1635,7 +1635,11 @@ public class WebService {
             String pic = response.getProperty("photo").toString();
             byte[] imgbytes = Base64.decode(pic, Base64.DEFAULT);
             photoDesc.setPhoto(BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length));
-            photoDesc.setDescription(response.getProperty("description").toString());
+            if (response.getProperty("description").toString().equals("anyType{}"))
+                photoDesc.setDescription("");
+            else
+                photoDesc.setDescription(response.getProperty("description").toString());
+
             photoDesc.setDate(response.getProperty("date").toString());
 
         } catch (ConnectException ex) {
@@ -2036,9 +2040,9 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapObject response = (SoapObject) envelope.bodyIn;
-            for(int i=0;i<response.getPropertyCount();i++){
+            for (int i = 0; i < response.getPropertyCount(); i++) {
                 SoapObject obj = (SoapObject) response.getProperty(i);
-                if(obj!= null){
+                if (obj != null) {
                     secretary = new User();
                     secretary.setFirstName(obj.getProperty("name").toString());
                     secretary.setLastName(obj.getProperty("lastname").toString());

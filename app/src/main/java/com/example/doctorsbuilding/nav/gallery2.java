@@ -38,6 +38,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -61,12 +63,14 @@ public class gallery2 extends Activity {
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
     ProgressBar loading_progress;
     ArrayList<Boolean> visist_list;
+    private ArrayList<Integer> imageIdsInWeb = null;
 
     asyncGetImageIdFromWeb asyncgetImageId;
     asyncGetGalleryPic asyncGetPic;
     asyncDeletePicFromGallery asyncRemovePic;
     asyncChangeGalleryPicDescription asyncUpdatePic;
     asyncSetGalleryPic asyncSetPic;
+    asyncDeletePicFromPhone asyncDeleteJunkPic;
 
 
     private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
@@ -162,6 +166,9 @@ public class gallery2 extends Activity {
         if (asyncSetPic != null) {
             asyncSetPic.cancel(true);
         }
+        if(asyncDeleteJunkPic != null){
+            asyncDeleteJunkPic.cancel(true);
+        }
 
     }
 
@@ -182,6 +189,7 @@ public class gallery2 extends Activity {
         database = new DatabaseAdapter(gallery2.this);
         asyncgetImageId = new asyncGetImageIdFromWeb();
         asyncgetImageId.execute();
+
 
     }
 
@@ -295,8 +303,6 @@ public class gallery2 extends Activity {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
 
-                int x = 0;
-
             }
         });
 //        mListView.setOnTouchListener(new View.OnTouchListener() {
@@ -408,9 +414,9 @@ public class gallery2 extends Activity {
     private class asyncSetGalleryPic extends AsyncTask<String, Void, Void> {
 
         String msg = null;
+        Bitmap photo = null;
         int id = -1;
         String description = "";
-        Bitmap photo = null;
         ProgressDialog dialog_wait;
 
         public asyncSetGalleryPic(Bitmap photo, String description) {
@@ -454,7 +460,7 @@ public class gallery2 extends Activity {
                     photos.add(aks);
                     visist_list.add(true);
                     adapter.notifyDataSetChanged();
-                    mListView.setSelection(photos.size()-1);
+                    mListView.setSelection(photos.size() - 1);
 
 
                 }
@@ -573,7 +579,6 @@ public class gallery2 extends Activity {
 
     private class asyncGetImageIdFromWeb extends AsyncTask<String, Void, Void> {
 
-        private ArrayList<Integer> imageIdsInWeb = null;
         private String msg = null;
 
         @Override
@@ -601,9 +606,9 @@ public class gallery2 extends Activity {
                 new MessageBox(gallery2.this, msg).show();
             } else {
                 if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
-
                     initSlideShow(imageIdsInWeb);
-
+                    asyncDeleteJunkPic = new asyncDeletePicFromPhone();
+                    asyncDeleteJunkPic.execute();
                 }
             }
         }
@@ -626,13 +631,44 @@ public class gallery2 extends Activity {
         mListView.setAdapter(adapter);
         insertLayout.setVisibility(View.VISIBLE);
 
-
         for (int i = 0; i < 2; i++) {
             visist_list.set(i, true);
             asyncGetGalleryPic task = new asyncGetGalleryPic();
             task.execute(String.valueOf(photos.get(i).getId()), String.valueOf(i));
         }
 
+    }
+
+    private class asyncDeletePicFromPhone extends AsyncTask<String, Void, Void> {
+        private String msg = null;
+        ArrayList<Integer> imageInPhone;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                if (database.openConnection()) {
+                    imageInPhone = database.getImageIds();
+                    imageInPhone.removeAll(imageIdsInWeb);
+                }
+
+            } catch (Exception ex) {
+                msg = ex.getMessage();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (msg != null) {
+                new MessageBox(gallery2.this, "خطایی در حذف عکس رخ داده است .").show();
+            } else {
+                for (int i = 0; i < imageInPhone.size(); i++) {
+                    database.deleteImageFromGallery(imageInPhone.get(i));
+                }
+            }
+        }
     }
 
     private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {
