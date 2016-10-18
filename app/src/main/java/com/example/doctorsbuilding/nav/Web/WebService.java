@@ -2058,4 +2058,45 @@ public class WebService {
         }
         return secretary_list;
     }
+
+    public static ArrayList<PhotoDesc> invokeGetPhotoDescsWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "getAllGalleyPicId2";
+        PhotoDesc photo = null;
+        ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.bodyIn;
+            for (int i = 0; i < response.getPropertyCount(); i++) {
+                SoapObject obj = (SoapObject) response.getProperty(i);
+                if (obj != null) {
+                    photo = new PhotoDesc();
+                    photo.setId(Integer.valueOf(obj.getProperty("id").toString()));
+                    photo.setPhoto(null);
+                    photo.setDescription(obj.getProperty("description").toString());
+                    photo.setDate(obj.getProperty("date").toString());
+
+                    photos.add(photo);
+                }
+            }
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return photos;
+    }
 }

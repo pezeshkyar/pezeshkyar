@@ -63,7 +63,7 @@ public class gallery2 extends Activity {
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
     ProgressBar loading_progress;
     ArrayList<Boolean> visist_list;
-    private ArrayList<Integer> imageIdsInWeb = null;
+    private ArrayList<PhotoDesc> imagesInWeb = null;
 
     asyncGetImageIdFromWeb asyncgetImageId;
     asyncGetGalleryPic asyncGetPic;
@@ -166,7 +166,7 @@ public class gallery2 extends Activity {
         if (asyncSetPic != null) {
             asyncSetPic.cancel(true);
         }
-        if(asyncDeleteJunkPic != null){
+        if (asyncDeleteJunkPic != null) {
             asyncDeleteJunkPic.cancel(true);
         }
 
@@ -591,7 +591,7 @@ public class gallery2 extends Activity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                imagesInWeb = WebService.invokeGetPhotoDescsWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -605,8 +605,8 @@ public class gallery2 extends Activity {
             if (msg != null) {
                 new MessageBox(gallery2.this, msg).show();
             } else {
-                if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
-                    initSlideShow(imageIdsInWeb);
+                if (imagesInWeb != null && imagesInWeb.size() > 0) {
+                    initSlideShow(imagesInWeb);
                     asyncDeleteJunkPic = new asyncDeletePicFromPhone();
                     asyncDeleteJunkPic.execute();
                 }
@@ -614,16 +614,16 @@ public class gallery2 extends Activity {
         }
     }
 
-    private void initSlideShow(ArrayList<Integer> imageIdsInWeb) {
+    private void initSlideShow(ArrayList<PhotoDesc> imagesInWeb) {
 
         visist_list = new ArrayList<Boolean>();
         photos = new ArrayList<PhotoDesc>();
-        for (int i = 0; i < imageIdsInWeb.size(); i++) {
+        for (int i = 0; i < imagesInWeb.size(); i++) {
             visist_list.add(false);
             PhotoDesc aks = new PhotoDesc();
-            aks.setId(imageIdsInWeb.get(i));
-            aks.setDescription("");
-            aks.setDate("");
+            aks.setId(imagesInWeb.get(i).getId());
+            aks.setDescription(imagesInWeb.get(i).getDescription());
+            aks.setDate(imagesInWeb.get(i).getDate());
             aks.setPhoto(BitmapFactory.decodeResource(getResources(), R.mipmap.image_placeholder));
             photos.add(aks);
         }
@@ -642,12 +642,16 @@ public class gallery2 extends Activity {
     private class asyncDeletePicFromPhone extends AsyncTask<String, Void, Void> {
         private String msg = null;
         ArrayList<Integer> imageInPhone;
+        ArrayList<Integer> imageIdsInWeb;
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
                 if (database.openConnection()) {
                     imageInPhone = database.getImageIds();
+                    for (int i = 0; i < imagesInWeb.size(); i++) {
+                        imageIdsInWeb.add(imagesInWeb.get(i).getId());
+                    }
                     imageInPhone.removeAll(imageIdsInWeb);
                 }
 
@@ -693,6 +697,7 @@ public class gallery2 extends Activity {
                 visist_list.set(currentPageNum, true);
                 if (database.openConnection()) {
                     photo = database.getImageFromGallery(photoId);
+                   // photo.setDescription(imagesInWeb.get(currentPageNum).getDescription());
                 }
                 if (photo == null) {
                     existInPhone = false;
