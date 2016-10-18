@@ -446,7 +446,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 menu_header_name.setText("کاربر میهمان");
                 menu_header_version.setText("");
-                menu_header_image.setImageResource(R.drawable.ic_guest);
+                menu_header_image.setImageResource(R.mipmap.ic_launcher);
                 break;
             case Dr:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
 
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
-                menu_header_version.setText("نسخه آرایشگر");
+                menu_header_version.setText("نسخه پزشک");
                 try {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
-                menu_header_version.setText("نسخه مشتری");
+                menu_header_version.setText("نسخه بیمار");
                 try {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);

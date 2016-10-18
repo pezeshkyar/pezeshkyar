@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.bapak.arayeshyar"
+        applicationId "com.bapak.pezeshkyar"
         minSdkVersion 15
         targetSdkVersion 17
         versionCode 1

@@ -156,6 +156,5 @@ public class DrNobatFragment extends Fragment {
             }
         }
     }
-
 }
 

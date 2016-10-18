@@ -159,7 +159,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/my_delete_button"
-                android:text="سابقه مشتری"
+                android:text="پرونده بیمار"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

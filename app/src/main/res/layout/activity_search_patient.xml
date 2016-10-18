@@ -18,7 +18,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="جستجوی مشتری"
+            android:text="جست و جوی بیمار"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />

@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_dr_clinic"
             android:icon="@drawable/ic_menu_home"
-            android:title="آرایشگاه من" />
+            android:title="مطب من" />
         <item
             android:id="@+id/nav_dr_personalInfo"
             android:icon="@drawable/ic_patentes"
@@ -28,12 +28,12 @@
         <item
             android:id="@+id/nav_dr_patientFile"
             android:icon="@drawable/ic_nobat"
-            android:title="سابقه مشتری" />
+            android:title="پرونده بیمار" />
 
         <item
             android:id="@+id/nav_dr_map"
             android:icon="@drawable/ic_location"
-            android:title="نقشه آرایشگاه من" />
+            android:title="نقشه مطب من" />
         <item
             android:id="@+id/nav_dr_notification"
             android:icon="@drawable/ic_notifications"
@@ -77,7 +77,7 @@
         <item
             android:id="@+id/nav_secretary_clinic"
             android:icon="@drawable/ic_menu_home"
-            android:title="آرایشگاه من" />
+            android:title="مطب من" />
         <item
             android:id="@+id/nav_secretary_personalInfo"
             android:icon="@drawable/ic_patentes"
@@ -93,11 +93,11 @@
         <item
             android:id="@+id/nav_secretary_patientFile"
             android:icon="@drawable/ic_nobat"
-            android:title="سابقه مشتری" />
+            android:title="پرونده بیمار" />
         <item
             android:id="@+id/nav_secretary_map"
             android:icon="@drawable/ic_location"
-            android:title="نقشه آرایشگاه من" />
+            android:title="نقشه مطب من" />
         <item
             android:id="@+id/nav_secretary_notification"
             android:icon="@drawable/ic_notifications"
@@ -142,7 +142,7 @@
         <item
             android:id="@+id/nav_user_patientFile"
             android:icon="@drawable/ic_nobat"
-            android:title="سوابق من" />
+            android:title="پرونده من" />
         <item
             android:id="@+id/nav_user_nobat"
             android:icon="@drawable/ic_nobat"
