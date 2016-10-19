@@ -649,6 +649,7 @@ public class gallery2 extends Activity {
             try {
                 if (database.openConnection()) {
                     imageInPhone = database.getImageIds();
+                    imageIdsInWeb = new ArrayList<Integer>();
                     for (int i = 0; i < imagesInWeb.size(); i++) {
                         imageIdsInWeb.add(imagesInWeb.get(i).getId());
                     }
