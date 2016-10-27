@@ -108,18 +108,18 @@
 
             </Spinner>
 
-            <EditText
-                android:id="@+id/dr_office_secretary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@drawable/my_edit_text"
-                android:hint="منشی"
-                android:inputType="text|textNoSuggestions"
-                android:maxLength="20"
-                android:maxLines="1"
-                android:imeOptions="actionSearch"
-                android:padding="8dp" />
+            <!--<EditText-->
+                <!--android:id="@+id/dr_office_secretary"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+                <!--android:background="@drawable/my_edit_text"-->
+                <!--android:hint="منشی"-->
+                <!--android:inputType="text|textNoSuggestions"-->
+                <!--android:maxLength="20"-->
+                <!--android:maxLines="1"-->
+                <!--android:imeOptions="actionSearch"-->
+                <!--android:padding="8dp" />-->
 
 
             <EditText

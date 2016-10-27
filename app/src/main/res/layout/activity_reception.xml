@@ -39,13 +39,13 @@
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_below="@+id/reception_rl1"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/reception_rl1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/reception_rl2"
@@ -115,39 +115,41 @@
                     android:textColor="@color/textColor" />
             </RelativeLayout>
 
-            <LinearLayout
+            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/reception_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/reception_rl2"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/reception_addNextBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/my_add_button"
-                    android:text="دریافت نوبت بعدی"
-                    android:textColor="@android:color/white" />
+                tools:context=".ActivityReception">
 
                 <Button
                     android:id="@+id/reception_addBtn"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/my_button"
                     android:text="ثبت"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    app:layout_marginLeftPercent="1%"
+                    app:layout_widthPercent="49%" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/reception_addNextBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/my_add_button"
+                    android:text="دریافت نوبت بعدی"
+                    android:textColor="@android:color/white"
+                    app:layout_marginRightPercent="1%"
+                    app:layout_widthPercent="49%" />
+
+            </android.support.percent.PercentRelativeLayout>
 
             <Button
                 android:id="@+id/reception_showFileBtn"

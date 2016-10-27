@@ -66,6 +66,8 @@
                     android:id="@+id/drProfile_btnGallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginTop="16dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_dr_gallery" />

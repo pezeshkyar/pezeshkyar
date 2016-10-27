@@ -44,8 +44,8 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://185.129.168.135:8080/pezeshkyar_mostafavi/services/Webservices?wsdl";
-    //    private static String URL = "http://192.168.1.123:8080/arayeshyar/services/Webservices?wsdl";
+    private static String URL = "http://185.129.168.135:8080/pezeshkyar/services/Webservices?wsdl";
+//        private static String URL = "http://192.168.1.123:8080/pezeshkyar/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -310,7 +310,11 @@ public class WebService {
             }
             user.setPassword(password);
             try {
-                user.setEmail(response.getProperty("email").toString());
+                if (response.getProperty("email").toString().equals("anyType{}"))
+                    user.setEmail("");
+                else
+                    user.setEmail(response.getProperty("email").toString());
+
             } catch (Exception ex) {
                 user.setEmail("");
             }
@@ -1117,7 +1121,30 @@ public class WebService {
 
                 rturn = new Rturn();
                 SoapObject obj = (SoapObject) response.getProperty(i);
-                rturn.setUsername(obj.getProperty("username").toString());
+                try {
+                    if (obj.getProperty("username").toString().equals("anyType")
+                            || obj.getProperty("username").toString().equals(""))
+
+                        rturn.setUsername("");
+                    else
+                        rturn.setUsername(obj.getProperty("username").toString());
+                } catch (Exception ex) {
+
+                    rturn.setUsername("");
+                }
+
+                try {
+                    if (obj.getProperty("patientUsername").toString().equals("anyType")
+                            || obj.getProperty("patientUsername").toString().equals(""))
+
+                        rturn.setPatientUsername("");
+                    else
+                        rturn.setPatientUsername(obj.getProperty("patientUsername").toString());
+                } catch (Exception ex) {
+
+                    rturn.setPatientUsername("");
+                }
+
                 rturn.setPatientFirstName(obj.getProperty("patientFirstName").toString());
                 rturn.setPatientLastName(obj.getProperty("patientLastName").toString());
                 rturn.setPatientPhoneNo(obj.getProperty("patientPhoneNo").toString());

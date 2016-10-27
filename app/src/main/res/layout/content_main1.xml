@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/ic_menu_black_24dp"
                         android:paddingTop="10dp" />
@@ -101,7 +101,7 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:paddingTop="10dp">
 
@@ -139,14 +139,13 @@
                 android:id="@+id/group_drNobatActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/content_main_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:text=""
@@ -158,8 +157,6 @@
                     android:id="@+id/content_main_expert"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/content_main_name"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:text=""
@@ -170,8 +167,6 @@
                     android:id="@+id/content_main_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/content_main_expert"
-                    android:layout_below="@id/content_main_expert"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:text=""
@@ -182,8 +177,6 @@
                     android:id="@+id/content_main_tel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/content_main_address"
-                    android:layout_below="@id/content_main_address"
                     android:paddingTop="10dp"
                     android:text=""
                     android:textColor="@android:color/black"
@@ -195,15 +188,13 @@
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:layout_below="@id/content_main_tel"
                     android:layout_marginTop="20dp"
                     tools:context="com.example.doctorsbuilding.nav.Map" />
 
                 <TextView
                     android:id="@+id/content_main_biography"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/map"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="30dp"
                     android:layout_weight="1"

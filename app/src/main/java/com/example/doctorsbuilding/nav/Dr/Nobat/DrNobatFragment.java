@@ -34,6 +34,9 @@ public class DrNobatFragment extends Fragment {
     int lastClickedPosition = 0;
     ArrayList<ExpGroup> groups;
     ArrayList<ExpChild> childs;
+
+    asyncCallTurn getAllTurnTask;
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     public static DrNobatFragment newInstance(int sectionNumber) {
@@ -83,8 +86,10 @@ public class DrNobatFragment extends Fragment {
             }
         });
 
-        asyncCallTurn call = new asyncCallTurn();
-        call.execute();
+
+        getAllTurnTask = new asyncCallTurn();
+        getAllTurnTask.execute();
+
 
         return rootView;
 
@@ -99,6 +104,7 @@ public class DrNobatFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(getActivity(), "", "در حال دریافت اطلاعات ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
         }
 

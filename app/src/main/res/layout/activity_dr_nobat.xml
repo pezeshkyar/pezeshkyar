@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:scrollbars="none"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/nobat_Title"
@@ -20,7 +20,8 @@
             android:text="مدیریت نوبت دهی"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/nobat_backBtn"
             android:layout_width="wrap_content"
@@ -37,221 +38,244 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
         android:background="@color/colorFragment"
         android:descendantFocusability="beforeDescendants"
         android:fillViewport="true"
         android:focusableInTouchMode="true"
-        android:layoutDirection="rtl"
         android:orientation="vertical">
 
 
         <LinearLayout
             android:id="@+id/group_drNobatActivity"
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
-                <LinearLayout
+
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:orientation="horizontal">
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <CheckBox
-                                android:id="@+id/chboxShanbe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="1"
-                                android:checked="true" />
-
-                            <TextView
-                                android:id="@+id/btnShanbe"
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_column="1"
-                                android:text="شنبه" />
-
-                            <CheckBox
-                                android:id="@+id/chbox1Shanbe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="2"
-                                android:checked="true" />
-
-                            <TextView
-                                android:id="@+id/btn1Shanbe"
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_column="2"
-                                android:text="یکشنبه" />
-
-
-                            <CheckBox
-                                android:id="@+id/chbox2Shanbe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="3"
-                                android:checked="true" />
-
-                            <TextView
-                                android:id="@+id/btn2Shanbe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_column="3"
-                                android:text="دوشنبه" />
-                        </TableRow>
-
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <CheckBox
-                                    android:id="@+id/chbox3Shanbe"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="1"
-                                    android:checked="true" />
-
-                                <TextView
-                                    android:id="@+id/btn3Shanbe"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="1"
-                                    android:text="سه شنبه" />
-
-                                <CheckBox
-                                    android:id="@+id/chbox4Shanbe"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="2"
-                                    android:checked="true" />
-
-                                <TextView
-                                    android:id="@+id/btn4Shanbe"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="2"
-                                    android:text="چهارشنبه" />
-
-
-                                <CheckBox
-                                    android:id="@+id/chbox5Shanbe"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="3"
-                                    android:checked="true" />
-
-                                <TextView
-                                    android:id="@+id/btn5Shanbe"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_column="3"
-                                    android:text="پنچشنبه" />
-                            </TableRow>
-
-                        </TableLayout>
-
-                    </TableLayout>
-
-
-                </LinearLayout>
+                    tools:context=".Dr.Nobat.DrNobatActivity">
 
 
 
-                <LinearLayout
+                        <CheckBox
+                            android:id="@+id/chboxShanbe"
+                            app:layout_widthPercent="10%"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/btnShanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chboxShanbe"
+                            android:layout_alignBaseline="@id/chboxShanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="شنبه" />
+
+
+                        <CheckBox
+                            android:id="@+id/chbox1Shanbe"
+                            app:layout_widthPercent="11%"
+                            android:layout_toLeftOf="@id/btnShanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/btn1Shanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chbox1Shanbe"
+                            android:layout_alignBaseline="@id/chbox1Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="یکشنبه" />
+
+
+
+                        <CheckBox
+                            android:id="@+id/chbox2Shanbe"
+                            app:layout_widthPercent="10%"
+                            android:layout_toLeftOf="@id/btn1Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/btn2Shanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chbox2Shanbe"
+                            android:layout_alignBaseline="@id/chbox2Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="دوشنبه" />
+
+
+
+
+                </android.support.percent.PercentRelativeLayout>
+
+
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    tools:context=".Dr.Nobat.DrNobatActivity">
+
+
+                        <CheckBox
+                            android:id="@+id/chbox3Shanbe"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:layout_widthPercent="10%"/>
+
+                        <TextView
+                            android:id="@+id/btn3Shanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chbox3Shanbe"
+                            android:layout_alignBaseline="@id/chbox3Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="سه شنبه" />
+
+
+                        <CheckBox
+                            android:id="@+id/chbox4Shanbe"
+                            app:layout_widthPercent="11%"
+                            android:layout_toLeftOf="@id/btn3Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/btn4Shanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chbox4Shanbe"
+                            android:layout_alignBaseline="@id/chbox4Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="چهارشنبه" />
+
+
+                        <CheckBox
+                            android:id="@+id/chbox5Shanbe"
+                            app:layout_widthPercent="10%"
+                            android:layout_toLeftOf="@id/btn4Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                        <TextView
+                            android:id="@+id/btn5Shanbe"
+                            app:layout_widthPercent="23%"
+                            android:layout_toLeftOf="@id/chbox5Shanbe"
+                            android:layout_alignBaseline="@id/chbox5Shanbe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="پنچشنبه" />
+
+                </android.support.percent.PercentRelativeLayout>
+
+
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    tools:context=".Dr.Nobat.DrNobatActivity">
 
                     <TextView
                         android:id="@+id/nobat_start_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
+                        android:layout_alignParentRight="true"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
                         android:hint="از تاریخ ..."
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        app:layout_marginLeftPercent="1%"
+                        app:layout_widthPercent="49%" />
 
                     <TextView
                         android:id="@+id/nobat_end_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
                         android:hint="تا تاریخ ..."
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        app:layout_marginRightPercent="1%"
+                        app:layout_widthPercent="49%" />
 
-                </LinearLayout>
 
-                <LinearLayout
+                </android.support.percent.PercentRelativeLayout>
+
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/nobat_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
-                    android:weightSum="2">
+                    tools:context=".Dr.Nobat.DrNobatActivity">
 
                     <TextView
                         android:id="@+id/nobat_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
+                        android:layout_alignParentRight="true"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
                         android:hint="از ساعت ..."
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        app:layout_marginLeftPercent="1%"
+                        app:layout_widthPercent="49%" />
 
                     <TextView
                         android:id="@+id/nobat_end_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/my_text_view"
                         android:clickable="true"
                         android:hint="تا ساعت ..."
-                        android:padding="8dp" />
-                </LinearLayout>
+                        android:padding="8dp"
+                        app:layout_marginRightPercent="1%"
+                        app:layout_widthPercent="49%" />
+
+                </android.support.percent.PercentRelativeLayout>
+
                 <EditText
                     android:id="@+id/nobat_capacity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/my_edit_text"
-                    android:hint="@string/nobat_capacity"
                     android:digits="0123456789"
+                    android:hint="@string/nobat_capacity"
                     android:inputType="phone|textAutoComplete|none"
                     android:maxLength="2"
                     android:maxLines="1"
@@ -259,45 +283,51 @@
                     android:textSize="14sp" />
 
 
-                <LinearLayout
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    tools:context=".Dr.Nobat.DrNobatActivity">
 
                     <Button
                         android:id="@+id/dr_btnNobatInsert"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
+                        android:layout_alignParentRight="true"
                         android:background="@drawable/my_button"
                         android:text="ثبت نوبت"
                         android:textColor="@android:color/white"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_marginLeftPercent="1%"
+                        app:layout_widthPercent="49%" />
 
                     <Button
                         android:id="@+id/dr_btnNobatShow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginRight="5dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
                         android:background="@drawable/my_add_button"
                         android:text="مشاهده نوبت"
                         android:textColor="@android:color/white"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_marginRightPercent="1%"
+                        app:layout_widthPercent="49%" />
 
-                </LinearLayout>
+
+                </android.support.percent.PercentRelativeLayout>
+
                 <TextView
                     android:id="@+id/nobat_wait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="50dp"
                     android:text="لطفا شکیبا باشید ..."
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"

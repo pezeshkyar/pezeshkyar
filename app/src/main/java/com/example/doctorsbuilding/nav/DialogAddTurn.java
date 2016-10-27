@@ -3,6 +3,7 @@ package com.example.doctorsbuilding.nav;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -64,8 +65,14 @@ public class DialogAddTurn extends Dialog {
     private int selectedItem = -1;
     private ArrayList<TaskGroup> taskGroups;
     private ArrayAdapter<TaskGroup> taskGroup_adapter;
-    private asyncCallGetTaskes asyncGetTaskes;
-    private asyncCallGetTaskGroups asyncGetTaskGroups;
+
+
+    asyncCallGetTaskes asyncGetTaskes;
+    asyncCallGetTaskGroups asyncGetTaskGroups;
+    asyncCallSearchUser searchUserTask;
+    asyncCallReserveForUserWS reserveForUserTask;
+    asyncCallReserveForMeWS reserveForMeTask;
+    asyncCallReserveForGuestWS reserveForGuestTask;
 
 
     public DialogAddTurn(Context context, int turnId) {
@@ -125,10 +132,53 @@ public class DialogAddTurn extends Dialog {
 
     }
 
+    private void stopAllTaskes() {
+
+        if (asyncGetTaskes != null) {
+            asyncGetTaskes.cancel(true);
+            asyncGetTaskes = null;
+        }
+
+        if (searchUserTask != null) {
+            searchUserTask.cancel(true);
+            searchUserTask = null;
+        }
+
+        if (asyncGetTaskGroups != null) {
+            asyncGetTaskGroups.cancel(true);
+            asyncGetTaskGroups = null;
+        }
+
+        if (reserveForUserTask != null) {
+            reserveForUserTask.cancel(true);
+            reserveForUserTask = null;
+        }
+
+        if (reserveForMeTask != null) {
+            reserveForMeTask.cancel(true);
+            reserveForMeTask = null;
+        }
+
+        if (reserveForGuestTask != null) {
+            reserveForGuestTask.cancel(true);
+            reserveForGuestTask = null;
+        }
+
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        stopAllTaskes();
+    }
+
     private void viewListener() {
         myCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+
+                stopAllTaskes();
+
                 if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                     if (checked) {
                         taskBackBtn.setVisibility(View.INVISIBLE);
@@ -163,8 +213,8 @@ public class DialogAddTurn extends Dialog {
         memberSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                asyncCallSearchUser task = new asyncCallSearchUser();
-                task.execute();
+                searchUserTask = new asyncCallSearchUser();
+                searchUserTask.execute();
             }
         });
 
@@ -183,6 +233,9 @@ public class DialogAddTurn extends Dialog {
         taskBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                stopAllTaskes();
+
                 if (myCheckBox.isChecked()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         taskBackBtn.setVisibility(View.INVISIBLE);
@@ -209,21 +262,29 @@ public class DialogAddTurn extends Dialog {
             public void onClick(View view) {
                 if (myCheckBox.isChecked()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
-                        asyncCallReserveForUserWS task = new asyncCallReserveForUserWS();
-                        task.execute(users.get(selectedItem).getUserName());
+                        if (reserveForUserTask == null) {
+                            reserveForUserTask = new asyncCallReserveForUserWS();
+                            reserveForUserTask.execute(users.get(selectedItem).getUserName());
+                        }
                     } else {
-                        asyncCallReserveForMeWS task = new asyncCallReserveForMeWS();
-                        task.execute();
+                        if (reserveForMeTask == null) {
+                            reserveForMeTask = new asyncCallReserveForMeWS();
+                            reserveForMeTask.execute();
+                        }
                     }
                 } else {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
-                        asyncCallReserveForGuestWS task = new asyncCallReserveForGuestWS();
-                        task.execute(nonMemberName.getText().toString().trim()
-                                , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                        if (reserveForGuestTask == null) {
+                            reserveForGuestTask = new asyncCallReserveForGuestWS();
+                            reserveForGuestTask.execute(nonMemberName.getText().toString().trim()
+                                    , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                        }
                     } else {
-                        asyncCallReserveForGuestWS task = new asyncCallReserveForGuestWS();
-                        task.execute(nonMemberName.getText().toString().trim()
-                                , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                        if (reserveForGuestTask == null) {
+                            reserveForGuestTask = new asyncCallReserveForGuestWS();
+                            reserveForGuestTask.execute(nonMemberName.getText().toString().trim()
+                                    , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                        }
                     }
                 }
             }
@@ -236,20 +297,26 @@ public class DialogAddTurn extends Dialog {
                 if (checkField()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                        asyncGetTaskGroups = new asyncCallGetTaskGroups();
-                        asyncGetTaskGroups.execute();
+                        if (asyncGetTaskGroups == null) {
+                            asyncGetTaskGroups = new asyncCallGetTaskGroups();
+                            asyncGetTaskGroups.execute();
+                        }
                     } else {
                         if (myCheckBox.isChecked()) {
 
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                            asyncGetTaskGroups = new asyncCallGetTaskGroups();
-                            asyncGetTaskGroups.execute();
+                            if (asyncGetTaskGroups == null) {
+                                asyncGetTaskGroups = new asyncCallGetTaskGroups();
+                                asyncGetTaskGroups.execute();
+                            }
 
                         } else {
 
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                            asyncGetTaskGroups = new asyncCallGetTaskGroups();
-                            asyncGetTaskGroups.execute();
+                            if (asyncGetTaskGroups == null) {
+                                asyncGetTaskGroups = new asyncCallGetTaskGroups();
+                                asyncGetTaskGroups.execute();
+                            }
 //                            viewFlipper.setDisplayedChild(2);
 //                            taskBackBtn.setVisibility(View.VISIBLE);
                         }
@@ -288,7 +355,9 @@ public class DialogAddTurn extends Dialog {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            memberSearchBtn.setClickable(false);
             dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
             user = new User();
             user.setUserName(memberUsername.getText().toString().trim());
@@ -311,6 +380,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
+                memberSearchBtn.setClickable(true);
                 dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
@@ -329,16 +399,28 @@ public class DialogAddTurn extends Dialog {
                         public void onItemClick(AdapterView<?> adapterView, View container, int position, long id) {
                             addTurnPatientName.setText(userha.get(position).get(0));
                             selectedItem = position;
-                            asyncGetTaskGroups = new asyncCallGetTaskGroups();
-                            asyncGetTaskGroups.execute();
+                            if (asyncGetTaskGroups == null) {
+                                asyncGetTaskGroups = new asyncCallGetTaskGroups();
+                                asyncGetTaskGroups.execute();
+                            }
                         }
                     });
+                    memberSearchBtn.setClickable(true);
                     dialog.dismiss();
                 } else {
+                    memberSearchBtn.setClickable(true);
                     dialog.dismiss();
+                    memberListView.setAdapter(new CustomReservationListAdapter(getContext()
+                            , new ArrayList<ArrayList<String>>(), turnId));
                     Toast.makeText(context, "بیماری با این مشخصات یافت نشده است .", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            memberSearchBtn.setClickable(true);
         }
     }
 
@@ -353,6 +435,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال رزرو نوبت ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
             reservation = new Reservation();
             reservation.setTurnId(turnId);
@@ -403,6 +486,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال رزرو نوبت ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
             reservation = new Reservation();
             reservation.setTurnId(turnId);
@@ -458,6 +542,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
         }
 
@@ -503,6 +588,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
         }
 
@@ -534,8 +620,10 @@ public class DialogAddTurn extends Dialog {
                     taskGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                            asyncGetTaskes = new asyncCallGetTaskes();
-                            asyncGetTaskes.execute();
+                            if (asyncGetTaskes == null) {
+                                asyncGetTaskes = new asyncCallGetTaskes();
+                                asyncGetTaskes.execute();
+                            }
                         }
 
                         @Override
@@ -552,7 +640,7 @@ public class DialogAddTurn extends Dialog {
 
     private class asyncCallGetTaskes extends AsyncTask<String, Void, Void> {
         String msg = null;
-//        ProgressDialog dialog;
+        //        ProgressDialog dialog;
         int taskGroupId;
 
         @Override
@@ -613,6 +701,7 @@ public class DialogAddTurn extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال رزرو نوبت ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
             reservation = new Reservation();
             reservation.setTurnId(turnId);

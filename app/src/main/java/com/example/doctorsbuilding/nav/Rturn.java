@@ -5,6 +5,7 @@ package com.example.doctorsbuilding.nav;
  */
 public class Rturn {
     private String username;
+    private String patientUsername;
     private String patientFirstName;
     private String patientLastName;
     private String patientPhoneNo;
@@ -25,6 +26,14 @@ public class Rturn {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPatientUsername() {
+        return patientUsername;
+    }
+
+    public void setPatientUsername(String patientUsername) {
+        this.patientUsername = patientUsername;
     }
 
     public void setUsername(String username) {

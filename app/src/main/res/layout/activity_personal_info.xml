@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFragment"
-
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/personalInfo_Title"
@@ -21,7 +20,8 @@
             android:text="مشخصات فردی"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/personalInfo_backBtn"
             android:layout_width="wrap_content"
@@ -38,43 +38,47 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scrollbars="none"
         android:layout_weight="1"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
 
-            <LinearLayout
+            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                tools:context=".Dr.Profile.PersonalInfoActivity">
 
                 <ImageView
                     android:id="@+id/dr_imgProfile"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1" />
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    app:layout_widthPercent="40%" />
 
                 <Button
                     android:id="@+id/dr_btnImgProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignBaseline="@+id/dr_imgProfile"
+                    android:layout_marginTop="40dp"
                     android:background="@drawable/my_add_button"
                     android:text="تغییر عکس پروفایل"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_widthPercent="50%" />
 
-            </LinearLayout>
+            </android.support.percent.PercentRelativeLayout>
 
             <EditText
                 android:id="@+id/dr_FirstName"
@@ -111,6 +115,7 @@
                 android:maxLength="25"
                 android:maxLines="1"
                 android:padding="8dp" />
+
             <EditText
                 android:id="@+id/dr_email"
                 android:layout_width="match_parent"
@@ -119,9 +124,10 @@
                 android:background="@drawable/my_edit_text"
                 android:hint="آدرس ایمیل"
                 android:inputType="textEmailAddress|textNoSuggestions"
-                android:maxLength="50"
+                android:maxLength="100"
                 android:maxLines="1"
-                android:padding="8dp" /> />
+                android:padding="8dp" />
+            />
 
             <EditText
                 android:id="@+id/dr_UserName"
@@ -179,8 +185,8 @@
                 android:id="@+id/dr_btnPersonalInfoInsert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/my_button"
                 android:text="@string/personalInfo_btn_insert"
                 android:textColor="@android:color/white"

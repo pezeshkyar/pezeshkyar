@@ -79,6 +79,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private DatabaseAdapter database;
 
+    AsyncCallStateWS getStateTask;
+    AsyncCallCityWS getCityTask;
+    AsyncCallRegisterWS registerTask;
+    AsyncUpdateDrPicWS updatePicTask;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +101,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
         progressDialog = ProgressDialog.show(PersonalInfoActivity.this, "", "در حال دریافت اطلاعات ...");
         progressDialog.getWindow().setGravity(Gravity.END);
-        AsyncCallStateWS task = new AsyncCallStateWS();
-        task.execute();
+        progressDialog.setCancelable(true);
+        btnInsert.setClickable(false);
+
+        getStateTask = new AsyncCallStateWS();
+        getStateTask.execute();
 
 //        setting = getSharedPreferences("doctorBuilding", 0);
 //
@@ -111,6 +119,23 @@ public class PersonalInfoActivity extends AppCompatActivity {
 //        }
 
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (getCityTask != null) {
+            getCityTask.cancel(true);
+        }
+        if (getStateTask != null) {
+            getStateTask.cancel(true);
+        }
+        if (registerTask != null) {
+            registerTask.cancel(true);
+        }
+        if (updatePicTask != null) {
+            updatePicTask.cancel(true);
+        }
     }
 
     @Override
@@ -131,15 +156,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
 
         if (G.UserInfo.getImgProfile() != null) {
-            if (role == UserType.Dr.ordinal()) {
-                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                profileImage.setImageBitmap(imgRound);
-            } else {
-                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                profileImage.setImageBitmap(imgRound);
-            }
+
+            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+            profileImage.setImageBitmap(imgRound);
+
         } else {
-            profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 200));
+            profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160));
         }
     }
 
@@ -181,8 +203,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 stateID = stateList.get(position).GetStateID();
-                AsyncCallCityWS task = new AsyncCallCityWS();
-                task.execute();
+                getCityTask = new AsyncCallCityWS();
+                getCityTask.execute();
 
             }
 
@@ -195,8 +217,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkFields()) {
-                    AsyncCallRegisterWS task = new AsyncCallRegisterWS();
-                    task.execute();
+                    registerTask = new AsyncCallRegisterWS();
+                    registerTask.execute();
                 }
             }
         });
@@ -233,8 +255,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         drPic = scaled;
                         roundedDrPic = bmp;
                         G.UserInfo.setImgProfile(roundedDrPic);
-                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-                        updateDrPicWS.execute();
+                        updatePicTask = new AsyncUpdateDrPicWS();
+                        updatePicTask.execute();
 
 
 //                        currentUser.image = resizedBitmap;
@@ -366,6 +388,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
                 progressDialog.dismiss();
+                btnInsert.setClickable(true);
                 new MessageBox(PersonalInfoActivity.this, msg).show();
             } else {
                 if (stateList != null && stateList.size() != 0) {
@@ -386,6 +409,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
                 } else {
                     progressDialog.dismiss();
+                    btnInsert.setClickable(true);
                     new MessageBox(PersonalInfoActivity.this, "خطایی در دریافت اطلاعات رخ داده است .").show();
                 }
             }
@@ -437,6 +461,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
                 progressDialog.dismiss();
+                btnInsert.setClickable(true);
                 new MessageBox(PersonalInfoActivity.this, msg).show();
             } else {
                 if (cityList != null && cityList.size() != 0) {
@@ -456,8 +481,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         }
                     }
                     progressDialog.dismiss();
+                    btnInsert.setClickable(true);
                 } else {
                     progressDialog.dismiss();
+                    btnInsert.setClickable(true);
                     new MessageBox(PersonalInfoActivity.this, "خطایی در دریافت اطلاعات رخ داده است .").show();
                 }
             }
@@ -479,6 +506,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(PersonalInfoActivity.this, "", "در حال ثبت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnInsert.setClickable(false);
         }
 
         @Override
@@ -525,6 +554,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(PersonalInfoActivity.this, msg).show();
+                btnImgSelect.setClickable(true);
             } else {
                 if (result.equals("OK")) {
                     Toast.makeText(PersonalInfoActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
@@ -542,6 +572,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         G.UserInfo.setCityID(user.getCityID());
                         finish();
                     } else {
+                        G.UserInfo.setImgProfile(user.getImgProfile());
                         G.UserInfo.setFirstName(user.getFirstName());
                         G.UserInfo.setLastName(user.getLastName());
                         G.UserInfo.setEmail(user.getEmail());
@@ -552,11 +583,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         finish();
                     }
                     dialog.dismiss();
+                    btnImgSelect.setClickable(true);
                 } else {
                     dialog.dismiss();
                     new MessageBox(PersonalInfoActivity.this, "خطایی در ثبت اطلاعات رخ داده است .").show();
+                    btnImgSelect.setClickable(true);
                 }
                 dialog.dismiss();
+                btnImgSelect.setClickable(true);
             }
         }
     }
@@ -572,6 +606,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(PersonalInfoActivity.this, "", "در حال تغییر عکس پروفایل ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnImgSelect.setClickable(false);
         }
 
         @Override
@@ -590,9 +626,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(PersonalInfoActivity.this, msg).show();
+                btnImgSelect.setClickable(true);
             } else {
                 if (result) {
                     profileImage.setImageBitmap(roundedDrPic);
+                    G.UserInfo.setImgProfile(drPic);
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
                         G.doctorImageProfile = drPic;
 
@@ -602,11 +640,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         } else {
                             dialog.dismiss();
                             new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                            btnImgSelect.setClickable(true);
                         }
                     } else {
-                        int nh = (int) (drPic.getHeight() * (64.0 / drPic.getWidth()));
-                        Bitmap scaled = Bitmap.createScaledBitmap(drPic, 64, nh, true);
-                        G.doctorImageProfile = scaled;
+//                        int nh = (int) (drPic.getHeight() * (64.0 / drPic.getWidth()));
+//                        Bitmap scaled = Bitmap.createScaledBitmap(drPic, 64, nh, true);
+//                        G.doctorImageProfile = scaled;
 
                         if (database.openConnection()) {
                             database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
@@ -614,10 +653,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         } else {
                             dialog.dismiss();
                             new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
+                            btnImgSelect.setClickable(true);
                         }
                     }
                 }
                 dialog.dismiss();
+                btnImgSelect.setClickable(true);
             }
         }
     }

@@ -458,9 +458,17 @@ public class gallery2 extends Activity {
                     aks.setDate("");
                     aks.setDescription(description);
                     photos.add(aks);
-                    visist_list.add(true);
-                    adapter.notifyDataSetChanged();
-                    mListView.setSelection(photos.size() - 1);
+                    if(mListView.getChildCount() == 0) {
+                        visist_list = new ArrayList<Boolean>();
+                        visist_list.add(true);
+                        adapter = new CustomListAdapterGallery2(gallery2.this, photos);
+                        mListView.setAdapter(adapter);
+                    }else {
+                        visist_list.add(true);
+                        adapter.notifyDataSetChanged();
+                        mListView.setSelection(photos.size() - 1);
+                    }
+
 
 
                 }
@@ -605,14 +613,20 @@ public class gallery2 extends Activity {
             if (msg != null) {
                 new MessageBox(gallery2.this, msg).show();
             } else {
+
                 if (imagesInWeb != null && imagesInWeb.size() > 0) {
                     initSlideShow(imagesInWeb);
                     asyncDeleteJunkPic = new asyncDeletePicFromPhone();
                     asyncDeleteJunkPic.execute();
+                }else {
+                    if(G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()){
+                        insertLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }
     }
+
 
     private void initSlideShow(ArrayList<PhotoDesc> imagesInWeb) {
 
@@ -629,9 +643,14 @@ public class gallery2 extends Activity {
         }
         adapter = new CustomListAdapterGallery2(gallery2.this, photos);
         mListView.setAdapter(adapter);
-        insertLayout.setVisibility(View.VISIBLE);
+        if(G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()){
+            insertLayout.setVisibility(View.VISIBLE);
+        }
 
-        for (int i = 0; i < 2; i++) {
+        int imageCount = 1;
+        if(imagesInWeb.size() > 1)
+            imageCount = 2;
+        for (int i = 0; i < imageCount; i++) {
             visist_list.set(i, true);
             asyncGetGalleryPic task = new asyncGetGalleryPic();
             task.execute(String.valueOf(photos.get(i).getId()), String.valueOf(i));

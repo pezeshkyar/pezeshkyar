@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Util.MessageBox;
@@ -28,7 +30,12 @@ public class CancelReservationDialog extends Dialog {
     private boolean cancleResult = false;
     private int selectedItem = -1;
     private ListView mListView;
+    private TextView nothingTxt;
     private ArrayList<Reservation> reservations;
+    private ProgressBar progressBar;
+
+    asyncCallGetReservationByTurnIdWS getReservationByTurnIdTask;
+    asyncCallCancelReservationWS cancelReservationTask;
 
     public CancelReservationDialog(Context context, int turnId) {
         super(context);
@@ -47,8 +54,22 @@ public class CancelReservationDialog extends Dialog {
 
     private void initViews() {
         mListView = (ListView) findViewById(R.id.cancelReservationListView);
-        asyncCallGetReservationByTurnIdWS task = new asyncCallGetReservationByTurnIdWS();
-        task.execute();
+        progressBar = (ProgressBar)findViewById(R.id.cancelReservation_Progress);
+        nothingTxt = (TextView)findViewById(R.id.cancelReservation_nothing);
+        getReservationByTurnIdTask = new asyncCallGetReservationByTurnIdWS();
+        getReservationByTurnIdTask.execute();
+    }
+
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        if(getReservationByTurnIdTask != null){
+            getReservationByTurnIdTask.cancel(true);
+        }
+        if(cancelReservationTask != null){
+            cancelReservationTask.cancel(true);
+        }
     }
 
     private void eventListener() {
@@ -63,8 +84,8 @@ public class CancelReservationDialog extends Dialog {
                     public void onDismiss(DialogInterface dialogInterface) {
                         if (message.pressAcceptButton()) {
                             selectedItem = position;
-                            asyncCallCancelReservationWS task = new asyncCallCancelReservationWS();
-                            task.execute();
+                            cancelReservationTask = new asyncCallCancelReservationWS();
+                            cancelReservationTask.execute();
                         }
                     }
                 });
@@ -80,14 +101,7 @@ public class CancelReservationDialog extends Dialog {
     private class asyncCallGetReservationByTurnIdWS extends AsyncTask<String, Void, Void> {
         Reservation reservation = null;
         String msg = null;
-        ProgressDialog dialog;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
-            dialog.getWindow().setGravity(Gravity.END);
-        }
 
         @Override
         protected Void doInBackground(String... strings) {
@@ -104,7 +118,6 @@ public class CancelReservationDialog extends Dialog {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-                dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
                 if (reservations.size() != 0) {
@@ -117,10 +130,11 @@ public class CancelReservationDialog extends Dialog {
                         users.add(userInfo);
                     }
                     mListView.setAdapter(new CustomReservationListAdapter(getContext(), users, turnId));
+                    progressBar.setVisibility(View.GONE);
                 }else {
-                    Toast.makeText(context, "هیچ موردی یافت نشده است .",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    nothingTxt.setVisibility(View.VISIBLE);
                 }
-                dialog.dismiss();
             }
         }
     }
@@ -134,7 +148,9 @@ public class CancelReservationDialog extends Dialog {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال حذف نوبت ...");
+            dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
+            mListView.setEnabled(false);
         }
 
         @Override
@@ -150,6 +166,7 @@ public class CancelReservationDialog extends Dialog {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            mListView.setEnabled(true);
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(context, msg).show();

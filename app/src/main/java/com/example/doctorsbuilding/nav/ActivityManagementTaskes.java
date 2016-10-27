@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -58,7 +59,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private EditText task_name;
     private EditText task_price;
     private Spinner task_spinner_taskGroup;
-    private LinearLayout task_layout_edit;
+    private RelativeLayout task_layout_edit;
     private int task_selectedId = -1;
 
     private ViewFlipper mViewFlipper;
@@ -183,7 +184,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_btn_edit = (Button) findViewById(R.id.subTask_editBtn);
         task_btn_delete = (Button) findViewById(R.id.subTask_deleteBtn);
         task_btn_add_ = (Button) findViewById(R.id.subTask_addBtn);
-        task_layout_edit = (LinearLayout) findViewById(R.id.subTask_editLayout);
+        task_layout_edit = (RelativeLayout) findViewById(R.id.subTask_editLayout);
         task_btn_add = (Button) findViewById(R.id.add_task_acceptBtn);
     }
 

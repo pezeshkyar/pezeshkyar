@@ -8,11 +8,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -58,6 +60,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+import java.util.concurrent.RejectedExecutionHandler;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -84,17 +87,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     CirclePageIndicator indicator;
     static ViewPager mPager;
     ArrayList<PhotoDesc> baners;
+
     asyncGetGalleryPic asyncGetGalleryPic;
     AsyncGetDoctorPic getDoctorPic;
     AsyncCallGetUnreadMessagesWs asyncGetMessage;
-    ArrayList<Boolean> banerTaskList;
     asyncGetImageIdFromWeb asyncBaner;
+
+    ArrayList<Boolean> banerTaskList;
     ImageView btn_menu;
     DrawerLayout mDrawerLayout;
     ImageView menu_header_image;
     TextView menu_header_name;
     TextView menu_header_version;
     ProgressBar baner_progress;
+
+    DrawerLayout drawer;
 
 
     @Override
@@ -120,9 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         updatePage();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void stopAllAsyncTask() {
         if (asyncGetGalleryPic != null)
             asyncGetGalleryPic.cancel(true);
 
@@ -136,6 +141,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (asyncBaner != null) {
             asyncBaner.cancel(true);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopAllAsyncTask();
     }
 
     private void updatePage() {
@@ -181,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         asyncBaner = new asyncGetImageIdFromWeb();
         asyncBaner.execute();
 
-        if(G.UserInfo.getRole()!=0) {
+        if (G.UserInfo.getRole() != 0) {
             getDoctorPic = new AsyncGetDoctorPic();
             getDoctorPic.execute();
             asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
@@ -230,16 +241,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }, 3000, 3000);
 
         banerTaskList.set(0, true);
-        asyncGetGalleryPic task = new asyncGetGalleryPic();
-        task.execute(String.valueOf(baners.get(0).getId()), String.valueOf(0));
+        asyncGetGalleryPic = new asyncGetGalleryPic();
+        asyncGetGalleryPic.execute(String.valueOf(baners.get(0).getId()), String.valueOf(0));
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
                 if (!banerTaskList.get(position)) {
                     banerTaskList.set(position, true);
-                    asyncGetGalleryPic task = new asyncGetGalleryPic();
-                    task.execute(String.valueOf(baners.get(position).getId()), String.valueOf(position));
+                    asyncGetGalleryPic = new asyncGetGalleryPic();
+                    asyncGetGalleryPic.execute(String.valueOf(baners.get(position).getId()), String.valueOf(position));
                 }
             }
 
@@ -258,11 +269,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initViews() {
 
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+
+        if (currentapiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
+            ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_RTL);
+        }
+
+
         //final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         //layout.setDragView(findViewById(R.id.content_main_info));
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar33);
+        Toolbar mainToolbar = (Toolbar) findViewById(R.id.toolbar33);
+        mainToolbar.setContentInsetsAbsolute(0, 0);
+
+
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -283,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 findViewById(R.id.indicator);
         baner_progress = (ProgressBar) findViewById(R.id.baner_progress);
         btnUnreadMessage = (RelativeLayout) findViewById(R.id.unreadMessage33);
+        btnUnreadMessage.setEnabled(true);
         badge = new BadgeView(MainActivity.this, btnUnreadMessage);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
         drName = (TextView) findViewById(R.id.content_main_name);
@@ -302,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnUnreadMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(menu != UserType.Guest) {
+                if (menu != UserType.Guest) {
                     if (unreadMessages != null && unreadMessages.size() != 0) {
                         ActivityNotificationDialog dialog = new ActivityNotificationDialog(MainActivity.this,
                                 android.R.style.Theme_DeviceDefault_Dialog_MinWidth, unreadMessages);
@@ -361,25 +384,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logOut() {
-        if (asyncGetGalleryPic != null)
-            asyncGetGalleryPic.cancel(true);
-
-        if (getDoctorPic != null) {
-            getDoctorPic.cancel(true);
-        }
-
-        if (asyncGetMessage != null) {
-            asyncGetMessage.cancel(true);
-        }
-        if (asyncBaner != null) {
-            asyncBaner.cancel(true);
-        }
+        stopAllAsyncTask();
         settings.edit().remove("user").apply();
         settings.edit().remove("pass").apply();
         settings.edit().remove("role").apply();
         setNavigationViewMenu(UserType.Guest);
         G.UserInfo = null;
         badge.hide();
+        btnUnreadMessage.setEnabled(false);
+
+
 //
 //        startActivity(new Intent(MainActivity.this, SignInActivity.class));
 //        finish();
@@ -391,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
@@ -434,6 +449,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mi.setTitle(mNewTitle);
     }
 
+
     private void setNavigationViewMenu(UserType menu) {
 
         switch (menu) {
@@ -458,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
@@ -474,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
@@ -489,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
@@ -633,8 +649,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(Gravity.RIGHT);
         return true;
     }
 
@@ -645,13 +660,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (doubleBackToExitPressedOnce) {
 //            super.onBackPressed();
 //            moveTaskToBack(true);
-            this.finish();
+            stopAllAsyncTask();
+            super.onBackPressed();
             return;
         }
         this.doubleBackToExitPressedOnce = true;
@@ -757,7 +774,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 photoId = Integer.parseInt(strings[0]);
                 currentPageNum = Integer.parseInt(strings[1]);
-                if(database.openConnection()) {
+                if (database.openConnection()) {
                     photo = database.getImageFromGallery(photoId);
                 }
                 if (photo == null) {
@@ -826,9 +843,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new MessageBox(MainActivity.this, msg).show();
             } else {
                 if (imageIdsInWeb != null && imageIdsInWeb.size() > 0) {
-
+                    indicator.setVisibility(View.VISIBLE);
                     initSlideShow(imageIdsInWeb);
 
+                } else {
+                    banerTaskList = new ArrayList<Boolean>();
+                    baners = new ArrayList<PhotoDesc>();
+                    PhotoDesc aks = new PhotoDesc();
+                    aks.setId(-1);
+                    aks.setDescription("");
+                    aks.setDate("");
+                    aks.setPhoto(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor_temp));
+                    baners.add(aks);
+
+                    mPager.setAdapter(new SlidingImage_Adapter(MainActivity.this, baners));
+                    indicator.setVisibility(View.GONE);
                 }
             }
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -26,46 +27,30 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
-                <ImageButton
-                    android:id="@+id/drProfile_btnDrPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="10dp"
-                    android:background="@android:color/transparent"
+                <ImageButton android:id="@+id/drProfile_btnDrPhoto"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp" android:background="@android:color/transparent"
                     android:scaleType="fitXY" />
 
-                <TextView
-                    android:id="@+id/tv_doctorName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
+                <TextView android:id="@+id/tv_doctorName" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_alignParentTop="true"
+                    android:layout_marginBottom="10dp" android:layout_marginRight="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_toLeftOf="@id/drProfile_btnDrPhoto"
-                    android:text="دکتر شمس السادات رضوی"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:text="دکتر شمس السادات رضوی" android:textColor="@android:color/white"
+                    android:textSize="14sp" android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_doctorInfo"
-                    android:layout_width="match_parent"
+                <TextView android:id="@+id/tv_doctorInfo" android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@id/tv_doctorName"
-                    android:layout_below="@id/tv_doctorName"
-                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/tv_doctorName" android:layout_marginTop="10dp"
                     android:text="فوق تخصص گوش و حلق و بینی"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textColor="@android:color/white" android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/drProfile_btnGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageButton android:id="@+id/drProfile_btnGallery"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_doctorName"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_dr_gallery" />
@@ -85,21 +70,16 @@
             app:tabIndicatorColor="@color/tabIndicatorColor"
             app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="@android:color/primary_text_light"
-            app:tabTextColor="@android:color/secondary_text_dark" />
+            app:tabTextColor="@android:color/secondary_text_dark"/>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+        <View android:layout_width="match_parent" android:layout_height="0.5dp"
             android:background="@color/colorDivider" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <android.support.v4.view.ViewPager android:id="@+id/container"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_weight="1" app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

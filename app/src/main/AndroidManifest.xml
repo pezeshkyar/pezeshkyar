@@ -21,7 +21,7 @@
             android:value="com.example.doctorsbuilding.nav.MainActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDPxvHFihvS4p2yPFoH53zZ6X8Ex0CZIww" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

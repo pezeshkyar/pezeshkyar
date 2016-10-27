@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -290,7 +292,12 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             phoneNos = new ArrayList<String>();
             for (int i = 1; i < checkedItems.size(); i++) {
                 if (checkedItems.get(i)) {
-                    receivers.add(mRturns.get(i).getUsername());
+                    if(mRturns.get(i).getPatientUsername().equals(""))
+                        receivers.add(mRturns.get(i).getUsername());
+                    else
+                        receivers.add(mRturns.get(i).getPatientUsername());
+
+
                     phoneNos.add(mRturns.get(i).getPatientPhoneNo());
                 }
             }

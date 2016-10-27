@@ -75,53 +75,59 @@
 
     <RelativeLayout
         android:id="@+id/gallery2_insert_layout"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingBottom="3dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="3dp">
+        android:paddingTop="3dp"
+        android:visibility="gone">
 
-        <LinearLayout
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="7">
-
-            <ImageView
-                android:id="@+id/gallery2_apply_image"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_gallery2" />
-
-            <ImageView
-                android:id="@+id/gallery2_apply_edit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_edit"
-                android:visibility="gone" />
+            tools:context=".gallery2">
 
             <EditText
                 android:id="@+id/gallery2_about"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="6"
-                android:height="20dp"
                 android:background="@android:color/transparent"
                 android:hint="درباره عکس ..."
                 android:inputType="textMultiLine|text"
                 android:lines="5"
-                android:maxLength="150"
+                android:maxLength="250"
                 android:maxLines="10"
                 android:padding="8dp"
                 android:paddingRight="10dp"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="90%" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/gallery2_apply_image"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_widthPercent="10%"
+                android:src="@drawable/ic_gallery2" />
+
+            <ImageView
+                android:id="@+id/gallery2_apply_edit"
+                android:layout_alignParentLeft="true"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_edit"
+                app:layout_widthPercent="10%"
+                android:visibility="gone" />
+
+
+        </android.support.percent.PercentRelativeLayout>
 
     </RelativeLayout>
 </LinearLayout>

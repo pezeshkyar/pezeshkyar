@@ -214,7 +214,9 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/subTask_editLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -225,16 +227,16 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:weightSum="3">
+                tools:context=".ActivityManagementTaskes">
 
                 <Button
-                    android:id="@+id/subTask_deleteBtn"
+                    android:id="@+id/subTask_addBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/my_delete_button"
-                    android:text="حذف"
+                    app:layout_widthPercent="32%"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/my_add_button"
+                    android:text="افزودن"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
@@ -242,25 +244,28 @@
                     android:id="@+id/subTask_editBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
+                    android:layout_toLeftOf="@id/subTask_addBtn"
+                    app:layout_widthPercent="32%"
+                    app:layout_marginLeftPercent="2%"
+                    app:layout_marginRightPercent="2%"
                     android:background="@drawable/my_button"
                     android:text="ویرایش"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/subTask_addBtn"
+                    android:id="@+id/subTask_deleteBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/my_add_button"
-                    android:text="افزودن"
+                    app:layout_widthPercent="32%"
+                    android:layout_toLeftOf="@id/subTask_editBtn"
+                    android:background="@drawable/my_delete_button"
+                    android:text="حذف"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
-            </LinearLayout>
+
+            </android.support.percent.PercentRelativeLayout>
 
             <FrameLayout
                 android:id="@+id/add_task_card_view"

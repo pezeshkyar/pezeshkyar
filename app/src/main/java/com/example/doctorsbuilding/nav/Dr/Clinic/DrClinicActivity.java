@@ -59,6 +59,12 @@ public class DrClinicActivity extends AppCompatActivity {
     Button backBtn;
     ProgressDialog dialog;
 
+    AsyncCallStateWS getStateTask;
+    AsyncCallGetExpertWS getExpertTask;
+    AsyncCallCityWS getCityTask;
+    AsyncCallSubExpertWS getSubExpertTask;
+    AsyncCallUpdateOfficeWS updateOfficeTask;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +79,41 @@ public class DrClinicActivity extends AppCompatActivity {
             isOfficeExist = true;
             showOfficeInfo();
         }
-        dialog = ProgressDialog.show(DrClinicActivity.this,"", "در حال دریافت اطلاعات ...");
+        dialog = ProgressDialog.show(DrClinicActivity.this, "", "در حال دریافت اطلاعات ...");
         dialog.getWindow().setGravity(Gravity.END);
-        AsyncCallStateWS getStateTask = new AsyncCallStateWS();
+        dialog.setCancelable(true);
+        insertBtn.setClickable(false);
+
+        getStateTask = new AsyncCallStateWS();
         getStateTask.execute();
 
-        AsyncCallGetExpertWS getExpertTask = new AsyncCallGetExpertWS();
+        getExpertTask = new AsyncCallGetExpertWS();
         getExpertTask.execute();
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopAllAsyncTask();
+    }
+
+    private void stopAllAsyncTask() {
+        if (getStateTask != null)
+            getStateTask.cancel(true);
+
+        if (getExpertTask != null)
+            getExpertTask.cancel(true);
+
+        if (getCityTask != null)
+            getCityTask.cancel(true);
+
+        if (getSubExpertTask != null)
+            getSubExpertTask.cancel(true);
+
+        if (updateOfficeTask != null)
+            updateOfficeTask.cancel(true);
 
 
     }
@@ -97,7 +131,7 @@ public class DrClinicActivity extends AppCompatActivity {
         phone = (EditText) findViewById(R.id.dr_office_phone);
         expert = (Spinner) findViewById(R.id.dr_office_spec);
         subExpert = (Spinner) findViewById(R.id.dr_office_subSpec);
-        secretary = (EditText) findViewById(R.id.dr_office_secretary);
+//        secretary = (EditText) findViewById(R.id.dr_office_secretary);
         biography = (EditText) findViewById(R.id.dr_office_biography);
         insertBtn = (Button) findViewById(R.id.dr_office_btnInsert);
 
@@ -116,8 +150,8 @@ public class DrClinicActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 stateSelectedIndex = i;
-                AsyncCallCityWS task = new AsyncCallCityWS();
-                task.execute();
+                getCityTask = new AsyncCallCityWS();
+                getCityTask.execute();
             }
 
             @Override
@@ -129,8 +163,8 @@ public class DrClinicActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 expertSelectedIndex = i;
-                AsyncCallSubExpertWS task = new AsyncCallSubExpertWS();
-                task.execute();
+                getSubExpertTask = new AsyncCallSubExpertWS();
+                getSubExpertTask.execute();
             }
 
             @Override
@@ -142,8 +176,8 @@ public class DrClinicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkField()) {
-                    AsyncCallUpdateOfficeWS updateOfficeWS = new AsyncCallUpdateOfficeWS();
-                    updateOfficeWS.execute();
+                    updateOfficeTask = new AsyncCallUpdateOfficeWS();
+                    updateOfficeTask.execute();
                 }
             }
         });
@@ -214,6 +248,7 @@ public class DrClinicActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
                 dialog.dismiss();
+                insertBtn.setClickable(true);
                 new MessageBox(DrClinicActivity.this, msg).show();
             } else {
 
@@ -272,6 +307,7 @@ public class DrClinicActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
                 dialog.dismiss();
+                insertBtn.setClickable(true);
                 new MessageBox(DrClinicActivity.this, msg).show();
             } else {
                 setCitySpinner();
@@ -299,10 +335,12 @@ public class DrClinicActivity extends AppCompatActivity {
 
     private class AsyncCallGetExpertWS extends AsyncTask<String, Void, Void> {
         String msg = null;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -322,6 +360,7 @@ public class DrClinicActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
                 dialog.dismiss();
+                insertBtn.setClickable(true);
                 new MessageBox(DrClinicActivity.this, msg).show();
             } else {
                 setExpertSpinner();
@@ -355,10 +394,12 @@ public class DrClinicActivity extends AppCompatActivity {
 
     private class AsyncCallSubExpertWS extends AsyncTask<String, Void, Void> {
         String msg = null;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             if (expertSelectedIndex != -1) {
@@ -379,10 +420,11 @@ public class DrClinicActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(msg!=null){
+            if (msg != null) {
                 dialog.dismiss();
+                insertBtn.setClickable(true);
                 new MessageBox(DrClinicActivity.this, msg).show();
-            }else {
+            } else {
                 setSubExpertSpinner();
 
                 if (isOfficeExist) {
@@ -394,6 +436,7 @@ public class DrClinicActivity extends AppCompatActivity {
                     }
                 }
                 dialog.dismiss();
+                insertBtn.setClickable(true);
             }
         }
 
@@ -418,6 +461,8 @@ public class DrClinicActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog1 = ProgressDialog.show(DrClinicActivity.this, "", "در حال بروزرسانی اطلاعات ...");
             dialog1.getWindow().setGravity(Gravity.END);
+            dialog1.setCancelable(true);
+            insertBtn.setClickable(false);
             office = G.officeInfo.clone();
             City selectedCity = (City) city.getSelectedItem();
             office.setCityId(selectedCity.GetCityID());
@@ -432,6 +477,7 @@ public class DrClinicActivity extends AppCompatActivity {
             office.setPhone(phone.getText().toString().trim());
             office.setBiography(biography.getText().toString().trim());
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -445,6 +491,7 @@ public class DrClinicActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            insertBtn.setClickable(true);
             if (msg != null) {
                 dialog1.dismiss();
                 new MessageBox(DrClinicActivity.this, msg).show();
