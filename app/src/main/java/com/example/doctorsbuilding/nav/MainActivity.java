@@ -50,6 +50,7 @@ import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
+import com.example.doctorsbuilding.nav.support.DiscussActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -596,6 +597,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_secretary_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
+                break;
+            case R.id.nav_dr_support:
+                startActivity(new Intent(MainActivity.this, DiscussActivity.class));
                 break;
             case R.id.nav_secretary_logout:
                 logOut();

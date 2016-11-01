@@ -143,6 +143,11 @@
             android:name=".ActivityManageSecretary"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
+        <activity
+            android:name=".support.DiscussActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+
     </application>
 
 </manifest>

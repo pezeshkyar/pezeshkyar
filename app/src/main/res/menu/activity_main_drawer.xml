@@ -56,6 +56,10 @@
             android:icon="@drawable/ic_gallery"
             android:title="گالری عکس" />
         <item
+            android:id="@+id/nav_dr_support"
+            android:icon="@drawable/ic_support"
+            android:title="پشتیبانی" />
+        <item
             android:id="@+id/nav_dr_call"
             android:icon="@drawable/ic_menu_call"
             android:title="تماس با ما" />

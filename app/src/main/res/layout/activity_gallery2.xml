@@ -99,10 +99,9 @@
                 android:layout_marginLeft="20dp"
                 android:background="@android:color/transparent"
                 android:hint="درباره عکس ..."
-                android:inputType="textMultiLine|text"
-                android:lines="5"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:maxLength="250"
-                android:maxLines="10"
+                android:maxLines="5"
                 android:padding="8dp"
                 android:paddingRight="10dp"
                 android:textSize="14sp"
@@ -111,20 +110,20 @@
 
             <ImageView
                 android:id="@+id/gallery2_apply_image"
-                android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_widthPercent="10%"
-                android:src="@drawable/ic_gallery2" />
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_gallery2"
+                app:layout_widthPercent="10%" />
 
             <ImageView
                 android:id="@+id/gallery2_apply_edit"
-                android:layout_alignParentLeft="true"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_edit"
-                app:layout_widthPercent="10%"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:layout_widthPercent="10%" />
 
 
         </android.support.percent.PercentRelativeLayout>
