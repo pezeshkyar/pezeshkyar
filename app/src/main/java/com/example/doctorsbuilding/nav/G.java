@@ -50,4 +50,7 @@ public class G extends Application {
     public static Typeface getBoldFont() {
         return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile_Bold.ttf");
     }
+    public static Typeface getNormalFont() {
+        return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
+    }
 }

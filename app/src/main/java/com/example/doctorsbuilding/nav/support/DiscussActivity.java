@@ -23,6 +23,11 @@ public class DiscussActivity extends Activity {
     PersianCalendar persianCalendar = new PersianCalendar();
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discuss);
@@ -38,7 +43,7 @@ public class DiscussActivity extends Activity {
             public void onClick(View view) {
 
                 adapter.add(new OneComment(false, mEditText.getText().toString()
-                        , persianCalendar.getPersianShortDateTime(), "اردشیر بهاریان"));
+                        , persianCalendar.getPersianLongDateAndTime(), "اردشیر بهاریان"));
                 mEditText.setText("");
                 try {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -53,13 +58,9 @@ public class DiscussActivity extends Activity {
         addItems();
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
 
     private void addItems() {
-        adapter.add(new OneComment(true, "سلام، مشکل چیه ؟!", persianCalendar.getPersianShortDateTime(), "حسین سالخورده"));
+        adapter.add(new OneComment(true, "سلام، مشکل چیه ؟!", persianCalendar.getPersianLongDateAndTime(), "حسین سالخورده"));
     }
 
 }

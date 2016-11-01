@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.R;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class DiscussArrayAdapter extends ArrayAdapter<OneComment> {
 
     private List<OneComment> countries = new ArrayList<OneComment>();
     private LinearLayout wrapper;
-    private RelativeLayout layout_row;
+    private LinearLayout layout_row;
 
     @Override
     public void add(OneComment object) {
@@ -49,36 +50,39 @@ public class DiscussArrayAdapter extends ArrayAdapter<OneComment> {
         }
 
         wrapper = (LinearLayout) row.findViewById(R.id.wrapper);
-        layout_row = (RelativeLayout) row.findViewById(R.id.support_row);
+        layout_row = (LinearLayout) row.findViewById(R.id.support_row);
         OneComment coment = getItem(position);
         layout_row.setBackgroundResource(coment.left ? R.drawable.bubble_yellow : R.drawable.bubble_green);
         wrapper.setGravity(coment.left ? Gravity.LEFT : Gravity.RIGHT);
 
 
         TextView sender = (TextView) row.findViewById(R.id.support_sender);
+        sender.setTypeface(G.getBoldFont());
         sender.setText(coment.sender);
 
         TextView comment = (TextView) row.findViewById(R.id.support_comment);
+        comment.setTypeface(G.getNormalFont());
         comment.setText(coment.comment);
 
         TextView date = (TextView) row.findViewById(R.id.support_date);
+        date.setTypeface(G.getNormalFont());
         date.setText(coment.date);
 
-        date.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        comment.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-
-        int date_size = date.getMeasuredWidth();
-        int commnet_size = comment.getMeasuredWidth();
-
-        if (date_size > commnet_size) {
-            RelativeLayout.LayoutParams params_date = (RelativeLayout.LayoutParams) comment.getLayoutParams();
-            params_date.addRule(RelativeLayout.RIGHT_OF, R.id.support_date);
-            comment.setLayoutParams(params_date);
-        } else {
-            RelativeLayout.LayoutParams params_date1 = (RelativeLayout.LayoutParams) comment.getLayoutParams();
-            params_date1.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            comment.setLayoutParams(params_date1);
-        }
+//        date.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+//        comment.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+//
+//        int date_size = date.getMeasuredWidth();
+//        int commnet_size = comment.getMeasuredWidth();
+//
+//        if (date_size > commnet_size) {
+//            RelativeLayout.LayoutParams params_date = (RelativeLayout.LayoutParams) comment.getLayoutParams();
+//            params_date.addRule(RelativeLayout.RIGHT_OF, R.id.support_date);
+//            comment.setLayoutParams(params_date);
+//        } else {
+//            RelativeLayout.LayoutParams params_date1 = (RelativeLayout.LayoutParams) comment.getLayoutParams();
+//            params_date1.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//            comment.setLayoutParams(params_date1);
+//        }
 
         return row;
     }

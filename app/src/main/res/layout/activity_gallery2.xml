@@ -114,6 +114,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_gallery2"
+                android:tint="@color/colorAccent"
                 app:layout_widthPercent="10%" />
 
             <ImageView
@@ -122,6 +123,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_edit"
+                android:tint="@color/colorAccent"
                 android:visibility="gone"
                 app:layout_widthPercent="10%" />
 

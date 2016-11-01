@@ -558,6 +558,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
                 break;
+            case R.id.nav_dr_support:
+                startActivity(new Intent(MainActivity.this, DiscussActivity.class));
+                break;
             case R.id.nav_dr_logout:
                 logOut();
                 break;
@@ -598,7 +601,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
                 break;
-            case R.id.nav_dr_support:
+            case R.id.nav_secretary_support:
                 startActivity(new Intent(MainActivity.this, DiscussActivity.class));
                 break;
             case R.id.nav_secretary_logout:

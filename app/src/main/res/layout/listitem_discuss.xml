@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/support_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -13,8 +14,7 @@
             android:id="@+id/support_sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/support_comment"
+            android:layout_gravity="end|right"
             android:text="حسین سالخورده"
             android:textColor="@color/colorPrimary" />
 
@@ -22,7 +22,7 @@
             android:id="@+id/support_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/support_sender"
+            android:layout_gravity="end|right"
             android:layout_marginTop="15dp"
             android:text="سلام"
             android:textColor="@android:color/primary_text_light" />
@@ -31,13 +31,13 @@
             android:id="@+id/support_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/support_comment"
             android:layout_marginTop="10dp"
+            android:layout_gravity="start|left"
+            android:textSize="10sp"
             android:text="چهارشنبه 23 مهر 95 11:30"
             android:textColor="@android:color/darker_gray" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
