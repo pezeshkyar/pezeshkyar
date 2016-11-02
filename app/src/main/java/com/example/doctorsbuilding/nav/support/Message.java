@@ -5,10 +5,13 @@ package com.example.doctorsbuilding.nav.support;
  */
 public class Message {
     private int id;
-    private int user_id;
-    private int ticket_id;
-    private String send_message;
-    private String recieve_message;
+    private int userId;
+    private int ticketId;
+    private String message;
+    private String date;
+    private String username;
+    private String firstName;
+    private String lastName;
 
     public int getId() {
         return id;
@@ -18,35 +21,59 @@ public class Message {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getTicket_id() {
-        return ticket_id;
+    public int getTicketId() {
+        return ticketId;
     }
 
-    public void setTicket_id(int ticket_id) {
-        this.ticket_id = ticket_id;
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
     }
 
-    public String getSend_message() {
-        return send_message;
+    public String getMessage() {
+        return message;
     }
 
-    public void setSend_message(String send_message) {
-        this.send_message = send_message;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getRecieve_message() {
-        return recieve_message;
+    public String getDate() {
+        return date;
     }
 
-    public void setRecieve_message(String recieve_message) {
-        this.recieve_message = recieve_message;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

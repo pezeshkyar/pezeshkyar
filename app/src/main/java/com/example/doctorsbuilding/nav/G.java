@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.ArrayAdapter;
 
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.User.User;
+import com.example.doctorsbuilding.nav.support.Ticket;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -53,4 +55,7 @@ public class G extends Application {
     public static Typeface getNormalFont() {
         return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
     }
+
+    //Added By Ardeshir
+    public static ArrayAdapter<Ticket> mAdapter;
 }

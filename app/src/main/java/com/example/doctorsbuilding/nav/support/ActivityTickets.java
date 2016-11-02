@@ -37,7 +37,6 @@ public class ActivityTickets extends AppCompatActivity {
     private ListView mListView;
     private FloatingActionButton mFab;
     private Button backBtn;
-    private ArrayAdapter<Ticket> mAdapter;
     private AsyncGetTicketWS getTicketTask;
 
     @Override
@@ -62,8 +61,8 @@ public class ActivityTickets extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.tickets_listView);
         mFab = (FloatingActionButton)findViewById(R.id.tickets_fab);
         backBtn = (Button)findViewById(R.id.tickets_backBtn);
-        mAdapter = new ArrayAdapter<Ticket>(ActivityTickets.this, R.layout.spinner_item);
-        mListView.setAdapter(mAdapter);
+        G.mAdapter = new ArrayAdapter<Ticket>(ActivityTickets.this, R.layout.spinner_item);
+        mListView.setAdapter(G.mAdapter);
 
         getTicketTask = new AsyncGetTicketWS();
         getTicketTask.execute();
@@ -79,7 +78,10 @@ public class ActivityTickets extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                startActivity(new Intent(ActivityTickets.this, DiscussActivity.class));
+                Ticket t = G.mAdapter.getItem(position);
+                Intent intent = new Intent(ActivityTickets.this, DiscussActivity.class);
+                intent.putExtra("id", t.getId());
+                startActivity(intent);
             }
         });
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +126,7 @@ public class ActivityTickets extends AppCompatActivity {
                 if (ticket_list != null && ticket_list.size() != 0) {
 
                     for (Ticket t : ticket_list)
-                        mAdapter.add(t);
+                        G.mAdapter.add(t);
 
                     dialog.dismiss();
                 } else {

@@ -26,6 +26,7 @@ import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -78,6 +79,14 @@ public class ActivityTicket extends AppCompatActivity {
         priority_adapter = new ArrayAdapter<Priority>(ActivityTicket.this, R.layout.spinner_item);
         sp_priority.setAdapter(priority_adapter);
         addItemmToSpPriority();
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(check_field())
+                    new TicketSender().execute("");
+            }
+        });
 
     }
 
@@ -160,6 +169,64 @@ public class ActivityTicket extends AppCompatActivity {
                     dialog.dismiss();
                     new MessageBox(ActivityTicket.this, "دریافت اطلاعات با مشکل مواجه شده است .").show();
                 }
+            }
+        }
+    }
+
+    class TicketSender extends AsyncTask<String, String, Boolean>{
+        Ticket t;
+        String errMsg = "";
+        int ticketId;
+        String ticketMsg;
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(ActivityTicket.this, "", "در حال ارسال اطلاعات ...");
+            dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            sendBtn.setClickable(false);
+
+            t = new Ticket();
+            Subject s = (Subject)sp_subject.getSelectedItem();
+            t.setSubject(s.getSubject());
+            t.setSubject_id(s.getId());
+            t.setPriority((int) sp_priority.getSelectedItemId());
+            t.setTopic(topic.getText().toString());
+            ticketMsg = content.getText().toString();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            boolean res = true;
+            try {
+                ticketId = WebService.invokeRegisterTicketWS(
+                        G.UserInfo.getUserName(), G.UserInfo.getPassword(),
+                        G.officeId, t);
+                t.setId(ticketId);
+                errMsg = WebService.invokeSetUserTicketMessageWS(
+                        G.UserInfo.getUserName(), G.UserInfo.getPassword(),
+                        G.officeId, ticketId, ticketMsg);
+                res = errMsg.toLowerCase().equals("ok") ?true :false;
+            } catch (PException e) {
+                errMsg = e.getMessage();
+                res = false;
+            }
+
+            return res;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            sendBtn.setClickable(true);
+            dialog.dismiss();
+            if(aBoolean){
+                G.mAdapter.add(t);
+                ActivityTicket.this.finish();
+            } else {
+                Toast.makeText(ActivityTicket.this, errMsg, Toast.LENGTH_LONG);
             }
         }
     }

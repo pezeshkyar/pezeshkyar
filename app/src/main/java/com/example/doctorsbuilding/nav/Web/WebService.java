@@ -24,6 +24,7 @@ import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.Util;
+import com.example.doctorsbuilding.nav.support.Message;
 import com.example.doctorsbuilding.nav.support.Subject;
 import com.example.doctorsbuilding.nav.support.Ticket;
 
@@ -2206,48 +2207,120 @@ public class WebService {
         } catch (ConnectException ex) {
             throw new PException(connectMessage);
         } catch (Exception ex) {
-            throw new PException(otherMessage);
+            throw new PException(ex.getMessage());
         }
         return tickets;
     }
-//    public static String invokeRegisterTicketWS(String username, String password, Integer officeId, Ticket ticket) throws PException {
-//
-//        if (!G.isOnline()) {
-//            throw new PException(isOnlineMessage);
-//        }
-//
-//        String webMethName = "register2";
-//        String result = null;
-//        SoapObject request = new SoapObject(NAMESPACE, webMethName);
-//
-//        request.addProperty("username", username);
-//        request.addProperty("password", password);
+    public static int invokeRegisterTicketWS(String username, String password, Integer officeId, Ticket ticket) throws PException {
+
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+
+        String webMethName = "setUserTicket";
+        int result = 0;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty("username", username);
+        request.addProperty("password", password);
 //        request.addProperty("officeId", officeId);
-//
-//        request.addProperty("topic", ticket.getTopic());
-//        request.addProperty("subject", ticket.getSubject());
-//        request.addProperty("priority", ticket.getPriority());
-//        request.addProperty("username", ticket.getStart_date());
-//        request.addProperty("password", user.getPassword());
-//        request.addProperty("role", user.getRole());
-//        request.addProperty("cityid", user.getCityID());
-//        byte[] picbytes = getBytes(user.getImgProfile());
-//        request.addProperty("pic", Base64.encodeToString(picbytes, Base64.DEFAULT));
-//        request.addProperty("email", user.getEmail());
-//
-//        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//        envelope.setOutputSoapObject(request);
-//        new MarshalBase64().register(envelope);
-//        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
-//        try {
-//            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
-//            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-//            result = response.toString();
-//        } catch (ConnectException ex) {
-//            throw new PException(connectMessage);
-//        } catch (Exception ex) {
-//            throw new PException(otherMessage);
-//        }
-//        return result;
-//    }
+
+        request.addProperty("subject", ticket.getSubject_id());
+        request.addProperty("topic", ticket.getTopic());
+        request.addProperty("priority", ticket.getPriority());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = Integer.parseInt(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static String invokeSetUserTicketMessageWS(String username, String password,
+                                                   Integer officeId, int ticketId, String message) throws PException {
+
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+
+        String webMethName = "setUserTicketMessage";
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty("ticketId", ticketId);
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+//        request.addProperty("officeId", officeId);
+
+        request.addProperty("sendMessage", message);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = response.toString();
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static ArrayList<Message> invokeGetUserTicketMessageWS(String username, String password,
+                                                      Integer officeId, int ticketId) throws PException {
+
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+
+        String webMethName = "getUserTicketMessage";
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+        Message message;
+        ArrayList<Message> messages = new ArrayList<Message>();
+
+        request.addProperty("ticketId", ticketId);
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+//        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.bodyIn;
+            for (int i = 0; i < response.getPropertyCount(); i++) {
+                SoapObject obj = (SoapObject) response.getProperty(i);
+                if (obj != null) {
+                    message = new Message();
+                    message.setId(Integer.valueOf(obj.getProperty("id").toString()));
+                    message.setUserId(Integer.valueOf(obj.getProperty("userId").toString()));
+                    message.setMessage(obj.getProperty("message").toString());
+                    message.setDate(obj.getProperty("dateMessage").toString());
+                    message.setTicketId(Integer.valueOf(obj.getProperty("ticketId").toString()));
+                    message.setUsername(obj.getProperty("username").toString());
+                    message.setFirstName(String.valueOf(obj.getProperty("firstName")));
+                    message.setLastName(String.valueOf(obj.getProperty("lastName")));
+                    messages.add(message);
+                }
+            }
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return messages;
+    }
 }
