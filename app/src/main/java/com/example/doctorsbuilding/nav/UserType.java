@@ -30,4 +30,5 @@ public enum UserType {
         if (!intent.hasExtra(name)) throw new IllegalStateException();
         return values()[intent.getIntExtra(name, -1)];
     }
+
 }

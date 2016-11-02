@@ -40,7 +40,7 @@ public class ContactUs extends AppCompatActivity {
     private void initView() {
         backBtn = (Button) findViewById(R.id.contact_us_backBtn);
         imageView = (ImageView) findViewById(R.id.company_name_icon);
-        imageView.setImageBitmap(RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 200));
+        imageView.setImageBitmap(RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 200));
     }
 
     private void eventListener() {

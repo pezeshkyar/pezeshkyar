@@ -336,11 +336,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
             new MessageBox(this, "پسورد وارد شده با هم مطابقت ندارد .").show();
             return false;
         }
-        if (spinnerState.isSelected()) {
+        if (!spinnerState.isSelected()) {
             new MessageBox(PersonalInfoActivity.this, "لطفا استان محل سکونت خود را وارد نمایید .").show();
             return false;
         }
-        if (spinnerCity.isSelected()) {
+        if (!spinnerCity.isSelected()) {
             new MessageBox(PersonalInfoActivity.this, "لطفا شهر محل سکونت خود را وارد نمایید .").show();
             return false;
         }

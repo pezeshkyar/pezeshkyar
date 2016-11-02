@@ -147,6 +147,14 @@
             android:name=".support.DiscussActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
+        <activity
+            android:name=".support.ActivityTickets"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".support.ActivityTicket"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
 
     </application>
 

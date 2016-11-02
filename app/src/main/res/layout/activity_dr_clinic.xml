@@ -130,6 +130,7 @@
                 android:background="@drawable/my_edit_text"
                 android:hint="بیوگرافی"
                 android:inputType="textMultiLine|textNoSuggestions"
+                android:imeOptions="flagNoEnterAction"
                 android:gravity="start"
                 android:maxLength="1000"
                 android:maxLines="10"
