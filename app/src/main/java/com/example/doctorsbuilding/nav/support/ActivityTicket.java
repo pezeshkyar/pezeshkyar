@@ -43,6 +43,7 @@ public class ActivityTicket extends AppCompatActivity {
     private ArrayAdapter<Priority> priority_adapter;
     private ArrayAdapter<Subject> subject_adapter;
     private AsyncGetSubjectWS getSubjectTask;
+    private TicketSender ticketSender;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class ActivityTicket extends AppCompatActivity {
         super.onPause();
         if (getSubjectTask != null)
             getSubjectTask.cancel(true);
+        if (ticketSender != null)
+            ticketSender.cancel(true);
     }
 
     private void initViews() {
@@ -175,7 +178,7 @@ public class ActivityTicket extends AppCompatActivity {
 
     class TicketSender extends AsyncTask<String, String, Boolean>{
         Ticket t;
-        String errMsg = "";
+        String errMsg = null;
         int ticketId;
         String ticketMsg;
         ProgressDialog dialog;
@@ -221,12 +224,14 @@ public class ActivityTicket extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             sendBtn.setClickable(true);
-            dialog.dismiss();
-            if(aBoolean){
-                G.mAdapter.add(t);
-                ActivityTicket.this.finish();
-            } else {
-                Toast.makeText(ActivityTicket.this, errMsg, Toast.LENGTH_LONG);
+            if(errMsg != null) {
+                dialog.dismiss();
+                new MessageBox(ActivityTicket.this, errMsg).show();
+            }else {
+                if (aBoolean) {
+                    G.mAdapter.add(t);
+                    ActivityTicket.this.finish();
+                }
             }
         }
     }
