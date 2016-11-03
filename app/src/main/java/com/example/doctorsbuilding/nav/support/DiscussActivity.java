@@ -39,10 +39,10 @@ public class DiscussActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(messageReciever != null)
+        if (messageReciever != null)
             messageReciever.cancel(true);
-        if(messageSender != null)
-        messageSender.cancel(true);
+        if (messageSender != null)
+            messageSender.cancel(true);
     }
 
     @Override
@@ -69,36 +69,36 @@ public class DiscussActivity extends Activity {
 
 //                adapter.add(new OneComment(false, mEditText.getText().toString()
 //                        , persianCalendar.getPersianLongDateAndTime(), G.UserInfo.getFirstName() + " " + G.UserInfo.getLastName()));
-                new MessageSender().execute("");
+                if (!mEditText.getText().toString().trim().isEmpty()) {
+                    messageSender = new MessageSender();
+                    messageSender.execute();
 
-                mEditText.setText("");
-                try {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception ex) {
+                    mEditText.setText("");
+                    try {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    } catch (Exception ex) {}
+                    mListView.setSelection(mListView.getChildCount());
 
+                }else {
+                    new MessageBox(DiscussActivity.this, "لطفا متن درخواست را وارد نمایید .").show();
                 }
-                mListView.setSelection(mListView.getChildCount());
             }
         });
-
         addItems();
     }
 
 
     private void addItems() {
 //        adapter.add(new OneComment(true, "سلام، مشکل چیه ؟!", persianCalendar.getPersianLongDateAndTime(), "حسین سالخورده"));
-        if(!mEditText.getText().toString().trim().isEmpty()) {
-            messageReciever = new MessageReciever();
-            messageReciever.execute();
-        }else {
-            new MessageBox(DiscussActivity.this, "لطفا متن درخواست را وارد نمایید .").show();
-        }
+        messageReciever = new MessageReciever();
+        messageReciever.execute();
     }
 
-    class MessageSender extends AsyncTask<String, String, Boolean>{
+    class MessageSender extends AsyncTask<String, String, Boolean> {
         String msg;
         ProgressDialog dialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -114,11 +114,11 @@ public class DiscussActivity extends Activity {
             boolean res;
             try {
                 String str = WebService.invokeSetUserTicketMessageWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId, ticketId, msg);
-                res = str.toLowerCase().equals("ok") ?true : false;
+                res = str.toLowerCase().equals("ok") ? true : false;
             } catch (PException e) {
                 msg = e.getMessage();
                 return false;
-            } catch(Throwable t){
+            } catch (Throwable t) {
                 res = false;
             }
             return res;
@@ -128,10 +128,10 @@ public class DiscussActivity extends Activity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             mBtnSend.setClickable(true);
-            if(msg != null){
+            if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(DiscussActivity.this, msg).show();
-            }else {
+            } else {
                 if (result) {
                     adapter.add(new OneComment(false, msg, persianCalendar.getPersianLongDateAndTime(), G.UserInfo.getFirstName() + " " + G.UserInfo.getLastName()));
                     dialog.dismiss();
@@ -143,7 +143,7 @@ public class DiscussActivity extends Activity {
         }
     }
 
-    class MessageReciever extends AsyncTask<String, String, Boolean>{
+    class MessageReciever extends AsyncTask<String, String, Boolean> {
         ArrayList<Message> messages;
         ProgressDialog dialog;
         String msg = null;
@@ -173,9 +173,9 @@ public class DiscussActivity extends Activity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             mBtnSend.setClickable(true);
-            if(msg != null){
+            if (msg != null) {
                 new MessageBox(DiscussActivity.this, msg).show();
-            }else {
+            } else {
                 for (Message m : messages) {
                     boolean isLeft = m.getUsername().equals(G.UserInfo.getUserName()) ? false : true;
                     adapter.add(new OneComment(isLeft, m.getMessage(), m.getDate(), m.getFirstName() + " " + m.getLastName()));
