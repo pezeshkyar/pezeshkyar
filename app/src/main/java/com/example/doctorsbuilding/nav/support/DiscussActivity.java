@@ -1,9 +1,12 @@
 package com.example.doctorsbuilding.nav.support;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -78,9 +81,13 @@ public class DiscussActivity extends Activity {
 
     class messageSender extends AsyncTask<String, String, Boolean>{
         String msg;
+        ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = ProgressDialog.show(DiscussActivity.this, "", "در حال ارسال اطلاعات ...");
+            dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
             msg = mEditText.getText().toString();
         }
 
@@ -104,7 +111,9 @@ public class DiscussActivity extends Activity {
             super.onPostExecute(result);
             if(result){
                 adapter.add(new OneComment(false, msg, persianCalendar.getPersianLongDateAndTime(), G.UserInfo.getFirstName() +   " " + G.UserInfo.getLastName()));
+                dialog.dismiss();
             } else {
+                dialog.dismiss();
                 Toast.makeText(DiscussActivity.this,"خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
             }
         }
@@ -112,6 +121,16 @@ public class DiscussActivity extends Activity {
 
     class messageReciever extends AsyncTask<String, String, Boolean>{
         ArrayList<Message> messages;
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(DiscussActivity.this, "", "در حال دریافت اطلاعات ...");
+            dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+        }
+
         @Override
         protected Boolean doInBackground(String... strings) {
             boolean res = true;
@@ -127,11 +146,13 @@ public class DiscussActivity extends Activity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
 
-            if(messages == null) return;
-            for(Message m : messages) {
-                boolean isLeft = m.getUsername().equals(G.UserInfo.getUserName()) ? false : true;
-                adapter.add(new OneComment(isLeft, m.getMessage(), m.getDate(), m.getFirstName() +   " " + m.getLastName()));
+            if(messages != null) {
+                for (Message m : messages) {
+                    boolean isLeft = m.getUsername().equals(G.UserInfo.getUserName()) ? false : true;
+                    adapter.add(new OneComment(isLeft, m.getMessage(), m.getDate(), m.getFirstName() + " " + m.getLastName()));
+                }
             }
+            dialog.dismiss();
         }
     }
 }
