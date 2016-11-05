@@ -315,8 +315,10 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            btnInsert.setClickable(false);
             dialog = ProgressDialog.show(UserProfileActivity.this, "", "در حال ذخیره اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override
@@ -354,6 +356,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            btnInsert.setClickable(true);
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(UserProfileActivity.this, msg).show();
@@ -397,11 +400,11 @@ public class UserProfileActivity extends AppCompatActivity {
             return false;
         }
 
-        if (spinnerState.isSelected()) {
+        if (spinnerState.getSelectedItemPosition() == -1) {
             new MessageBox(UserProfileActivity.this, "لطفا استان محل سکونت خود را وارد نمایید .").show();
             return false;
         }
-        if (spinnerCity.isSelected()) {
+        if (spinnerCity.getSelectedItemPosition() == -1) {
             new MessageBox(UserProfileActivity.this, "لطفا شهر محل سکونت خود را وارد نمایید .").show();
             return false;
         }

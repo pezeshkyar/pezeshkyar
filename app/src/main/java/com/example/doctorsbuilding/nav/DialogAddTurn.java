@@ -590,6 +590,7 @@ public class DialogAddTurn extends Dialog {
             dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
             dialog.setCancelable(true);
             dialog.getWindow().setGravity(Gravity.END);
+            addTurnBtn.setClickable(false);
         }
 
         @Override
@@ -640,15 +641,12 @@ public class DialogAddTurn extends Dialog {
 
     private class asyncCallGetTaskes extends AsyncTask<String, Void, Void> {
         String msg = null;
-        //        ProgressDialog dialog;
         int taskGroupId;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             taskGroupId = ((TaskGroup) taskGroupSpinner.getSelectedItem()).getId();
-//            dialog = ProgressDialog.show(context, "", "در حال دریافت اطلاعات ...");
-//            dialog.getWindow().setGravity(Gravity.END);
         }
 
         @Override
@@ -665,7 +663,6 @@ public class DialogAddTurn extends Dialog {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-//                dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
@@ -683,9 +680,8 @@ public class DialogAddTurn extends Dialog {
                         }
                     });
 
-
                 }
-//                dialog.dismiss();
+                addTurnBtn.setClickable(true);
             }
         }
     }
