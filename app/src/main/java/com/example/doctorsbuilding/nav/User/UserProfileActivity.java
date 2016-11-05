@@ -1,6 +1,5 @@
 package com.example.doctorsbuilding.nav.User;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,16 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
-import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.UserType;
-import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
@@ -60,16 +56,16 @@ public class UserProfileActivity extends AppCompatActivity {
     private ArrayAdapter<String> cityAdapter;
     private ArrayList<State> stateList;
     private ArrayList<City> cityList;
-    private ProgressBar progressBar;
+    private ProgressDialog loadingDialog;
     private DatabaseAdapter database;
 
     private int stateID = -1;
     private static int imageProfileId = 1;
     Button backBtn;
 
-    private AsyncCallRegisterWS registerTask;
-    private AsyncCallCityWS cityTask;
-    private AsyncCallStateWS stateTask;
+    private AsyncCallRegisterWS registerTask = null;
+    private AsyncCallCityWS cityTask = null;
+    private AsyncCallStateWS stateTask = null;
 
 
     @Override
@@ -89,8 +85,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         if (registerTask != null) {
             registerTask.cancel(true);
         }
@@ -214,14 +210,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private class AsyncCallStateWS extends AsyncTask<String, Void, Void> {
         String msg = null;
-        ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(UserProfileActivity.this);
-            dialog.setTitle("در حال دریافت اطلاعات ...");
-            dialog.setCancelable(false);
-            dialog.show();
+            loadingDialog = ProgressDialog.show(UserProfileActivity.this, "", "درحال دریافت اطلاعات ...");
+            loadingDialog.getWindow().setGravity(Gravity.END);
+            loadingDialog.setCancelable(true);
         }
 
         @Override
@@ -243,14 +237,13 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
-                dialog.dismiss();
+                loadingDialog.dismiss();
                 new MessageBox(UserProfileActivity.this, msg).show();
             } else {
                 setStateSpinner();
                 if (stateID != -1) {
                     setCitySpinner();
                 }
-                dialog.dismiss();
             }
         }
 
@@ -274,24 +267,11 @@ public class UserProfileActivity extends AppCompatActivity {
             spinnerCity.setAdapter(cityAdapter);
         }
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
 
     }
 
     private class AsyncCallCityWS extends AsyncTask<String, Void, Void> {
         String msg = null;
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(UserProfileActivity.this);
-            dialog.setTitle("در حال دریافت اطلاعات ...");
-            dialog.setCancelable(false);
-            dialog.show();
-        }
 
         @Override
         protected Void doInBackground(String... strings) {
@@ -306,11 +286,11 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
-                dialog.dismiss();
+                loadingDialog.dismiss();
                 new MessageBox(UserProfileActivity.this, msg).show();
             } else {
                 setCitySpinner();
-                dialog.dismiss();
+                loadingDialog.dismiss();
             }
         }
 
@@ -324,10 +304,6 @@ public class UserProfileActivity extends AppCompatActivity {
             spinnerCity.setAdapter(cityAdapter);
         }
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-
-        }
     }
 
     private class AsyncCallRegisterWS extends AsyncTask<String, Void, Void> {
@@ -391,11 +367,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
 
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
         }
 
     }

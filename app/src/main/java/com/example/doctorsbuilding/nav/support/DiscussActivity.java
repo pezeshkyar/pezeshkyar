@@ -97,12 +97,13 @@ public class DiscussActivity extends Activity {
 
     class MessageSender extends AsyncTask<String, String, Boolean> {
         String msg;
+        String errMsg;
         ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(DiscussActivity.this, "", "در حال ارسال اطلاعات ...");
+            dialog = ProgressDialog.show(DiscussActivity.this, "", "در حال ارسال پیام ...");
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
             mBtnSend.setClickable(false);
@@ -116,7 +117,7 @@ public class DiscussActivity extends Activity {
                 String str = WebService.invokeSetUserTicketMessageWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId, ticketId, msg);
                 res = str.toLowerCase().equals("ok") ? true : false;
             } catch (PException e) {
-                msg = e.getMessage();
+                errMsg = e.getMessage();
                 return false;
             } catch (Throwable t) {
                 res = false;
@@ -128,7 +129,7 @@ public class DiscussActivity extends Activity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             mBtnSend.setClickable(true);
-            if (msg != null) {
+            if (errMsg != null) {
                 dialog.dismiss();
                 new MessageBox(DiscussActivity.this, msg).show();
             } else {

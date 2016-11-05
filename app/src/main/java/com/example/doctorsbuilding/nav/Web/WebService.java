@@ -47,8 +47,8 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-//    private static String URL = "http://185.129.168.135:8080/pezeshkyar_mostafavi/services/Webservices?wsdl";
-        private static String URL = "http://192.168.1.121:8080/pezeshkyarServer/services/Webservices?wsdl";
+//    private static String URL = "http://185.129.168.135:8080/pezeshkyar/services/Webservices?wsdl";
+            private static String URL = "http://192.168.1.121:8080/pezeshkyarServerAllInOne/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
 
@@ -136,7 +136,7 @@ public class WebService {
             throw new PException(isOnlineMessage);
         }
 
-        String webMethName = "register2";
+        String webMethName = "register";
         String result = null;
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
@@ -145,11 +145,11 @@ public class WebService {
         request.addProperty("mobileno", user.getPhone());
         request.addProperty("username", user.getUserName());
         request.addProperty("password", user.getPassword());
-        request.addProperty("role", user.getRole());
         request.addProperty("cityid", user.getCityID());
         byte[] picbytes = getBytes(user.getImgProfile());
         request.addProperty("pic", Base64.encodeToString(picbytes, Base64.DEFAULT));
         request.addProperty("email", user.getEmail());
+        request.addProperty("officeId", G.officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -176,6 +176,7 @@ public class WebService {
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
         request.addProperty("username", username);
         request.addProperty("password", password);
+        request.addProperty("officeId", G.officeId);
         request.addProperty("name", user.getFirstName());
         request.addProperty("lastname", user.getLastName());
         request.addProperty("mobileno", user.getPhone());
@@ -238,41 +239,41 @@ public class WebService {
         return result;
     }
 
-    public static Boolean invokeAddTurnWs(String name, String webMethName, String username
-            , String password, int officeId, String date, int startHour
-            , int startMin, int duration, int capacity) throws PException
-
-    {
-        if (!G.isOnline()) {
-            throw new PException(isOnlineMessage);
-        }
-        boolean result = false;
-        SoapObject request = new SoapObject(NAMESPACE, webMethName);
-
-        request.addProperty("username", username);
-        request.addProperty("password", password);
-        request.addProperty("officeId", officeId);
-        request.addProperty("date", date);
-        request.addProperty("startHour", startHour);
-        request.addProperty("startMin", startMin);
-        request.addProperty("duration", duration);
-        request.addProperty("capacity", capacity);
-
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.setOutputSoapObject(request);
-        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
-        try {
-            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
-            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-            result = Boolean.valueOf(response.toString());
-        } catch (ConnectException ex) {
-            throw new PException(connectMessage);
-        } catch (Exception ex) {
-            throw new PException(otherMessage);
-        }
-
-        return result;
-    }
+//    public static Boolean invokeAddTurnWs(String name, String webMethName, String username
+//            , String password, int officeId, String date, int startHour
+//            , int startMin, int duration, int capacity) throws PException
+//
+//    {
+//        if (!G.isOnline()) {
+//            throw new PException(isOnlineMessage);
+//        }
+//        boolean result = false;
+//        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+//
+//        request.addProperty("username", username);
+//        request.addProperty("password", password);
+//        request.addProperty("officeId", officeId);
+//        request.addProperty("date", date);
+//        request.addProperty("startHour", startHour);
+//        request.addProperty("startMin", startMin);
+//        request.addProperty("duration", duration);
+//        request.addProperty("capacity", capacity);
+//
+//        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//        envelope.setOutputSoapObject(request);
+//        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+//        try {
+//            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+//            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+//            result = Boolean.valueOf(response.toString());
+//        } catch (ConnectException ex) {
+//            throw new PException(connectMessage);
+//        } catch (Exception ex) {
+//            throw new PException(otherMessage);
+//        }
+//
+//        return result;
+//    }
 
     public static User invokeGetUserInfoWS(String username, String password, int officeId) throws PException {
         if (!G.isOnline()) {
@@ -425,6 +426,7 @@ public class WebService {
         PropertyInfo property = new PropertyInfo();
         request.addProperty("username", username);
         request.addProperty("password", password);
+        request.addProperty("officeId", G.officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -457,8 +459,10 @@ public class WebService {
         PropertyInfo property = new PropertyInfo();
         request.addProperty("username", username);
         request.addProperty("password", password);
+        request.addProperty("officeId", G.officeId);
         byte[] img = getBytes(pic);
         request.addProperty("pic", Base64.encodeToString(img, Base64.DEFAULT));
+
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -692,6 +696,7 @@ public class WebService {
 
         request.addProperty("username", username);
         request.addProperty("password", password);
+        request.addProperty("officeId", G.officeId);
         request.addProperty("reservationId", reservationId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -723,6 +728,7 @@ public class WebService {
         request.addProperty("name", name);
         request.addProperty("lastName", lastName);
         request.addProperty("mobileNo", mobileNo);
+        request.addProperty("officeId", G.officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -2118,7 +2124,6 @@ public class WebService {
                     photo.setPhoto(null);
                     photo.setDescription(obj.getProperty("description").toString());
                     photo.setDate(obj.getProperty("date").toString());
-
                     photos.add(photo);
                 }
             }
@@ -2129,7 +2134,6 @@ public class WebService {
         }
         return photos;
     }
-
     public static ArrayList<Subject> invokeGetTicketSubjectWS(String username, String password, int officeId) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
@@ -2142,7 +2146,7 @@ public class WebService {
         PropertyInfo property = new PropertyInfo();
         request.addProperty("username", username);
         request.addProperty("password", password);
-//        request.addProperty("officeId", officeId);
+        request.addProperty("officeId", officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -2180,7 +2184,7 @@ public class WebService {
         PropertyInfo property = new PropertyInfo();
         request.addProperty("username", username);
         request.addProperty("password", password);
-//        request.addProperty("officeId", officeId);
+        request.addProperty("officeId", officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -2189,21 +2193,23 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapObject response = (SoapObject) envelope.bodyIn;
-            for (int i = 0; i < response.getPropertyCount(); i++) {
-                SoapObject obj = (SoapObject) response.getProperty(i);
-                if (obj != null) {
-                    ticket = new Ticket();
-                    ticket.setId(Integer.valueOf(obj.getProperty("id").toString()));
-                    ticket.setUser_id(Integer.valueOf(obj.getProperty("userId").toString()));
-                    ticket.setSubject_id(Integer.valueOf(obj.getProperty("subjectId").toString()));
-                    ticket.setSubject(String.valueOf(obj.getProperty("subject").toString()));
-                    ticket.setTopic(String.valueOf(obj.getProperty("topic")));
-                    ticket.setPriority(Integer.valueOf(obj.getProperty("priority").toString()));
-                    ticket.setStart_date(String.valueOf(obj.getProperty("startDate")));
-                    ticket.setEnd_date(String.valueOf(obj.getProperty("endDate")));
-                    tickets.add(ticket);
-                }
-            }
+           if(isNullBodyIn(response)) {
+               for (int i = 0; i < response.getPropertyCount(); i++) {
+                   SoapObject obj = (SoapObject) response.getProperty(i);
+                   if (obj != null) {
+                       ticket = new Ticket();
+                       ticket.setId(Integer.valueOf(obj.getProperty("id").toString()));
+                       ticket.setUser_id(Integer.valueOf(obj.getProperty("userId").toString()));
+                       ticket.setSubject_id(Integer.valueOf(obj.getProperty("subjectId").toString()));
+                       ticket.setSubject(String.valueOf(obj.getProperty("subject").toString()));
+                       ticket.setTopic(String.valueOf(obj.getProperty("topic")));
+                       ticket.setPriority(Integer.valueOf(obj.getProperty("priority").toString()));
+                       ticket.setStart_date(String.valueOf(obj.getProperty("startDate")));
+                       ticket.setEnd_date(String.valueOf(obj.getProperty("endDate")));
+                       tickets.add(ticket);
+                   }
+               }
+           }
         } catch (ConnectException ex) {
             throw new PException(connectMessage);
         } catch (Exception ex) {
@@ -2211,6 +2217,18 @@ public class WebService {
         }
         return tickets;
     }
+
+    public static boolean isNullBodyIn(SoapObject response){
+        boolean res= true;
+        int count = 0;
+        try {
+            count = response.getPropertyCount();
+        }catch (Exception ex){
+            res = false;
+        }
+        return res;
+    }
+
     public static int invokeRegisterTicketWS(String username, String password, Integer officeId, Ticket ticket) throws PException {
 
         if (!G.isOnline()) {
@@ -2223,7 +2241,7 @@ public class WebService {
 
         request.addProperty("username", username);
         request.addProperty("password", password);
-//        request.addProperty("officeId", officeId);
+        request.addProperty("officeId", officeId);
 
         request.addProperty("subject", ticket.getSubject_id());
         request.addProperty("topic", ticket.getTopic());
@@ -2258,8 +2276,7 @@ public class WebService {
         request.addProperty("ticketId", ticketId);
         request.addProperty("username", username);
         request.addProperty("password", password);
-//        request.addProperty("officeId", officeId);
-
+        request.addProperty("officeId", officeId);
         request.addProperty("sendMessage", message);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -2293,7 +2310,7 @@ public class WebService {
         request.addProperty("ticketId", ticketId);
         request.addProperty("username", username);
         request.addProperty("password", password);
-//        request.addProperty("officeId", officeId);
+        request.addProperty("officeId", officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);

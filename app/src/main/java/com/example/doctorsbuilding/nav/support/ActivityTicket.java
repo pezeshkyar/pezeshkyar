@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav.support;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.tv.TvView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 11/1/2016.
  */
@@ -56,6 +59,10 @@ public class ActivityTicket extends AppCompatActivity {
         eventListener();
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -224,7 +231,7 @@ public class ActivityTicket extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             sendBtn.setClickable(true);
-            if(errMsg != null) {
+            if(errMsg != null && !errMsg.toUpperCase().equals("OK")) {
                 dialog.dismiss();
                 new MessageBox(ActivityTicket.this, errMsg).show();
             }else {

@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static ViewPager mPager;
     ArrayList<PhotoDesc> baners;
 
-    asyncGetGalleryPic asyncGetGalleryPic;
-    AsyncGetDoctorPic getDoctorPic;
-    AsyncCallGetUnreadMessagesWs asyncGetMessage;
-    asyncGetImageIdFromWeb asyncBaner;
+    asyncGetGalleryPic asyncGetGalleryPic = null;
+    AsyncGetDoctorPic getDoctorPic = null;
+    AsyncCallGetUnreadMessagesWs asyncGetMessage = null;
+    asyncGetImageIdFromWeb asyncBaner = null;
 
     ArrayList<Boolean> banerTaskList;
     ImageView btn_menu;
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView menu_header_name;
     TextView menu_header_version;
     ProgressBar baner_progress;
-
     DrawerLayout drawer;
 
 
@@ -112,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        settings = G.getSharedPreferences();
-        loadUser();
+
         initViews();
 
     }
@@ -146,12 +144,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         stopAllAsyncTask();
     }
 
     private void updatePage() {
+
+        settings = G.getSharedPreferences();
 
         if (G.UserInfo == null) {
             G.UserInfo = new User();
@@ -164,9 +164,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 G.UserInfo.setPassword("8512046384");
                 G.UserInfo.setRole(UserType.Guest.ordinal());
             }
-        } else {
-            setNavigationViewMenu(menu);
+
         }
+
+        loadUser();
+
         if (G.officeInfo != null) {
 
             drName.setText(G.officeInfo.getFirstname().concat(" " + G.officeInfo.getLastname()));
@@ -178,14 +180,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        if (G.doctorImageProfile != null) {
-            //  drImgProfile.setImageBitmap(G.doctorImageProfile);
-            setNavigationViewMenu(menu);
-            G.UserInfo.setImgProfile(G.doctorImageProfile);
-        } else {
+        if (G.UserInfo.getImgProfile() == null) {
             int id = R.mipmap.doctor;
             G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
         }
+
+        setNavigationViewMenu(menu);
+
         if (unreadMessages != null) {
             unreadMessages.clear();
         }

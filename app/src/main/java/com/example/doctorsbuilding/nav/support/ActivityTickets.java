@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav.support;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import java.util.ArrayList;
 import java.util.EventListener;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by hossein on 11/1/2016.
  */
@@ -55,6 +58,11 @@ public class ActivityTickets extends AppCompatActivity {
 
         initViews();
         eventListener();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initViews() {
@@ -131,7 +139,7 @@ public class ActivityTickets extends AppCompatActivity {
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();
-                    new MessageBox(ActivityTickets.this, "دریافت اطلاعات با مشکل مواجه شده است .").show();
+//                    new MessageBox(ActivityTickets.this, "دریافت اطلاعات با مشکل مواجه شده است .").show();
                 }
             }
         }
