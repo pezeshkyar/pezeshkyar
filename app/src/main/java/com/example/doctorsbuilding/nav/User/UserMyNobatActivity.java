@@ -39,6 +39,7 @@ public class UserMyNobatActivity extends AppCompatActivity {
     private int index = 0;
     Button backBtn;
     TextView turnTxtNothing;
+    asyncCallGetReservayionByUserWS getReservayionByUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +56,14 @@ public class UserMyNobatActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(getReservayionByUser != null)
+            getReservayionByUser.cancel(true);
+    }
+
     private void initViews() {
         turnTxtNothing = (TextView) findViewById(R.id.turnTxtNothing);
         listView = (ListView) findViewById(R.id.user_my_nobat_listview);
@@ -91,6 +100,7 @@ public class UserMyNobatActivity extends AppCompatActivity {
             moreBtn.setEnabled(false);
             dialog = ProgressDialog.show(UserMyNobatActivity.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override

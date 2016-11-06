@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -112,6 +113,7 @@ public class ActivityTickets extends AppCompatActivity {
             dialog = ProgressDialog.show(ActivityTickets.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
+            mFab.setClickable(false);
         }
 
         @Override
@@ -142,6 +144,7 @@ public class ActivityTickets extends AppCompatActivity {
 //                    new MessageBox(ActivityTickets.this, "دریافت اطلاعات با مشکل مواجه شده است .").show();
                 }
             }
+            mFab.setClickable(true);
         }
     }
 }
