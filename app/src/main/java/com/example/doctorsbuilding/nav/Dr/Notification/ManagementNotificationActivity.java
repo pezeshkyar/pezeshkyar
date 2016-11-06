@@ -49,6 +49,8 @@ public class ManagementNotificationActivity extends AppCompatActivity {
     CustomAdapterSpinner mAdpater = null;
     private ArrayList<Rturn> mRturns = null;
     Button backBtn;
+    asyncCallGetPatientTurnInfoByDateWS task_getPatientTurnInfoByDateWS = null;
+    asyncCallSendMessageBatchWS task_sendMessageBatchWS = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,12 +62,21 @@ public class ManagementNotificationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (task_getPatientTurnInfoByDateWS != null)
+            task_getPatientTurnInfoByDateWS.cancel(true);
+        if (task_sendMessageBatchWS != null)
+            task_sendMessageBatchWS.cancel(true);
+    }
+
+    @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initViews() {
-        backBtn = (Button)findViewById(R.id.message_backBtn);
+        backBtn = (Button) findViewById(R.id.message_backBtn);
         fromDate = (TextView) findViewById(R.id.manageNotify_spinner_fromDate);
         toDate = (TextView) findViewById(R.id.manageNotify_spinner_toDate);
         message = (EditText) findViewById(R.id.manageNotify_message);
@@ -98,8 +109,8 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkFieldsSend()) {
-                    asyncCallSendMessageBatchWS task = new asyncCallSendMessageBatchWS();
-                    task.execute("", message.getText().toString().trim());
+                    task_sendMessageBatchWS = new asyncCallSendMessageBatchWS();
+                    task_sendMessageBatchWS.execute("", message.getText().toString().trim());
                 }
 
             }
@@ -110,8 +121,8 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkFieldsShow()) {
                     if (fromDate.getText().toString().trim().length() != 0 && toDate.getText().toString().trim().length() != 0) {
-                        asyncCallGetPatientTurnInfoByDateWS task = new asyncCallGetPatientTurnInfoByDateWS();
-                        task.execute(shortFromDate, shortToDate);
+                        task_getPatientTurnInfoByDateWS = new asyncCallGetPatientTurnInfoByDateWS();
+                        task_getPatientTurnInfoByDateWS.execute(shortFromDate, shortToDate);
                     }
                 }
             }
@@ -234,6 +245,8 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ManagementNotificationActivity.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnShow.setClickable(false);
         }
 
         @Override
@@ -257,7 +270,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
                 if (mRturns == null || mRturns.size() == 0) {
                     dialog.dismiss();
                     Toast.makeText(ManagementNotificationActivity.this, "هیچ موردی در این تاریخ پیدا نشده است .", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     mRturns.add(0, new Rturn());
                     if (mRturns != null && mRturns.size() != 0) {
                         checkedItems = new ArrayList<Boolean>();
@@ -271,6 +284,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             }
+            btnShow.setClickable(true);
         }
     }
 
@@ -287,12 +301,14 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ManagementNotificationActivity.this, "", "در حال ارسال اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnSend.setClickable(false);
 
             receivers = new ArrayList<String>();
             phoneNos = new ArrayList<String>();
             for (int i = 1; i < checkedItems.size(); i++) {
                 if (checkedItems.get(i)) {
-                    if(mRturns.get(i).getPatientUsername().equals(""))
+                    if (mRturns.get(i).getPatientUsername().equals(""))
                         receivers.add(mRturns.get(i).getUsername());
                     else
                         receivers.add(mRturns.get(i).getPatientUsername());
@@ -326,6 +342,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
                     Toast.makeText(ManagementNotificationActivity.this, "ارسال پیام با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                 }
             }
+            btnSend.setClickable(true);
         }
     }
 }
