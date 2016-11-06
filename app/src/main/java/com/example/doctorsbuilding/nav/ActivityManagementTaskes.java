@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -90,6 +91,29 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         getTaskGroups.execute();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (getTaskGroups != null)
+            getTaskGroups.cancel(true);
+        if (asyncGetTask != null)
+            asyncGetTask.cancel(true);
+        if (addTaskGroups != null)
+            addTaskGroups.cancel(true);
+        if (updateTaskGroup != null)
+            updateTaskGroup.cancel(true);
+        if (deleteTaskGroup != null)
+            deleteTaskGroup.cancel(true);
+        if (addTask != null)
+            addTask.cancel(true);
+        if (asyncUpdateTask != null)
+            asyncUpdateTask.cancel(true);
+        if (asyncDeleteTask != null)
+            asyncDeleteTask.cancel(true);
+        if (asyncAddTask != null)
+            asyncAddTask.cancel(true);
+
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -129,6 +153,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_layout_edit.setVisibility(View.GONE);
 
     }
+
     private void refreshCurrentTaskForm() {
         task_selectedId = -1;
         task_btn_add_.setEnabled(true);
@@ -256,7 +281,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_btn_add_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkField_task()) {
+                if (checkField_task()) {
                     asyncAddTask = new asyncAddTask();
                     asyncAddTask.execute();
                 }
@@ -353,6 +378,8 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            taskGroup_btn_add.setClickable(false);
         }
 
         @Override
@@ -384,6 +411,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            taskGroup_btn_add.setClickable(true);
         }
     }
 
@@ -399,6 +427,9 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskGroupName = taskGroup_name.getText().toString().trim();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال ثبت گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            taskGroup_btn_add.setClickable(false);
+            taskGroup_ListView.setEnabled(false);
         }
 
         @Override
@@ -440,6 +471,8 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            taskGroup_btn_add.setClickable(true);
+            taskGroup_ListView.setEnabled(true);
         }
     }
 
@@ -459,6 +492,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskGroupId = ((TaskGroup) task_spinner_taskGroup.getSelectedItem()).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال ثبت زیر گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -495,6 +533,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 
@@ -509,6 +551,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskGroupId = ((TaskGroup) task_spinner_taskGroup.getSelectedItem()).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -535,6 +582,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 
@@ -552,6 +603,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskGroupName = taskGroup_name.getText().toString().trim();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال بروز رسانی گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -588,6 +644,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 
@@ -603,6 +663,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskGroupId = taskGroups.get(taskGroup_selectedId).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال حذف گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -635,6 +700,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 }
                 dialog.dismiss();
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 
@@ -656,6 +725,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskPrice = Integer.valueOf(Util.getNumber(task_price.getText().toString().trim()));
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال بروزرسانی زیر گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -715,6 +789,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 dialog.dismiss();
                 refreshCurrentTaskForm();
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 
@@ -730,6 +808,11 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             taskId = taskes.get(task_selectedId).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال حذف گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            task_btn_add.setClickable(false);
+            task_btn_delete.setClickable(false);
+            task_btn_edit.setClickable(false);
+            task_listview.setEnabled(false);
         }
 
         @Override
@@ -763,6 +846,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 dialog.dismiss();
 
             }
+            task_btn_add.setClickable(true);
+            task_btn_delete.setClickable(true);
+            task_btn_edit.setClickable(true);
+            task_listview.setEnabled(true);
         }
     }
 

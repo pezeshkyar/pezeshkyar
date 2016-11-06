@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -53,6 +54,8 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
     private Button btnShowLocation, btnStartLocationUpdates, btnShowMeOnMap;
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
+    AsyncUpdateOfficeLatLng asyncUpdateOfficeLatLng = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +79,13 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
             public void onClick(View v) {
                 togglePeriodicLocationUpdates();
                 displayLocation();
-                AsyncUpdateOfficeLatLng task = new AsyncUpdateOfficeLatLng();
-                task.execute();
+                asyncUpdateOfficeLatLng = new AsyncUpdateOfficeLatLng();
+                asyncUpdateOfficeLatLng.execute();
             }
         });
 
     }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -117,6 +121,8 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
+        if (asyncUpdateOfficeLatLng != null)
+            asyncUpdateOfficeLatLng.cancel(true);
     }
 
     private void displayLocation() {
