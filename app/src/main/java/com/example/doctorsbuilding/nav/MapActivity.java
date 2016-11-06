@@ -82,10 +82,12 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
         });
 
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -236,12 +238,16 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
         boolean result = false;
         String msg = null;
         ProgressDialog dialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(MapActivity.this, "","در حال دریافت اطلاعات ...");
+            dialog = ProgressDialog.show(MapActivity.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnStartLocationUpdates.setClickable(false);
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -271,6 +277,7 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
                 }
                 dialog.dismiss();
             }
+            btnStartLocationUpdates.setClickable(true);
         }
 
     }
