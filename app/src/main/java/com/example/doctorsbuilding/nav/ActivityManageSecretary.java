@@ -45,6 +45,7 @@ public class ActivityManageSecretary extends AppCompatActivity {
     private int selected_id = -1;
     private ArrayAdapter<User> mAdpater;
     private ArrayList<User> secretaries;
+
     private AsyncGetSecretary asyncGetSecretary;
     private AsyncAddSecretary asyncAddSecretary;
     private AsyncRemoveSecretary asyncRemoveSecretary;
@@ -174,6 +175,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityManageSecretary.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btn_add.setClickable(false);
         }
 
         @Override
@@ -199,6 +202,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
                 }
             }
 
+            btn_add.setClickable(true);
+
         }
     }
 
@@ -214,6 +219,9 @@ public class ActivityManageSecretary extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityManageSecretary.this,"", "در حال افزودن منشی ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btn_add.setClickable(false);
+            mListview.setEnabled(false);
             secretary_username = txt_username.getText().toString().trim();
         }
 
@@ -247,7 +255,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
                     new MessageBox(ActivityManageSecretary.this, "نام کاربری وارد شده مجاز نیست .").show();
                 }
             }
-
+            btn_add.setClickable(true);
+            mListview.setEnabled(true);
         }
     }
 
@@ -263,6 +272,9 @@ public class ActivityManageSecretary extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityManageSecretary.this, "", "در حال حذف منشی ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btn_delete.setClickable(false);
+            mListview.setEnabled(false);
             secretary_username = txt_username.getText().toString().trim();
         }
 
@@ -292,7 +304,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
                     refreshForm();
                 }
             }
-
+            btn_delete.setClickable(true);
+            mListview.setEnabled(true);
         }
     }
 }

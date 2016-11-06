@@ -35,6 +35,8 @@ public class ActivitySearchPatient extends AppCompatActivity {
     private Button backBtn;
     private Button searchBtn;
     private ListView mListView;
+    asyncCallSearchUser task_searchUser = null;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,14 @@ public class ActivitySearchPatient extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task_searchUser != null)
+            task_searchUser.cancel(true);
+    }
+
     private void intiViews() {
         username = (EditText) findViewById(R.id.searchPatient_username);
         name = (EditText) findViewById(R.id.searchPatient_name);
@@ -62,8 +72,8 @@ public class ActivitySearchPatient extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                asyncCallSearchUser task = new asyncCallSearchUser();
-                task.execute();
+                task_searchUser = new asyncCallSearchUser();
+                task_searchUser.execute();
             }
         });
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +95,9 @@ public class ActivitySearchPatient extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivitySearchPatient.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            searchBtn.setClickable(false);
+            mListView.setEnabled(false);
             user = new User();
             user.setUserName(username.getText().toString().trim());
             user.setFirstName(name.getText().toString().trim());
@@ -126,6 +139,8 @@ public class ActivitySearchPatient extends AppCompatActivity {
                     Toast.makeText(ActivitySearchPatient.this, "بیماری با این مشخصات یافت نشده است .", Toast.LENGTH_SHORT).show();
                 }
             }
+            searchBtn.setClickable(true);
+            mListView.setEnabled(true);
         }
     }
 
