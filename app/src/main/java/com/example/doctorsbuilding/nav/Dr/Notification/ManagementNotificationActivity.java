@@ -303,6 +303,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
             btnSend.setClickable(false);
+            btnShow.setClickable(false);
 
             receivers = new ArrayList<String>();
             phoneNos = new ArrayList<String>();
@@ -343,6 +344,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
                 }
             }
             btnSend.setClickable(true);
+            btnShow.setClickable(true);
         }
     }
 }
