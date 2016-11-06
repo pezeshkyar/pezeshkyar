@@ -101,6 +101,7 @@ public class CustomListAdapterUserInbox extends BaseAdapter {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال حذف پیام ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override

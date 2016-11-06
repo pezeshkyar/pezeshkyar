@@ -37,6 +37,8 @@ public class UserInboxActivity extends AppCompatActivity {
     private ListAdapter adapter;
     private TextView inboxNothing;
     private Button backBtn;
+    AsyncCallGetAllMessagesWs task_getAllMessages = null;
+    AsyncCallSetMessageReadWs task_SetMessageRead = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class UserInboxActivity extends AppCompatActivity {
         messageInfos = new ArrayList<MessageInfo>();
         inboxNothing = (TextView) findViewById(R.id.inboxTxtNothing);
         inboxNothing.setVisibility(View.GONE);
-        backBtn = (Button)findViewById(R.id.inbox_backBtn);
+        backBtn = (Button) findViewById(R.id.inbox_backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,12 +62,12 @@ public class UserInboxActivity extends AppCompatActivity {
             messageInfos.add(messageInfo);
             adapter = new CustomListAdapterUserInbox(UserInboxActivity.this, messageInfos);
             listView.setAdapter(adapter);
-            AsyncCallSetMessageReadWs task = new AsyncCallSetMessageReadWs();
-            task.execute();
+            task_SetMessageRead = new AsyncCallSetMessageReadWs();
+            task_SetMessageRead.execute();
 
         } else {
-            AsyncCallGetAllMessagesWs task = new AsyncCallGetAllMessagesWs();
-            task.execute();
+            task_getAllMessages = new AsyncCallGetAllMessagesWs();
+            task_getAllMessages.execute();
         }
     }
 
@@ -74,15 +76,27 @@ public class UserInboxActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (task_getAllMessages != null)
+            task_getAllMessages.cancel(true);
+        if (task_SetMessageRead != null)
+            task_SetMessageRead.cancel(true);
+    }
+
     private class AsyncCallGetAllMessagesWs extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(UserInboxActivity.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -106,7 +120,7 @@ public class UserInboxActivity extends AppCompatActivity {
                     adapter = new CustomListAdapterUserInbox(UserInboxActivity.this, messageInfos);
                     listView.setAdapter(adapter);
                     dialog.dismiss();
-                }else {
+                } else {
                     inboxNothing.setVisibility(View.VISIBLE);
                     dialog.dismiss();
                     inboxNothing.setText("هیچ پیامی برای شما وجود ندارد .");
@@ -124,6 +138,7 @@ public class UserInboxActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected Void doInBackground(String... strings) {
             try {
@@ -137,7 +152,7 @@ public class UserInboxActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(msg!=null){
+            if (msg != null) {
                 new MessageBox(UserInboxActivity.this, msg).show();
             }
         }
