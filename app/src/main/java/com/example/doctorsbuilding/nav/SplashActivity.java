@@ -165,13 +165,13 @@ public class SplashActivity extends AppCompatActivity {
                 if (G.UserInfo.getRole() != UserType.None.ordinal()) {
                     database = new DatabaseAdapter(SplashActivity.this);
                     database.initialize();
-                    if (database.openConnection()) {
-                        G.doctorImageProfile = database.getImageProfile(1);
-                        if (G.doctorImageProfile == null) {
-                            G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-                        }
-                        database.closeConnection();
-                    }
+//                    if (database.openConnection()) {
+//                        G.doctorImageProfile = database.getImageProfile(1);
+//                        if (G.doctorImageProfile == null) {
+//                            G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
+//                        }
+//                        database.closeConnection();
+//                    }
 
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();

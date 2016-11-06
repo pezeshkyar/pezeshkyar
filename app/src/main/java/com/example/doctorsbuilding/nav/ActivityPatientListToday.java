@@ -28,6 +28,8 @@ public class ActivityPatientListToday extends AppCompatActivity {
     private Button backBtn;
     private NonScrollListView listView;
     private TextView txtNothing;
+    asyncCallGetPatientList task_getPatientList=null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,14 +44,22 @@ public class ActivityPatientListToday extends AppCompatActivity {
         });
         listView = (NonScrollListView) findViewById(R.id.patientList_listview);
         txtNothing = (TextView) findViewById(R.id.patientList_nothing);
-        asyncCallGetPatientList task = new asyncCallGetPatientList();
-        task.execute();
+        task_getPatientList = new asyncCallGetPatientList();
+        task_getPatientList.execute();
 
     }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task_getPatientList != null)
+            task_getPatientList.cancel(true);
+    }
+
     private class asyncCallGetPatientList extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
@@ -60,6 +70,7 @@ public class ActivityPatientListToday extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityPatientListToday.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override

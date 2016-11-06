@@ -37,6 +37,7 @@ public class ActivityAddNextTurn extends AppCompatActivity {
     private ArrayList<ExpGroup> groups;
     private ArrayList<ExpChild> childs;
     private Button backBtn;
+    asyncCallTurn task_getTurn =null;
 
 
 
@@ -50,14 +51,22 @@ public class ActivityAddNextTurn extends AppCompatActivity {
         expListView = (ExpandableListView) findViewById(R.id.addNextTurn_explv);
         backBtn = (Button) findViewById(R.id.addNextTurn_backBtn);
 
-        asyncCallTurn task = new asyncCallTurn();
-        task.execute();
+        task_getTurn = new asyncCallTurn();
+        task_getTurn.execute();
 
     }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task_getTurn != null)
+            task_getTurn.cancel(true);
+    }
+
     private void setListener(){
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +122,7 @@ public class ActivityAddNextTurn extends AppCompatActivity {
             super.onPreExecute();
             progressDialog = ProgressDialog.show(ActivityAddNextTurn.this, "","در حال دریافت اطلاعات ...");
             progressDialog.getWindow().setGravity(Gravity.END);
+            progressDialog.setCancelable(true);
         }
 
 

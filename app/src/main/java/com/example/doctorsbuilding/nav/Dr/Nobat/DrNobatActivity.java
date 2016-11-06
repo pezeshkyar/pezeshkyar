@@ -64,6 +64,9 @@ public class DrNobatActivity extends AppCompatActivity {
     private ArrayList<Turn> turns;
     private CustomListAdapterNobat adpter;
 
+    asyncCallGetAllTurn task_getAllTurn = null;
+    callAsyncAddTurnWS task_addTurn = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,15 @@ public class DrNobatActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task_addTurn != null)
+            task_addTurn.cancel(true);
+        if(task_getAllTurn != null)
+            task_getAllTurn.cancel(true);
     }
 
     private void initViews() {
@@ -144,8 +156,8 @@ public class DrNobatActivity extends AppCompatActivity {
                 String fromDate = startDate.getText().toString().trim().isEmpty() ? "" : shortStartDate;
                 String toDate = endDate.getText().toString().trim().isEmpty() ? "" : shortEndDate;
                 if (checkFieldShow(fromDate, toDate)) {
-                    asyncCallGetAllTurn task = new asyncCallGetAllTurn();
-                    task.execute(fromDate, toDate);
+                    task_getAllTurn = new asyncCallGetAllTurn();
+                    task_getAllTurn.execute(fromDate, toDate);
                 }
 //                asyncCallTurnFromToday task = new asyncCallTurnFromToday();
 //                task.execute();
@@ -226,9 +238,8 @@ public class DrNobatActivity extends AppCompatActivity {
 
     private void insertItem() {
         if (checkField()) {
-
-            callAsyncAddTurnWS task = new callAsyncAddTurnWS();
-            task.execute();
+            task_addTurn = new callAsyncAddTurnWS();
+            task_addTurn.execute();
         }
     }
 
@@ -367,6 +378,9 @@ public class DrNobatActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(DrNobatActivity.this, "", "در حال ثبت نوبت ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnInsert.setClickable(false);
+            btnShowTurn.setClickable(false);
             capacity = Integer.parseInt(maxCapacity.getText().toString().trim());
             dayOfWeek = (chboxShanbe.isChecked()) ? "0" : "";
             dayOfWeek += (chbox1Shanbe.isChecked()) ? "1" : "";
@@ -403,6 +417,8 @@ public class DrNobatActivity extends AppCompatActivity {
                     new MessageBox(DrNobatActivity.this, "خطایی در ثبت اطلاعات رخ داده است، لطفا پارامترهای ورودی را چک نمایید.").show();
                 }
             }
+            btnInsert.setClickable(true);
+            btnShowTurn.setClickable(true);
         }
     }
 
@@ -415,6 +431,9 @@ public class DrNobatActivity extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(DrNobatActivity.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnShowTurn.setClickable(false);
+            btnInsert.setClickable(false);
             txtWait.setVisibility(View.VISIBLE);
 
         }
@@ -450,6 +469,8 @@ public class DrNobatActivity extends AppCompatActivity {
                     Toast.makeText(DrNobatActivity.this, "هیچ نوبتی در این بازه زمانی وجود ندارد .", Toast.LENGTH_SHORT).show();
                 }
             }
+            btnShowTurn.setClickable(true);
+            btnInsert.setClickable(true);
         }
     }
 }

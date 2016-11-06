@@ -145,6 +145,7 @@ public class CustomListAdapterNobat extends BaseAdapter {
             super.onPreExecute();
             dialog = ProgressDialog.show(context, "", "در حال لغو نوبت ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override

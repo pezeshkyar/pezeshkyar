@@ -21,50 +21,91 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.ActivityImageShow;
+import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Gallery.GalleryActivity;
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatFragment;
 import com.example.doctorsbuilding.nav.Dr.Notification.NotificationFragment;
 import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.LazyLoad.Gallery3;
+import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
+import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
+import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 import com.example.doctorsbuilding.nav.gallery2;
 
+import java.util.EventListener;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DrProfileActivity extends AppCompatActivity{
+public class DrProfileActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ImageButton btnGallery;
     private ImageButton profileImage;
+    private DatabaseAdapter database;
+    private AsyncGetDoctorPic getDoctorPic;
+    final static int DR_PIC_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_dr_profile);
+        database = new DatabaseAdapter(DrProfileActivity.this);
+
         initViews();
+        eventListeners();
+
+        getDoctorPic = new AsyncGetDoctorPic();
+        getDoctorPic.execute();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (getDoctorPic != null)
+            getDoctorPic.cancel(true);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     private void initViews() {
 
-        TextView drName = (TextView)findViewById(R.id.tv_doctorName);
+        btnGallery = (ImageButton) findViewById(R.id.drProfile_btnGallery);
+        profileImage = (ImageButton) findViewById(R.id.drProfile_btnDrPhoto);
+
+        if (G.doctorImageProfile == null) {
+
+            int id = R.mipmap.doctor;
+            if (database.openConnection()) {
+                G.doctorImageProfile = database.getImageProfile(DR_PIC_ID);
+            }
+            if (G.doctorImageProfile == null) {
+                G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
+            }
+
+
+        }
+        Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
+        profileImage.setImageBitmap(imgRound);
+
+        TextView drName = (TextView) findViewById(R.id.tv_doctorName);
         TextView drExpert = (TextView) findViewById(R.id.tv_doctorInfo);
         drName.setTypeface(G.getBoldFont());
         drExpert.setTypeface(G.getBoldFont());
-        drName.setText(G.officeInfo.getFirstname()+" "+G.officeInfo.getLastname());
+        drName.setText(G.officeInfo.getFirstname() + " " + G.officeInfo.getLastname());
         drExpert.setText(G.officeInfo.getSubExpertName());
-        setImageProfile();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setContentInsetsAbsolute(0,0);
+        toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -78,13 +119,7 @@ public class DrProfileActivity extends AppCompatActivity{
 
     }
 
-    private void setImageProfile() {
-        profileImage = (ImageButton) findViewById(R.id.drProfile_btnDrPhoto);
-        if(G.doctorImageProfile != null) {
-            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-            profileImage.setImageBitmap(imgRound);
-        }
-        btnGallery = (ImageButton) findViewById(R.id.drProfile_btnGallery);
+    private void eventListeners() {
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,4 +177,35 @@ public class DrProfileActivity extends AppCompatActivity{
         }
     }
 
+    private class AsyncGetDoctorPic extends AsyncTask<String, Void, Void> {
+
+        String msg = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                String username = G.UserInfo.getUserName();
+                String password = G.UserInfo.getPassword();
+                G.doctorImageProfile = WebService.invokeGetDoctorPicWS(username, password, G.officeId);
+
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (G.doctorImageProfile == null) {
+                int id = R.mipmap.doctor;
+                G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
+            }
+            if (database.openConnection()) {
+                database.saveImageProfile(DR_PIC_ID, DbBitmapUtility.getBytes(G.doctorImageProfile));
+            }
+            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
+            profileImage.setImageBitmap(imgRound);
+        }
+    }
 }

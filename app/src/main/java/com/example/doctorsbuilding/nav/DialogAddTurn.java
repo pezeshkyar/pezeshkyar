@@ -260,6 +260,9 @@ public class DialogAddTurn extends Dialog {
         addTurnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addTurnBtn.setClickable(false);
+                myCheckBox.setClickable(false);
+                taskBackBtn.setClickable(false);
                 if (myCheckBox.isChecked()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         if (reserveForUserTask == null) {

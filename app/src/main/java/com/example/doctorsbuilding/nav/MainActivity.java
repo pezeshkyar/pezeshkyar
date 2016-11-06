@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -51,7 +49,6 @@ import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 import com.example.doctorsbuilding.nav.support.ActivityTickets;
-import com.example.doctorsbuilding.nav.support.DiscussActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -62,7 +59,6 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
-import java.util.concurrent.RejectedExecutionHandler;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -85,13 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RelativeLayout btnUnreadMessage;
     BadgeView badge;
     DatabaseAdapter database;
-    final static int imagePrdileId = 1;
+    final static int IMAGE_PROFILE_ID_USER = 2;
     CirclePageIndicator indicator;
     static ViewPager mPager;
     ArrayList<PhotoDesc> baners;
 
     asyncGetGalleryPic asyncGetGalleryPic = null;
-    AsyncGetDoctorPic getDoctorPic = null;
+    AsyncGetUserPic getUserPic = null;
     AsyncCallGetUnreadMessagesWs asyncGetMessage = null;
     asyncGetImageIdFromWeb asyncBaner = null;
 
@@ -131,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (asyncGetGalleryPic != null)
             asyncGetGalleryPic.cancel(true);
 
-        if (getDoctorPic != null) {
-            getDoctorPic.cancel(true);
+        if (getUserPic != null) {
+            getUserPic.cancel(true);
         }
 
         if (asyncGetMessage != null) {
@@ -144,14 +140,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         stopAllAsyncTask();
+
     }
 
     private void updatePage() {
 
         settings = G.getSharedPreferences();
+        database = new DatabaseAdapter(MainActivity.this);
 
         if (G.UserInfo == null) {
             G.UserInfo = new User();
@@ -181,8 +179,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (G.UserInfo.getImgProfile() == null) {
+
             int id = R.mipmap.doctor;
-            G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
+            if (database.openConnection()) {
+                G.UserInfo.setImgProfile(database.getImageProfile(IMAGE_PROFILE_ID_USER));
+            }
+            if (G.UserInfo.getImgProfile() == null)
+                G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
         }
 
         setNavigationViewMenu(menu);
@@ -191,13 +194,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             unreadMessages.clear();
         }
 
-        database = new DatabaseAdapter(MainActivity.this);
         asyncBaner = new asyncGetImageIdFromWeb();
         asyncBaner.execute();
 
         if (G.UserInfo.getRole() != 0) {
-            getDoctorPic = new AsyncGetDoctorPic();
-            getDoctorPic.execute();
+            getUserPic = new AsyncGetUserPic();
+            getUserPic.execute();
             asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
             asyncGetMessage.execute();
         }
@@ -647,6 +649,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
             case R.id.nav_signUp_call:
+                startActivity(new Intent(MainActivity.this, ContactUs.class));
                 break;
             case R.id.nav_signIn:
                 startSignInActivity();
@@ -729,7 +732,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private class AsyncGetDoctorPic extends AsyncTask<String, Void, Void> {
+    private class AsyncGetUserPic extends AsyncTask<String, Void, Void> {
 
         String msg = null;
 
@@ -738,7 +741,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 String username = G.UserInfo.getUserName();
                 String password = G.UserInfo.getPassword();
-                G.doctorImageProfile = WebService.invokeGetDoctorPicWS(username, password, G.officeId);
                 G.UserInfo.setImgProfile(WebService.invokeGetUserPicWS(username, password));
 
             } catch (PException ex) {
@@ -750,22 +752,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (msg != null) {
-                new MessageBox(MainActivity.this, msg).show();
-            } else {
-                if (G.doctorImageProfile != null) {
-                    if (database.openConnection()) {
-                        database.saveImageProfile(imagePrdileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                    }
 
-                } else {
-                    int id = R.mipmap.doctor;
-                    G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
-                    G.UserInfo.setImgProfile(G.doctorImageProfile);
-                    if (database.openConnection()) {
-                        database.saveImageProfile(imagePrdileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                    }
-                }
+            if (G.UserInfo.getImgProfile() == null) {
+                int id = R.mipmap.doctor;
+                G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
+            }
+            if (database.openConnection()) {
+                database.saveImageProfile(IMAGE_PROFILE_ID_USER, DbBitmapUtility.getBytes(G.UserInfo.getImgProfile()));
             }
         }
     }

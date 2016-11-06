@@ -37,6 +37,7 @@ public class ActivityPatientFile extends AppCompatActivity {
     Button backBtn;
 
     TextView nothing;
+    asyncGetPatientFile task_getPatientFile = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,8 +55,8 @@ public class ActivityPatientFile extends AppCompatActivity {
             }
         });
         if(patientUserName!=null) {
-            asyncGetPatientFile task = new asyncGetPatientFile();
-            task.execute(patientUserName);
+            task_getPatientFile = new asyncGetPatientFile();
+            task_getPatientFile.execute(patientUserName);
         }
 
     }
@@ -63,6 +64,14 @@ public class ActivityPatientFile extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(task_getPatientFile != null)
+            task_getPatientFile.cancel(true);
+    }
+
     private void setListener(){
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
@@ -102,6 +111,7 @@ public class ActivityPatientFile extends AppCompatActivity {
             super.onPreExecute();
             dialog = ProgressDialog.show(ActivityPatientFile.this, "", "در حال دریافت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
         }
 
         @Override

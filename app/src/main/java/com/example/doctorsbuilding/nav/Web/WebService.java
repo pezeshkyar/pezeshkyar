@@ -279,7 +279,7 @@ public class WebService {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
-        String webMethName = "getUserInfo";
+        String webMethName = "getUserInfoWithoutPic";
         User user = null;
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
@@ -305,13 +305,13 @@ public class WebService {
             user.setStateID(Integer.parseInt(response.getProperty("provinceid").toString()));
             user.setStateName(response.getProperty("province").toString());
 
-            try {
-                String pic = response.getProperty("pic").toString();
-                byte[] imgbytes = Base64.decode(pic, Base64.DEFAULT);
-                user.setImgProfile(BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length));
-            } catch (Exception e) {
-                user.setImgProfile(null);
-            }
+//            try {
+//                String pic = response.getProperty("pic").toString();
+//                byte[] imgbytes = Base64.decode(pic, Base64.DEFAULT);
+//                user.setImgProfile(BitmapFactory.decodeByteArray(imgbytes, 0, imgbytes.length));
+//            } catch (Exception e) {
+//                user.setImgProfile(null);
+//            }
             user.setPassword(password);
             try {
                 if (response.getProperty("email").toString().equals("anyType{}"))

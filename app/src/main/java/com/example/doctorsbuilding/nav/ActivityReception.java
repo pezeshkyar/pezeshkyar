@@ -42,6 +42,7 @@ public class ActivityReception extends AppCompatActivity {
     private Button backBtn;
     private Button showFileBtn;
     private PatientInfo patientInfo = null;
+    asyncCallReception task_reception = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,13 +52,23 @@ public class ActivityReception extends AppCompatActivity {
         initViews();
         eventListener();
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (task_reception != null)
+            task_reception.cancel(true);
+
+    }
+
     private void initViews() {
         nameTxt = (TextView) findViewById(R.id.reception_name);
-        taskGroupName = (TextView)findViewById(R.id.reception_taskGroup);
+        taskGroupName = (TextView) findViewById(R.id.reception_taskGroup);
         taskTxt = (TextView) findViewById(R.id.reception_task);
         costTxt = (EditText) findViewById(R.id.reception_price);
         detailsTxt = (EditText) findViewById(R.id.reception_detail);
@@ -90,8 +101,8 @@ public class ActivityReception extends AppCompatActivity {
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                asyncCallReception task = new asyncCallReception();
-                task.execute();
+                task_reception = new asyncCallReception();
+                task_reception.execute();
             }
         });
         addNextBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +140,10 @@ public class ActivityReception extends AppCompatActivity {
             dialog = ProgressDialog.show(ActivityReception.this, "", "در حال ثبت اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
             reservationId = patientInfo.getReservationId();
+            dialog.setCancelable(true);
+            addNextBtn.setClickable(false);
+            insertBtn.setClickable(false);
+            showFileBtn.setClickable(false);
             if (costTxt.getText().toString().trim().equals("")) {
                 payment = 0;
             } else {
@@ -158,6 +173,9 @@ public class ActivityReception extends AppCompatActivity {
                 dialog.dismiss();
                 Toast.makeText(ActivityReception.this, "ثبت اطلاعات با موفقیت انجام شده است .", Toast.LENGTH_SHORT).show();
             }
+            addNextBtn.setClickable(true);
+            insertBtn.setClickable(true);
+            showFileBtn.setClickable(true);
         }
     }
 

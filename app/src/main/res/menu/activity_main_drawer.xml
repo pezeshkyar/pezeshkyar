@@ -171,37 +171,42 @@
         android:id="@+id/navigation_view_user"
         android:checkableBehavior="single"
         android:visible="false">
-        <item
-            android:id="@+id/nav_user_addTurn"
-            android:icon="@drawable/ic_turns"
-            android:title="دریافت نوبت" />
-
-        <item
-            android:id="@+id/nav_user_profile"
-            android:icon="@drawable/ic_info"
-            android:title="پروفایل" />
-
-        <item
-            android:id="@+id/nav_user_patientFile"
-            android:icon="@drawable/ic_nobat"
-            android:title="پرونده من" />
-        <item
-            android:id="@+id/nav_user_nobat"
-            android:icon="@drawable/ic_nobat"
-            android:title="نوبت های من" />
-        <item
-            android:id="@+id/nav_user_inbox"
-            android:icon="@drawable/ic_menu_inbox"
-            android:title="پیام ها" />
-
-        <item
-            android:id="@+id/nav_user_gallery"
-            android:icon="@drawable/ic_gallery"
-            android:title="گالری عکس" />
-        <item
-            android:id="@+id/nav_user_news"
-            android:icon="@drawable/ic_menu_news"
-            android:title="خبرنامه" />
+        <item android:title="مطب">
+            <menu>
+                <item
+                    android:id="@+id/nav_user_addTurn"
+                    android:icon="@drawable/ic_turns"
+                    android:title="دریافت نوبت" />
+                <item
+                    android:id="@+id/nav_user_gallery"
+                    android:icon="@drawable/ic_gallery"
+                    android:title="گالری عکس" />
+                <item
+                    android:id="@+id/nav_user_news"
+                    android:icon="@drawable/ic_menu_news"
+                    android:title="خبرنامه" />
+            </menu>
+        </item>
+        <item android:title="پروفایل">
+            <menu>
+                <item
+                    android:id="@+id/nav_user_profile"
+                    android:icon="@drawable/ic_info"
+                    android:title="مشخصات فردی" />
+                <item
+                    android:id="@+id/nav_user_patientFile"
+                    android:icon="@drawable/ic_service"
+                    android:title="پرونده پزشکی" />
+                <item
+                    android:id="@+id/nav_user_nobat"
+                    android:icon="@drawable/ic_nobat"
+                    android:title="نوبت های من" />
+                <item
+                    android:id="@+id/nav_user_inbox"
+                    android:icon="@drawable/ic_menu_inbox"
+                    android:title="پیام ها" />
+            </menu>
+        </item>
         <item
             android:id="@+id/nav_user_call"
             android:icon="@drawable/ic_menu_call"
