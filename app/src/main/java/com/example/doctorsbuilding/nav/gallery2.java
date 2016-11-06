@@ -429,6 +429,10 @@ public class gallery2 extends Activity {
             super.onPreExecute();
             dialog_wait = ProgressDialog.show(gallery2.this, "", "در حال ذخیره سازی عکس ...");
             dialog_wait.getWindow().setGravity(Gravity.END);
+            dialog_wait.setCancelable(true);
+            mListView.setEnabled(false);
+            insertPic.setClickable(false);
+
         }
 
         @Override
@@ -468,11 +472,10 @@ public class gallery2 extends Activity {
                         adapter.notifyDataSetChanged();
                         mListView.setSelection(photos.size() - 1);
                     }
-
-
-
                 }
             }
+            mListView.setEnabled(true);
+            insertPic.setClickable(true);
         }
     }
 
@@ -493,6 +496,9 @@ public class gallery2 extends Activity {
             super.onPreExecute();
             dialog_wait = ProgressDialog.show(gallery2.this, "", "در حال حذف عکس ...");
             dialog_wait.getWindow().setGravity(Gravity.END);
+            dialog_wait.setCancelable(true);
+            mListView.setEnabled(false);
+            insertPic.setClickable(false);
         }
 
         @Override
@@ -519,6 +525,8 @@ public class gallery2 extends Activity {
                 visist_list.remove(position);
                 adapter.notifyDataSetChanged();
             }
+            mListView.setEnabled(true);
+            insertPic.setClickable(true);
         }
     }
 
@@ -541,6 +549,9 @@ public class gallery2 extends Activity {
             super.onPreExecute();
             dialog_wait = ProgressDialog.show(gallery2.this, "", "در حال بروز رسانی عکس ...");
             dialog_wait.getWindow().setGravity(Gravity.END);
+            dialog_wait.setCancelable(true);
+            mListView.setEnabled(false);
+            insertPic.setClickable(false);
         }
 
         @Override
@@ -581,6 +592,8 @@ public class gallery2 extends Activity {
                 } catch (Exception ex) {
                 }
             }
+            mListView.setEnabled(true);
+            insertPic.setClickable(true);
         }
     }
 
