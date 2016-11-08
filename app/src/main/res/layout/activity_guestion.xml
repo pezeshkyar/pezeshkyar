@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/my_toolbar" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/my_edit_text"
+        android:hint="عنوان سوال"
+        android:padding="8dp" />
+
+    <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/question_rpl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="نحوه پاسخگویی : "
+            app:layout_widthPercent="25%" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/question_rpl"
+            android:gravity="right"
+            android:orientation="horizontal"
+            app:layout_widthPercent="50%">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="متنی" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="انتخابی" />
+        </RadioGroup>
+        <Button
+            android:text="نمونه پاسخ"
+            android:layout_width="60dp"
+            android:layout_marginLeft="10dp"
+            app:layout_widthPercent="20%"
+            android:layout_marginTop="6dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_add_button"
+            android:layout_height="35dp" />
+    </android.support.percent.PercentRelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/my_card_view"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="نمونه پاسخ متنی :"
+            android:textColor="@color/delete" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/my_text_view"
+            android:padding="10dp"
+            android:text="پدرم چربی خون دارد ..."
+            android:textColor="@color/textColor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="نمونه پاسخ انتخابی :"
+            android:textColor="@color/delete" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end"
+            android:checked="true"
+            android:clickable="false"
+            android:gravity="right|center_vertical"
+            android:text="سابقه بیماری قلبی و عروقی دارم"
+            android:textColor="@color/textColor" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:text="افزودن به بانک سوالات"
+        android:textColor="@android:color/white"
+        android:background="@drawable/my_button" />
+</LinearLayout>

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/tickets_Title"
+        android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:text="لیست درخواست ها"
+        android:text="تست"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/tickets_backBtn"
+        android:id="@+id/toolbar_backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/inboxTitle"

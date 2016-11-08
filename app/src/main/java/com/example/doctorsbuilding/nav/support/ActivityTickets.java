@@ -69,7 +69,9 @@ public class ActivityTickets extends AppCompatActivity {
     private void initViews() {
         mListView = (ListView)findViewById(R.id.tickets_listView);
         mFab = (FloatingActionButton)findViewById(R.id.tickets_fab);
-        backBtn = (Button)findViewById(R.id.tickets_backBtn);
+        backBtn = (Button)findViewById(R.id.toolbar_backBtn);
+        TextView toolbarTitle = (TextView)findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("لیست درخواست ها");
         G.mAdapter = new ArrayAdapter<Ticket>(ActivityTickets.this, R.layout.spinner_item);
         mListView.setAdapter(G.mAdapter);
 
