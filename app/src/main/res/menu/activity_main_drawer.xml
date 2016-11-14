@@ -63,6 +63,11 @@
                     android:id="@+id/nav_dr_patientFile"
                     android:icon="@drawable/ic_nobat"
                     android:title="پرونده بیمار" />
+                <item
+                    android:id="@+id/nav_dr_question"
+                    android:icon="@drawable/ic_questions"
+                    android:title="بانک سوال" />
+
 
             </menu>
         </item>
@@ -144,6 +149,10 @@
                     android:id="@+id/nav_secretary_patientFile"
                     android:icon="@drawable/ic_nobat"
                     android:title="پرونده بیمار" />
+                <item
+                    android:id="@+id/nav_secretary_question"
+                    android:icon="@drawable/ic_questions"
+                    android:title="بانک سوال" />
 
             </menu>
         </item>
@@ -197,6 +206,10 @@
                     android:id="@+id/nav_user_patientFile"
                     android:icon="@drawable/ic_service"
                     android:title="پرونده پزشکی" />
+                <item
+                    android:id="@+id/nav_user_cartex"
+                    android:icon="@drawable/ic_patients"
+                    android:title="سابقه پزشکی" />
                 <item
                     android:id="@+id/nav_user_nobat"
                     android:icon="@drawable/ic_nobat"

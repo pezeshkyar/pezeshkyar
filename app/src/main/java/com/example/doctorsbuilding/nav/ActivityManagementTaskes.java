@@ -39,7 +39,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class ActivityManagementTaskes extends AppCompatActivity {
 
-    private ArrayList<TaskGroup> taskGroups;
     private ArrayAdapter<TaskGroup> taskGroup_adapter;
     private ListView taskGroup_ListView;
     private EditText taskGroup_name;
@@ -49,7 +48,6 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private FrameLayout taskGroup_listView_lock;
     private int taskGroup_selectedId = -1;
 
-    private ArrayList<Task> taskes;
     private ArrayAdapter<Task> task_adapter;
     private ListView task_listview;
     private Button task_btnBack;
@@ -131,7 +129,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
 
     private void lockTaskGroupForm(int position) {
         taskGroup_selectedId = position;
-        taskGroup_name.setText(taskGroups.get(position).toString());
+        taskGroup_name.setText(taskGroup_adapter.getItem(position).toString());
         taskGroup_btn_add.setVisibility(View.GONE);
         taskGroup_btn_edit.setVisibility(View.VISIBLE);
         taskGroup_listView_lock.setVisibility(View.VISIBLE);
@@ -145,7 +143,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_btn_add_.setEnabled(true);
         task_name.setText("");
         task_price.setText("");
-        taskes.clear();
+        task_adapter.clear();
         if (task_adapter != null) {
             task_adapter.notifyDataSetChanged();
         }
@@ -164,8 +162,8 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private void lockTaskForm(int position) {
         task_selectedId = position;
         task_btn_add_.setEnabled(false);
-        task_name.setText(taskes.get(task_selectedId).toString());
-        task_price.setText(Util.getCurrency(taskes.get(task_selectedId).getPrice()));
+        task_name.setText(task_adapter.getItem(task_selectedId).toString());
+        task_price.setText(Util.getCurrency(task_adapter.getItem(task_selectedId).getPrice()));
     }
 
     private boolean checkField_taskGroup() {
@@ -192,7 +190,9 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         backBtn = (Button) findViewById(R.id.manage_taskes_backBtn);
         mViewFlipper = (ViewFlipper) findViewById(R.id.manage_taskes_viewFlipper);
 
+        taskGroup_adapter = new ArrayAdapter<TaskGroup>(ActivityManagementTaskes.this, R.layout.spinner_item);
         taskGroup_ListView = (ListView) findViewById(R.id.manage_task_listView);
+        taskGroup_ListView.setAdapter(taskGroup_adapter);
         taskGroup_name = (EditText) findViewById(R.id.manage_taskes_taskname);
         taskGroup_btn_add = (Button) findViewById(R.id.manage_taskes_addBtn);
         taskGroup_btn_edit = (Button) findViewById(R.id.manage_taskes_editBtn);
@@ -200,8 +200,9 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         taskGroup_btn_refresh = (ImageView) findViewById(R.id.manage_task_refresh);
 
 
-        taskes = new ArrayList<Task>();
+        task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item);
         task_listview = (ListView) findViewById(R.id.add_task_listView);
+        task_listview.setAdapter(task_adapter);
         task_spinner_taskGroup = (Spinner) findViewById(R.id.add_task_taskes);
         task_btnBack = (Button) findViewById(R.id.add_task_btnBack);
         task_name = (EditText) findViewById(R.id.subtask_name);
@@ -372,6 +373,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private class asyncCallGetTaskGroups extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
+        ArrayList<TaskGroup> taskGroups = null;
 
         @Override
         protected void onPreExecute() {
@@ -400,14 +402,9 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (taskGroups != null && taskGroups.size() != 0) {
-                    taskGroup_adapter = new ArrayAdapter<TaskGroup>(ActivityManagementTaskes.this, R.layout.spinner_item, taskGroups);
-                    taskGroup_ListView.setAdapter(taskGroup_adapter);
-//                    taskGroup_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                            lockTaskGroupForm(position);
-//                        }
-//                    });
+                    for (TaskGroup tg:taskGroups )
+                        taskGroup_adapter.add(tg);
+
                 }
                 dialog.dismiss();
             }
@@ -456,8 +453,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                     taskGroup.setId(taskGroupId);
                     taskGroup.setOfficeId(G.officeId);
                     taskGroup.setName(taskGroupName);
-                    taskGroups.add(taskGroup);
-                    taskGroup_adapter.notifyDataSetChanged();
+                    taskGroup_adapter.add(taskGroup);
 
                     showNext();
 
@@ -525,10 +521,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                     task.setOfficeId(G.officeId);
                     task.setPrice(price);
                     task.setName(taskName);
-                    taskes.add(task);
-                    task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item, taskes);
-                    task_listview.setAdapter(task_adapter);
-                    task_adapter.notifyDataSetChanged();
+                    task_adapter.add(task);
                     Toast.makeText(ActivityManagementTaskes.this, "ثبت زیر گروه خدمات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
@@ -544,6 +537,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         String msg = null;
         ProgressDialog dialog;
         int taskGroupId;
+        ArrayList<Task> taskes = null;
 
         @Override
         protected void onPreExecute() {
@@ -577,8 +571,8 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
-                    task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item, taskes);
-                    task_listview.setAdapter(task_adapter);
+                    for (Task t: taskes)
+                        task_adapter.add(t);
                 }
                 dialog.dismiss();
             }
@@ -599,7 +593,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            taskGroupId = taskGroups.get(taskGroup_selectedId).getId();
+            taskGroupId = taskGroup_adapter.getItem(taskGroup_selectedId).getId();
             taskGroupName = taskGroup_name.getText().toString().trim();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال بروز رسانی گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
@@ -629,14 +623,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (result.toUpperCase().equals("OK")) {
-                    TaskGroup taskGroup = new TaskGroup();
-                    taskGroup.setId(taskGroupId);
-                    taskGroup.setOfficeId(G.officeId);
-                    taskGroup.setName(taskGroupName);
-                    taskGroups.set(taskGroup_selectedId, taskGroup);
-                    taskGroup_adapter = new ArrayAdapter<TaskGroup>(ActivityManagementTaskes.this, R.layout.spinner_item, taskGroups);
-                    taskGroup_ListView.setAdapter(taskGroup_adapter);
-                    taskGroup_adapter.notifyDataSetChanged();
+                    taskGroup_adapter.getItem(taskGroup_selectedId).setName(taskGroupName);
                     Toast.makeText(ActivityManagementTaskes.this, "عملیات بروز رسانی با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     task_btnBack.performClick();
                 } else {
@@ -660,7 +647,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            taskGroupId = taskGroups.get(taskGroup_selectedId).getId();
+            taskGroupId = taskGroup_adapter.getItem(taskGroup_selectedId).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال حذف گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
@@ -689,10 +676,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (result.equals("OK")) {
-                    taskGroups.remove(taskGroup_selectedId);
-                    taskGroup_adapter = new ArrayAdapter<TaskGroup>(ActivityManagementTaskes.this, R.layout.spinner_item, taskGroups);
-                    taskGroup_ListView.setAdapter(taskGroup_adapter);
-                    taskGroup_adapter.notifyDataSetChanged();
+                    taskGroup_adapter.remove(taskGroup_adapter.getItem(taskGroup_selectedId));
                     Toast.makeText(ActivityManagementTaskes.this, "عملیات حذف با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     task_btnBack.performClick();
                 } else {
@@ -720,7 +704,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            taskId = taskes.get(task_selectedId).getId();
+            taskId = task_adapter.getItem(task_selectedId).getId();
             taskName = task_name.getText().toString().trim();
             taskPrice = Integer.valueOf(Util.getNumber(task_price.getText().toString().trim()));
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال بروزرسانی زیر گروه خدمات ...");
@@ -756,32 +740,14 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (result_update_taskName.toUpperCase().equals("OK")) {
-                    Task task = new Task();
-                    task.setId(taskId);
-                    task.setOfficeId(G.officeId);
-                    task.setGroupId(((TaskGroup) task_spinner_taskGroup.getSelectedItem()).getId());
-                    task.setName(taskName);
-                    task.setPrice(((Task) task_listview.getItemAtPosition(task_selectedId)).getPrice());
-                    taskes.set(task_selectedId, task);
-                    task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item, taskes);
-                    task_listview.setAdapter(task_adapter);
-                    task_adapter.notifyDataSetChanged();
+                    task_adapter.getItem(task_selectedId).setName(taskName);
                     Toast.makeText(ActivityManagementTaskes.this, "عملیات بروزرسانی نام زیر گروه خدمات با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
                 } else {
                     new MessageBox(ActivityManagementTaskes.this, result_update_taskName).show();
                 }
 
                 if (result_update_taskPrice.toUpperCase().equals("OK")) {
-                    Task task = new Task();
-                    task.setId(taskId);
-                    task.setOfficeId(G.officeId);
-                    task.setGroupId(((TaskGroup) task_spinner_taskGroup.getSelectedItem()).getId());
-                    task.setName(((Task) task_listview.getItemAtPosition(task_selectedId)).getName());
-                    task.setPrice(taskPrice);
-                    taskes.set(task_selectedId, task);
-                    task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item, taskes);
-                    task_listview.setAdapter(task_adapter);
-                    task_adapter.notifyDataSetChanged();
+                    task_adapter.getItem(task_selectedId).setPrice(taskPrice);
                     Toast.makeText(ActivityManagementTaskes.this, "عملیات بروز رسانی قیمت با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                 } else {
                     new MessageBox(ActivityManagementTaskes.this, result_update_taskPrice);
@@ -805,7 +771,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            taskId = taskes.get(task_selectedId).getId();
+            taskId = task_adapter.getItem(task_selectedId).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال حذف گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
@@ -834,10 +800,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (result.equals("OK")) {
-                    taskes.remove(task_selectedId);
-                    task_adapter = new ArrayAdapter<Task>(ActivityManagementTaskes.this, R.layout.spinner_item, taskes);
-                    task_listview.setAdapter(task_adapter);
-                    task_adapter.notifyDataSetChanged();
+                    task_adapter.remove(task_adapter.getItem(task_selectedId));
                     Toast.makeText(ActivityManagementTaskes.this, "عملیات حذف با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     refreshCurrentTaskForm();
                 } else {

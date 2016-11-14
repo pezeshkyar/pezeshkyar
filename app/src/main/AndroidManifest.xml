@@ -155,6 +155,14 @@
             android:name=".support.ActivityTicket"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
+        <activity
+            android:name=".Question.ActivityCreateQuestion"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".Question.ActivityCartex"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
 
     </application>
 

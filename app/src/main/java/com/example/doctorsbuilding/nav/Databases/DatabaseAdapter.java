@@ -67,7 +67,7 @@ public class DatabaseAdapter {
     ////////////////////////////////////////////////////////////////////
     private SQLiteDatabase database;
     private Context context;
-    private final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/arayeshyar/";
+    private final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pezeshkyar/";
 
 
     public DatabaseAdapter(Context context) {

@@ -7,6 +7,7 @@
     <include layout="@layout/my_toolbar" />
 
     <EditText
+        android:id="@+id/question_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -18,9 +19,9 @@
 
     <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/question_rpl"
@@ -31,41 +32,43 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:text="نحوه پاسخگویی : "
-            app:layout_widthPercent="25%" />
+            app:layout_widthPercent="30%" />
 
         <RadioGroup
+            android:id="@+id/question_rg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/question_rpl"
             android:gravity="right"
             android:orientation="horizontal"
             app:layout_widthPercent="50%">
 
             <RadioButton
+                android:id="@+id/question_rb_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="متنی" />
 
             <RadioButton
+                android:id="@+id/question_rb_selection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="انتخابی" />
         </RadioGroup>
-        <Button
-            android:text="نمونه پاسخ"
-            android:layout_width="60dp"
-            android:layout_marginLeft="10dp"
-            app:layout_widthPercent="20%"
-            android:layout_marginTop="6dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/my_add_button"
-            android:layout_height="35dp" />
+
+        <TextView
+            android:id="@+id/question_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/question_rpl"
+            android:layout_toLeftOf="@+id/question_rg" />
     </android.support.percent.PercentRelativeLayout>
 
 
     <LinearLayout
+        android:id="@+id/question_layout_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -73,7 +76,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/my_card_view"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -110,12 +114,60 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/question_btn_insert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
+        android:background="@drawable/my_button"
         android:text="افزودن به بانک سوالات"
-        android:textColor="@android:color/white"
-        android:background="@drawable/my_button" />
+        android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/question_btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/my_delete_button"
+        android:text="حذف از بانک سوال"
+        android:visibility="gone"
+        android:textColor="@android:color/white" />
+
+    <FrameLayout
+        android:id="@+id/question_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/manage_taskes_editBtn"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/my_card_view">
+
+        <ListView
+            android:id="@+id/question_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+        <FrameLayout
+            android:id="@+id/question_listView_highlight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/highlightColor"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/question_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_replay_black_24dp" />
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

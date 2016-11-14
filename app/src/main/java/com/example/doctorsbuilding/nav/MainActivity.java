@@ -39,6 +39,8 @@ import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatActivity;
 import com.example.doctorsbuilding.nav.Dr.Notification.ManagementNotificationActivity;
 import com.example.doctorsbuilding.nav.Dr.Profile.DrProfileActivity;
 import com.example.doctorsbuilding.nav.Dr.Profile.PersonalInfoActivity;
+import com.example.doctorsbuilding.nav.Question.ActivityCartex;
+import com.example.doctorsbuilding.nav.Question.ActivityCreateQuestion;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.User.UserInboxActivity;
 import com.example.doctorsbuilding.nav.User.UserMyNobatActivity;
@@ -109,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         initViews();
+
+        asyncBaner = new asyncGetImageIdFromWeb();
+        asyncBaner.execute();
 
     }
 
@@ -193,9 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (unreadMessages != null) {
             unreadMessages.clear();
         }
-
-        asyncBaner = new asyncGetImageIdFromWeb();
-        asyncBaner.execute();
 
         if (G.UserInfo.getRole() != 0) {
             getUserPic = new AsyncGetUserPic();
@@ -565,6 +567,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_support:
                 startActivity(new Intent(MainActivity.this, ActivityTickets.class));
                 break;
+            case R.id.nav_dr_question:
+                startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
+                break;
             case R.id.nav_dr_logout:
                 logOut();
                 break;
@@ -608,6 +613,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_support:
                 startActivity(new Intent(MainActivity.this, ActivityTickets.class));
                 break;
+            case R.id.nav_secretary_question:
+                startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
+                break;
             case R.id.nav_secretary_logout:
                 logOut();
                 break;
@@ -637,6 +645,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_user_gallery:
                 startActivity(new Intent(MainActivity.this, gallery2.class));
+                break;
+            case R.id.nav_user_cartex:
+                startActivity(new Intent(MainActivity.this, ActivityCartex.class));
                 break;
             case R.id.nav_user_logout:
                 logOut();
