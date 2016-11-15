@@ -59,13 +59,12 @@ public class DialogAddTurn extends Dialog {
     private EditText nonMemberMobile;
     private Button nonMemberSearchBtn;
     private Button nonMemberInsertBtn;
-    private ArrayList<Task> taskes = null;
+    private ArrayAdapter<User> user_adapter;
     private ArrayAdapter<Task> task_adapter;
     private ArrayList<User> users = null;
-    private int selectedItem = -1;
     private ArrayList<TaskGroup> taskGroups;
     private ArrayAdapter<TaskGroup> taskGroup_adapter;
-
+    private int selectedItem = -1;
 
     asyncCallGetTaskes asyncGetTaskes;
     asyncCallGetTaskGroups asyncGetTaskGroups;
@@ -94,7 +93,7 @@ public class DialogAddTurn extends Dialog {
     private void initViews() {
         taskPrice = (TextView) findViewById(R.id.addTask_price);
         taskSpinner = (Spinner) findViewById(R.id.addTask_subtask);
-        taskes = new ArrayList<Task>();
+//        taskes = new ArrayList<Task>();
         viewFlipper = (ViewFlipper) findViewById(R.id.addTurn_viewSwitcher);
         myCheckBox = (CheckBox) findViewById(R.id.addTurn_chbox);
         taskGroupSpinner = (Spinner) findViewById(R.id.addTask_task);
@@ -115,6 +114,11 @@ public class DialogAddTurn extends Dialog {
         nonMemberName = (EditText) findViewById(R.id.addTurn_nonMember_name);
         nonMemberFamily = (EditText) findViewById(R.id.addTurn_nonMember_family);
         nonMemberMobile = (EditText) findViewById(R.id.addTurn_nonMember_mobile);
+
+        task_adapter = new ArrayAdapter<Task>(context, R.layout.spinner_item);
+        taskGroup_adapter = new ArrayAdapter<TaskGroup>(context, R.layout.spinner_item);
+        taskSpinner.setAdapter(task_adapter);
+        taskGroupSpinner.setAdapter(taskGroup_adapter);
 
         if (G.UserInfo.getRole() == UserType.User.ordinal()) {
             taskBackBtn.setVisibility(View.INVISIBLE);
@@ -325,6 +329,32 @@ public class DialogAddTurn extends Dialog {
                         }
                     }
                 }
+            }
+        });
+
+        taskGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (asyncGetTaskes == null) {
+                    asyncGetTaskes = new asyncCallGetTaskes();
+                    asyncGetTaskes.execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        taskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                taskPrice.setText(Util.getCurrency(((Task) taskSpinner.getSelectedItem()).getPrice()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -586,6 +616,7 @@ public class DialogAddTurn extends Dialog {
     private class asyncCallGetTaskGroups extends AsyncTask<String, Void, Void> {
         String msg = null;
         ProgressDialog dialog;
+        ArrayList<TaskGroup> taskGroups = null;
 
         @Override
         protected void onPreExecute() {
@@ -617,25 +648,10 @@ public class DialogAddTurn extends Dialog {
 
                     taskBackBtn.setVisibility(View.VISIBLE);
                     viewFlipper.setDisplayedChild(2);
+                    taskGroup_adapter.addAll(taskGroups);
 
-                    taskGroup_adapter = new ArrayAdapter<TaskGroup>(context, R.layout.spinner_item, taskGroups);
-                    taskGroupSpinner.setAdapter(taskGroup_adapter);
-
-                    taskGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                            if (asyncGetTaskes == null) {
-                                asyncGetTaskes = new asyncCallGetTaskes();
-                                asyncGetTaskes.execute();
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-
+                }else {
+                    new MessageBox(context, "خدماتی برای مطب شما ثبت نشده است، لطفا از منوی خدمات اقدام به ثبت نمایید .").show();
                 }
                 dialog.dismiss();
             }
@@ -645,6 +661,7 @@ public class DialogAddTurn extends Dialog {
     private class asyncCallGetTaskes extends AsyncTask<String, Void, Void> {
         String msg = null;
         int taskGroupId;
+        ArrayList<Task> taskes = null;
 
         @Override
         protected void onPreExecute() {
@@ -669,22 +686,11 @@ public class DialogAddTurn extends Dialog {
                 new MessageBox(context, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
-                    task_adapter = new ArrayAdapter<Task>(context, R.layout.spinner_item, taskes);
-                    taskSpinner.setAdapter(task_adapter);
-                    taskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            taskPrice.setText(Util.getCurrency(((Task) taskSpinner.getSelectedItem()).getPrice()));
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-
+                    task_adapter.addAll(taskes);
+                    addTurnBtn.setClickable(true);
+                }else {
+                    new MessageBox(context, "لطفا از منوی خدمات اقدام به ثبت زیرگروه خدمات نمایید .").show();
                 }
-                addTurnBtn.setClickable(true);
             }
         }
     }

@@ -484,7 +484,9 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             taskName = task_name.getText().toString().trim();
-            price = Integer.parseInt(Util.getNumber(task_price.getText().toString().trim()));
+            String str = task_price.getText().toString().trim();
+            String str2 = Util.getNumber(str);
+            price = Integer.valueOf(str2);
             taskGroupId = ((TaskGroup) task_spinner_taskGroup.getSelectedItem()).getId();
             dialog = ProgressDialog.show(ActivityManagementTaskes.this, "", "در حال ثبت زیر گروه خدمات ...");
             dialog.getWindow().setGravity(Gravity.END);

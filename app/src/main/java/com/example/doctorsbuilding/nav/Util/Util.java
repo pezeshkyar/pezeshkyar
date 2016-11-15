@@ -17,6 +17,7 @@ public class Util {
         return decimalFormat.format(number);
     }
     public static String getNumber(String number){
+        number = number.replaceAll("٬", ",");
         String[] numbers = number.split(",");
         String result = "";
         for(int i=0;i<numbers.length;i++){
