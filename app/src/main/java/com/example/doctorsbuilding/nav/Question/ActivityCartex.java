@@ -118,13 +118,22 @@ public class ActivityCartex extends AppCompatActivity {
                 layout.addView(chbox);
 
             } else {
+                TextView mTV = new TextView(ActivityCartex.this);
+                mTV.setText(q.getLabel());
+                mTV.setTypeface(G.getNormalFont());
+                mTV.setTextColor(Color.BLACK);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 10, 0, 0);
+                mTV.setLayoutParams(params);
+                layout.addView(mTV);
+
                 EditText mTxt = new EditText(ActivityCartex.this);
                 mTxt.setId(q.getId());
                 mTxt.setHint(q.getLabel());
                 mTxt.setTypeface(G.getNormalFont());
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 10, 0, 0);
-                mTxt.setLayoutParams(params);
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params1.setMargins(0, 10, 0, 0);
+                mTxt.setLayoutParams(params1);
                 mTxt.setPadding(10, 10, 10, 10);
                 mTxt.setBackgroundResource(R.drawable.my_edit_text);
                 layout.addView(mTxt);
@@ -175,7 +184,7 @@ public class ActivityCartex extends AppCompatActivity {
                     createCartex(questions);
                     task_getReply = new asyncGetReply();
                     task_getReply.execute();
-                }else {
+                } else {
                     loadingDialog.dismiss();
                 }
             }
@@ -200,17 +209,19 @@ public class ActivityCartex extends AppCompatActivity {
             ViewGroup group = layout;
             questionIds = new int[questions.size()];
             answers = new String[questions.size()];
-
+            int k = 0;
             for (int i = 0; i < group.getChildCount(); i++) {
 
                 View view = group.getChildAt(i);
                 if (view instanceof EditText) {
-                    questionIds[i] = view.getId();
-                    answers[i] = ((EditText) view).getText().toString().trim();
+                    questionIds[k] = view.getId();
+                    answers[k] = ((EditText) view).getText().toString().trim();
+                    k += 1;
 
                 } else if (view instanceof CheckBox) {
-                    questionIds[i] = view.getId();
-                    answers[i] = ((CheckBox) view).isChecked() ? "1" : "0";
+                    questionIds[k] = view.getId();
+                    answers[k] = ((CheckBox) view).isChecked() ? "1" : "0";
+                    k += 1;
                 }
             }
 
@@ -243,6 +254,7 @@ public class ActivityCartex extends AppCompatActivity {
             insertBtn.setClickable(true);
         }
     }
+
     private class asyncGetReply extends AsyncTask<String, Void, Void> {
         String msg = null;
         ArrayList<Reply> replies = new ArrayList<Reply>();
