@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/layout_shadow"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/offices_item_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/doctor_temp"
+        app:layout_widthPercent="30%" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/offices_item_image"
+        app:layout_widthPercent="70%">
+        <TextView
+            android:id="@+id/offices_item_name"
+            android:text="دکتر غلام حسین جعفری دولت آبادی"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="6dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="6dp"
+            android:background="@color/colorDivider"/>
+        <TextView
+            android:id="@+id/offices_item_expert"
+            android:text="فوق تخصص داخلی اطفال"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/offices_item_address"
+            android:text="ساری بوار امیر مازندرانی جنب کوچه صفا ساختمان بلور کلینیک دکتر سخایی پلاک 19"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/offices_item_phone"
+            android:gravity="left"
+            android:textColor="@color/textColor"
+            android:text="تلفن : 0113332658"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>

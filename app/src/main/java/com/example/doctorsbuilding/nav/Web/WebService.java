@@ -51,7 +51,7 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://192.168.1.121:8080/pezeshkyar_new_user/services/Webservices?wsdl";
+    private static String URL = "http://192.168.1.123:8080/pezeshkyar_new_user/services/Webservices?wsdl";
     //    private static String URL = "http://185.129.168.135:8080/pezeshkyarServerAllInOne/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
@@ -1633,7 +1633,7 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapObject response = (SoapObject) envelope.bodyIn;
-            if (response != null) {
+            if (!isNullBodyIn(response)) {
                 imageIds = new ArrayList<Integer>();
                 for (int i = 0; i < response.getPropertyCount(); i++) {
                     SoapPrimitive obj = (SoapPrimitive) response.getProperty(i);
@@ -2224,12 +2224,12 @@ public class WebService {
     }
 
     public static boolean isNullBodyIn(SoapObject response) {
-        boolean res = true;
-        int count = 0;
+        boolean res = false;
         try {
-            count = response.getPropertyCount();
+            SoapPrimitive obj = (SoapPrimitive) response.getProperty(0);
+            res = (obj == null);
         } catch (Exception ex) {
-            res = false;
+            res = true;
         }
         return res;
     }

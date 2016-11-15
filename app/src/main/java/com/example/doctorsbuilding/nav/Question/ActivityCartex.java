@@ -175,6 +175,8 @@ public class ActivityCartex extends AppCompatActivity {
                     createCartex(questions);
                     task_getReply = new asyncGetReply();
                     task_getReply.execute();
+                }else {
+                    loadingDialog.dismiss();
                 }
             }
         }
