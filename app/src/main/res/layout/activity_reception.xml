@@ -95,7 +95,7 @@
                     android:digits="0123456789"
                     android:hint="مبلغ پرداختی"
                     android:inputType="phone|textNoSuggestions"
-                    android:maxLength="10"
+                    android:maxLength="20"
                     android:padding="8dp"
                     android:textColor="@color/textColor" />
 

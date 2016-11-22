@@ -9,9 +9,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -67,11 +65,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
         , OnMapReadyCallback {
 
-    boolean doubleBackToExitPressedOnce = false;
     NavigationView navigationView = null;
     public UserType menu = UserType.None;
-    private SharedPreferences settings;
-    private GoogleMap mMap;
+
+    private GoogleMap mMap;private SharedPreferences settings;
 
     TextView drName;
     TextView drExpert;
@@ -92,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     AsyncGetUserPic getUserPic = null;
     AsyncCallGetUnreadMessagesWs asyncGetMessage = null;
     asyncGetImageIdFromWeb asyncBaner = null;
+//    AsyncGetOfficeData task_getOfficeData;
 
     ArrayList<Boolean> banerTaskList;
     ImageView btn_menu;
@@ -112,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         initViews();
 
+//        task_getOfficeData = new AsyncGetOfficeData();
+//        task_getOfficeData.execute();
         asyncBaner = new asyncGetImageIdFromWeb();
         asyncBaner.execute();
 
@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (asyncBaner != null) {
             asyncBaner.cancel(true);
         }
+//        if (task_getOfficeData != null)
+//            task_getOfficeData.cancel(true);
     }
 
     @Override
@@ -549,9 +551,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_secretary:
                 startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
                 break;
-            case R.id.nav_dr_call:
-                startActivity(new Intent(MainActivity.this, ContactUs.class));
-                break;
+//            case R.id.nav_dr_call:
+//                startActivity(new Intent(MainActivity.this, ContactUs.class));
+//                break;
             case R.id.nav_dr_notification:
                 startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
                 break;
@@ -570,9 +572,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_question:
                 startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
                 break;
-            case R.id.nav_dr_logout:
-                logOut();
-                break;
+//            case R.id.nav_dr_logout:
+//                logOut();
+//                break;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_secretary_clinic:
                 startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
@@ -595,9 +597,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_taskes:
                 startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
                 break;
-            case R.id.nav_secretary_call:
-                startActivity(new Intent(MainActivity.this, ContactUs.class));
-                break;
+//            case R.id.nav_secretary_call:
+//                startActivity(new Intent(MainActivity.this, ContactUs.class));
+//                break;
             case R.id.nav_secretary_notification:
                 startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
                 break;
@@ -616,9 +618,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_question:
                 startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
                 break;
-            case R.id.nav_secretary_logout:
-                logOut();
-                break;
+//            case R.id.nav_secretary_logout:
+//                logOut();
+//                break;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_user_addTurn:
                 startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
@@ -631,9 +633,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra("patientUserName", G.UserInfo.getUserName());
                 startActivity(intent);
                 break;
-            case R.id.nav_user_call:
-                startActivity(new Intent(MainActivity.this, ContactUs.class));
-                break;
+//            case R.id.nav_user_call:
+//                startActivity(new Intent(MainActivity.this, ContactUs.class));
+//                break;
             case R.id.nav_user_nobat:
                 startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
                 break;
@@ -646,12 +648,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_user_gallery:
                 startActivity(new Intent(MainActivity.this, gallery2.class));
                 break;
-            case R.id.nav_user_cartex:
-                startActivity(new Intent(MainActivity.this, ActivityCartex.class));
-                break;
-            case R.id.nav_user_logout:
-                logOut();
-                break;
+//            case R.id.nav_user_cartex:
+//                startActivity(new Intent(MainActivity.this, ActivityCartex.class));
+//                break;
+//            case R.id.nav_user_logout:
+//                logOut();
+//                break;
             //////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_signUp_user:
                 startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
@@ -684,26 +686,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (doubleBackToExitPressedOnce) {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else if (doubleBackToExitPressedOnce) {
+////            super.onBackPressed();
+////            moveTaskToBack(true);
+//            stopAllAsyncTask();
 //            super.onBackPressed();
-//            moveTaskToBack(true);
-            stopAllAsyncTask();
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "برای خروج دو بار دکمه BACK را بزنید", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+//            return;
+//        }
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "برای خروج دو بار دکمه BACK را بزنید", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce = false;
+//            }
+//        }, 2000);
+        finish();
     }
 
 
@@ -875,5 +878,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+//    private class AsyncGetOfficeData extends AsyncTask<String, Void, Void> {
+//        String msg = null;
+//        Bitmap doctorPic = null;
+//
+//        @Override
+//        protected Void doInBackground(String... strings) {
+//            try {
+//                G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+//                doctorPic = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+//            } catch (PException ex) {
+//                msg = ex.getMessage();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            if (msg != null) {
+//                new MessageBox(MainActivity.this, msg).show();
+//            } else {
+//
+//                if (G.officeInfo != null) {
+//                    if (doctorPic == null)
+//                        doctorPic = BitmapFactory.decodeResource(MainActivity.this.getResources(), R.drawable.doctor);
+//
+//                    G.officeInfo.setPhoto(doctorPic);
+//
+//                    drName.setText(G.officeInfo.getFirstname().concat(" " + G.officeInfo.getLastname()));
+//                    drExpert.setText(G.officeInfo.getSubExpertName());
+//                    drAddress.setText(G.officeInfo.getAddress());
+//                    drPhone.setText(G.officeInfo.getPhone());
+//                    drBiography.setText(G.officeInfo.getBiography());
+//                    mapFragment.getMapAsync(MainActivity.this);
+//
+//                    database = new DatabaseAdapter(MainActivity.this);
+//                    if (database.openConnection()) {
+//                        long result = database.insertoffice(G.officeInfo);
+//                        if (result == -1) {
+//                            database.updateOffice(G.officeId, G.officeInfo);
+//                        }
+//                        database.closeConnection();
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
 }
 

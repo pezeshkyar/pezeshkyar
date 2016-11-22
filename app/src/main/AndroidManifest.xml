@@ -27,9 +27,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainForm.ActivityLoading"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme">
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,132 +38,172 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainForm.ActivityOffices"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".Dr.Profile.DrProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Gallery.GalleryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Profile.PersonalInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Clinic.DrClinicActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Nobat.DrNobatActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Sick.PatientsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Sick.SickActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Notification.ManagementNotificationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".User.UserProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".User.UserMyNobatActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".User.UserInboxActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".User.UserNewsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SignInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".ActivityPatientListToday"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityReception"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityPatientFile"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityAddNextTurn"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivitySearchPatient"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".gallery2"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".LazyLoad.Gallery3"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ContactUs"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityManagementTaskes"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityImageShow"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityManageSecretary"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".support.DiscussActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".support.ActivityTickets"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".support.ActivityTicket"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Question.ActivityCreateQuestion"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Question.ActivityCartex"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

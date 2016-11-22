@@ -101,8 +101,17 @@ public class ActivityReception extends AppCompatActivity {
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                task_reception = new asyncCallReception();
-                task_reception.execute();
+                boolean res = true;
+                try {
+                    int temp = Integer.valueOf(Util.getNumber(costTxt.getText().toString()));
+                } catch (Exception ex) {
+                    new MessageBox(ActivityReception.this, "مبلغ وارد شده نادرست می باشد .").show();
+                    res = false;
+                }
+                if (res) {
+                    task_reception = new asyncCallReception();
+                    task_reception.execute();
+                }
             }
         });
         addNextBtn.setOnClickListener(new View.OnClickListener() {

@@ -57,6 +57,7 @@ public class WebService {
     private static String SOAP_ACTION = "http://docTurn/";
 
     private static final String connectMessage = "برقراری ارتباط با سرور امکان پذیر نیست !";
+    private static final String nothingFromServer = "هیچ جوابی از سرور دریافت نشده است !";
     private static final String otherMessage = "خطایی در ارتباط با سرور رخ داده است !";
     private static final String isOnlineMessage = "دسترسی به اینترنت امکان پذیر نمی باشد، لطفا تنظیمات اینترنت خود را چک نمایید .";
 
@@ -243,6 +244,34 @@ public class WebService {
         return result;
     }
 
+    public static String invokeNewLoginWS(String username, String password) throws PException {
+
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+
+        String webMethName = "login";
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = response.toString();
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
 //    public static Boolean invokeAddTurnWs(String name, String webMethName, String username
 //            , String password, int officeId, String date, int startHour
 //            , int startMin, int duration, int capacity) throws PException
@@ -355,29 +384,31 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapObject response = (SoapObject) envelope.getResponse();
-            office = new Office();
-            office.setId(Integer.parseInt(response.getProperty("id").toString()));
-            office.setDrUsername(response.getProperty("doctorUsername").toString());
-            office.setFirstname(response.getProperty("doctorName").toString());
-            office.setLastname(response.getProperty("doctorLastName").toString());
-            office.setCityId(Integer.parseInt(response.getProperty("cityId").toString()));
-            office.setCityName(response.getProperty("city").toString());
-            office.setStateId(Integer.parseInt(response.getProperty("provinceId").toString()));
-            office.setStateName(response.getProperty("province").toString());
-            office.setExpertId(Integer.parseInt(response.getProperty("specId").toString()));
-            office.setExpertName(response.getProperty("spec").toString());
-            office.setSubExpertId(Integer.parseInt(response.getProperty("subspecId").toString()));
-            office.setSubExpertName(response.getProperty("subSpec").toString());
-            office.setAddress(response.getProperty("address").toString());
-            office.setPhone(response.getProperty("tellNo").toString());
-            office.setLatitude(Double.parseDouble(response.getProperty("latitude").toString()));
-            office.setLongitude(Double.parseDouble(response.getProperty("longitude").toString()));
-            try {
-                office.setBiography(response.getProperty("biograophy").toString());
-            } catch (Exception e) {
-                office.setBiography("");
+            if (response != null) {
+                office = new Office();
+                office.setId(Integer.parseInt(response.getProperty("id").toString()));
+                office.setDrUsername(response.getProperty("doctorUsername").toString());
+                office.setFirstname(response.getProperty("doctorName").toString());
+                office.setLastname(response.getProperty("doctorLastName").toString());
+                office.setCityId(Integer.parseInt(response.getProperty("cityId").toString()));
+                office.setCityName(response.getProperty("city").toString());
+                office.setStateId(Integer.parseInt(response.getProperty("provinceId").toString()));
+                office.setStateName(response.getProperty("province").toString());
+                office.setExpertId(Integer.parseInt(response.getProperty("specId").toString()));
+                office.setExpertName(response.getProperty("spec").toString());
+                office.setSubExpertId(Integer.parseInt(response.getProperty("subspecId").toString()));
+                office.setSubExpertName(response.getProperty("subSpec").toString());
+                office.setAddress(response.getProperty("address").toString());
+                office.setPhone(response.getProperty("tellNo").toString());
+                office.setLatitude(Double.parseDouble(response.getProperty("latitude").toString()));
+                office.setLongitude(Double.parseDouble(response.getProperty("longitude").toString()));
+                try {
+                    office.setBiography(response.getProperty("biograophy").toString());
+                } catch (Exception e) {
+                    office.setBiography("");
+                }
+                office.setTimeQuantum(Integer.parseInt(response.getProperty("timeQuantum").toString()));
             }
-            office.setTimeQuantum(Integer.parseInt(response.getProperty("timeQuantum").toString()));
         } catch (ConnectException ex) {
             throw new PException(connectMessage);
         } catch (Exception ex) {
@@ -2567,5 +2598,69 @@ public class WebService {
         }
         return replies;
     }
+
+    public static String invokeAddOfficeForUserWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "addOfficeForUser";
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = String.valueOf(response.toString());
+
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            if (result == null) {
+                throw new PException(nothingFromServer);
+            } else {
+                throw new PException(otherMessage);
+            }
+        }
+        return result;
+    }
+
+    public static String invokeDeleteOfficeForUserWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "deleteOfficeForUser";
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = String.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
 
 }

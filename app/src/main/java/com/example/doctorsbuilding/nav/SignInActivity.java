@@ -115,33 +115,29 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private class AsyncCallLoginWS extends AsyncTask<String, Void, Void> {
-        private int role;
+        private String result = null;
         private UserType userType = UserType.None;
         String msg = null;
         ProgressDialog dialog;
+        String username, password;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = ProgressDialog.show(SignInActivity.this, "", "در حال ارسال اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
+            username = txtUserName.getText().toString().trim();
+            password = txtPassword.getText().toString().trim();
         }
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                role = WebService.invokeLoginWS(G.officeId, setUserData());
+                result = WebService.invokeNewLoginWS(username, password);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
             return null;
-        }
-
-        private User setUserData() {
-            User user = new User();
-            user.setUserName(txtUserName.getText().toString().trim());
-            user.setPassword(txtPassword.getText().toString().trim());
-            return user;
         }
 
         @Override
@@ -151,31 +147,34 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 new MessageBox(SignInActivity.this, msg).show();
             } else {
                 dialog.dismiss();
-                if (role != -1) {
-                    userType = UserType.values()[role];
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    intent.putExtra("menu", userType);
-                    switch (userType) {
-                        case None:
-                            new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
-                            break;
-                        case User:
-                            UserType.User.attachTo(intent);
-                            save();
-                            break;
-                        case Dr:
-                            UserType.Dr.attachTo(intent);
-                            save();
-                            break;
-                        case secretary:
-                            UserType.Dr.attachTo(intent);
-                            save();
-                            break;
-                        default:
-                            break;
+                if (result != null) {
+                    if (result.toUpperCase().equals("OK")) {
+//                        userType = UserType.values()[2];
+//                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//                        intent.putExtra("menu", userType);
+//                        switch (userType) {
+//                            case None:
+//                                new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
+//                                break;
+//                            case User:
+//                                UserType.User.attachTo(intent);
+//                                save();
+//                                break;
+//                            case Dr:
+//                                UserType.Dr.attachTo(intent);
+//                                save();
+//                                break;
+//                            case secretary:
+//                                UserType.Dr.attachTo(intent);
+//                                save();
+//                                break;
+//                            default:
+//                                break;
+                        save();
+
+                    } else {
+                        new MessageBox(SignInActivity.this, result).show();
                     }
-                } else {
-                    new MessageBox(SignInActivity.this, "هیچ جوابی از سرور دریافت نشده است .").show();
                 }
             }
         }
@@ -184,9 +183,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user", txtUserName.getText().toString());
             editor.putString("pass", txtPassword.getText().toString());
-            editor.putInt("role", role);
+//            editor.putInt("role", 2);
             editor.apply();
-            startActivity(new Intent(SignInActivity.this, SplashActivity.class));
             finish();
         }
 

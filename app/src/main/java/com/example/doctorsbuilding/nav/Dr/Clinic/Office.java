@@ -1,5 +1,7 @@
 package com.example.doctorsbuilding.nav.Dr.Clinic;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by hossein on 7/18/2016.
  */
@@ -22,6 +24,7 @@ public class Office {
     private double longitude;
     private String biography;
     private int timeQuantum;
+    private Bitmap photo;
 
     public int getId() {
         return id;
@@ -167,6 +170,14 @@ public class Office {
         this.timeQuantum = timeQuantum;
     }
 
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
+
     public Office clone() {
         Office office = new Office();
         office.id = this.id;
@@ -187,6 +198,7 @@ public class Office {
         office.longitude = this.longitude;
         office.biography = this.biography;
         office.timeQuantum = this.timeQuantum;
+        office.photo = this.photo;
 
         return office;
     }

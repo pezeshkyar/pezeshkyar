@@ -183,6 +183,12 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             new MessageBox(ActivityManagementTaskes.this, "لطفا مبلغ پایه را مشخص نمایید .").show();
             return false;
         }
+        try {
+            int test = Integer.valueOf(Util.getNumber(task_price.getText().toString().trim()));
+        } catch (Exception ex) {
+            new MessageBox(ActivityManagementTaskes.this, "مبلغ وارد شده نادرست می باشد .").show();
+            return false;
+        }
         return true;
     }
 
@@ -292,21 +298,23 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (task_selectedId != -1) {
-                    asyncUpdateTask = new asyncCallUpdateTask();
-                    asyncUpdateTask.execute();
-                } else {
-                    final MessageBox messageBox = new MessageBox(ActivityManagementTaskes.this, "شما در حال بروزرسانی این گروه خدمات می باشید، در صورت تمایل دکمه قبول را بزنید .");
-                    messageBox.show();
-                    messageBox.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            if (messageBox.pressAcceptButton()) {
-                                updateTaskGroup = new asyncUpdateTaskGroup();
-                                updateTaskGroup.execute();
+                if (checkField_task()) {
+                    if (task_selectedId != -1) {
+                        asyncUpdateTask = new asyncCallUpdateTask();
+                        asyncUpdateTask.execute();
+                    } else {
+                        final MessageBox messageBox = new MessageBox(ActivityManagementTaskes.this, "شما در حال بروزرسانی این گروه خدمات می باشید، در صورت تمایل دکمه قبول را بزنید .");
+                        messageBox.show();
+                        messageBox.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                if (messageBox.pressAcceptButton()) {
+                                    updateTaskGroup = new asyncUpdateTaskGroup();
+                                    updateTaskGroup.execute();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
@@ -348,6 +356,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 lockTaskGroupForm(position);
             }
         });
+
 
 //        task_spinner_taskGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -402,7 +411,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (taskGroups != null && taskGroups.size() != 0) {
-                    for (TaskGroup tg:taskGroups )
+                    for (TaskGroup tg : taskGroups)
                         taskGroup_adapter.add(tg);
 
                 }
@@ -573,7 +582,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
                 new MessageBox(ActivityManagementTaskes.this, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
-                    for (Task t: taskes)
+                    for (Task t : taskes)
                         task_adapter.add(t);
                 }
                 dialog.dismiss();

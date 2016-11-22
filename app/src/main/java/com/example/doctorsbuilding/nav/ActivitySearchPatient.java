@@ -42,6 +42,7 @@ public class ActivitySearchPatient extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_search_patient);
         intiViews();
         eventsListener();

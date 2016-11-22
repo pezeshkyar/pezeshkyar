@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -43,6 +44,7 @@ public class ActivityPatientFile extends AppCompatActivity {
     Button backBtn;
     TextView pageTitle;
     String patientUsername;
+    TabLayout mTableLayout;
 
 
     @Override
@@ -58,8 +60,9 @@ public class ActivityPatientFile extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager mViewPager = (ViewPager)findViewById(R.id.patient_file_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        TabLayout mTableLayout = (TabLayout) findViewById(R.id.patient_file_tab);
+        mTableLayout = (TabLayout) findViewById(R.id.patient_file_tab);
         mTableLayout.setupWithViewPager(mViewPager);
+        changeTabsFont();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +75,22 @@ public class ActivityPatientFile extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private void changeTabsFont() {
+
+        ViewGroup vg = (ViewGroup) mTableLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(G.getNormalFont());
+                }
+            }
+        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

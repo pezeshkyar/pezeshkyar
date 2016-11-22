@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,8 +32,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class SplashActivity extends AppCompatActivity {
     TextView splashTv;
-    Button reloadBtn;
-    ImageView reloadImg;
     ProgressBar progressBar;
     public UserType menu = UserType.None;
     private SharedPreferences settings;
@@ -43,17 +43,10 @@ public class SplashActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-//        }
-
         splashTv = (TextView) findViewById(R.id.splash_tv);
-        reloadBtn = (Button) findViewById(R.id.splash_btn);
         progressBar = (ProgressBar) findViewById(R.id.splash_prbar);
-        reloadImg = (ImageView) findViewById(R.id.splash_img);
-        checkIsOnline();
+        progressBar.setVisibility(View.VISIBLE);
+        loadData();
         database = new DatabaseAdapter(SplashActivity.this);
 
     }
@@ -69,23 +62,8 @@ public class SplashActivity extends AppCompatActivity {
         this.moveTaskToBack(true);
     }
 
-    private void checkIsOnline() {
-        if (isOnline()) {
-            progressBar.setVisibility(View.VISIBLE);
-            splashTv.setVisibility(View.VISIBLE);
-            loadData();
-        } else {
-            new MessageBox(this, "دسترسی به اینترنت امکان پذیر نمی باشد، لطفا تنظیمات اینترنت خود را چک نمایید .").show();
-            reloadPage();
-        }
-    }
-
     private void loadData() {
         splashTv.setText("در حال دریافت اطلاعات ...");
-        if (G.UserInfo == null)
-            G.UserInfo = new User();
-        if (G.officeInfo == null)
-            G.officeInfo = new Office();
         loadUser();
         AsyncCallGetData task = new AsyncCallGetData();
         task.execute();
@@ -96,52 +74,21 @@ public class SplashActivity extends AppCompatActivity {
         settings = G.getSharedPreferences();
         G.UserInfo.setUserName(settings.getString("user", ""));
         G.UserInfo.setPassword(settings.getString("pass", ""));
-        if (G.UserInfo.getUserName().length() == 0 && G.UserInfo.getPassword().length() == 0) {
-            G.UserInfo.setUserName("guest");
-            G.UserInfo.setPassword("8512046384");
-        }
-
-    }
-
-    private void reloadPage() {
-        splashTv.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        reloadImg.setVisibility(View.VISIBLE);
-        reloadBtn.setVisibility(View.VISIBLE);
-        reloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reloadBtn.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                reloadImg.setVisibility(View.GONE);
-                checkIsOnline();
-            }
-        });
-    }
-
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private class AsyncCallGetData extends AsyncTask<String, Void, Void> {
         String msg = null;
-        int role = -1;
+        Bitmap doctorPic = null;
+        boolean result = true;
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
 
-                role = WebService.invokeLoginWS(G.officeId, setUserData());
-                if (role > 0 && role != UserType.Guest.ordinal()) {
+                if (G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
                     G.UserInfo = WebService.invokeGetUserInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-                } else {
-                    G.UserInfo.setUserName("guest");
-                    G.UserInfo.setPassword("8512046384");
-                    G.UserInfo.setRole(UserType.Guest.ordinal());
                 }
+                doctorPic = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                 G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
                 msg = ex.getMessage();
@@ -150,52 +97,36 @@ public class SplashActivity extends AppCompatActivity {
             return null;
         }
 
-        private User setUserData() {
-            User user = new User();
-            user.setUserName(G.UserInfo.getUserName());
-            user.setPassword(G.UserInfo.getPassword());
-            return user;
-        }
-
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
                 new MessageBox(SplashActivity.this, msg).show();
-                reloadPage();
             } else {
 
-                if (G.UserInfo.getRole() != UserType.None.ordinal()) {
-                    database = new DatabaseAdapter(SplashActivity.this);
-                    database.initialize();
-//                    if (database.openConnection()) {
-//                        G.doctorImageProfile = database.getImageProfile(1);
-//                        if (G.doctorImageProfile == null) {
-//                            G.doctorImageProfile = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-//                        }
-//                        database.closeConnection();
-//                    }
-
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
-                } else {
-
-                    final MessageBox errorMessage = new MessageBox(SplashActivity.this, "خطای در برقراری ارتباط رخ داده است !");
-                    errorMessage.setCancelable(false);
-                    errorMessage.show();
-                    errorMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            if (errorMessage.pressAcceptButton()) {
-                                finish();
-                            }
-                        }
-                    });
-
+                if (G.UserInfo.getRole() == UserType.None.ordinal()) {
+                    result = false;
                 }
+                if (G.officeInfo != null) {
+                    if (doctorPic == null)
+                        doctorPic = BitmapFactory.decodeResource(SplashActivity.this.getResources(), R.drawable.doctor);
+
+                    G.officeInfo.setPhoto(doctorPic);
+                    database = new DatabaseAdapter(SplashActivity.this);
+                    if (database.openConnection()) {
+                        long result = database.insertoffice(G.officeInfo);
+                        if (result == -1) {
+                            database.updateOffice(G.officeId, G.officeInfo);
+                        }
+                        database.closeConnection();
+                    }
+
+                } else {result = false;}
+                if (result) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
+                finish();
             }
         }
     }
-
 }

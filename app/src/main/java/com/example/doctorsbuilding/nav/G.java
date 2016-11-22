@@ -25,9 +25,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by hossein on 7/18/2016.
  */
 public class G extends Application {
-    public static final int officeId = 1;
+    public static int officeId = -1;
     public static User UserInfo;
-    public static Office officeInfo;
+    public static Office officeInfo = null;
     public static Bitmap doctorImageProfile;
 
     private static G instance;
@@ -62,6 +62,9 @@ public class G extends Application {
         return Typeface.createFromAsset(instance.getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
     }
 
+    public static Typeface getDastnevisFont() {
+        return Typeface.createFromAsset(instance.getAssets(), "fonts/persianDanstevis.ttf");
+    }
     //Added By Ardeshir
     public static ArrayAdapter<Ticket> mAdapter;
 

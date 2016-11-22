@@ -126,7 +126,7 @@ public class FragmentPatientMedicalHistory extends Fragment {
             View view = group.getChildAt(i);
             if (view instanceof EditText) {
                 for (Reply r : replies) {
-                    if (view.getId() == r.getId()) {
+                    if (view.getId() == r.getQuestionId()) {
                         ((EditText) view).setText(r.getReply());
                         break;
                     }
@@ -134,7 +134,7 @@ public class FragmentPatientMedicalHistory extends Fragment {
 
             } else if (view instanceof CheckBox) {
                 for (Reply r : replies) {
-                    if (view.getId() == r.getId()) {
+                    if (view.getId() == r.getQuestionId()) {
                         ((CheckBox) view).setChecked(r.getReply().equals("1"));
                         break;
                     }
