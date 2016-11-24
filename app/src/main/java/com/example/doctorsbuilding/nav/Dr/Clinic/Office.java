@@ -10,6 +10,7 @@ public class Office {
     private String firstname;
     private String lastname;
     private String drUsername;
+    private boolean isMyOffice;
     private int cityId;
     private String cityName;
     private int stateId;
@@ -176,6 +177,14 @@ public class Office {
 
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
+    }
+
+    public int isMyOffice() {
+        return (isMyOffice ? 1 : 0);
+    }
+
+    public void setMyOffice(boolean myOffice) {
+        isMyOffice = myOffice;
     }
 
     public Office clone() {

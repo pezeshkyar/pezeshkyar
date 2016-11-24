@@ -1,9 +1,12 @@
 package com.example.doctorsbuilding.nav;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +17,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
@@ -115,7 +120,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private class AsyncCallLoginWS extends AsyncTask<String, Void, Void> {
-        private String result = null;
+        private int result = -1;
         private UserType userType = UserType.None;
         String msg = null;
         ProgressDialog dialog;
@@ -133,7 +138,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                result = WebService.invokeNewLoginWS(username, password);
+                result = WebService.invokeLogin3WS(username, password);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -147,44 +152,44 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 new MessageBox(SignInActivity.this, msg).show();
             } else {
                 dialog.dismiss();
-                if (result != null) {
-                    if (result.toUpperCase().equals("OK")) {
-//                        userType = UserType.values()[2];
-//                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//                        intent.putExtra("menu", userType);
-//                        switch (userType) {
-//                            case None:
-//                                new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
-//                                break;
-//                            case User:
-//                                UserType.User.attachTo(intent);
-//                                save();
-//                                break;
-//                            case Dr:
-//                                UserType.Dr.attachTo(intent);
-//                                save();
-//                                break;
-//                            case secretary:
-//                                UserType.Dr.attachTo(intent);
-//                                save();
-//                                break;
-//                            default:
-//                                break;
-                        save();
+                if (result != -1) {
+                        userType = UserType.values()[result];
+                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                        intent.putExtra("menu", userType);
+                        switch (userType) {
+                            case None:
+                                new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
+                                break;
+                            case User:
+                                UserType.User.attachTo(intent);
+                                save(result);
+                                break;
+                            case Dr:
+                                UserType.Dr.attachTo(intent);
+                                save(result);
+                                break;
+                            case secretary:
+                                UserType.Dr.attachTo(intent);
+                                save(result);
+                                break;
+                            default:
+                                break;
 
-                    } else {
-                        new MessageBox(SignInActivity.this, result).show();
+
                     }
+                }else {
+                    new MessageBox(SignInActivity.this, "هیچ جوابی از سرور دریافت نشده است .").show();
                 }
             }
         }
 
-        private void save() {
+        private void save(int role) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user", txtUserName.getText().toString());
             editor.putString("pass", txtPassword.getText().toString());
-//            editor.putInt("role", 2);
+            editor.putInt("role", role);
             editor.apply();
+            setResult(Activity.RESULT_OK);
             finish();
         }
 

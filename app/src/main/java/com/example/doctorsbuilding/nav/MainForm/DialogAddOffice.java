@@ -46,7 +46,6 @@ public class DialogAddOffice extends Dialog {
     Context context;
     Office office = null;
     DatabaseAdapter database;
-    CustomOfficesListAdapter adapter_office;
     int officeId = -1;
     AsyncInsertOffice task_insertOffice = null;
 

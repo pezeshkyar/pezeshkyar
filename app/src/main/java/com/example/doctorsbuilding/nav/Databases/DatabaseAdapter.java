@@ -12,6 +12,7 @@ import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.Expert;
 import com.example.doctorsbuilding.nav.PhotoDesc;
 import com.example.doctorsbuilding.nav.MessageInfo;
+import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SubExpert;
 import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.User.State;
@@ -69,6 +70,7 @@ public class DatabaseAdapter {
     ////////////////////////////////////////////////////////////////////
     private static final String TABLE_OFFICE = "tbl_office";
     private static final String OFFICE_INS_ORDER = "ins";
+    private static final String OFFICE_IS_MY_OFFICE = "isMyOffice";
     private static final String OFFICE_ID = "id";
     private static final String OFFICE_NAME = "name";
     private static final String OFFICE_LASTNAME = "lastname";
@@ -127,6 +129,7 @@ public class DatabaseAdapter {
         String create_tbl_office = "create table if not exists "
                 + TABLE_OFFICE + " ( "
                 + OFFICE_INS_ORDER + " integer not null, "
+                + OFFICE_IS_MY_OFFICE + " integer not null, "
                 + OFFICE_ID + " integer not null, "
                 + OFFICE_NAME + " nvarchar(50) not null, "
                 + OFFICE_LASTNAME + " nvarchar(50) not null, "
@@ -559,7 +562,7 @@ public class DatabaseAdapter {
         }
     }
 
-    private int getMaxInsOrderInOffice(){
+    private int getMaxInsOrderInOffice() {
         final SQLiteStatement stmt = database
                 .compileStatement("SELECT MAX(" + OFFICE_INS_ORDER +
                         ") FROM " + TABLE_OFFICE + "");
@@ -573,6 +576,7 @@ public class DatabaseAdapter {
             ContentValues values;
             values = new ContentValues();
             values.put(OFFICE_INS_ORDER, insOrder);
+            values.put(OFFICE_IS_MY_OFFICE, office.isMyOffice());
             values.put(OFFICE_ID, office.getId());
             values.put(OFFICE_NAME, office.getFirstname());
             values.put(OFFICE_LASTNAME, office.getLastname());
@@ -615,6 +619,58 @@ public class DatabaseAdapter {
         return offices;
     }
 
+    public ArrayList<Office> getMyOffice() {
+        Office office = null;
+        ArrayList<Office> offices = new ArrayList<Office>();
+        try {
+            String query = "select * from " + TABLE_OFFICE + " where " + OFFICE_IS_MY_OFFICE + " = 1 order by " + OFFICE_INS_ORDER;
+            Cursor cursor = database.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                office = new Office();
+                office.setId(cursor.getInt(cursor.getColumnIndex(OFFICE_ID)));
+                office.setFirstname(cursor.getString(cursor.getColumnIndex(OFFICE_NAME)));
+                office.setLastname(cursor.getString(cursor.getColumnIndex(OFFICE_LASTNAME)));
+                office.setExpertName(cursor.getString(cursor.getColumnIndex(OFFICE_EXPERT)));
+                office.setSubExpertName(cursor.getString(cursor.getColumnIndex(OFFICE_SUBEXPERT)));
+                office.setAddress(cursor.getString(cursor.getColumnIndex(OFFICE_ADDRESS)));
+                office.setPhone(cursor.getString(cursor.getColumnIndex(OFFICE_PHONE)));
+                byte[] image = cursor.getBlob(cursor.getColumnIndex(OFFICE_PHOTO));
+                office.setPhoto(DbBitmapUtility.getImage(image));
+                offices.add(office);
+            }
+            cursor.close();
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات دریافت مطب ها با مشکل مواجه شده است !").show();
+        }
+        return offices;
+    }
+
+    public ArrayList<Office> getMyDoctorOffice() {
+        Office office = null;
+        ArrayList<Office> offices = new ArrayList<Office>();
+        try {
+            String query = "select * from " + TABLE_OFFICE + " where " + OFFICE_IS_MY_OFFICE + " = 0 order by " + OFFICE_INS_ORDER;
+            Cursor cursor = database.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                office = new Office();
+                office.setId(cursor.getInt(cursor.getColumnIndex(OFFICE_ID)));
+                office.setFirstname(cursor.getString(cursor.getColumnIndex(OFFICE_NAME)));
+                office.setLastname(cursor.getString(cursor.getColumnIndex(OFFICE_LASTNAME)));
+                office.setExpertName(cursor.getString(cursor.getColumnIndex(OFFICE_EXPERT)));
+                office.setSubExpertName(cursor.getString(cursor.getColumnIndex(OFFICE_SUBEXPERT)));
+                office.setAddress(cursor.getString(cursor.getColumnIndex(OFFICE_ADDRESS)));
+                office.setPhone(cursor.getString(cursor.getColumnIndex(OFFICE_PHONE)));
+                byte[] image = cursor.getBlob(cursor.getColumnIndex(OFFICE_PHOTO));
+                office.setPhoto(DbBitmapUtility.getImage(image));
+                offices.add(office);
+            }
+            cursor.close();
+        } catch (Exception ex) {
+            new MessageBox(context, "عملیات دریافت مطب ها با مشکل مواجه شده است !").show();
+        }
+        return offices;
+    }
+
     public void deleteOffice(int officeId) {
         try {
             String query = "delete from " + TABLE_OFFICE + " where " + OFFICE_ID + " = " + officeId;
@@ -632,6 +688,7 @@ public class DatabaseAdapter {
             ContentValues values;
             values = new ContentValues();
             values.put(OFFICE_ID, office.getId());
+            values.put(OFFICE_IS_MY_OFFICE, office.isMyOffice());
             values.put(OFFICE_NAME, office.getFirstname());
             values.put(OFFICE_LASTNAME, office.getLastname());
             values.put(OFFICE_EXPERT, office.getExpertName());
@@ -645,20 +702,8 @@ public class DatabaseAdapter {
             new MessageBox(context, "عملیات بروز رسانی مطب با مشکل مواجه شده است !!!").show();
         }
 
-//        try {
-//            String query = "update " + TABLE_OFFICE + " set "
-//                    + OFFICE_NAME + "='" + office.getFirstname() + "', "
-//                    + OFFICE_LASTNAME + "='" + office.getLastname() + "', "
-//                    + OFFICE_EXPERT + "='" + office.getExpertName() + "', "
-//                    + OFFICE_SUBEXPERT + "='" + office.getSubExpertName() + "', "
-//                    + OFFICE_ADDRESS + "='" + office.getAddress() + "', "
-//                    + OFFICE_PHONE + "='" + office.getPhone() + "', "
-//                    + OFFICE_PHOTO + " = '" + DbBitmapUtility.getBytes(office.getPhoto()) + "', where " + OFFICE_ID + "=" + officeId;
-//            database.execSQL(query);
-//        } catch (Exception ex) {
-//            new MessageBox(context, "عملیات بروز رسانی مطب با مشکل مواجه شده است !!!").show();
-//        }
     }
+
     public void deleteAllOffice() {
         try {
             String query = "delete from " + TABLE_OFFICE;
