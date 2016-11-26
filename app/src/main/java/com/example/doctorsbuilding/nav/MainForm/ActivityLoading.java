@@ -138,16 +138,21 @@ public class ActivityLoading extends AppCompatActivity {
 
     private class AsyncCallGetData extends AsyncTask<String, Void, Void> {
         String msg = null;
-        String result = null;
+        int result = 0;
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
 
                 if (G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-                    result = WebService.invokeNewLoginWS(G.UserInfo.getUserName(), G.UserInfo.getPassword());
-                    if (result.toUpperCase().equals("OK")) {
-                        G.UserInfo = WebService.invokeGetUserInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                    result = WebService.invokeLogin3WS(G.UserInfo.getUserName(), G.UserInfo.getPassword());
+                    if (result != 0) {
+//                        G.UserInfo = WebService.invokeGetUserInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("user", G.UserInfo.getUserName());
+                        editor.putString("pass", G.UserInfo.getPassword());
+                        editor.putInt("role", result);
+                        editor.apply();
                     }
                 }
 
@@ -167,10 +172,10 @@ public class ActivityLoading extends AppCompatActivity {
                 frm_error.setVisibility(View.VISIBLE);
             } else {
 
-                if (result != null) {
+//                if (result != 0) {
 //                    if (result.toUpperCase().equals("OK")) {
-                        startActivity(new Intent(ActivityLoading.this, ActivityOffices.class));
-                        finish();
+                    startActivity(new Intent(ActivityLoading.this, ActivityOffices.class));
+                    finish();
 //                    } else {
 
 
@@ -187,10 +192,11 @@ public class ActivityLoading extends AppCompatActivity {
 //                        });
 
 //                    }
-                } else {
-                    startActivity(new Intent(ActivityLoading.this, ActivityOffices.class));
-                    finish();
-                }
+//                } else {
+//                    startActivity(new Intent(ActivityLoading.this, ActivityOffices.class));
+//                    finish();
+//                }
+//                }
             }
         }
     }

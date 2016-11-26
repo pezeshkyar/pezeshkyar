@@ -83,7 +83,7 @@ public class CustomOfficesListAdapter extends BaseAdapter {
     }
 
     public void addAll(ArrayList<Office> officeha) {
-//        offices.clear();
+        offices.clear();
         offices.addAll(officeha);
         notifyDataSetChanged();
     }
@@ -122,16 +122,7 @@ public class CustomOfficesListAdapter extends BaseAdapter {
         holder.address.setText(offices.get(position).getAddress());
         holder.phone.setText("تلفن : ".concat(offices.get(position).getPhone()));
         holder.officeCode.setText("کد مطب" + ": " + offices.get(position).getId());
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-                    deleteActionByArdeshir(position);
-                } else {
-                    context.startActivity(new Intent(context, SignInActivity.class));
-                }
-            }
-        });
+        holder.btnDelete.setVisibility(View.GONE);
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,74 +138,4 @@ public class CustomOfficesListAdapter extends BaseAdapter {
         return rowView;
     }
 
-    private void deleteActionByArdeshir(final int position) {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        AsyncDeleteOfficeForUser deleteOfficeForUser = new AsyncDeleteOfficeForUser();
-                        deleteOfficeForUser.execute(String.valueOf(position));
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("آیا مطئنید می خواهید این مطب را حذف نمایید؟").setPositiveButton("بله", dialogClickListener)
-                .setNegativeButton("خیر", dialogClickListener).show();
-    }
-
-
-    private class AsyncDeleteOfficeForUser extends AsyncTask<String, Void, Void> {
-        String msg = null;
-        int position;
-        String result = null;
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = ProgressDialog.show(context, "", "در حال حذف مطب ...");
-            dialog.show();
-            dialog.setCancelable(true);
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                position = Integer.valueOf(strings[0]);
-                result = WebService.invokeDeleteOfficeForUserWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), offices.get(position).getId());
-            } catch (PException ex) {
-                msg = ex.getMessage();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (msg != null) {
-                dialog.dismiss();
-                new MessageBox(context, msg).show();
-            } else {
-                dialog.dismiss();
-                if (result != null && result.toUpperCase().equals("OK")) {
-                    DatabaseAdapter database = new DatabaseAdapter(context);
-                    if (database.openConnection()) {
-                        database.deleteOffice(offices.get(position).getId());
-                        database.closeConnection();
-                        offices.remove(position);
-                        notifyDataSetChanged();
-                    }
-                } else {
-                    new MessageBox(context, result).show();
-                }
-            }
-        }
-    }
 }

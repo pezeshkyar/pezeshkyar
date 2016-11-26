@@ -5,14 +5,17 @@
     android:layout_height="match_parent"
     android:background="@color/colorMainContent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/toolbar_background">
+
             <ImageView
                 android:id="@+id/offices_menu_btn"
                 android:layout_width="wrap_content"
@@ -21,6 +24,17 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ic_menu_black_24dp" />
+
+            <TextView
+                android:id="@+id/offices_menu_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:text="پزشک یار"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
         </RelativeLayout>
 
         <ViewFlipper
@@ -28,40 +42,47 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ListView
                     android:id="@+id/offices_lv_my_office"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                   android:layout_margin="8dp"
+                    android:layout_margin="8dp"
                     android:divider="@android:color/transparent"
-                    android:dividerHeight="8dp"/>
+                    android:dividerHeight="8dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <ListView
                         android:id="@+id/offices_lv_my_doctor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                       android:layout_margin="8dp"
+                        android:layout_margin="8dp"
                         android:divider="@android:color/transparent"
-                        android:dividerHeight="8dp"/>
+                        android:dividerHeight="8dp" />
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <android.support.design.widget.FloatingActionButton
                             android:id="@+id/offices_add_dr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|left"
+                            android:layout_margin="10dp"
                             android:src="@drawable/ic_add_white"
                             android:tint="@android:color/white"
                             app:backgroundTint="#f47721" />
@@ -78,30 +99,34 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#CABBBBBB" />
+
             <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary">
+
                 <Button
                     android:id="@+id/offices_my_office"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:background="@android:color/transparent"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:drawableTop="@drawable/ic_home_white"
                     android:text="مطب من"
                     android:textColor="@android:color/white"
                     app:layout_widthPercent="50%" />
+
                 <Button
                     android:id="@+id/offices_my_doctor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:background="@android:color/transparent"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:drawableTop="@drawable/ic_people_white"
                     android:text="پزشک من"
                     android:textColor="@android:color/white"
@@ -109,7 +134,6 @@
 
             </android.support.percent.PercentRelativeLayout>
         </LinearLayout>
-
 
     </LinearLayout>
 

@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         settings = G.getSharedPreferences();
         initViews();
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -57,7 +59,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-        if(loginWS != null){
+        if (loginWS != null) {
             loginWS.cancel(true);
         }
     }
@@ -91,22 +93,24 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void signIn() {
-        if(checkField()) {
+        if (checkField()) {
             loginWS = new AsyncCallLoginWS();
             loginWS.execute();
         }
     }
-    private boolean checkField(){
-        if(txtUserName.getText().toString().trim().equals("")){
+
+    private boolean checkField() {
+        if (txtUserName.getText().toString().trim().equals("")) {
             new MessageBox(SignInActivity.this, "لطفا نام کاربری را وارد نمایید .").show();
             return false;
         }
-        if(txtPassword.getText().toString().trim().equals("")){
+        if (txtPassword.getText().toString().trim().equals("")) {
             new MessageBox(SignInActivity.this, "لطفا کلمه عبور را وارد نمایید .").show();
             return false;
         }
         return true;
     }
+
     private void showPrevious() {
         viewFlipper.setInAnimation(getBaseContext(), R.anim.slide_in_from_left);
         viewFlipper.setOutAnimation(getBaseContext(), R.anim.slide_out_to_right);
@@ -153,31 +157,31 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 dialog.dismiss();
                 if (result != -1) {
-                        userType = UserType.values()[result];
-                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                        intent.putExtra("menu", userType);
-                        switch (userType) {
-                            case None:
-                                new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
-                                break;
-                            case User:
-                                UserType.User.attachTo(intent);
-                                save(result);
-                                break;
-                            case Dr:
-                                UserType.Dr.attachTo(intent);
-                                save(result);
-                                break;
-                            case secretary:
-                                UserType.Dr.attachTo(intent);
-                                save(result);
-                                break;
-                            default:
-                                break;
+                    userType = UserType.values()[result];
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    intent.putExtra("menu", userType);
+                    switch (userType) {
+                        case None:
+                            new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
+                            break;
+                        case User:
+                            UserType.User.attachTo(intent);
+                            save(result);
+                            break;
+                        case Dr:
+                            UserType.Dr.attachTo(intent);
+                            save(result);
+                            break;
+                        case secretary:
+                            UserType.Dr.attachTo(intent);
+                            save(result);
+                            break;
+                        default:
+                            break;
 
 
                     }
-                }else {
+                } else {
                     new MessageBox(SignInActivity.this, "هیچ جوابی از سرور دریافت نشده است .").show();
                 }
             }
@@ -190,6 +194,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             editor.putInt("role", role);
             editor.apply();
             setResult(Activity.RESULT_OK);
+            try {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            } catch (Exception ex) {
+            }
+
             finish();
         }
 

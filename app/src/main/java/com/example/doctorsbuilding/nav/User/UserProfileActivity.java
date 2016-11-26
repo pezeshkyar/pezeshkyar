@@ -1,8 +1,10 @@
 package com.example.doctorsbuilding.nav.User;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.UserType;
@@ -364,6 +368,18 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (result.equals("OK")) {
                     dialog.dismiss();
                     Toast.makeText(UserProfileActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = G.getSharedPreferences().edit();
+                    editor.putString("user", txtUserName.getText().toString());
+                    editor.putString("pass", txtPassword.getText().toString());
+                    editor.putInt("role", UserType.User.ordinal());
+                    editor.apply();
+                    setResult(Activity.RESULT_OK);
+                    try {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    } catch (Exception ex) {
+                    }
+                    finish();
                 } else {
                     dialog.dismiss();
                     new MessageBox(UserProfileActivity.this, result).show();

@@ -50,6 +50,7 @@ import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.User.UserNewsActivity;
+import com.example.doctorsbuilding.nav.User.UserProfileActivity;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
@@ -68,6 +69,7 @@ public class ActivityOffices extends AppCompatActivity {
     Button btn_myOffice;
     Button btn_signIn;
     Button btn_signUp;
+    TextView pageTitle;
     LinearLayout bottomLayout;
     FrameLayout welcomePage;
     DrawerLayout mDrawer;
@@ -98,15 +100,22 @@ public class ActivityOffices extends AppCompatActivity {
         initViews();
         eventListener();
 
-        adapter_office = new CustomOfficesListAdapter(ActivityOffices.this, offices);
+        adapter_office = new CustomOfficesListAdapter(ActivityOffices.this, new ArrayList<Office>());
         officesListView.setAdapter(adapter_office);
-        adapter_doctors = new CustomDoctorsListAdapter(ActivityOffices.this, doctors);
+        adapter_doctors = new CustomDoctorsListAdapter(ActivityOffices.this, new ArrayList<Office>());
         doctorsListView.setAdapter(adapter_doctors);
 
         initActivity();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        G.UserInfo.setUserName(G.getSharedPreferences().getString("user", ""));
+        G.UserInfo.setPassword(G.getSharedPreferences().getString("pass", ""));
+        G.UserInfo.setRole(G.getSharedPreferences().getInt("role", 0));
+    }
 
     @Override
     protected void onPause() {
@@ -142,7 +151,10 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void initViews() {
+        database = new DatabaseAdapter(ActivityOffices.this);
         welcomePage = (FrameLayout) findViewById(R.id.welcome_page);
+        pageTitle = (TextView) findViewById(R.id.offices_menu_title);
+        pageTitle.setTypeface(G.getDastnevisFont());
         btn_signIn = (Button) findViewById(R.id.welcome_signIn);
         btn_signUp = (Button) findViewById(R.id.welcome_signUp);
         mViewFlipper = (ViewFlipper) findViewById(R.id.offices_viewFlipper);
@@ -169,6 +181,7 @@ public class ActivityOffices extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
+                    addButton.hide();
                     final DialogAddOffice dialog_addOffice = new DialogAddOffice(ActivityOffices.this, R.style.AlertDialogCustom);
                     dialog_addOffice.show();
                     dialog_addOffice.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -178,7 +191,7 @@ public class ActivityOffices extends AppCompatActivity {
                             Office office = dialog_addOffice.getOffice();
                             if (office != null) {
                                 if (database.openConnection()) {
-                                    doctors = database.getoffices();
+                                    doctors = database.getMyDoctorOffice();
                                     database.closeConnection();
                                 }
                                 if (doctors != null && doctors.size() > 0) {
@@ -191,6 +204,7 @@ public class ActivityOffices extends AppCompatActivity {
                                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                             } catch (Exception ex) {
                             }
+                            addButton.show();
                         }
                     });
                 } else {
@@ -270,7 +284,7 @@ public class ActivityOffices extends AppCompatActivity {
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(ActivityOffices.this, SignInActivity.class), 2);
+                startActivityForResult(new Intent(ActivityOffices.this, UserProfileActivity.class), 2);
             }
         });
 
@@ -298,8 +312,9 @@ public class ActivityOffices extends AppCompatActivity {
         }
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                task_getOffices = new AsyncGetOfficeForUser();
-                task_getOffices.execute();
+//                task_getOffices = new AsyncGetOfficeForUser();
+//                task_getOffices.execute();
+                setUserLayout(false);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -321,7 +336,9 @@ public class ActivityOffices extends AppCompatActivity {
             database.deleteAllOffice();
             database.closeConnection();
         }
+        onPause();
         adapter_office.removeAll(offices);
+        adapter_doctors.removeAll(doctors);
         finish();
     }
 
@@ -376,7 +393,7 @@ public class ActivityOffices extends AppCompatActivity {
         mNavigation.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
         mNavigation.getMenu().setGroupVisible(R.id.navigation_view_signUp, true);
 
-        menu_header_name.setText("مطب هوشمند پزشکیار");
+        menu_header_name.setText("مطب هوشمند پزشک یار");
         menu_header_image.setImageResource(R.mipmap.ic_launcher);
     }
 
@@ -433,6 +450,8 @@ public class ActivityOffices extends AppCompatActivity {
         bottomLayout.setVisibility(View.GONE);
         mViewFlipper.setVisibility(View.VISIBLE);
         mViewFlipper.setDisplayedChild(MY_DOCTOR);
+        doctorsListView.setEnabled(false);
+        officesListView.setEnabled(false);
         if (mNavigation != null) {
             mNavigation.getMenu().getItem(0).setVisible(false);
             mNavigation.getMenu().getItem(1).setVisible(false);
@@ -455,6 +474,8 @@ public class ActivityOffices extends AppCompatActivity {
                 adapter_doctors.addAll(doctors);
             }
         }
+        doctorsListView.setEnabled(true);
+        officesListView.setEnabled(true);
         addButton.setVisibility(View.VISIBLE);
     }
 
@@ -464,6 +485,8 @@ public class ActivityOffices extends AppCompatActivity {
         bottomLayout.setVisibility(View.VISIBLE);
         mViewFlipper.setVisibility(View.VISIBLE);
         mViewFlipper.setDisplayedChild(MY_OFFICE);
+        doctorsListView.setEnabled(false);
+        officesListView.setEnabled(false);
         if (mNavigation != null) {
             mNavigation.getMenu().getItem(0).setVisible(false);
             mNavigation.getMenu().getItem(1).setVisible(false);
@@ -490,6 +513,8 @@ public class ActivityOffices extends AppCompatActivity {
             }
 
         }
+        doctorsListView.setEnabled(true);
+        officesListView.setEnabled(true);
         addButton.setVisibility(View.VISIBLE);
     }
 
@@ -596,14 +621,14 @@ public class ActivityOffices extends AppCompatActivity {
                     }
                     adapter_office.addAll(offices);
                     adapter_doctors.addAll(doctors);
-//                    for (int i = 0; i < offices.size(); i++) {
-//                        task_getDoctorPic = new AsyncGetDoctorPic();
-//                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(0));
-//                    }
-//                    for (int i = 0; i < doctors.size(); i++) {
-//                        task_getDoctorPic = new AsyncGetDoctorPic();
-//                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(1));
-//                    }
+                    for (int i = 0; i < offices.size(); i++) {
+                        task_getDoctorPic = new AsyncGetDoctorPic();
+                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_OFFICE));
+                    }
+                    for (int i = 0; i < doctors.size(); i++) {
+                        task_getDoctorPic = new AsyncGetDoctorPic();
+                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_DOCTOR));
+                    }
                 }
             }
         }

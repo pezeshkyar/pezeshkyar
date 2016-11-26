@@ -112,6 +112,11 @@ public class SplashActivity extends AppCompatActivity {
                         doctorPic = BitmapFactory.decodeResource(SplashActivity.this.getResources(), R.drawable.doctor);
 
                     G.officeInfo.setPhoto(doctorPic);
+                    if(G.UserInfo.getRole() == UserType.User.ordinal()){
+                        G.officeInfo.setMyOffice(false);
+                    }else {
+                        G.officeInfo.setMyOffice(true);
+                    }
                     database = new DatabaseAdapter(SplashActivity.this);
                     if (database.openConnection()) {
                         long result = database.insertoffice(G.officeInfo);

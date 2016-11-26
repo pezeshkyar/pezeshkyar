@@ -161,6 +161,7 @@ public class DialogAddOffice extends Dialog {
                             doctorPic = BitmapFactory.decodeResource(context.getResources(), R.drawable.doctor);
 
                         office.setPhoto(doctorPic);
+                        office.setMyOffice(false);
                         database = new DatabaseAdapter(context);
                         if (database.openConnection()) {
                             long result = database.insertoffice(office);

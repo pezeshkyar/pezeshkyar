@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Clinic.DrClinicActivity;
+import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatActivity;
 import com.example.doctorsbuilding.nav.Dr.Notification.ManagementNotificationActivity;
 import com.example.doctorsbuilding.nav.Dr.Profile.DrProfileActivity;
@@ -207,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             asyncGetMessage = new AsyncCallGetUnreadMessagesWs();
             asyncGetMessage.execute();
         }
-
-
     }
 
     private void initSlideShow(ArrayList<Integer> imageIdsInWeb) {
@@ -706,6 +705,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                doubleBackToExitPressedOnce = false;
 //            }
 //        }, 2000);
+        G.officeInfo = new Office();
+        G.UserInfo = new User();
         finish();
     }
 

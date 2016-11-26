@@ -80,7 +80,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
     }
 
     public void addAll(ArrayList<Office> officeha) {
-//        offices.clear();
+        offices.clear();
         offices.addAll(officeha);
         notifyDataSetChanged();
     }
