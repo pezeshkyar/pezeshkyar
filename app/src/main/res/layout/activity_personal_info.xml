@@ -150,7 +150,7 @@
                 android:gravity="end"
                 android:hint="@string/drPassword"
                 android:inputType="textPassword|textNoSuggestions"
-                android:maxLength="20"
+                android:maxLength="100"
                 android:maxLines="1"
                 android:padding="8dp" />
 
@@ -163,7 +163,7 @@
                 android:gravity="end"
                 android:hint="@string/drConfirmPassword"
                 android:inputType="textPassword|textNoSuggestions"
-                android:maxLength="20"
+                android:maxLength="100"
                 android:maxLines="1"
                 android:padding="8dp" />
 

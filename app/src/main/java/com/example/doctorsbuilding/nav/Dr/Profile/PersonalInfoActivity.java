@@ -38,9 +38,12 @@ import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.FormatHelper;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
+import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -78,6 +81,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private Button backBtn;
     ProgressDialog progressDialog;
     private DatabaseAdapter database;
+    String password;
 
     AsyncCallStateWS getStateTask;
     AsyncCallCityWS getCityTask;
@@ -529,7 +533,15 @@ public class PersonalInfoActivity extends AppCompatActivity {
             user.setFirstName(txtFirstName.getText().toString().trim());
             user.setLastName(txtLastName.getText().toString().trim());
             user.setUserName(txtUserName.getText().toString().trim());
-            user.setPassword(txtPassword.getText().toString().trim());
+            password = txtPassword.getText().toString().trim();
+            try {
+                password = Hashing.SHA1(password);
+            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+            }
+            user.setPassword(password);
             user.setPhone(txtMobile.getText().toString().trim());
             user.setEmail(txtEmail.getText().toString().trim());
             if (role == UserType.Dr.ordinal() || role == UserType.User.ordinal() || role == UserType.secretary.ordinal()) {
@@ -554,7 +566,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(PersonalInfoActivity.this, msg).show();
-                btnImgSelect.setClickable(true);
+                btnInsert.setClickable(true);
             } else {
                 if (result.equals("OK")) {
                     Toast.makeText(PersonalInfoActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
@@ -570,6 +582,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         G.UserInfo.setPhone(user.getPhone());
                         G.UserInfo.setStateID(user.getStateID());
                         G.UserInfo.setCityID(user.getCityID());
+                        SharedPreferences.Editor editor = G.getSharedPreferences().edit();
+                        editor.putString("user", txtUserName.getText().toString());
+                        editor.putString("pass", password);
+                        editor.putInt("role", role);
+                        editor.apply();
                         finish();
                     } else {
                         G.UserInfo.setImgProfile(user.getImgProfile());
@@ -580,17 +597,23 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         G.UserInfo.setPhone(user.getPhone());
                         G.UserInfo.setStateID(user.getStateID());
                         G.UserInfo.setCityID(user.getCityID());
+                        SharedPreferences.Editor editor = G.getSharedPreferences().edit();
+                        editor.putString("user", txtUserName.getText().toString());
+                        editor.putString("pass", password);
+                        editor.putInt("role", role);
+                        editor.apply();
                         finish();
                     }
+
                     dialog.dismiss();
-                    btnImgSelect.setClickable(true);
+                    btnInsert.setClickable(true);
                 } else {
                     dialog.dismiss();
                     new MessageBox(PersonalInfoActivity.this, "خطایی در ثبت اطلاعات رخ داده است .").show();
-                    btnImgSelect.setClickable(true);
+                    btnInsert.setClickable(true);
                 }
                 dialog.dismiss();
-                btnImgSelect.setClickable(true);
+                btnInsert.setClickable(true);
             }
         }
     }

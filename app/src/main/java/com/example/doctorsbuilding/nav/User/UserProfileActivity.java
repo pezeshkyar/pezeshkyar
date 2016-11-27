@@ -65,6 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ArrayList<City> cityList;
     private ProgressDialog loadingDialog;
     private DatabaseAdapter database;
+    private String password;
 
     private int stateID = -1;
     private static int imageProfileId = 1;
@@ -345,15 +346,15 @@ public class UserProfileActivity extends AppCompatActivity {
             user.setFirstName(txtFirstName.getText().toString().trim());
             user.setLastName(txtLastName.getText().toString().trim());
             user.setUserName(txtUserName.getText().toString().trim());
-            String pwd = txtPassword.getText().toString().trim();
+            password = txtPassword.getText().toString().trim();
             try {
-                pwd = Hashing.SHA1(pwd);
+                password = Hashing.SHA1(password);
             } catch (NoSuchAlgorithmException e) {
 //                e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
 //                e.printStackTrace();
             }
-            user.setPassword(pwd);
+            user.setPassword(password);
             user.setPhone(txtMobile.getText().toString().trim());
             user.setRole(UserType.User.ordinal());
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
@@ -381,7 +382,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     Toast.makeText(UserProfileActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = G.getSharedPreferences().edit();
                     editor.putString("user", txtUserName.getText().toString());
-                    editor.putString("pass", txtPassword.getText().toString());
+                    editor.putString("pass", password);
                     editor.putInt("role", UserType.User.ordinal());
                     editor.apply();
                     setResult(Activity.RESULT_OK);

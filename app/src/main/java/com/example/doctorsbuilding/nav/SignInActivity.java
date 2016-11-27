@@ -43,6 +43,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private EditText txtUserName;
     private EditText txtPassword;
     private SharedPreferences settings;
+    private String password;
     AsyncCallLoginWS loginWS;
 
 
@@ -132,7 +133,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         private UserType userType = UserType.None;
         String msg = null;
         ProgressDialog dialog;
-        String username, password;
+        String username;
 
         @Override
         protected void onPreExecute() {
@@ -140,15 +141,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             dialog = ProgressDialog.show(SignInActivity.this, "", "در حال ارسال اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
             username = txtUserName.getText().toString().trim();
-            String pwd = txtPassword.getText().toString().trim();
+            password = txtPassword.getText().toString().trim();
             try {
-                pwd = Hashing.SHA1(pwd);
+                password = Hashing.SHA1(password);
             } catch (NoSuchAlgorithmException e) {
 //                e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
 //                e.printStackTrace();
             }
-            password = pwd;
+
         }
 
         @Override
@@ -202,7 +203,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         private void save(int role) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("user", txtUserName.getText().toString());
-            editor.putString("pass", txtPassword.getText().toString());
+            editor.putString("pass", password);
             editor.putInt("role", role);
             editor.apply();
             setResult(Activity.RESULT_OK);
