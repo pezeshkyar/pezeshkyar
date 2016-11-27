@@ -112,6 +112,10 @@ public class ActivityOffices extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        readSharedPrefrence();
+    }
+
+    private void readSharedPrefrence(){
         G.UserInfo.setUserName(G.getSharedPreferences().getString("user", ""));
         G.UserInfo.setPassword(G.getSharedPreferences().getString("pass", ""));
         G.UserInfo.setRole(G.getSharedPreferences().getInt("role", 0));
@@ -294,12 +298,13 @@ public class ActivityOffices extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                UserType user = UserType.values()[G.getSharedPreferences().getInt("role", 0)];
-                if (user == UserType.Dr || user == UserType.secretary) {
+                readSharedPrefrence();
+//                UserType user = UserType.values()[G.getSharedPreferences().getInt("role", 0)];
+                if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
 
                     setDoctorLayout(true);
 
-                } else if (user == UserType.User) {
+                } else if (G.UserInfo.getRole() == UserType.User.ordinal()) {
 
                     setUserLayout(true);
 
@@ -465,7 +470,7 @@ public class ActivityOffices extends AppCompatActivity {
             task_getOffices.execute();
 
         } else {
-            database = new DatabaseAdapter(ActivityOffices.this);
+//            database = new DatabaseAdapter(ActivityOffices.this);
             if (database.openConnection()) {
                 doctors = database.getoffices();
                 database.closeConnection();
@@ -499,7 +504,7 @@ public class ActivityOffices extends AppCompatActivity {
             task_getOfficeForDoctorOrSercretary.execute();
 
         } else {
-            database = new DatabaseAdapter(ActivityOffices.this);
+//            database = new DatabaseAdapter(ActivityOffices.this);
             if (database.openConnection()) {
                 offices = database.getMyOffice();
                 doctors = database.getMyDoctorOffice();
@@ -529,7 +534,6 @@ public class ActivityOffices extends AppCompatActivity {
             dialog.show();
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
-            addButton.hide();
         }
 
         @Override
@@ -548,25 +552,23 @@ public class ActivityOffices extends AppCompatActivity {
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(ActivityOffices.this, msg).show();
-                addButton.show();
             } else {
                 dialog.dismiss();
                 if (doctors != null && doctors.size() > 0) {
-                    database = new DatabaseAdapter(ActivityOffices.this);
+//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         for (Office of : doctors) {
                             of.setPhoto(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
                             database.insertoffice(of);
+                            adapter_doctors.add(of);
                         }
                         database.closeConnection();
                     }
-                    adapter_doctors.addAll(doctors);
                     for (int i = 0; i < doctors.size(); i++) {
                         task_getDoctorPic = new AsyncGetDoctorPic();
                         task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_DOCTOR));
                     }
                 }
-                addButton.show();
             }
         }
     }
@@ -606,21 +608,23 @@ public class ActivityOffices extends AppCompatActivity {
             } else {
                 dialog.dismiss();
                 if (allOffices != null && allOffices.size() > 0) {
-                    database = new DatabaseAdapter(ActivityOffices.this);
+//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         for (Office of : allOffices) {
                             of.setPhoto(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
                             database.insertoffice(of);
                             if (of.isMyOffice() == 0) {
                                 doctors.add(of);
+                                adapter_doctors.add(of);
                             } else {
                                 offices.add(of);
+                                adapter_office.add(of);
                             }
                         }
                         database.closeConnection();
                     }
-                    adapter_office.addAll(offices);
-                    adapter_doctors.addAll(doctors);
+//                    adapter_office.addAll(offices);
+//                    adapter_doctors.addAll(doctors);
                     for (int i = 0; i < offices.size(); i++) {
                         task_getDoctorPic = new AsyncGetDoctorPic();
                         task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_OFFICE));
@@ -668,7 +672,7 @@ public class ActivityOffices extends AppCompatActivity {
                 new MessageBox(ActivityOffices.this, msg).show();
             } else {
                 if (drpic != null) {
-                    database = new DatabaseAdapter(ActivityOffices.this);
+//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         Office office = mOffices.get(position);
                         office.setPhoto(drpic);

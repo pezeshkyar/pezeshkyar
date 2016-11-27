@@ -32,9 +32,12 @@ import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
+import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -342,7 +345,15 @@ public class UserProfileActivity extends AppCompatActivity {
             user.setFirstName(txtFirstName.getText().toString().trim());
             user.setLastName(txtLastName.getText().toString().trim());
             user.setUserName(txtUserName.getText().toString().trim());
-            user.setPassword(txtPassword.getText().toString().trim());
+            String pwd = txtPassword.getText().toString().trim();
+            try {
+                pwd = Hashing.SHA1(pwd);
+            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+            }
+            user.setPassword(pwd);
             user.setPhone(txtMobile.getText().toString().trim());
             user.setRole(UserType.User.ordinal());
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));

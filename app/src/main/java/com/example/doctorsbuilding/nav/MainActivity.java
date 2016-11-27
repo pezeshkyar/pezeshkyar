@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView = null;
     public UserType menu = UserType.None;
 
-    private GoogleMap mMap;private SharedPreferences settings;
+    private GoogleMap mMap;
+    private SharedPreferences settings;
 
     TextView drName;
     TextView drExpert;
@@ -705,8 +706,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                doubleBackToExitPressedOnce = false;
 //            }
 //        }, 2000);
+        onPause();
         G.officeInfo = new Office();
         G.UserInfo = new User();
+        G.doctorImageProfile = null;
+        G.officeId = -1;
         finish();
     }
 
@@ -845,7 +849,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                imageIdsInWeb = WebService.invokegetAllGalleyPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                imageIdsInWeb = WebService.invokegetAllGalleryPicIdWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }

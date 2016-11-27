@@ -51,7 +51,7 @@ public class WebService {
     //Namespace of the Webservice - can be found in WSDL
     private static String NAMESPACE = "http://docTurn/";
     //Webservice URL - WSDL File location
-    private static String URL = "http://192.168.1.123:8080/pezeshkyar_new_user/services/Webservices?wsdl";
+    private static String URL = "http://185.129.168.135:8080/pezeshkyar_new_user2/services/Webservices?wsdl";
     //    private static String URL = "http://185.129.168.135:8080/pezeshkyarServerAllInOne/services/Webservices?wsdl";
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = "http://docTurn/";
@@ -468,30 +468,32 @@ public class WebService {
                 offices = new ArrayList<Office>();
                 for (int i = 0; i < response.getPropertyCount(); i++) {
                     SoapObject object = (SoapObject) response.getProperty(i);
-                    office = new Office();
-                    office.setId(Integer.parseInt(object.getProperty("id").toString()));
-                    office.setDrUsername(object.getProperty("doctorUsername").toString());
-                    office.setFirstname(object.getProperty("doctorName").toString());
-                    office.setLastname(object.getProperty("doctorLastName").toString());
-                    office.setCityId(Integer.parseInt(object.getProperty("cityId").toString()));
-                    office.setCityName(object.getProperty("city").toString());
-                    office.setStateId(Integer.parseInt(object.getProperty("provinceId").toString()));
-                    office.setStateName(object.getProperty("province").toString());
-                    office.setExpertId(Integer.parseInt(object.getProperty("specId").toString()));
-                    office.setExpertName(object.getProperty("spec").toString());
-                    office.setSubExpertId(Integer.parseInt(object.getProperty("subspecId").toString()));
-                    office.setSubExpertName(object.getProperty("subSpec").toString());
-                    office.setAddress(object.getProperty("address").toString());
-                    office.setPhone(object.getProperty("tellNo").toString());
-                    office.setLatitude(Double.parseDouble(object.getProperty("latitude").toString()));
-                    office.setLongitude(Double.parseDouble(object.getProperty("longitude").toString()));
-                    try {
-                        office.setBiography(object.getProperty("biograophy").toString());
-                    } catch (Exception e) {
-                        office.setBiography("");
+                    if (object != null) {
+                        office = new Office();
+                        office.setId(Integer.parseInt(object.getProperty("id").toString()));
+                        office.setDrUsername(object.getProperty("doctorUsername").toString());
+                        office.setFirstname(object.getProperty("doctorName").toString());
+                        office.setLastname(object.getProperty("doctorLastName").toString());
+                        office.setCityId(Integer.parseInt(object.getProperty("cityId").toString()));
+                        office.setCityName(object.getProperty("city").toString());
+                        office.setStateId(Integer.parseInt(object.getProperty("provinceId").toString()));
+                        office.setStateName(object.getProperty("province").toString());
+                        office.setExpertId(Integer.parseInt(object.getProperty("specId").toString()));
+                        office.setExpertName(object.getProperty("spec").toString());
+                        office.setSubExpertId(Integer.parseInt(object.getProperty("subspecId").toString()));
+                        office.setSubExpertName(object.getProperty("subSpec").toString());
+                        office.setAddress(object.getProperty("address").toString());
+                        office.setPhone(object.getProperty("tellNo").toString());
+                        office.setLatitude(Double.parseDouble(object.getProperty("latitude").toString()));
+                        office.setLongitude(Double.parseDouble(object.getProperty("longitude").toString()));
+                        try {
+                            office.setBiography(object.getProperty("biograophy").toString());
+                        } catch (Exception e) {
+                            office.setBiography("");
+                        }
+                        office.setTimeQuantum(Integer.parseInt(object.getProperty("timeQuantum").toString()));
+                        offices.add(office);
                     }
-                    office.setTimeQuantum(Integer.parseInt(object.getProperty("timeQuantum").toString()));
-                    offices.add(office);
                 }
             }
         } catch (ConnectException ex) {
@@ -1790,7 +1792,7 @@ public class WebService {
         return map;
     }
 
-    public static ArrayList<Integer> invokegetAllGalleyPicIdWS(String username, String password, int officeId) throws PException {
+    public static ArrayList<Integer> invokegetAllGalleryPicIdWS(String username, String password, int officeId) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
@@ -1808,9 +1810,8 @@ public class WebService {
 
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
-            SoapObject response_test = (SoapObject) envelope.getResponse();
             SoapObject response = (SoapObject) envelope.bodyIn;
-            if (response_test != null) {
+            if (!isNullBodyIn(response)) {
                 imageIds = new ArrayList<Integer>();
                 for (int i = 0; i < response.getPropertyCount(); i++) {
                     SoapPrimitive obj = (SoapPrimitive) response.getProperty(i);
@@ -2401,16 +2402,16 @@ public class WebService {
         return tickets;
     }
 
-//    public static boolean isNullBodyIn(SoapObject response) {
-//        boolean res = false;
-//        try {
-//            SoapPrimitive obj = (SoapPrimitive) response.getProperty(0);
-//            res = (obj == null);
-//        } catch (Exception ex) {
-//            res = true;
-//        }
-//        return res;
-//    }
+    public static boolean isNullBodyIn(SoapObject response) {
+        boolean res = false;
+        try {
+            SoapPrimitive obj = (SoapPrimitive) response.getProperty(0);
+            res = (obj == null);
+        } catch (Exception ex) {
+            res = true;
+        }
+        return res;
+    }
 
     public static int invokeRegisterTicketWS(String username, String password, Integer officeId, Ticket ticket) throws PException {
 

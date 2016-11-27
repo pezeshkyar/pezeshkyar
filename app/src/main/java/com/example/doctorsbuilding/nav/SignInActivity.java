@@ -24,7 +24,11 @@ import android.widget.ViewFlipper;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
+import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -136,7 +140,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             dialog = ProgressDialog.show(SignInActivity.this, "", "در حال ارسال اطلاعات ...");
             dialog.getWindow().setGravity(Gravity.END);
             username = txtUserName.getText().toString().trim();
-            password = txtPassword.getText().toString().trim();
+            String pwd = txtPassword.getText().toString().trim();
+            try {
+                pwd = Hashing.SHA1(pwd);
+            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+            }
+            password = pwd;
         }
 
         @Override
@@ -199,7 +211,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             } catch (Exception ex) {
             }
-
             finish();
         }
 
