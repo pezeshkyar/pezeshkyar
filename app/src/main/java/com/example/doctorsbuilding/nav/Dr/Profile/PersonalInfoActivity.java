@@ -1,7 +1,9 @@
 package com.example.doctorsbuilding.nav.Dr.Profile;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -31,6 +33,7 @@ import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.User.City;
+import com.example.doctorsbuilding.nav.User.DialogSelectImage;
 import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.UserType;
@@ -88,6 +91,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     AsyncCallCityWS getCityTask;
     AsyncCallRegisterWS registerTask;
     AsyncUpdateDrPicWS updatePicTask;
+    private static final int CAMERA_REQUEST = 1888;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -230,10 +234,20 @@ public class PersonalInfoActivity extends AppCompatActivity {
         btnImgSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, 0);
-                changePic();
+                final DialogSelectImage dialog2 = new DialogSelectImage(PersonalInfoActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+                dialog2.show();
+                dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if(dialog2.getSourceType().equals("camera")){
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        }else if(dialog2.getSourceType().equals("gallery")){
+                            changePic();
+                        }
+                    }
+                });
+
             }
         });
     }
@@ -248,6 +262,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
@@ -256,12 +271,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                         Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                        Bitmap bmp = RoundedImageView.getCroppedBitmap(scaled, 200);
+                        Bitmap bmp = scaled;
                         drPic = scaled;
                         roundedDrPic = bmp;
-                        G.UserInfo.setImgProfile(roundedDrPic);
-                        updatePicTask = new AsyncUpdateDrPicWS();
-                        updatePicTask.execute();
+                        profileImage.setImageBitmap(roundedDrPic);
+//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
+//                        updateDrPicWS.execute();
 
 
 //                        currentUser.image = resizedBitmap;
@@ -271,6 +286,29 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     }
 
                 }
+            }
+        }
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+//            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            if (data != null) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                    Bitmap bmp = scaled;
+                    drPic = scaled;
+                    roundedDrPic = bmp;
+                    profileImage.setImageBitmap(roundedDrPic);
+//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
+//                        updateDrPicWS.execute();
+
+
+//                        currentUser.image = resizedBitmap;
+//                        Database.UpdateCurrentUser(currentUser);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
