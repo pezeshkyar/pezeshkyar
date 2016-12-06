@@ -142,7 +142,7 @@ public class UserInboxActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                WebService.invokeSetMessageReadWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId, messageInfo.getId());
+                WebService.invokeSetMessageRead2WS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), messageInfo.getId());
             } catch (PException ex) {
                 msg = ex.getMessage();
             }

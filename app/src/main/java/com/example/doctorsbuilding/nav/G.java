@@ -1,5 +1,6 @@
 package com.example.doctorsbuilding.nav;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +13,10 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.provider.CalendarContract;
+import android.support.v4.content.ContextCompat;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
@@ -68,5 +72,10 @@ public class G extends Application {
     //Added By Ardeshir
     public static ArrayAdapter<Ticket> mAdapter;
 
-
+    public static void setStatusBarColor(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.statusBarColor));
+        }
+    }
 }

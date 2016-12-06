@@ -22,20 +22,34 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/ic_menu_black_24dp" />
-
             <TextView
-                android:id="@+id/offices_menu_title"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="6dp"
                 android:text="پزشک یار"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="28sp" />
+                android:layout_toLeftOf="@id/offices_menu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/unreadMessage"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/ic_messages" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <ViewFlipper
@@ -95,46 +109,46 @@
 
         </ViewFlipper>
 
-        <LinearLayout
-            android:id="@+id/offices_bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/offices_bottom_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?android:attr/actionBarSize"-->
+            <!--android:orientation="vertical">-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#CABBBBBB" />
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:background="#CABBBBBB" />-->
 
-            <android.support.percent.PercentRelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary">
+            <!--<android.support.percent.PercentRelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/colorPrimary">-->
 
-                <Button
-                    android:id="@+id/offices_my_office"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:drawableTop="@drawable/ic_home_white"
-                    android:text="مطب من"
-                    android:textColor="@android:color/white"
-                    app:layout_widthPercent="50%" />
+                <!--<Button-->
+                    <!--android:id="@+id/offices_my_office"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:background="?selectableItemBackgroundBorderless"-->
+                    <!--android:drawableTop="@drawable/ic_home_white"-->
+                    <!--android:text="مطب من"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--app:layout_widthPercent="50%" />-->
 
-                <Button
-                    android:id="@+id/offices_my_doctor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:drawableTop="@drawable/ic_people_white"
-                    android:text="پزشک من"
-                    android:textColor="@android:color/white"
-                    app:layout_widthPercent="50%" />
+                <!--<Button-->
+                    <!--android:id="@+id/offices_my_doctor"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:background="?selectableItemBackgroundBorderless"-->
+                    <!--android:drawableTop="@drawable/ic_people_white"-->
+                    <!--android:text="پزشک من"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--app:layout_widthPercent="50%" />-->
 
-            </android.support.percent.PercentRelativeLayout>
-        </LinearLayout>
+            <!--</android.support.percent.PercentRelativeLayout>-->
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 

@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:layout_height="400dp">
+        android:layout_height="400dp"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="0dp"
             app:expandedTitleMarginStart="0dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:fitsSystemWindows="true"
-                android:paddingTop="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:background="@color/colorContentRow"
-                android:layout_height="match_parent">
+                android:fitsSystemWindows="true"
+                android:paddingTop="?attr/actionBarSize">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <android.support.v4.view.ViewPager
                         android:id="@+id/pager"
-                        android:layout_margin="0dp"
-                        android:padding="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true" />
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="0dp"
+                        android:padding="0dp" />
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ProgressBar
                             android:id="@+id/baner_progress"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
                     </FrameLayout>
                 </FrameLayout>
 
@@ -85,33 +89,29 @@
                         android:layout_marginTop="15dp"
                         android:background="@drawable/ic_menu_black_24dp"
                         android:paddingTop="10dp" />
+
                     <TextView
-                        android:text="پزشک یار"
+                        android:id="@+id/mainpage_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
                         android:layout_toLeftOf="@id/menu_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <RelativeLayout
-                        android:id="@+id/unreadMessage33"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingTop="10dp">
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                         <ImageView
+                            android:id="@+id/btnCall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:background="@drawable/ic_messages" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="17dp"
+                            android:src="@drawable/ic_menu_call"
+                            android:tint="@android:color/white" />
                     </RelativeLayout>
-                </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>

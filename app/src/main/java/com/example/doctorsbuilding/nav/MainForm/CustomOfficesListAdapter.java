@@ -25,6 +25,7 @@ import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
 import com.example.doctorsbuilding.nav.SplashActivity;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
+import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;

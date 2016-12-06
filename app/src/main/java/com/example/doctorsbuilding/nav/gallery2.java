@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
+import com.example.doctorsbuilding.nav.Util.ImageCompressor;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -345,12 +347,16 @@ public class gallery2 extends Activity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     try {
+
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                         Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+
+//                        ImageCompressor img = new ImageCompressor();
+//                        img.compressImage(data.getDataString());
+//                        int x = 0;
                         asyncSetPic = new asyncSetGalleryPic(scaled, aboutPic.getText().toString());
                         asyncSetPic.execute();
-
 
 //                        currentUser.image = resizedBitmap;
 //                        Database.UpdateCurrentUser(currentUser);
@@ -462,12 +468,12 @@ public class gallery2 extends Activity {
                     aks.setDate("");
                     aks.setDescription(description);
                     photos.add(aks);
-                    if(mListView.getChildCount() == 0) {
+                    if (mListView.getChildCount() == 0) {
                         visist_list = new ArrayList<Boolean>();
                         visist_list.add(true);
                         adapter = new CustomListAdapterGallery2(gallery2.this, photos);
                         mListView.setAdapter(adapter);
-                    }else {
+                    } else {
                         visist_list.add(true);
                         adapter.notifyDataSetChanged();
                         mListView.setSelection(photos.size() - 1);
@@ -631,8 +637,8 @@ public class gallery2 extends Activity {
                     initSlideShow(imagesInWeb);
                     asyncDeleteJunkPic = new asyncDeletePicFromPhone();
                     asyncDeleteJunkPic.execute();
-                }else {
-                    if(G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()){
+                } else {
+                    if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         insertLayout.setVisibility(View.VISIBLE);
                     }
                 }
@@ -656,12 +662,12 @@ public class gallery2 extends Activity {
         }
         adapter = new CustomListAdapterGallery2(gallery2.this, photos);
         mListView.setAdapter(adapter);
-        if(G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()){
+        if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
             insertLayout.setVisibility(View.VISIBLE);
         }
 
         int imageCount = 1;
-        if(imagesInWeb.size() > 1)
+        if (imagesInWeb.size() > 1)
             imageCount = 2;
         for (int i = 0; i < imageCount; i++) {
             visist_list.set(i, true);
@@ -730,7 +736,7 @@ public class gallery2 extends Activity {
                 visist_list.set(currentPageNum, true);
                 if (database.openConnection()) {
                     photo = database.getImageFromGallery(photoId);
-                   // photo.setDescription(imagesInWeb.get(currentPageNum).getDescription());
+                    // photo.setDescription(imagesInWeb.get(currentPageNum).getDescription());
                 }
                 if (photo == null) {
                     existInPhone = false;

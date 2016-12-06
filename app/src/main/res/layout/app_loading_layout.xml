@@ -22,18 +22,21 @@
                 android:layout_marginBottom="16dp"
                 android:text="در حال دریافت اطلاعات ..." />
 
-            <ProgressBar
+            <ImageView
+                android:id="@+id/mPro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_heart_blue_24dp"
+                android:tint="@color/colorAccent" />
         </LinearLayout>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/app_loading_error"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,55 +47,57 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/delete"
                 android:layout_marginBottom="40dp"
-                android:text="مشکل دسترسی به اینترنت"
+                android:gravity="center"
+                android:text="مشکل در برقراری ارتباط"
+                android:textColor="@color/delete"
                 android:textSize="20sp" />
 
             <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <Button
                     android:id="@+id/app_loading_wifi"
                     android:layout_width="wrap_content"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:drawableTop="@drawable/ic_wifi_72dp"
-                    android:background="@android:color/transparent"
+                    android:gravity="center"
                     android:text="وای فای"
                     android:textColor="@color/textColor"
                     android:textSize="16sp"
-                    app:layout_widthPercent="33%"
-                    android:layout_height="wrap_content" />
+                    app:layout_widthPercent="33%" />
+
                 <Button
                     android:id="@+id/app_loading_mobildata"
                     android:layout_width="wrap_content"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/app_loading_wifi"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:drawableTop="@drawable/ic_mobiledata_72dp"
-                    android:background="@android:color/transparent"
+                    android:gravity="center"
                     android:text="شبکه موبایل"
                     android:textColor="@color/textColor"
                     android:textSize="16sp"
-                    app:layout_widthPercent="34%"
-                    android:layout_height="wrap_content" />
+                    app:layout_widthPercent="34%" />
+
                 <Button
                     android:id="@+id/app_loading_reconect"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/app_loading_mobildata"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:drawableTop="@drawable/ic_refresh_72dp"
-                    android:background="@android:color/transparent"
+                    android:gravity="center"
                     android:text="تلاش مجدد"
                     android:textColor="@color/textColor"
                     android:textSize="16sp"
-                    app:layout_widthPercent="33%"
-                    android:layout_height="wrap_content" />
+                    app:layout_widthPercent="33%" />
 
             </android.support.percent.PercentRelativeLayout>
-
 
 
         </LinearLayout>

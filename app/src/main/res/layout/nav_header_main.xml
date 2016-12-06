@@ -18,6 +18,7 @@
 
         <ImageView
             android:id="@+id/img_profile33"
+            android:src="@drawable/doctor"
             android:layout_width="80dp"
             android:layout_height="80dp" />
 
@@ -41,7 +42,6 @@
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/img_profile33"
             android:layout_alignBaseline="@+id/img_profile33"
-            android:text="نسخه پزشک"
             android:textColor="#E3F2FD" />
 
 

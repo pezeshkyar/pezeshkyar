@@ -58,25 +58,26 @@
                 android:orientation="horizontal"
                 tools:context=".Dr.Profile.PersonalInfoActivity">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/dr_imgProfile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentRight="true"
+                    app:civ_border_color="@color/colorDivider"
+                    app:civ_border_width="2dp"
                     app:layout_widthPercent="40%" />
 
                 <Button
                     android:id="@+id/dr_btnImgProfile"
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignBaseline="@+id/dr_imgProfile"
+                    android:layout_toLeftOf="@+id/dr_imgProfile"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/my_add_button"
                     android:text="تغییر عکس پروفایل"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    app:layout_widthPercent="50%" />
+                    android:textStyle="bold" />
 
             </android.support.percent.PercentRelativeLayout>
 
@@ -122,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/my_edit_text"
-                android:hint="آدرس ایمیل"
+                android:hint="ایمیل(اختیاری)"
                 android:inputType="textEmailAddress|textNoSuggestions"
                 android:maxLength="100"
                 android:maxLines="1"
@@ -135,9 +136,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/my_edit_text"
+                android:digits="0123456789"
                 android:hint="@string/drUserName"
-                android:inputType="text|textNoSuggestions"
-                android:maxLength="20"
+                android:inputType="number|textNoSuggestions"
+                android:maxLength="10"
                 android:maxLines="1"
                 android:padding="8dp" />
 

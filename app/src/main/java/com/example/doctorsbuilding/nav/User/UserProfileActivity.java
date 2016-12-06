@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -31,7 +32,7 @@ import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
-import com.example.doctorsbuilding.nav.Util.RoundedImageView;
+import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -110,12 +111,14 @@ public class UserProfileActivity extends AppCompatActivity {
         database = new DatabaseAdapter(UserProfileActivity.this);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
         Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-        profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(bmpImg, 160));
+        profileImage.setImageBitmap(bmpImg);
         backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);
         txtMobile = (EditText) findViewById(R.id.dr_Mobile);
+        txtMobile.setRawInputType(Configuration.KEYBOARD_QWERTY);
         txtUserName = (EditText) findViewById(R.id.dr_UserName);
+        txtUserName.setRawInputType(Configuration.KEYBOARD_QWERTY);
         txtPassword = (EditText) findViewById(R.id.dr_Password);
         txtRePassword = (EditText) findViewById(R.id.dr_ConfirmPassword);
         spinnerState = (Spinner) findViewById(R.id.dr_profile_state);
@@ -185,7 +188,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                         Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                        Bitmap bmp = RoundedImageView.getCroppedBitmap(scaled, 200);
+                        Bitmap bmp = scaled;
                         drPic = scaled;
                         roundedDrPic = bmp;
                         profileImage.setImageBitmap(roundedDrPic);
@@ -380,6 +383,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (result.equals("OK")) {
                     dialog.dismiss();
                     Toast.makeText(UserProfileActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
+                    G.UserInfo = user;
                     SharedPreferences.Editor editor = G.getSharedPreferences().edit();
                     editor.putString("user", txtUserName.getText().toString());
                     editor.putString("pass", password);
@@ -416,18 +420,29 @@ public class UserProfileActivity extends AppCompatActivity {
             return false;
         }
         if (txtUserName.getText().toString().trim().isEmpty()) {
-            new MessageBox(UserProfileActivity.this, "لطفا نام کاربری خود را وارد نمایید .").show();
+            new MessageBox(UserProfileActivity.this, "لطفا کد ملی خود را وارد نمایید .").show();
+            return false;
+        }
+        if (!Util.IsValidCodeMeli(txtUserName.getText().toString().trim())) {
+            new MessageBox(UserProfileActivity.this, "کد ملی وارد شده نادرست می باشد .").show();
             return false;
         }
         if (txtPassword.getText().toString().trim().isEmpty()) {
             new MessageBox(UserProfileActivity.this, "لطفا پسورد خود را وارد نمایید .").show();
             return false;
         }
+        if (txtPassword.getText().toString().trim().length() < 4) {
+            new MessageBox(UserProfileActivity.this, "تعداد کاراکترهای پسورد نباید کمتر از 4 تا باشد .").show();
+            return false;
+        }
         if (txtRePassword.getText().toString().trim().isEmpty()) {
             new MessageBox(UserProfileActivity.this, "لطفا پسورد خود را دوباره وارد نمایید .").show();
             return false;
         }
-
+        if (!txtPassword.getText().toString().trim().equals(txtRePassword.getText().toString().trim())) {
+            new MessageBox(this, "پسورد وارد شده با هم مطابقت ندارد .").show();
+            return false;
+        }
         if (spinnerState.getSelectedItemPosition() == -1) {
             new MessageBox(UserProfileActivity.this, "لطفا استان محل سکونت خود را وارد نمایید .").show();
             return false;

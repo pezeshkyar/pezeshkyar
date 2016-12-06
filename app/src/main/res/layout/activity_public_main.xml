@@ -27,7 +27,7 @@
         app:itemTextColor="@color/nav_selected_text"
         app:menu="@menu/activity_public_main_drawer">
 
-        <include layout="@layout/nav_header_1" />
+        <include layout="@layout/nav_header_main" />
 
     </android.support.design.widget.NavigationView>
 

@@ -13,7 +13,6 @@
             <item>
                 <bitmap android:gravity="left" android:src="@mipmap/spinner_arrow_1" />
             </item>
-            <!--<item android:drawable="@drawable/ic_arrow_down" android:gravity="left"  />-->
         </layer-list>
     </item>
 </selector>

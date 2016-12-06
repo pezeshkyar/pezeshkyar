@@ -26,7 +26,7 @@
     <string name="drFirstName">نام</string>
     <string name="drLastName">نام خانوادگی</string>
     <string name="drMobile">موبایل</string>
-    <string name="drUserName">نام کاربری</string>
+    <string name="drUserName">کد ملی</string>
     <string name="drPassword">رمز عبور</string>
     <string name="drConfirmPassword">تکرار رمز عبور</string>
     <string name="drCity">شهر</string>

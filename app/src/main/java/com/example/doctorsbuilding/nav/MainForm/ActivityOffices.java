@@ -34,17 +34,20 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.example.doctorsbuilding.nav.ActivityNotificationDialog;
 import com.example.doctorsbuilding.nav.ContactUs;
 import com.example.doctorsbuilding.nav.CustomTypefaceSpan;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
+import com.example.doctorsbuilding.nav.Dr.Profile.PersonalInfoActivity;
 import com.example.doctorsbuilding.nav.G;
+import com.example.doctorsbuilding.nav.MessageInfo;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
@@ -53,7 +56,9 @@ import com.example.doctorsbuilding.nav.User.UserNewsActivity;
 import com.example.doctorsbuilding.nav.User.UserProfileActivity;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
+import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import java.util.ArrayList;
 
@@ -64,13 +69,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class ActivityOffices extends AppCompatActivity {
 
+    BadgeView badge;
     FloatingActionButton addButton;
-    Button btn_myDoctor;
-    Button btn_myOffice;
     Button btn_signIn;
     Button btn_signUp;
-    TextView pageTitle;
-    LinearLayout bottomLayout;
+    RelativeLayout unreadMessageLayout;
     FrameLayout welcomePage;
     DrawerLayout mDrawer;
     NavigationView mNavigation = null;
@@ -79,16 +82,18 @@ public class ActivityOffices extends AppCompatActivity {
     ListView doctorsListView;
     ArrayList<Office> offices = new ArrayList<Office>();
     ArrayList<Office> doctors = new ArrayList<Office>();
+    ArrayList<MessageInfo> unreadMessages = null;
     ViewFlipper mViewFlipper;
     CustomOfficesListAdapter adapter_office = null;
     CustomDoctorsListAdapter adapter_doctors = null;
     DatabaseAdapter database = null;
-    boolean doubleBackToExitPressedOnce = false;
     AsyncGetOfficeForUser task_getOffices = null;
     AsyncGetDoctorPic task_getDoctorPic = null;
     AsyncGetOfficeForDoctorOrSercretary task_getOfficeForDoctorOrSercretary;
+    AsyncCallGetUnreadMessagesWs task_unreadMessages;
     private static final int MY_OFFICE = 0;
     private static final int MY_DOCTOR = 1;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,7 +101,7 @@ public class ActivityOffices extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        G.setStatusBarColor(ActivityOffices.this);
         initViews();
         eventListener();
 
@@ -113,9 +118,17 @@ public class ActivityOffices extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         readSharedPrefrence();
+        if (G.UserInfo.getUserName() != null && G.UserInfo.getUserName().length() != 0) {
+            task_unreadMessages = new AsyncCallGetUnreadMessagesWs();
+            task_unreadMessages.execute();
+            if(G.UserInfo.getRole() == UserType.User.ordinal()){
+                setUserLayout(false);
+            }
+        }
+
     }
 
-    private void readSharedPrefrence(){
+    private void readSharedPrefrence() {
         G.UserInfo.setUserName(G.getSharedPreferences().getString("user", ""));
         G.UserInfo.setPassword(G.getSharedPreferences().getString("pass", ""));
         G.UserInfo.setRole(G.getSharedPreferences().getInt("role", 0));
@@ -132,6 +145,9 @@ public class ActivityOffices extends AppCompatActivity {
         }
         if (task_getOfficeForDoctorOrSercretary != null) {
             task_getOfficeForDoctorOrSercretary.cancel(true);
+        }
+        if (task_unreadMessages != null) {
+            task_unreadMessages.cancel(true);
         }
     }
 
@@ -155,16 +171,14 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void initViews() {
+        unreadMessageLayout = (RelativeLayout) findViewById(R.id.unreadMessage);
+        badge = new BadgeView(ActivityOffices.this, unreadMessageLayout);
+        badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
         database = new DatabaseAdapter(ActivityOffices.this);
         welcomePage = (FrameLayout) findViewById(R.id.welcome_page);
-        pageTitle = (TextView) findViewById(R.id.offices_menu_title);
-        pageTitle.setTypeface(G.getDastnevisFont());
         btn_signIn = (Button) findViewById(R.id.welcome_signIn);
         btn_signUp = (Button) findViewById(R.id.welcome_signUp);
         mViewFlipper = (ViewFlipper) findViewById(R.id.offices_viewFlipper);
-        bottomLayout = (LinearLayout) findViewById(R.id.offices_bottom_layout);
-        btn_myDoctor = (Button) findViewById(R.id.offices_my_doctor);
-        btn_myOffice = (Button) findViewById(R.id.offices_my_office);
         officesListView = (ListView) findViewById(R.id.offices_lv_my_office);
         doctorsListView = (ListView) findViewById(R.id.offices_lv_my_doctor);
         btn_menu = (ImageView) findViewById(R.id.offices_menu_btn);
@@ -185,32 +199,32 @@ public class ActivityOffices extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-                    addButton.hide();
-                    final DialogAddOffice dialog_addOffice = new DialogAddOffice(ActivityOffices.this, R.style.AlertDialogCustom);
-                    dialog_addOffice.show();
-                    dialog_addOffice.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-
-                            Office office = dialog_addOffice.getOffice();
-                            if (office != null) {
-                                if (database.openConnection()) {
-                                    doctors = database.getMyDoctorOffice();
-                                    database.closeConnection();
-                                }
-                                if (doctors != null && doctors.size() > 0) {
-                                    adapter_doctors.addAll(doctors);
-                                }
-                            }
-
-                            try {
-                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                            } catch (Exception ex) {
-                            }
-                            addButton.show();
-                        }
-                    });
+                    startActivity(new Intent(ActivityOffices.this, ActivityAllDoctors.class));
+//                    final DialogAddOffice dialog_addOffice = new DialogAddOffice(ActivityOffices.this, R.style.AlertDialogCustom);
+//                    dialog_addOffice.show();
+//                    dialog_addOffice.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialogInterface) {
+//
+//                            Office office = dialog_addOffice.getOffice();
+//                            if (office != null) {
+//                                if (database.openConnection()) {
+//                                    doctors = database.getMyDoctorOffice();
+//                                    database.closeConnection();
+//                                }
+//                                if (doctors != null && doctors.size() > 0) {
+//                                    adapter_doctors.addAll(doctors);
+//                                }
+//                            }
+//
+//                            try {
+//                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//                            } catch (Exception ex) {
+//                            }
+//                            addButton.show();
+//                        }
+//                    });
                 } else {
                     startActivity(new Intent(ActivityOffices.this, SignInActivity.class));
                 }
@@ -241,42 +255,45 @@ public class ActivityOffices extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.nav_signIn:
+                    case R.id.nav1_unKnown_signIn:
                         btn_signIn.performClick();
+                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav_signUp_user:
+                    case R.id.nav1_unKnown_signUp:
                         btn_signUp.performClick();
+                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav_signUp_news:
-                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
-                        break;
-                    case R.id.nav_signUp_call:
+//                    case R.id.nav1_unKnown_news:
+//                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
+//                        mDrawer.closeDrawers();
+//                        break;
+                    case R.id.nav1_unKnown_about:
                         startActivity(new Intent(ActivityOffices.this, ContactUs.class));
+                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav_signUp_logout:
+//                    case R.id.nav1_known_news:
+//                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
+//                        mDrawer.closeDrawers();
+//                        break;
+                    case R.id.nav1_known_about:
+                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
+                        mDrawer.closeDrawers();
+                        break;
+                    case R.id.nav1_known_logout:
                         logOut();
+                        mDrawer.closeDrawers();
                         break;
-                }
-                return false;
-            }
-        });
-        btn_myDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mViewFlipper.getDisplayedChild() != MY_DOCTOR) {
-                    showPrevious();
-                    mViewFlipper.setDisplayedChild(MY_DOCTOR);
-                }
-            }
-        });
-        btn_myOffice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mViewFlipper.getDisplayedChild() != MY_OFFICE) {
-                    showNext();
-                    mViewFlipper.setDisplayedChild(MY_OFFICE);
+                    case R.id.nav1_known_info:
+                        startActivity(new Intent(ActivityOffices.this, PersonalInfoActivity.class));
+                        mDrawer.closeDrawers();
+                        break;
+                    case R.id.nav1_known_mydoctor:
+                        startActivity(new Intent(ActivityOffices.this, ActivityMyDoctors.class));
+                        mDrawer.closeDrawers();
+                        break;
                 }
 
+                return false;
             }
         });
         btn_signIn.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +308,52 @@ public class ActivityOffices extends AppCompatActivity {
                 startActivityForResult(new Intent(ActivityOffices.this, UserProfileActivity.class), 2);
             }
         });
+        unreadMessageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (unreadMessages != null && unreadMessages.size() != 0) {
+                    ActivityNotificationDialog dialog = new ActivityNotificationDialog(ActivityOffices.this,
+                            android.R.style.Theme_DeviceDefault_Dialog_MinWidth, unreadMessages);
+                    dialog.show();
+                } else {
+                    Toast.makeText(ActivityOffices.this, "هیچ پیام جدیدی برای خواندن وجود ندارد .", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void setNavigationViewMenu(UserType menu) {
+
+        ImageView menu_header_image = (ImageView) mNavigation.findViewById(R.id.img_profile33);
+        TextView menu_header_name = (TextView) mNavigation.findViewById(R.id.name33);
+        TextView menu_header_version = (TextView) mNavigation.findViewById(R.id.pezashyar_type33);
+
+        if (menu != UserType.Guest) {
+            mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, false);
+            mNavigation.getMenu().setGroupVisible(R.id.nav1_known, true);
+            Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
+            menu_header_image.setImageBitmap(drPic);
+            menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
+        } else {
+            mNavigation.getMenu().setGroupVisible(R.id.nav1_known, false);
+            mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, true);
+            menu_header_name.setText("کاربر میهمان");
+            menu_header_image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
+            menu_header_version.setText("");
+        }
+
+        switch (menu) {
+            case Dr:
+                menu_header_version.setText("نسخه پزشک");
+                break;
+            case secretary:
+                menu_header_version.setText("نسخه منشی");
+                break;
+            case User:
+                menu_header_version.setText("نسخه بیمار");
+                break;
+        }
 
     }
 
@@ -299,7 +362,7 @@ public class ActivityOffices extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 readSharedPrefrence();
-//                UserType user = UserType.values()[G.getSharedPreferences().getInt("role", 0)];
+
                 if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
 
                     setDoctorLayout(true);
@@ -317,8 +380,6 @@ public class ActivityOffices extends AppCompatActivity {
         }
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-//                task_getOffices = new AsyncGetOfficeForUser();
-//                task_getOffices.execute();
                 setUserLayout(false);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -331,12 +392,9 @@ public class ActivityOffices extends AppCompatActivity {
         G.getSharedPreferences().edit().remove("user").apply();
         G.getSharedPreferences().edit().remove("pass").apply();
         G.getSharedPreferences().edit().remove("role").apply();
-        mNavigation.getMenu().getItem(4).setVisible(false);
-        mNavigation.getMenu().getItem(0).setVisible(true);
-        mNavigation.getMenu().getItem(1).setVisible(true);
-        mNavigation.getMenu().getItem(2).setVisible(true);
-        mNavigation.getMenu().getItem(3).setVisible(true);
-        G.UserInfo = null;
+        mNavigation.getMenu().setGroupVisible(R.id.nav1_known, false);
+        mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, true);
+        G.UserInfo = new User();
         if (database.openConnection()) {
             database.deleteAllOffice();
             database.closeConnection();
@@ -344,7 +402,12 @@ public class ActivityOffices extends AppCompatActivity {
         onPause();
         adapter_office.removeAll(offices);
         adapter_doctors.removeAll(doctors);
-        finish();
+        if (unreadMessages != null)
+            unreadMessages.clear();
+        offices = new ArrayList<Office>();
+        doctors = new ArrayList<Office>();
+        setWellcomeLayout();
+
     }
 
     @Override
@@ -359,7 +422,6 @@ public class ActivityOffices extends AppCompatActivity {
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
         setNavigationViewMenuFontStyle();
-        setNavigationViewMenu();
 
     }
 
@@ -387,21 +449,6 @@ public class ActivityOffices extends AppCompatActivity {
         mi.setTitle(mNewTitle);
     }
 
-
-    private void setNavigationViewMenu() {
-
-        ImageView menu_header_image = (ImageView) mNavigation.findViewById(R.id.header1_image);
-        TextView menu_header_name = (TextView) mNavigation.findViewById(R.id.header1_text);
-
-        mNavigation.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-        mNavigation.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
-        mNavigation.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
-        mNavigation.getMenu().setGroupVisible(R.id.navigation_view_signUp, true);
-
-        menu_header_name.setText("مطب هوشمند پزشک یار");
-        menu_header_image.setImageResource(R.mipmap.ic_launcher);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.offices_drawer);
@@ -423,54 +470,35 @@ public class ActivityOffices extends AppCompatActivity {
         }, 2000);
     }
 
-    private void showPrevious() {
-        mViewFlipper.setInAnimation(getBaseContext(), R.anim.slide_in_from_left);
-        mViewFlipper.setOutAnimation(getBaseContext(), R.anim.slide_out_to_right);
-        mViewFlipper.showNext();
-    }
-
-    private void showNext() {
-        mViewFlipper.setInAnimation(getBaseContext(), R.anim.slide_in_from_right);
-        mViewFlipper.setOutAnimation(getBaseContext(), R.anim.slide_out_to_left);
-        mViewFlipper.showPrevious();
-    }
-
     private void setWellcomeLayout() {
+        badge.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.GONE);
         mViewFlipper.setVisibility(View.GONE);
         if (mNavigation != null) {
-            mNavigation.getMenu().getItem(0).setVisible(true);
-            mNavigation.getMenu().getItem(1).setVisible(true);
-            mNavigation.getMenu().getItem(2).setVisible(true);
-            mNavigation.getMenu().getItem(3).setVisible(true);
-            mNavigation.getMenu().getItem(4).setVisible(false);
+            setNavigationViewMenu(UserType.Guest);
         }
+        unreadMessageLayout.setVisibility(View.GONE);
         welcomePage.setVisibility(View.VISIBLE);
     }
 
     private void setUserLayout(boolean readDataFromWeb) {
+        badge.setVisibility(View.VISIBLE);
+        unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.GONE);
         mViewFlipper.setVisibility(View.VISIBLE);
         mViewFlipper.setDisplayedChild(MY_DOCTOR);
         doctorsListView.setEnabled(false);
         officesListView.setEnabled(false);
         if (mNavigation != null) {
-            mNavigation.getMenu().getItem(0).setVisible(false);
-            mNavigation.getMenu().getItem(1).setVisible(false);
-            mNavigation.getMenu().getItem(2).setVisible(true);
-            mNavigation.getMenu().getItem(3).setVisible(true);
-            mNavigation.getMenu().getItem(4).setVisible(true);
+            setNavigationViewMenu(UserType.values()[G.getSharedPreferences().getInt("role", 0)]);
+            mNavigation.getMenu().findItem(R.id.nav1_known_mydoctor).setVisible(false);
         }
         if (readDataFromWeb) {
-
             task_getOffices = new AsyncGetOfficeForUser();
             task_getOffices.execute();
 
         } else {
-//            database = new DatabaseAdapter(ActivityOffices.this);
             if (database.openConnection()) {
                 doctors = database.getoffices();
                 database.closeConnection();
@@ -485,26 +513,22 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setDoctorLayout(boolean readDataFromWeb) {
+        badge.setVisibility(View.VISIBLE);
+        unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.VISIBLE);
         mViewFlipper.setVisibility(View.VISIBLE);
         mViewFlipper.setDisplayedChild(MY_OFFICE);
         doctorsListView.setEnabled(false);
         officesListView.setEnabled(false);
         if (mNavigation != null) {
-            mNavigation.getMenu().getItem(0).setVisible(false);
-            mNavigation.getMenu().getItem(1).setVisible(false);
-            mNavigation.getMenu().getItem(2).setVisible(true);
-            mNavigation.getMenu().getItem(3).setVisible(true);
-            mNavigation.getMenu().getItem(4).setVisible(true);
+            setNavigationViewMenu(UserType.values()[G.getSharedPreferences().getInt("role", 0)]);
         }
         if (readDataFromWeb) {
             task_getOfficeForDoctorOrSercretary = new AsyncGetOfficeForDoctorOrSercretary();
             task_getOfficeForDoctorOrSercretary.execute();
 
         } else {
-//            database = new DatabaseAdapter(ActivityOffices.this);
             if (database.openConnection()) {
                 offices = database.getMyOffice();
                 doctors = database.getMyDoctorOffice();
@@ -555,7 +579,6 @@ public class ActivityOffices extends AppCompatActivity {
             } else {
                 dialog.dismiss();
                 if (doctors != null && doctors.size() > 0) {
-//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         for (Office of : doctors) {
                             of.setPhoto(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
@@ -608,31 +631,19 @@ public class ActivityOffices extends AppCompatActivity {
             } else {
                 dialog.dismiss();
                 if (allOffices != null && allOffices.size() > 0) {
-//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         for (Office of : allOffices) {
                             of.setPhoto(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
                             database.insertoffice(of);
-                            if (of.isMyOffice() == 0) {
-                                doctors.add(of);
-                                adapter_doctors.add(of);
-                            } else {
-                                offices.add(of);
-                                adapter_office.add(of);
-                            }
+                            offices.add(of);
+                            adapter_office.add(of);
                         }
-                        database.closeConnection();
                     }
-//                    adapter_office.addAll(offices);
-//                    adapter_doctors.addAll(doctors);
-                    for (int i = 0; i < offices.size(); i++) {
-                        task_getDoctorPic = new AsyncGetDoctorPic();
-                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_OFFICE));
-                    }
-                    for (int i = 0; i < doctors.size(); i++) {
-                        task_getDoctorPic = new AsyncGetDoctorPic();
-                        task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_DOCTOR));
-                    }
+                    database.closeConnection();
+                }
+                for (int i = 0; i < offices.size(); i++) {
+                    task_getDoctorPic = new AsyncGetDoctorPic();
+                    task_getDoctorPic.execute(String.valueOf(i), String.valueOf(MY_OFFICE));
                 }
             }
         }
@@ -672,7 +683,6 @@ public class ActivityOffices extends AppCompatActivity {
                 new MessageBox(ActivityOffices.this, msg).show();
             } else {
                 if (drpic != null) {
-//                    database = new DatabaseAdapter(ActivityOffices.this);
                     if (database.openConnection()) {
                         Office office = mOffices.get(position);
                         office.setPhoto(drpic);
@@ -688,4 +698,44 @@ public class ActivityOffices extends AppCompatActivity {
         }
     }
 
+    private class AsyncCallGetUnreadMessagesWs extends AsyncTask<String, Void, Void> {
+
+        String msg = null;
+        ArrayList<MessageInfo> messageInfos = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                messageInfos = WebService.invokeGetAllUnreadMessagesWS(G.UserInfo.getUserName(), G.UserInfo.getPassword());
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (msg != null) {
+                new MessageBox(ActivityOffices.this, msg).show();
+            } else {
+                if (messageInfos != null && messageInfos.size() != 0) {
+                    unreadMessages = new ArrayList<MessageInfo>();
+                    unreadMessages.addAll(messageInfos);
+                    badge.setText(String.valueOf(messageInfos.size()));
+                    badge.show();
+                } else {
+                    if(unreadMessages != null)
+                        unreadMessages.clear();
+                    badge.hide(false);
+                }
+            }
+        }
+
+    }
 }

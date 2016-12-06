@@ -38,6 +38,7 @@ import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
 import com.example.doctorsbuilding.nav.Util.FormatHelper;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
+import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -325,11 +326,19 @@ public class PersonalInfoActivity extends AppCompatActivity {
             return false;
         }
         if (txtUserName.getText().toString().trim().isEmpty()) {
-            new MessageBox(PersonalInfoActivity.this, "لطفا نام کاربری خود را وارد نمایید .").show();
+            new MessageBox(PersonalInfoActivity.this, "لطفا کد ملی خود را وارد نمایید .").show();
+            return false;
+        }
+        if (!Util.IsValidCodeMeli(txtUserName.getText().toString().trim())) {
+            new MessageBox(PersonalInfoActivity.this, "کد ملی وارد شده نادرست می باشد .").show();
             return false;
         }
         if (txtPassword.getText().toString().trim().isEmpty()) {
             new MessageBox(PersonalInfoActivity.this, "لطفا پسورد خود را وارد نمایید .").show();
+            return false;
+        }
+        if (txtPassword.getText().toString().trim().length() < 4) {
+            new MessageBox(PersonalInfoActivity.this, "تعداد کاراکترهای پسورد نباید کمتر از 4 تا باشد .").show();
             return false;
         }
         if (txtRePassword.getText().toString().trim().isEmpty()) {

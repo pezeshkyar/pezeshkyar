@@ -25,22 +25,19 @@
                     android:title="اطلاعیه" />
             </menu>
         </item>
-        <item android:title="پروفایل">
-            <menu>
-                <item
-                    android:id="@+id/nav_dr_personalInfo"
-                    android:icon="@drawable/ic_patentes"
-                    android:title="مشخصات فردی" />
-                <item
-                    android:id="@+id/nav_dr_gallery"
-                    android:icon="@drawable/ic_gallery"
-                    android:title="گالری عکس" />
-                <item
-                    android:id="@+id/nav_dr_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="صندوق ورودی" />
-            </menu>
-        </item>
+        <!--<item android:title="پروفایل">-->
+            <!--<menu>-->
+                <!--<item-->
+                    <!--android:id="@+id/nav_dr_personalInfo"-->
+                    <!--android:icon="@drawable/ic_patentes"-->
+                    <!--android:title="مشخصات فردی" />-->
+              <!---->
+                <!--<item-->
+                    <!--android:id="@+id/nav_dr_inbox"-->
+                    <!--android:icon="@drawable/ic_menu_inbox"-->
+                    <!--android:title="صندوق ورودی" />-->
+            <!--</menu>-->
+        <!--</item>-->
         <item android:title="مطب">
             <menu>
                 <item
@@ -51,6 +48,10 @@
                     android:id="@+id/nav_dr_map"
                     android:icon="@drawable/ic_location"
                     android:title="نقشه مطب" />
+                <item
+                    android:id="@+id/nav_dr_gallery"
+                    android:icon="@drawable/ic_gallery"
+                    android:title="گالری عکس" />
                 <item
                     android:id="@+id/nav_dr_taskes"
                     android:icon="@drawable/ic_service"
@@ -71,18 +72,18 @@
 
             </menu>
         </item>
-        <item android:title="پشتیبانی">
-            <menu>
-                <item
-                    android:id="@+id/nav_dr_support"
-                    android:icon="@drawable/ic_support"
-                    android:title="درخواست پشتیبانی" />
+        <!--<item android:title="پشتیبانی">-->
+            <!--<menu>-->
                 <!--<item-->
-                    <!--android:id="@+id/nav_dr_call"-->
-                    <!--android:icon="@drawable/ic_menu_call"-->
-                    <!--android:title="تماس با ما" />-->
-            </menu>
-        </item>
+                    <!--android:id="@+id/nav_dr_support"-->
+                    <!--android:icon="@drawable/ic_support"-->
+                    <!--android:title="درخواست پشتیبانی" />-->
+                <!--&lt;!&ndash;<item&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/nav_dr_call"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_call"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:title="تماس با ما" />&ndash;&gt;-->
+            <!--</menu>-->
+        <!--</item>-->
 
         <!--<item-->
             <!--android:id="@+id/nav_dr_logout"-->
@@ -115,23 +116,20 @@
                     android:title="اطلاعیه" />
             </menu>
         </item>
-        <item android:title="پروفایل">
-            <menu>
-                <item
-                    android:id="@+id/nav_secretary_personalInfo"
-                    android:icon="@drawable/ic_patentes"
-                    android:title="مشخصات فردی" />
-                <item
-                    android:id="@+id/nav_secretary_gallery"
-                    android:icon="@drawable/ic_gallery"
-                    android:title="گالری عکس" />
-                <item
-                    android:id="@+id/nav_secretary_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="صندوق ورودی" />
-            </menu>
-        </item>
-        <item android:title="مطب">
+        <!--<item android:title="پروفایل">-->
+            <!--<menu>-->
+                <!--<item-->
+                    <!--android:id="@+id/nav_secretary_personalInfo"-->
+                    <!--android:icon="@drawable/ic_patentes"-->
+                    <!--android:title="مشخصات فردی" />-->
+               <!---->
+                <!--<item-->
+                    <!--android:id="@+id/nav_secretary_inbox"-->
+                    <!--android:icon="@drawable/ic_menu_inbox"-->
+                    <!--android:title="صندوق ورودی" />-->
+            <!--</menu>-->
+        <!--</item>-->
+        <!--<item android:title="مطب">-->
             <menu>
                 <item
                     android:id="@+id/nav_secretary_clinic"
@@ -141,6 +139,10 @@
                     android:id="@+id/nav_secretary_map"
                     android:icon="@drawable/ic_location"
                     android:title="نقشه مطب" />
+                <item
+                    android:id="@+id/nav_secretary_gallery"
+                    android:icon="@drawable/ic_gallery"
+                    android:title="گالری عکس" />
                 <item
                     android:id="@+id/nav_secretary_taskes"
                     android:icon="@drawable/ic_service"
@@ -155,19 +157,19 @@
                     android:title="بانک سوال" />
 
             </menu>
-        </item>
-        <item android:title="پشتیبانی">
-            <menu>
-                <item
-                    android:id="@+id/nav_secretary_support"
-                    android:icon="@drawable/ic_support"
-                    android:title="درخواست پشتیبانی" />
+        <!--</item>-->
+        <!--<item android:title="پشتیبانی">-->
+            <!--<menu>-->
                 <!--<item-->
-                    <!--android:id="@+id/nav_secretary_call"-->
-                    <!--android:icon="@drawable/ic_menu_call"-->
-                    <!--android:title="تماس با ما" />-->
-            </menu>
-        </item>
+                    <!--android:id="@+id/nav_secretary_support"-->
+                    <!--android:icon="@drawable/ic_support"-->
+                    <!--android:title="درخواست پشتیبانی" />-->
+                <!--&lt;!&ndash;<item&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/nav_secretary_call"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_call"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:title="تماس با ما" />&ndash;&gt;-->
+            <!--</menu>-->
+        <!--</item>-->
 
         <!--<item-->
             <!--android:id="@+id/nav_secretary_logout"-->
@@ -180,12 +182,16 @@
         android:id="@+id/navigation_view_user"
         android:checkableBehavior="single"
         android:visible="false">
-        <item android:title="مطب">
+        <!--<item android:title="مطب">-->
             <menu>
                 <item
                     android:id="@+id/nav_user_addTurn"
                     android:icon="@drawable/ic_turns"
                     android:title="دریافت نوبت" />
+                <item
+                    android:id="@+id/nav_user_patientFile"
+                    android:icon="@drawable/ic_service"
+                    android:title="پرونده پزشکی" />
                 <item
                     android:id="@+id/nav_user_gallery"
                     android:icon="@drawable/ic_gallery"
@@ -195,31 +201,28 @@
                     android:icon="@drawable/ic_menu_news"
                     android:title="خبرنامه" />
             </menu>
-        </item>
-        <item android:title="پروفایل">
-            <menu>
-                <item
-                    android:id="@+id/nav_user_profile"
-                    android:icon="@drawable/ic_info"
-                    android:title="مشخصات فردی" />
-                <item
-                    android:id="@+id/nav_user_patientFile"
-                    android:icon="@drawable/ic_service"
-                    android:title="پرونده پزشکی" />
+        <!--</item>-->
+        <!--<item android:title="پروفایل">-->
+            <!--<menu>-->
                 <!--<item-->
-                    <!--android:id="@+id/nav_user_cartex"-->
-                    <!--android:icon="@drawable/ic_patients"-->
-                    <!--android:title="سابقه پزشکی" />-->
-                <item
-                    android:id="@+id/nav_user_nobat"
-                    android:icon="@drawable/ic_nobat"
-                    android:title="نوبت های من" />
-                <item
-                    android:id="@+id/nav_user_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="پیام ها" />
-            </menu>
-        </item>
+                    <!--android:id="@+id/nav_user_profile"-->
+                    <!--android:icon="@drawable/ic_info"-->
+                    <!--android:title="مشخصات فردی" />-->
+               <!---->
+                <!--&lt;!&ndash;<item&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/nav_user_cartex"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:icon="@drawable/ic_patients"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:title="سابقه پزشکی" />&ndash;&gt;-->
+                <!--<item-->
+                    <!--android:id="@+id/nav_user_nobat"-->
+                    <!--android:icon="@drawable/ic_nobat"-->
+                    <!--android:title="نوبت های من" />-->
+                <!--<item-->
+                    <!--android:id="@+id/nav_user_inbox"-->
+                    <!--android:icon="@drawable/ic_menu_inbox"-->
+                    <!--android:title="پیام ها" />-->
+            <!--</menu>-->
+        <!--</item>-->
         <!--<item-->
             <!--android:id="@+id/nav_user_call"-->
             <!--android:icon="@drawable/ic_menu_call"-->

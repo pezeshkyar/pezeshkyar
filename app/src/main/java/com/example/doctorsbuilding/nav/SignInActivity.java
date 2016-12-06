@@ -22,6 +22,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
+import com.example.doctorsbuilding.nav.MainForm.ActivityOffices;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.Hashing;
@@ -132,6 +133,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         private int result = -1;
         private UserType userType = UserType.None;
         String msg = null;
+        User user = null;
+        Bitmap userPic = null;
         ProgressDialog dialog;
         String username;
 
@@ -156,6 +159,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         protected Void doInBackground(String... strings) {
             try {
                 result = WebService.invokeLogin3WS(username, password);
+                if (result != 0) {
+                    user = WebService.invokeGetUserInfoWS(username, password, G.officeId);
+                    if (user != null) {
+                        userPic = WebService.invokeGetUserPicWS(username, password);
+                    }
+                }
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -194,8 +203,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
 
                     }
-                } else {
-                    new MessageBox(SignInActivity.this, "هیچ جوابی از سرور دریافت نشده است .").show();
+                }
+                if (user != null) {
+                    G.UserInfo = user;
+                    if (userPic != null) {
+                        G.UserInfo.setImgProfile(userPic);
+                    } else {
+                        G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
+                    }
+                    setResult(Activity.RESULT_OK);
+                    finish();
                 }
             }
         }
@@ -206,13 +223,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             editor.putString("pass", password);
             editor.putInt("role", role);
             editor.apply();
-            setResult(Activity.RESULT_OK);
             try {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             } catch (Exception ex) {
             }
-            finish();
         }
 
     }

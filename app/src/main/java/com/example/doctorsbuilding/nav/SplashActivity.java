@@ -84,10 +84,6 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-
-                if (G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-                    G.UserInfo = WebService.invokeGetUserInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
-                }
                 doctorPic = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                 G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
