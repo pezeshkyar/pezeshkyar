@@ -655,7 +655,7 @@ public class DialogAddTurn extends Dialog {
                     taskGroup_adapter.addAll(taskGroups);
 
                 }else {
-                    new MessageBox(context, "خدماتی برای مطب شما ثبت نشده است، لطفا از منوی خدمات اقدام به ثبت نمایید .").show();
+                    new MessageBox(context, "خدماتی برای مطب ثبت نشده است .").show();
                 }
                 dialog.dismiss();
             }
@@ -693,7 +693,7 @@ public class DialogAddTurn extends Dialog {
                     task_adapter.addAll(taskes);
                     addTurnBtn.setClickable(true);
                 }else {
-                    new MessageBox(context, "لطفا از منوی خدمات اقدام به ثبت زیرگروه خدمات نمایید .").show();
+                    new MessageBox(context, "زیر گروه خدمات ثبت نشده است .").show();
                 }
             }
         }

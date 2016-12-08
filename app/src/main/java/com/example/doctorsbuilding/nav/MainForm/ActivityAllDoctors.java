@@ -69,16 +69,18 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         mListView.setLoadingView(R.layout.loading_layout);
         mListView.setAdapter(adapter_office);
         mListView.setListener(this);
-
-        dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
-        dialog.show();
-        dialog.getWindow().setGravity(Gravity.END);
-        dialog.setCancelable(true);
-
+        ShowLoadingDialog();
         task_getAllOfficeForCity = new AsyncGetAllOfficeForCity();
         task_getAllOfficeForCity.execute();
 
         eventListener();
+    }
+
+    private void ShowLoadingDialog(){
+        dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
+        dialog.show();
+        dialog.getWindow().setGravity(Gravity.END);
+        dialog.setCancelable(true);
     }
 
     @Override
@@ -141,6 +143,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
                             firstname = filterDialog.getFname();
                             lastname = filterDialog.getLname();
                             resetForm();
+                            ShowLoadingDialog();
                             task_getAllOfficeByFilter = new AsyncGetAllOfficeByFilter();
                             task_getAllOfficeByFilter.execute();
 
@@ -236,16 +239,10 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
     private class AsyncGetAllOfficeByFilter extends AsyncTask<String, Void, Void> {
         String msg = null;
         ArrayList<Office> officeha = null;
-        ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (step == 1) {
-                dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
-                dialog.setCancelable(false);
-                dialog.getWindow().setGravity(Gravity.END);
-            }
             mFab.setClickable(false);
 
         }
@@ -265,8 +262,8 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-                dialog.dismiss();
                 mFab.setClickable(true);
+                dialog.dismiss();
                 new MessageBox(ActivityAllDoctors.this, msg).show();
             } else {
                 dialog.dismiss();
