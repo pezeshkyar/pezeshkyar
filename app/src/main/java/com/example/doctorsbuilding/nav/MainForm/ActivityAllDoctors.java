@@ -241,9 +241,11 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
-            dialog.setCancelable(false);
-            dialog.getWindow().setGravity(Gravity.END);
+            if (step == 1) {
+                dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
+                dialog.setCancelable(false);
+                dialog.getWindow().setGravity(Gravity.END);
+            }
             mFab.setClickable(false);
 
         }
