@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:gravity="bottom|right"
+        android:gravity="bottom"
         android:orientation="vertical"
         android:padding="16dp">
 
         <ImageView
             android:id="@+id/img_profile33"
             android:src="@drawable/doctor"
+            android:layout_alignParentRight="true"
             android:layout_width="80dp"
             android:layout_height="80dp" />
 
@@ -26,8 +27,9 @@
             android:id="@+id/name33"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/img_profile33"
             android:textColor="@android:color/white"
             android:textSize="16dp"
@@ -38,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/name33"
+            android:gravity="right"
             android:layout_marginRight="8dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/img_profile33"

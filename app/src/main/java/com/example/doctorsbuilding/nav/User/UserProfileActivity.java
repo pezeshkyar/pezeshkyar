@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -58,9 +60,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private Spinner spinnerCity;
     private Button btnInsert;
     private ImageView profileImage;
-    private Button btnImgSelect;
-    private Bitmap drPic;
-    private Bitmap roundedDrPic;
+    private FloatingActionButton btnImgSelect;
+    private Bitmap userPic;
     private ArrayAdapter<String> stateAdapter;
     private ArrayAdapter<String> cityAdapter;
     private ArrayList<State> stateList;
@@ -68,9 +69,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private ProgressDialog loadingDialog;
     private DatabaseAdapter database;
     private String password;
+    private ImageButton btn_setting;
     Button backBtn;
 
-    private int stateID = -1;
+    private int stateID = 25;
     private static int imageProfileId = 1;
     private static final int CAMERA_REQUEST = 1888;
 
@@ -84,6 +86,7 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_personal_info);
+        G.setStatusBarColor(UserProfileActivity.this);
         initViews();
         stateTask = new AsyncCallStateWS();
         stateTask.execute();
@@ -110,9 +113,11 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        btn_setting = (ImageButton) findViewById(R.id.personalInfo_setting);
+        btn_setting.setVisibility(View.GONE);
         database = new DatabaseAdapter(UserProfileActivity.this);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
-        Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
+        Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.drawable.doctor);
         profileImage.setImageBitmap(bmpImg);
         backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
@@ -127,12 +132,12 @@ public class UserProfileActivity extends AppCompatActivity {
         spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
         btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
-        btnImgSelect = (Button) findViewById(R.id.dr_btnImgProfile);
-        btnImgSelect.setText("انتخاب عکس");
+        btnImgSelect = (FloatingActionButton) findViewById(R.id.dr_btnImgProfile);
         // progressBar = (ProgressBar) findViewById(R.id.user_profile_progressBar);
     }
 
     private void eventListener() {
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,10 +174,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if(dialog2.getSourceType().equals("camera")){
+                        if (dialog2.getSourceType().equals("camera")) {
                             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        }else if(dialog2.getSourceType().equals("gallery")){
+                        } else if (dialog2.getSourceType().equals("gallery")) {
                             changePic();
                         }
                     }
@@ -199,17 +204,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                        Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                        Bitmap bmp = scaled;
-                        drPic = scaled;
-                        roundedDrPic = bmp;
-                        profileImage.setImageBitmap(roundedDrPic);
-//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-//                        updateDrPicWS.execute();
-
-
-//                        currentUser.image = resizedBitmap;
-//                        Database.UpdateCurrentUser(currentUser);
+                        userPic = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                        profileImage.setImageBitmap(userPic);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -218,22 +214,12 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
             if (data != null) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                    Bitmap bmp = scaled;
-                    drPic = scaled;
-                    roundedDrPic = bmp;
-                    profileImage.setImageBitmap(roundedDrPic);
-//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-//                        updateDrPicWS.execute();
-
-
-//                        currentUser.image = resizedBitmap;
-//                        Database.UpdateCurrentUser(currentUser);
+                    userPic = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                    profileImage.setImageBitmap(userPic);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -267,13 +253,9 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                if (stateList == null) {
-                    stateList = WebService.invokeGetProvinceNameWS();
-                    stateID = stateList.get(25).GetStateID();
+                stateList = WebService.invokeGetProvinceNameWS();
+                if (stateList != null)
                     cityList = WebService.invokeGetCityNameWS(stateID);
-                } else {
-                    cityList = WebService.invokeGetCityNameWS(stateID);
-                }
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -397,12 +379,10 @@ public class UserProfileActivity extends AppCompatActivity {
             user.setRole(UserType.User.ordinal());
             user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
 
-//            Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            if (drPic == null) {
-                Bitmap imgUser = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                user.setImgProfile(imgUser);
+            if (userPic == null) {
+                user.setImgProfile(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
             } else {
-                user.setImgProfile(drPic);
+                user.setImgProfile(userPic);
             }
 
             return user;

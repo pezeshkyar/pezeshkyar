@@ -118,7 +118,7 @@ public class ActivityLoading extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        moveTaskToBack(true);
     }
 
     private void loadData() {
@@ -191,6 +191,10 @@ public class ActivityLoading extends AppCompatActivity {
                     } else {
                         G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
                     }
+                } else {
+                    G.getSharedPreferences().edit().remove("user").apply();
+                    G.getSharedPreferences().edit().remove("pass").apply();
+                    G.getSharedPreferences().edit().remove("role").apply();
                 }
                 startActivity(new Intent(ActivityLoading.this, ActivityOffices.class));
                 finish();

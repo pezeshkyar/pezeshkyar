@@ -58,6 +58,7 @@ import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 import com.example.doctorsbuilding.nav.Web.WebService;
+import com.example.doctorsbuilding.nav.support.ActivityTickets;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import java.util.ArrayList;
@@ -93,6 +94,8 @@ public class ActivityOffices extends AppCompatActivity {
     AsyncCallGetUnreadMessagesWs task_unreadMessages;
     private static final int MY_OFFICE = 0;
     private static final int MY_DOCTOR = 1;
+    private static final int LOGIN_REQUEST = 1;
+    private static final int SIGNUP_REQUEST = 2;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -121,7 +124,7 @@ public class ActivityOffices extends AppCompatActivity {
         if (G.UserInfo.getUserName() != null && G.UserInfo.getUserName().length() != 0) {
             task_unreadMessages = new AsyncCallGetUnreadMessagesWs();
             task_unreadMessages.execute();
-            if(G.UserInfo.getRole() == UserType.User.ordinal()){
+            if (G.UserInfo.getRole() == UserType.User.ordinal()) {
                 setUserLayout(false);
             }
         }
@@ -263,18 +266,22 @@ public class ActivityOffices extends AppCompatActivity {
                         btn_signUp.performClick();
                         mDrawer.closeDrawers();
                         break;
-//                    case R.id.nav1_unKnown_news:
-//                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
-//                        mDrawer.closeDrawers();
-//                        break;
+                    case R.id.nav1_unKnown_news:
+                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
+                        mDrawer.closeDrawers();
+                        break;
                     case R.id.nav1_unKnown_about:
                         startActivity(new Intent(ActivityOffices.this, ContactUs.class));
                         mDrawer.closeDrawers();
                         break;
-//                    case R.id.nav1_known_news:
-//                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
-//                        mDrawer.closeDrawers();
-//                        break;
+                    case R.id.nav1_known_support:
+                        startActivity(new Intent(ActivityOffices.this, ActivityTickets.class));
+                        mDrawer.closeDrawers();
+                        break;
+                    case R.id.nav1_known_news:
+                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
+                        mDrawer.closeDrawers();
+                        break;
                     case R.id.nav1_known_about:
                         startActivity(new Intent(ActivityOffices.this, ContactUs.class));
                         mDrawer.closeDrawers();
@@ -299,13 +306,13 @@ public class ActivityOffices extends AppCompatActivity {
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(ActivityOffices.this, SignInActivity.class), 1);
+                startActivityForResult(new Intent(ActivityOffices.this, SignInActivity.class), LOGIN_REQUEST);
             }
         });
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(ActivityOffices.this, UserProfileActivity.class), 2);
+                startActivityForResult(new Intent(ActivityOffices.this, UserProfileActivity.class), SIGNUP_REQUEST);
             }
         });
         unreadMessageLayout.setOnClickListener(new View.OnClickListener() {
@@ -359,7 +366,7 @@ public class ActivityOffices extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (requestCode == LOGIN_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 readSharedPrefrence();
 
@@ -378,9 +385,10 @@ public class ActivityOffices extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
-        if (requestCode == 2) {
+        if (requestCode == SIGNUP_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                setUserLayout(false);
+//                setUserLayout(false);
+                startActivity(new Intent(ActivityOffices.this, ActivityAllDoctors.class));
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -449,6 +457,7 @@ public class ActivityOffices extends AppCompatActivity {
         mi.setTitle(mNewTitle);
     }
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.offices_drawer);
@@ -471,7 +480,7 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setWellcomeLayout() {
-        badge.setVisibility(View.GONE);
+        badge.hide();
         addButton.setVisibility(View.GONE);
         mViewFlipper.setVisibility(View.GONE);
         if (mNavigation != null) {
@@ -482,7 +491,7 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setUserLayout(boolean readDataFromWeb) {
-        badge.setVisibility(View.VISIBLE);
+//        badge.show();
         unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
@@ -513,7 +522,7 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setDoctorLayout(boolean readDataFromWeb) {
-        badge.setVisibility(View.VISIBLE);
+//        badge.show();
         unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
@@ -730,9 +739,9 @@ public class ActivityOffices extends AppCompatActivity {
                     badge.setText(String.valueOf(messageInfos.size()));
                     badge.show();
                 } else {
-                    if(unreadMessages != null)
+                    if (unreadMessages != null)
                         unreadMessages.clear();
-                    badge.hide(false);
+                    badge.hide();
                 }
             }
         }

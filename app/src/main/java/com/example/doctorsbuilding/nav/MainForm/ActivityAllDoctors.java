@@ -8,16 +8,22 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
+import com.example.doctorsbuilding.nav.FragmentPatientMedicalHistory;
 import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
@@ -37,6 +43,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
     private String firstname, lastname;
     private ProgressDialog dialog;
     private TextView pageTitle;
+    private FrameLayout frm_nothing;
     private Button backBtn;
     private EndLessListView mListView;
     private FloatingActionButton mFab;
@@ -100,7 +107,8 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
 
     private void initViews() {
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
-        pageTitle.setText("لیست پزشک های سامانه");
+        pageTitle.setText("پزشک های سامانه");
+        frm_nothing = (FrameLayout) findViewById(R.id.myDoctor_nothing);
         backBtn = (Button) findViewById(R.id.toolbar_backBtn);
         mListView = (EndLessListView) findViewById(R.id.mydoctor_lv);
         mFab = (FloatingActionButton) findViewById(R.id.mydoctor_add_dr);
@@ -116,6 +124,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                frm_nothing.setVisibility(View.GONE);
                 onPause();
                 dialog.dismiss();
                 final DialogSearchFilter filterDialog = new DialogSearchFilter(ActivityAllDoctors.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
@@ -213,8 +222,10 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
                         }
                     }
                 } else {
-                    if (step == 1)
-                        new MessageBox(ActivityAllDoctors.this, "هیچ پزشکی در شهر شما وجود ندارد، جهت مشاهده همه پزشک های عضو سامانه از دکمه فیلتر استفاده نمایید .").show();
+                    if (step == 1) {
+                        frm_nothing.setVisibility(View.VISIBLE);
+                        mFab.bringToFront();
+                    }
                 }
 
             }

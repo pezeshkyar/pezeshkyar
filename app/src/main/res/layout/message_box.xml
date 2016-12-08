@@ -16,14 +16,15 @@
         android:textColor="@android:color/holo_blue_light"
         android:textSize="18sp"
         android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/msgWarning"
-        android:src="@drawable/ic_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_warning" />
 
     <View
         android:id="@+id/msgLine"
@@ -37,15 +38,15 @@
     <TextView
         android:id="@+id/message_error"
         android:layout_width="wrap_content"
-        android:textSize="16sp"
         android:layout_height="wrap_content"
         android:layout_below="@id/msgLine"
-        android:gravity="center"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:lineSpacingExtra="20dp"
-        android:padding="@dimen/my_padding" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingExtra="10dp"
+        android:padding="@dimen/my_padding"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/msgLine1"
@@ -57,14 +58,14 @@
 
     <Button
         android:id="@+id/message_btn_accept"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@id/msgLine1"
         android:layout_gravity="center_horizontal"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:textSize="14sp"
         android:text="قبول"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
 
 </RelativeLayout>

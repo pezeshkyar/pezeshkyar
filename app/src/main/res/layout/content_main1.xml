@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/cm1_appbar"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:fitsSystemWindows="true">
@@ -115,7 +116,6 @@
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -208,5 +208,16 @@
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_getTurn"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/cm1_appbar"
+        app:layout_anchorGravity="bottom|left|start"
+        android:src="@drawable/ic_get_turn_black_24dp"
+        android:tint="@android:color/white"
+        app:backgroundTint="@color/myyellow"/>
 
 </android.support.design.widget.CoordinatorLayout>

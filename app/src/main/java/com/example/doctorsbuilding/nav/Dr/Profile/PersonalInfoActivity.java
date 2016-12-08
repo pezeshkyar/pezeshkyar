@@ -8,15 +8,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,8 +26,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
@@ -38,10 +42,8 @@ import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
-import com.example.doctorsbuilding.nav.Util.FormatHelper;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Util.RoundedImageView;
-import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -70,22 +72,18 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private ArrayAdapter<String> cityAdapter;
     private ArrayList<State> stateList;
     private ArrayList<City> cityList;
+    private Bitmap userPic;
     private int stateID = -1;
 
-    private Context context;
+    private TextView txt_name;
     private ImageView profileImage;
-    private Button btnImgSelect;
-    private String selectedImagePath;
-    private LayoutInflater inflater = null;
-    private SharedPreferences setting;
-    private boolean isUserExist;
-    private Bitmap drPic;
-    private Bitmap roundedDrPic;
-    private int role;
+    private FloatingActionButton btnImgSelect;
     private Button backBtn;
+    private ImageButton btn_setting;
     ProgressDialog progressDialog;
     private DatabaseAdapter database;
-    String password;
+    String password = null;
+    private PopupMenu popupMenu;
 
     AsyncCallStateWS getStateTask;
     AsyncCallCityWS getCityTask;
@@ -99,15 +97,9 @@ public class PersonalInfoActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_personal_info);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         initViews();
-
         eventListener();
-
-        if (G.UserInfo != null) {
-            isUserExist = true;
-            showDrInfo();
-        }
+        showDrInfo();
         progressDialog = ProgressDialog.show(PersonalInfoActivity.this, "", "در حال دریافت اطلاعات ...");
         progressDialog.getWindow().setGravity(Gravity.END);
         progressDialog.setCancelable(true);
@@ -115,18 +107,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         getStateTask = new AsyncCallStateWS();
         getStateTask.execute();
-
-//        setting = getSharedPreferences("doctorBuilding", 0);
-//
-//        try {
-//            username = setting.getString("user", "");
-//            password = setting.getString("pass", "");
-//            callAsyncUserInfoWs userInfoWs = new callAsyncUserInfoWs();
-//            userInfoWs.execute();
-//
-//        } catch (Exception e) {
-//        }
-
 
     }
 
@@ -152,56 +132,79 @@ public class PersonalInfoActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+
     private void showDrInfo() {
 
+        txt_name.setText(G.UserInfo.getFirstName().concat(" ").concat(G.UserInfo.getLastName()));
         txtFirstName.setText(G.UserInfo.getFirstName());
-        txtUserName.setText(G.UserInfo.getUserName());
-        txtUserName.setEnabled(false);
-        txtPassword.setText(G.UserInfo.getPassword());
-        txtRePassword.setText(G.UserInfo.getPassword());
         txtLastName.setText(G.UserInfo.getLastName());
         txtMobile.setText(G.UserInfo.getPhone());
         txtEmail.setText(G.UserInfo.getEmail());
-
-
-        if (G.UserInfo.getImgProfile() != null) {
-
-            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-            profileImage.setImageBitmap(imgRound);
-
-        } else {
-            profileImage.setImageBitmap(RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160));
-        }
+        profileImage.setImageBitmap(G.UserInfo.getImgProfile());
     }
 
     private void initViews() {
+        popupMenu = new PopupMenu(PersonalInfoActivity.this, btn_setting);
+        popupMenu.inflate(R.menu.menu_action_bar);
+        btn_setting = (ImageButton) findViewById(R.id.personalInfo_setting);
+        txt_name = (TextView) findViewById(R.id.profile_name);
         backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
-        role = G.UserInfo.getRole();
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);
         txtMobile = (EditText) findViewById(R.id.dr_Mobile);
         txtUserName = (EditText) findViewById(R.id.dr_UserName);
+        txtUserName.setVisibility(View.GONE);
         txtPassword = (EditText) findViewById(R.id.dr_Password);
+        txtPassword.setVisibility(View.GONE);
         txtRePassword = (EditText) findViewById(R.id.dr_ConfirmPassword);
+        txtRePassword.setVisibility(View.GONE);
         txtEmail = (EditText) findViewById(R.id.dr_email);
         spinnerState = (Spinner) findViewById(R.id.dr_profile_state);
         spinnerCity = (Spinner) findViewById(R.id.dr_profile_city);
         btnInsert = (Button) findViewById(R.id.dr_btnPersonalInfoInsert);
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
-        btnImgSelect = (Button) findViewById(R.id.dr_btnImgProfile);
+        btnImgSelect = (FloatingActionButton) findViewById(R.id.dr_btnImgProfile);
         database = new DatabaseAdapter(PersonalInfoActivity.this);
-        if (role == UserType.Dr.ordinal()) {
-            //Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.doctor);
-        } else {
-            //Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_user_profile);
-            //profileImage.setImageBitmap(bmpImg);
-//            profileImage.setVisibility(View.GONE);
-//            btnImgSelect.setVisibility(View.GONE);
-        }
 
     }
 
     private void eventListener() {
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_change_pass) {
+                    final DialogChangePassword dialog = new DialogChangePassword(PersonalInfoActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+                    dialog.show();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            if (dialog.getResult()) {
+                                password = dialog.getPassword();
+                                try {
+                                    password = Hashing.SHA1(password);
+                                } catch (NoSuchAlgorithmException e) {
+                                } catch (UnsupportedEncodingException e) {
+                                }
+                                registerTask = new AsyncCallRegisterWS();
+                                registerTask.execute();
+                            }
+                        }
+                    });
+                }
+                return false;
+            }
+        });
+
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuPopupHelper menuHelper = new MenuPopupHelper(PersonalInfoActivity.this, (MenuBuilder) popupMenu.getMenu(), btn_setting);
+                menuHelper.setForceShowIcon(true);
+                menuHelper.show();
+            }
+        });
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,10 +242,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if(dialog2.getSourceType().equals("camera")){
+                        if (dialog2.getSourceType().equals("camera")) {
                             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        }else if(dialog2.getSourceType().equals("gallery")){
+                        } else if (dialog2.getSourceType().equals("gallery")) {
                             changePic();
                         }
                     }
@@ -270,17 +273,9 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                        Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                        Bitmap bmp = scaled;
-                        drPic = scaled;
-                        roundedDrPic = bmp;
-                        profileImage.setImageBitmap(roundedDrPic);
-//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-//                        updateDrPicWS.execute();
-
-
-//                        currentUser.image = resizedBitmap;
-//                        Database.UpdateCurrentUser(currentUser);
+                        userPic = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                        updatePicTask = new AsyncUpdateDrPicWS();
+                        updatePicTask.execute();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -289,22 +284,13 @@ public class PersonalInfoActivity extends AppCompatActivity {
             }
         }
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
             if (data != null) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                     int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                    Bitmap bmp = scaled;
-                    drPic = scaled;
-                    roundedDrPic = bmp;
-                    profileImage.setImageBitmap(roundedDrPic);
-//                        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-//                        updateDrPicWS.execute();
-
-
-//                        currentUser.image = resizedBitmap;
-//                        Database.UpdateCurrentUser(currentUser);
+                    userPic = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                    updatePicTask = new AsyncUpdateDrPicWS();
+                    updatePicTask.execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -312,43 +298,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
             }
         }
     }
-
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == Activity.RESULT_OK && data != null) {
-//            String realPath;
-//            // SDK < API11
-//            if (Build.VERSION.SDK_INT < 11)
-//                realPath = RealPathUtil.getRealPathFromURI_BelowAPI11(getBaseContext(), data.getData());
-//
-//                // SDK >= 11 && SDK < 19
-//            else if (Build.VERSION.SDK_INT < 19)
-//                realPath = RealPathUtil.getRealPathFromURI_API11to18(getBaseContext(), data.getData());
-//
-//                // SDK > 19 (Android 4.4)
-//            else
-//                realPath = RealPathUtil.getRealPathFromURI_API19(getBaseContext(), data.getData());
-//
-//
-//            setImageView(realPath);
-//        }
-//    }
-
-//    private void setImageView(String realPath) {
-//
-//        Uri uriFromPath = Uri.fromFile(new File(realPath));
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = BitmapFactory.decodeStream(getBaseContext().getContentResolver().openInputStream(uriFromPath));
-//        } catch (FileNotFoundException e) {
-//            Toast.makeText(context, e.toString(),Toast.LENGTH_LONG).show();
-//        }
-//        Bitmap bmp = RoundedImageView.getCroppedBitmap(bitmap, 200);
-//        drPic = bitmap;
-//        roundedDrPic = bmp;
-//        AsyncUpdateDrPicWS updateDrPicWS = new AsyncUpdateDrPicWS();
-//        updateDrPicWS.execute();
-//
-//    }
 
     private boolean checkFields() {
         if (txtFirstName.getText().toString().trim().isEmpty()) {
@@ -361,30 +310,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
         if (txtMobile.getText().toString().trim().isEmpty()) {
             new MessageBox(PersonalInfoActivity.this, "لطفا شماره تلفن همراه خود را وارد نمایید .").show();
-            return false;
-        }
-        if (txtUserName.getText().toString().trim().isEmpty()) {
-            new MessageBox(PersonalInfoActivity.this, "لطفا کد ملی خود را وارد نمایید .").show();
-            return false;
-        }
-        if (!Util.IsValidCodeMeli(txtUserName.getText().toString().trim())) {
-            new MessageBox(PersonalInfoActivity.this, "کد ملی وارد شده نادرست می باشد .").show();
-            return false;
-        }
-        if (txtPassword.getText().toString().trim().isEmpty()) {
-            new MessageBox(PersonalInfoActivity.this, "لطفا پسورد خود را وارد نمایید .").show();
-            return false;
-        }
-        if (txtPassword.getText().toString().trim().length() < 4) {
-            new MessageBox(PersonalInfoActivity.this, "تعداد کاراکترهای پسورد نباید کمتر از 4 تا باشد .").show();
-            return false;
-        }
-        if (txtRePassword.getText().toString().trim().isEmpty()) {
-            new MessageBox(PersonalInfoActivity.this, "لطفا پسورد خود را دوباره وارد نمایید .").show();
-            return false;
-        }
-        if (!txtPassword.getText().toString().trim().equals(txtRePassword.getText().toString().trim())) {
-            new MessageBox(this, "پسورد وارد شده با هم مطابقت ندارد .").show();
             return false;
         }
         if (spinnerState.getSelectedItemPosition() == -1) {
@@ -414,19 +339,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
         protected Void doInBackground(String... strings) {
             try {
                 stateList = WebService.invokeGetProvinceNameWS();
-                if (isUserExist) {
-                    stateID = G.UserInfo.getStateID();
-                }
-                cityList = WebService.invokeGetCityNameWS(stateID);
                 if (stateList == null) {
-                    stateList = WebService.invokeGetProvinceNameWS();
-                    if (isUserExist) {
-                        stateID = G.UserInfo.getStateID();
-                    } else {
-                        stateID = stateList.get(25).GetStateID();
-                    }
-                    cityList = WebService.invokeGetCityNameWS(stateID);
-                } else {
+                    stateID = G.UserInfo.getStateID();
                     cityList = WebService.invokeGetCityNameWS(stateID);
                 }
             } catch (PException ex) {
@@ -444,14 +358,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
             } else {
                 if (stateList != null && stateList.size() != 0) {
                     setStateSpinner();
-                    if (isUserExist) {
-                        for (int i = 0; i < stateList.size(); i++) {
-                            if (stateList.get(i).GetStateID() == G.UserInfo.getStateID()) {
-                                spinnerState.setSelection(i);
-                                break;
-                            }
+                    for (int i = 0; i < stateList.size(); i++) {
+                        if (stateList.get(i).GetStateID() == G.UserInfo.getStateID()) {
+                            spinnerState.setSelection(i);
+                            break;
                         }
-
                     }
                     if (stateID != -1) {
                         setCitySpinner();
@@ -523,12 +434,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     cityAdapter = new ArrayAdapter<String>(PersonalInfoActivity.this
                             , R.layout.support_simple_spinner_dropdown_item, cities);
                     spinnerCity.setAdapter(cityAdapter);
-                    if (isUserExist) {
-                        for (int i = 0; i < cityList.size(); i++) {
-                            if (cityList.get(i).GetCityID() == G.UserInfo.getCityID()) {
-                                spinnerCity.setSelection(i);
-                                break;
-                            }
+                    for (int i = 0; i < cityList.size(); i++) {
+                        if (cityList.get(i).GetCityID() == G.UserInfo.getCityID()) {
+                            spinnerCity.setSelection(i);
+                            break;
                         }
                     }
                     progressDialog.dismiss();
@@ -559,53 +468,18 @@ public class PersonalInfoActivity extends AppCompatActivity {
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
             btnInsert.setClickable(false);
+            btnImgSelect.setClickable(false);
+            btn_setting.setClickable(false);
         }
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                if (!isUserExist) {
-                    result = WebService.invokeRegisterWS(setUserData());
-                } else {
-                    result = WebService.invokeUpdateUserWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), setUserData());
-                }
+                result = WebService.invokeUpdateUserWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), setUserData());
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
             return null;
-        }
-
-        private User setUserData() {
-            user = new User();
-            user.setFirstName(txtFirstName.getText().toString().trim());
-            user.setLastName(txtLastName.getText().toString().trim());
-            user.setUserName(txtUserName.getText().toString().trim());
-            password = txtPassword.getText().toString().trim();
-            try {
-                password = Hashing.SHA1(password);
-            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-            }
-            user.setPassword(password);
-            user.setPhone(txtMobile.getText().toString().trim());
-            user.setEmail(txtEmail.getText().toString().trim());
-            if (role == UserType.Dr.ordinal() || role == UserType.User.ordinal() || role == UserType.secretary.ordinal()) {
-                user.setRole(role);
-            } else {
-                user.setRole(UserType.User.getUsertype());
-            }
-            user.setStateID((stateList.get(spinnerState.getSelectedItemPosition()).GetStateID()));
-            user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
-            if (role == UserType.Dr.ordinal()) {
-                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                user.setImgProfile(imgRound);
-            } else {
-                Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                user.setImgProfile(imgRound);
-            }
-            return user;
         }
 
         @Override
@@ -613,55 +487,40 @@ public class PersonalInfoActivity extends AppCompatActivity {
             if (msg != null) {
                 dialog.dismiss();
                 new MessageBox(PersonalInfoActivity.this, msg).show();
+                btnImgSelect.setClickable(true);
                 btnInsert.setClickable(true);
+                btn_setting.setClickable(true);
             } else {
                 if (result.equals("OK")) {
                     Toast.makeText(PersonalInfoActivity.this, "ثبت مشخصات با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     G.UserInfo = user;
-                    if (user.getRole() == UserType.Dr.ordinal()) {
-                        G.officeInfo.setFirstname(user.getFirstName());
-                        G.officeInfo.setLastname(user.getLastName());
-                        G.UserInfo.setImgProfile(user.getImgProfile());
-                        G.UserInfo.setFirstName(user.getFirstName());
-                        G.UserInfo.setLastName(user.getLastName());
-                        G.UserInfo.setPassword(user.getPassword());
-                        G.UserInfo.setEmail(user.getEmail());
-                        G.UserInfo.setPhone(user.getPhone());
-                        G.UserInfo.setStateID(user.getStateID());
-                        G.UserInfo.setCityID(user.getCityID());
-                        SharedPreferences.Editor editor = G.getSharedPreferences().edit();
-                        editor.putString("user", txtUserName.getText().toString());
-                        editor.putString("pass", password);
-                        editor.putInt("role", role);
-                        editor.apply();
-                        finish();
-                    } else {
-                        G.UserInfo.setImgProfile(user.getImgProfile());
-                        G.UserInfo.setFirstName(user.getFirstName());
-                        G.UserInfo.setLastName(user.getLastName());
-                        G.UserInfo.setEmail(user.getEmail());
-                        G.UserInfo.setPassword(user.getPassword());
-                        G.UserInfo.setPhone(user.getPhone());
-                        G.UserInfo.setStateID(user.getStateID());
-                        G.UserInfo.setCityID(user.getCityID());
-                        SharedPreferences.Editor editor = G.getSharedPreferences().edit();
-                        editor.putString("user", txtUserName.getText().toString());
-                        editor.putString("pass", password);
-                        editor.putInt("role", role);
-                        editor.apply();
-                        finish();
-                    }
-
-                    dialog.dismiss();
-                    btnInsert.setClickable(true);
+                    SharedPreferences.Editor editor = G.getSharedPreferences().edit();
+                    editor.putString("pass", G.UserInfo.getPassword());
+                    editor.apply();
+                    finish();
                 } else {
-                    dialog.dismiss();
                     new MessageBox(PersonalInfoActivity.this, "خطایی در ثبت اطلاعات رخ داده است .").show();
-                    btnInsert.setClickable(true);
                 }
                 dialog.dismiss();
+                btnImgSelect.setClickable(true);
                 btnInsert.setClickable(true);
+                btn_setting.setClickable(true);
             }
+        }
+
+        private User setUserData() {
+            user = new User();
+            user.setFirstName(txtFirstName.getText().toString().trim());
+            user.setLastName(txtLastName.getText().toString().trim());
+            user.setUserName(G.UserInfo.getUserName());
+            user.setPassword(password != null ? password : G.UserInfo.getPassword());
+            user.setPhone(txtMobile.getText().toString().trim());
+            user.setEmail(txtEmail.getText().toString().trim());
+            user.setRole(G.UserInfo.getRole());
+            user.setStateID((stateList.get(spinnerState.getSelectedItemPosition()).GetStateID()));
+            user.setCityID((cityList.get(spinnerCity.getSelectedItemPosition()).GetCityID()));
+            user.setImgProfile(G.UserInfo.getImgProfile());
+            return user;
         }
     }
 
@@ -678,12 +537,14 @@ public class PersonalInfoActivity extends AppCompatActivity {
             dialog.getWindow().setGravity(Gravity.END);
             dialog.setCancelable(true);
             btnImgSelect.setClickable(false);
+            btnInsert.setClickable(false);
+            btn_setting.setClickable(false);
         }
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                result = WebService.invokeUpdateDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), drPic);
+                result = WebService.invokeUpdateUserPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), userPic);
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -697,38 +558,26 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 dialog.dismiss();
                 new MessageBox(PersonalInfoActivity.this, msg).show();
                 btnImgSelect.setClickable(true);
+                btnInsert.setClickable(true);
+                btn_setting.setClickable(true);
             } else {
                 if (result) {
-                    profileImage.setImageBitmap(roundedDrPic);
-                    G.UserInfo.setImgProfile(drPic);
-                    if (G.UserInfo.getRole() == UserType.Dr.ordinal()) {
-                        G.doctorImageProfile = drPic;
+                    profileImage.setImageBitmap(userPic);
+                    G.UserInfo.setImgProfile(userPic);
+                    if (G.UserInfo.getRole() == UserType.Dr.ordinal())
+                        G.doctorImageProfile = userPic;
 
-                        if (database.openConnection()) {
-                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                            database.closeConnection();
-                        } else {
-                            dialog.dismiss();
-                            new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
-                            btnImgSelect.setClickable(true);
-                        }
-                    } else {
-//                        int nh = (int) (drPic.getHeight() * (64.0 / drPic.getWidth()));
-//                        Bitmap scaled = Bitmap.createScaledBitmap(drPic, 64, nh, true);
-//                        G.doctorImageProfile = scaled;
-
-                        if (database.openConnection()) {
-                            database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(G.doctorImageProfile));
-                            database.closeConnection();
-                        } else {
-                            dialog.dismiss();
-                            new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
-                            btnImgSelect.setClickable(true);
-                        }
+                    if (database.openConnection()) {
+                        database.saveImageProfile(imageProfileId, DbBitmapUtility.getBytes(userPic));
+                        database.closeConnection();
                     }
+                } else {
+                    new MessageBox(PersonalInfoActivity.this, "تغییر عکس پروفایل با مشکل مواجه شده است .").show();
                 }
                 dialog.dismiss();
                 btnImgSelect.setClickable(true);
+                btnInsert.setClickable(true);
+                btn_setting.setClickable(true);
             }
         }
     }

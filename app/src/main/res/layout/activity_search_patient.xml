@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/my_edit_text"
-            android:hint="نام کاربری"
+            android:hint="کد ملی"
             android:inputType="text|textNoSuggestions"
             android:padding="8dp"
             android:textColor="@color/textColor" />

@@ -118,7 +118,6 @@ public class ActivityMyDoctors extends AppCompatActivity {
         G.UserInfo.setUserName(G.getSharedPreferences().getString("user", ""));
         G.UserInfo.setPassword(G.getSharedPreferences().getString("pass", ""));
         if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-
             setUserLayout();
         }
     }

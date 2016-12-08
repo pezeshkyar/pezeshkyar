@@ -766,7 +766,7 @@ public class WebService {
         return pic;
     }
 
-    public static boolean invokeUpdateDoctorPicWS(String username, String password, Bitmap pic) throws PException {
+    public static boolean invokeUpdateUserPicWS(String username, String password, Bitmap pic) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
@@ -3013,6 +3013,33 @@ public class WebService {
         }
         return result;
     }
+    public static int invokeGetRoleInOfficeWS(String username, String password, int officeId) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = "getRoleInOffice";
+        int result = 0;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty("username", username);
+        request.addProperty("password", password);
+        request.addProperty("officeId", officeId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = Integer.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
 
 }

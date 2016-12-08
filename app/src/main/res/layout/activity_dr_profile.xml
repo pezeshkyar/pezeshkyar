@@ -27,26 +27,25 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
-                <ImageButton
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/drProfile_btnDrPhoto"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="10dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY" />
+                    app:civ_border_color="@color/colorDivider"
+                    app:civ_border_width="2dp" />
 
                 <TextView
                     android:id="@+id/tv_doctorName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="14dp"
                     android:layout_toLeftOf="@id/drProfile_btnDrPhoto"
-                    android:layout_alignLeft="@+id/drProfile_btnGallery"
-                    android:layout_marginLeft="60dp"
                     android:text="دکتر شمس السادات رضوی"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
@@ -57,8 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@+id/tv_doctorName"
-                    android:layout_marginLeft="60dp"
                     android:layout_below="@id/tv_doctorName"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="10dp"
                     android:text="فوق تخصص گوش و حلق و بینی"
                     android:textColor="@android:color/white"
@@ -66,14 +65,16 @@
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/drProfile_btnGallery"
+                    android:id="@+id/dr_profile_backBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginTop="16dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_dr_gallery" />
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_back_white"
+                    android:tint="@android:color/white" />
+
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -104,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

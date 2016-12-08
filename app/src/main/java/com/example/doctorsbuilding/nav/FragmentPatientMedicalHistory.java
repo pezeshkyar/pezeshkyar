@@ -176,7 +176,7 @@ public class FragmentPatientMedicalHistory extends Fragment {
                     createCartex(questions);
                     task_getReply = new asyncGetReply();
                     task_getReply.execute();
-                }else {
+                } else {
                     loadingDialog.dismiss();
                 }
             }
@@ -279,8 +279,13 @@ public class FragmentPatientMedicalHistory extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                result = WebService.invokeSetReplyBatchForUserWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId,
-                        patientUserName, questionIds, answers);
+                if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+                    result = WebService.invokeSetReplyBatchWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId,
+                            questionIds, answers);
+                } else {
+                    result = WebService.invokeSetReplyBatchForUserWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId,
+                            patientUserName, questionIds, answers);
+                }
             } catch (PException ex) {
                 msg = ex.getMessage();
             }

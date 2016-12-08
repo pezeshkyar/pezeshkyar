@@ -60,6 +60,7 @@ public class ActivityPatientFile extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager mViewPager = (ViewPager)findViewById(R.id.patient_file_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1);
         mTableLayout = (TabLayout) findViewById(R.id.patient_file_tab);
         mTableLayout.setupWithViewPager(mViewPager);
         changeTabsFont();
@@ -104,10 +105,11 @@ public class ActivityPatientFile extends AppCompatActivity {
             Fragment frag = null;
             switch (position) {
                 case 0:
-                    frag = new FragmentPatientFileMoney().newInstance(position + 1, patientUsername);
+                    frag = new FragmentPatientMedicalHistory().newInstance(position + 1, patientUsername);
                     break;
                 case 1:
-                    frag = new FragmentPatientMedicalHistory().newInstance(position + 1, patientUsername);
+
+                    frag = new FragmentPatientFileMoney().newInstance(position + 1, patientUsername);
                     break;
             }
             return frag;
@@ -122,9 +124,9 @@ public class ActivityPatientFile extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "پرونده مالی";
-                case 1:
                     return "سوابق پزشکی";
+                case 1:
+                    return "پرونده مالی";
             }
             return null;
         }

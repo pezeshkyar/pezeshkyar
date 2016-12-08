@@ -34,8 +34,8 @@ public class SplashActivity extends AppCompatActivity {
     TextView splashTv;
     ProgressBar progressBar;
     public UserType menu = UserType.None;
-    private SharedPreferences settings;
     DatabaseAdapter database;
+    AsyncCallGetData asyncCallGetData = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,24 +56,27 @@ public class SplashActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (asyncCallGetData != null)
+            asyncCallGetData.cancel(true);
+    }
 
     @Override
     public void onBackPressed() {
-        this.moveTaskToBack(true);
+        super.onBackPressed();
+        onPause();
+        G.UserInfo.setRole(G.getSharedPreferences().getInt("role", 0));
+        G.officeInfo = new Office();
+        G.officeId = -1;
+
     }
 
     private void loadData() {
         splashTv.setText("در حال دریافت اطلاعات ...");
-        loadUser();
-        AsyncCallGetData task = new AsyncCallGetData();
-        task.execute();
-    }
-
-    private void loadUser() {
-
-        settings = G.getSharedPreferences();
-        G.UserInfo.setUserName(settings.getString("user", ""));
-        G.UserInfo.setPassword(settings.getString("pass", ""));
+        asyncCallGetData = new AsyncCallGetData();
+        asyncCallGetData.execute();
     }
 
     private class AsyncCallGetData extends AsyncTask<String, Void, Void> {
@@ -84,6 +87,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
+                G.UserInfo.setRole(WebService.invokeGetRoleInOfficeWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId));
                 doctorPic = WebService.invokeGetDoctorPicWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
                 G.officeInfo = WebService.invokeGetOfficeInfoWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
             } catch (PException ex) {
@@ -108,21 +112,20 @@ public class SplashActivity extends AppCompatActivity {
                         doctorPic = BitmapFactory.decodeResource(SplashActivity.this.getResources(), R.drawable.doctor);
 
                     G.officeInfo.setPhoto(doctorPic);
-                    if(G.UserInfo.getRole() == UserType.User.ordinal()){
-                        G.officeInfo.setMyOffice(false);
-                    }else {
+                    if (G.getSharedPreferences().getInt("role", 0) == G.UserInfo.getRole()) {
                         G.officeInfo.setMyOffice(true);
+                    } else {
+                        G.officeInfo.setMyOffice(false);
                     }
                     database = new DatabaseAdapter(SplashActivity.this);
                     if (database.openConnection()) {
-                        long result = database.insertoffice(G.officeInfo);
-                        if (result == -1) {
-                            database.updateOffice(G.officeId, G.officeInfo);
-                        }
+                        database.updateOffice(G.officeId, G.officeInfo);
                         database.closeConnection();
                     }
 
-                } else {result = false;}
+                } else {
+                    result = false;
+                }
                 if (result) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }

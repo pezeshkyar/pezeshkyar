@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -69,10 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView = null;
     public UserType menu = UserType.None;
-
     private GoogleMap mMap;
-    private SharedPreferences settings;
-
     TextView pageTitle;
     TextView drName;
     TextView drExpert;
@@ -86,10 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     CirclePageIndicator indicator;
     static ViewPager mPager;
     ArrayList<PhotoDesc> baners;
-
     asyncGetGalleryPic asyncGetGalleryPic = null;
     asyncGetImageIdFromWeb asyncBaner = null;
-
     ArrayList<Boolean> banerTaskList;
     ImageView btn_menu;
     DrawerLayout mDrawerLayout;
@@ -98,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView menu_header_version;
     ProgressBar baner_progress;
     DrawerLayout drawer;
+    FloatingActionButton fab_getTurn;
 
 
     @Override
@@ -142,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updatePage() {
 
-        settings = G.getSharedPreferences();
         database = new DatabaseAdapter(MainActivity.this);
         loadUser();
         if (G.officeInfo != null) {
@@ -151,11 +147,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drAddress.setText(G.officeInfo.getAddress());
             drPhone.setText(G.officeInfo.getPhone());
             drBiography.setText(G.officeInfo.getBiography());
-            pageTitle.setText(" دکتر" + G.officeInfo.getFirstname().concat(" ").concat(G.officeInfo.getLastname()));
+            pageTitle.setText("دکتر".concat(" ").concat(G.officeInfo.getFirstname()).concat(" ").concat(G.officeInfo.getLastname()));
             mapFragment.getMapAsync(this);
         }
         if (G.UserInfo.getImgProfile() == null) {
-            int id = R.mipmap.doctor;
+            int id = R.drawable.doctor;
             if (database.openConnection()) {
                 G.UserInfo.setImgProfile(database.getImageProfile(IMAGE_PROFILE_ID_USER));
             }
@@ -233,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initViews() {
 
+        fab_getTurn = (FloatingActionButton) findViewById(R.id.fab_getTurn);
         pageTitle = (TextView) findViewById(R.id.mainpage_title);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -246,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //layout.setDragView(findViewById(R.id.content_main_info));
 
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.toolbar33);
+        final Toolbar mainToolbar = (Toolbar) findViewById(R.id.toolbar33);
         mainToolbar.setContentInsetsAbsolute(0, 0);
 
 
@@ -301,6 +298,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        fab_getTurn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
+            }
+        });
+
 
     }
 
@@ -332,22 +336,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 break;
         }
-
-    }
-
-    private void logOut() {
-        stopAllAsyncTask();
-        settings.edit().remove("user").apply();
-        settings.edit().remove("pass").apply();
-        settings.edit().remove("role").apply();
-        setNavigationViewMenu(UserType.Guest);
-        G.UserInfo = null;
-        btnCall.setEnabled(false);
-
-
-//
-//        startActivity(new Intent(MainActivity.this, SignInActivity.class));
-//        finish();
 
     }
 
@@ -404,19 +392,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setNavigationViewMenu(UserType menu) {
 
         switch (menu) {
-            case Guest:
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, true);
-
-                menu_header_name.setText("کاربر میهمان");
-                menu_header_version.setText("");
-                menu_header_image.setImageResource(R.mipmap.ic_launcher);
-                break;
             case Dr:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
 
@@ -426,14 +403,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
                 } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
 
                 break;
             case secretary:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
@@ -442,13 +418,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
                 } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
                 break;
             case User:
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_signUp, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
                 navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
                 menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
@@ -457,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
                     menu_header_image.setImageBitmap(drPic);
                 } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.doctor), 160);
+                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
                     menu_header_image.setImageBitmap(drPic);
                 }
                 break;
@@ -475,9 +450,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_profile:
                 startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
                 break;
-//            case R.id.nav_dr_personalInfo:
-//                startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
-//                break;
             case R.id.nav_dr_nobat:
                 startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
                 break;
@@ -493,30 +465,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dr_secretary:
                 startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
                 break;
-//            case R.id.nav_dr_call:
-//                startActivity(new Intent(MainActivity.this, ContactUs.class));
-//                break;
             case R.id.nav_dr_notification:
                 startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
                 break;
-//            case R.id.nav_dr_inbox:
-//                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-//                break;
+            case R.id.nav_dr_inbox:
+                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
+                break;
             case R.id.nav_dr_map:
                 startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
             case R.id.nav_dr_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
                 break;
-//            case R.id.nav_dr_support:
-//                startActivity(new Intent(MainActivity.this, ActivityTickets.class));
-//                break;
             case R.id.nav_dr_question:
                 startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
                 break;
-//            case R.id.nav_dr_logout:
-//                logOut();
-//                break;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_secretary_clinic:
                 startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
@@ -524,9 +487,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_profile:
                 startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
                 break;
-//            case R.id.nav_secretary_personalInfo:
-//                startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
-//                break;
             case R.id.nav_secretary_nobat:
                 startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
                 break;
@@ -539,51 +499,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_secretary_taskes:
                 startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
                 break;
-//            case R.id.nav_secretary_call:
-//                startActivity(new Intent(MainActivity.this, ContactUs.class));
-//                break;
             case R.id.nav_secretary_notification:
                 startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
                 break;
-//            case R.id.nav_secretary_inbox:
-//                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-//                break;
+            case R.id.nav_secretary_inbox:
+                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
+                break;
             case R.id.nav_secretary_map:
                 startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
             case R.id.nav_secretary_patientFile:
                 startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
                 break;
-//            case R.id.nav_secretary_support:
-//                startActivity(new Intent(MainActivity.this, ActivityTickets.class));
-//                break;
             case R.id.nav_secretary_question:
                 startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
                 break;
-//            case R.id.nav_secretary_logout:
-//                logOut();
-//                break;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
             case R.id.nav_user_addTurn:
                 startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
                 break;
-//            case R.id.nav_user_profile:
-//                startActivity(new Intent(MainActivity.this, PersonalInfoActivity.class));
-//                break;
             case R.id.nav_user_patientFile:
                 Intent intent = new Intent(MainActivity.this, ActivityPatientFile.class);
                 intent.putExtra("patientUserName", G.UserInfo.getUserName());
                 startActivity(intent);
                 break;
-//            case R.id.nav_user_call:
-//                startActivity(new Intent(MainActivity.this, ContactUs.class));
-//                break;
-//            case R.id.nav_user_nobat:
-//                startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
-//                break;
-//            case R.id.nav_user_inbox:
-//                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-//                break;
+            case R.id.nav_user_nobat:
+                startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
+                break;
+            case R.id.nav_user_inbox:
+                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
+                break;
             case R.id.nav_user_news:
                 startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
                 break;
@@ -597,19 +542,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                logOut();
 //                break;
             //////////////////////////////////////////////////////////////////////////////////////////////////
-            case R.id.nav_signUp_user:
-                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-                break;
-            case R.id.nav_signUp_news:
-                startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
-                break;
-//            case R.id.nav_signUp_call:
-//                startActivity(new Intent(MainActivity.this, ContactUs.class));
-//                break;
-            case R.id.nav_signIn:
-                startSignInActivity();
-                break;
-
 
             default:
                 break;
@@ -629,9 +561,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         super.onBackPressed();
         onPause();
+        G.UserInfo.setRole(G.getSharedPreferences().getInt("role", 0));
         G.officeInfo = new Office();
         G.doctorImageProfile = null;
-        G.officeId = -1;
     }
 
     private class asyncGetGalleryPic extends AsyncTask<String, Void, Void> {

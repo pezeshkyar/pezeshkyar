@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/toolbar_title"
@@ -24,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:background="@android:color/transparent"
+        android:background="?selectableItemBackgroundBorderless"
         android:drawableLeft="@drawable/ic_back_white"
         android:textColor="@android:color/white" />
 </RelativeLayout>

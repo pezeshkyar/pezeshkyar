@@ -12,18 +12,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.ActivityImageShow;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
-import com.example.doctorsbuilding.nav.Dr.Gallery.GalleryActivity;
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatFragment;
 import com.example.doctorsbuilding.nav.Dr.Notification.NotificationFragment;
 import com.example.doctorsbuilding.nav.G;
@@ -38,17 +43,19 @@ import com.example.doctorsbuilding.nav.gallery2;
 
 import java.util.EventListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DrProfileActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ImageButton backBtn;
     private ViewPager mViewPager;
-    private ImageButton btnGallery;
-    private ImageButton profileImage;
+//    private ImageButton btnGallery;
+    private CircleImageView profileImage;
     private DatabaseAdapter database;
-    private AsyncGetDoctorPic getDoctorPic;
+//    private AsyncGetDoctorPic getDoctorPic;
     TabLayout tabLayout;
     final static int DR_PIC_ID = 1;
 
@@ -61,17 +68,7 @@ public class DrProfileActivity extends AppCompatActivity {
 
         initViews();
         eventListeners();
-
-        getDoctorPic = new AsyncGetDoctorPic();
-        getDoctorPic.execute();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (getDoctorPic != null)
-            getDoctorPic.cancel(true);
+        profileImage.setImageBitmap(G.officeInfo.getPhoto());
     }
 
     @Override
@@ -81,12 +78,12 @@ public class DrProfileActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        btnGallery = (ImageButton) findViewById(R.id.drProfile_btnGallery);
-        profileImage = (ImageButton) findViewById(R.id.drProfile_btnDrPhoto);
+        backBtn = (ImageButton)findViewById(R.id.dr_profile_backBtn);
+        profileImage = (CircleImageView) findViewById(R.id.drProfile_btnDrPhoto);
 
         if (G.doctorImageProfile == null) {
 
-            int id = R.mipmap.doctor;
+            int id = R.drawable.doctor;
             if (database.openConnection()) {
                 G.doctorImageProfile = database.getImageProfile(DR_PIC_ID);
             }
@@ -113,6 +110,7 @@ public class DrProfileActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(2);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -139,17 +137,17 @@ public class DrProfileActivity extends AppCompatActivity {
     }
 
     private void eventListeners() {
-        btnGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(DrProfileActivity.this, gallery2.class));
-            }
-        });
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(DrProfileActivity.this, ActivityImageShow.class));
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
@@ -165,13 +163,14 @@ public class DrProfileActivity extends AppCompatActivity {
             Fragment frag = null;
             switch (position) {
                 case 0:
-                    frag = new DrNobatFragment().newInstance(position + 1);
+                    frag = new NotificationFragment().newInstance(position + 1);
                     break;
                 case 1:
                     frag = new PersonalInfoFragment().newInstance(position + 1);
                     break;
                 case 2:
-                    frag = new NotificationFragment().newInstance(position + 1);
+                    frag = new DrNobatFragment().newInstance(position + 1);
+
                     break;
             }
             return frag;
@@ -186,45 +185,15 @@ public class DrProfileActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getResources().getString(R.string.pageTitle_nobat);
+
+                    return getResources().getString(R.string.pageTitle_comments);
                 case 1:
                     return getResources().getString(R.string.pageTitle_info);
                 case 2:
-                    return getResources().getString(R.string.pageTitle_comments);
+                    return getResources().getString(R.string.pageTitle_nobat);
             }
             return null;
         }
     }
 
-    private class AsyncGetDoctorPic extends AsyncTask<String, Void, Void> {
-
-        String msg = null;
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                String username = G.UserInfo.getUserName();
-                String password = G.UserInfo.getPassword();
-                G.doctorImageProfile = WebService.invokeGetDoctorPicWS(username, password, G.officeId);
-
-            } catch (PException ex) {
-                msg = ex.getMessage();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (G.doctorImageProfile == null) {
-                int id = R.mipmap.doctor;
-                G.doctorImageProfile = BitmapFactory.decodeResource(getBaseContext().getResources(), id);
-            }
-            if (database.openConnection()) {
-                database.saveImageProfile(DR_PIC_ID, DbBitmapUtility.getBytes(G.doctorImageProfile));
-            }
-            Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-            profileImage.setImageBitmap(imgRound);
-        }
-    }
 }

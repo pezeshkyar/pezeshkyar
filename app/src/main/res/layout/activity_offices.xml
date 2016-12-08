@@ -100,7 +100,8 @@
                             android:layout_margin="10dp"
                             android:src="@drawable/ic_add_white"
                             android:tint="@android:color/white"
-                            app:backgroundTint="#f47721" />
+                            app:backgroundTint="@color/myyellow"
+                            />
                     </FrameLayout>
 
                 </FrameLayout>

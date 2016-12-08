@@ -16,10 +16,10 @@
             android:id="@+id/nav1_unKnown_intro"
             android:icon="@drawable/ic_inroduce"
             android:title="معرفی پزشک" />
-        <!--<item-->
-            <!--android:id="@+id/nav1_unKnown_news"-->
-            <!--android:icon="@drawable/ic_menu_news"-->
-            <!--android:title="خبرنامه" />-->
+        <item
+            android:id="@+id/nav1_unKnown_news"
+            android:icon="@drawable/ic_menu_news"
+            android:title="خبرنامه" />
         <item
             android:id="@+id/nav1_unKnown_about"
             android:icon="@drawable/ic_info_outline_black_24dp"
@@ -38,26 +38,26 @@
             android:id="@+id/nav1_known_mydoctor"
             android:icon="@drawable/ic_people_outline_black_24dp"
             android:title="پزشک من" />
+        <!--<item-->
+            <!--android:id="@+id/nav1_known_myturn"-->
+            <!--android:icon="@drawable/ic_service"-->
+            <!--android:title="نوبت های من" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav1_known_inbox"-->
+            <!--android:icon="@drawable/ic_menu_inbox"-->
+            <!--android:title="صندوق پیام" />-->
         <item
-            android:id="@+id/nav1_known_myturn"
-            android:icon="@drawable/ic_service"
-            android:title="نوبت های من" />
+            android:id="@+id/nav1_known_news"
+            android:icon="@drawable/ic_menu_news"
+            android:title="خبرنامه" />
         <item
-            android:id="@+id/nav1_known_inbox"
-            android:icon="@drawable/ic_menu_inbox"
-            android:title="صندوق پیام" />
+            android:id="@+id/nav1_known_support"
+            android:icon="@drawable/ic_support"
+            android:title="پشتیبانی" />
         <item
             android:id="@+id/nav1_known_intro"
             android:icon="@drawable/ic_inroduce"
             android:title="معرفی پزشک" />
-        <!--<item-->
-            <!--android:id="@+id/nav1_known_news"-->
-            <!--android:icon="@drawable/ic_menu_news"-->
-            <!--android:title="خبرنامه" />-->
-        <item
-            android:id="@+id/nav_secretary_support"
-            android:icon="@drawable/ic_support"
-            android:title="درخواست پشتیبانی" />
         <item
             android:id="@+id/nav1_known_about"
             android:icon="@drawable/ic_info_outline_black_24dp"

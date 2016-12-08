@@ -15,7 +15,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="پزشک یار"
-        android:supportsRtl="true"
         android:theme="@style/MyTheme">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -50,11 +49,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dr.Profile.DrProfileActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyTheme"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".Dr.Gallery.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden" />

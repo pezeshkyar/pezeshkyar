@@ -54,6 +54,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sign_in);
         settings = G.getSharedPreferences();
+        G.setStatusBarColor(SignInActivity.this);
         initViews();
     }
 
@@ -107,7 +108,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean checkField() {
         if (txtUserName.getText().toString().trim().equals("")) {
-            new MessageBox(SignInActivity.this, "لطفا نام کاربری را وارد نمایید .").show();
+            new MessageBox(SignInActivity.this, "لطفا کد ملی را وارد نمایید .").show();
             return false;
         }
         if (txtPassword.getText().toString().trim().equals("")) {
@@ -141,7 +142,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(SignInActivity.this, "", "در حال ارسال اطلاعات ...");
+            dialog = ProgressDialog.show(SignInActivity.this, "", "لطفا شکیبا باشید ...");
             dialog.getWindow().setGravity(Gravity.END);
             username = txtUserName.getText().toString().trim();
             password = txtPassword.getText().toString().trim();

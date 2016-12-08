@@ -11,44 +11,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/my_toolbar" />
+        <include layout="@layout/my_toolbar"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <FrameLayout
+            <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <com.example.doctorsbuilding.nav.MainForm.EndLessListView
+                android:id="@+id/mydoctor_lv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="8dp" />
 
-                <com.example.doctorsbuilding.nav.MainForm.EndLessListView
-                    android:id="@+id/mydoctor_lv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="8dp" />
+            <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <!---->
+            <!--</FrameLayout>-->
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/mydoctor_add_dr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|left"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/filter"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="#f47721" />
-                </FrameLayout>
-
-            </FrameLayout>
+            <!--</FrameLayout>-->
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mydoctor_add_dr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="10dp"
+        android:src="@drawable/filter"
+        android:tint="@android:color/white"
+        app:backgroundTint="#f47721" />
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/myDoctor_nothing"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="10dp"
+            android:textSize="16sp"
+            android:padding="20dp"
+            android:text="هیچ پزشکی از شهر شما عضو سامانه نمی باشد، برای مشاهده پزشک های عضو سامانه بر روی آیکون فیلتر کلیک نمایید ."
+            android:textColor="@android:color/white" />
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
