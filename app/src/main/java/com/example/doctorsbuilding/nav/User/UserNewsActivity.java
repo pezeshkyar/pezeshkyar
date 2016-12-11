@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +22,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by hossein on 6/13/2016.
  */
 public class UserNewsActivity extends AppCompatActivity {
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     TextView nothingTxt;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +38,9 @@ public class UserNewsActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void initViews() {
-        backBtn = (Button)findViewById(R.id.news_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("خبرنامه");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         nothingTxt = (TextView)findViewById(R.id.newsTxtNothing);
 
 //        ArrayList<String> item;

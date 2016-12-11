@@ -1,70 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/nav1_unKnown"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item
-            android:id="@+id/nav1_unKnown_signIn"
-            android:icon="@drawable/ic_lock_open"
-            android:title="ورود" />
-        <item
-            android:id="@+id/nav1_unKnown_signUp"
-            android:icon="@drawable/ic_person_add"
-            android:title="عضویت" />
-        <item
-            android:id="@+id/nav1_unKnown_intro"
-            android:icon="@drawable/ic_inroduce"
-            android:title="معرفی پزشک" />
-        <item
-            android:id="@+id/nav1_unKnown_news"
-            android:icon="@drawable/ic_menu_news"
-            android:title="خبرنامه" />
-        <item
-            android:id="@+id/nav1_unKnown_about"
-            android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="درباره ما" />
-
-    </group>
-    <group
-        android:id="@+id/nav1_known"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item
-            android:id="@+id/nav1_known_info"
-            android:icon="@drawable/ic_person_outline_black_24dp"
-            android:title="حساب کاربری" />
-        <item
-            android:id="@+id/nav1_known_mydoctor"
-            android:icon="@drawable/ic_people_outline_black_24dp"
-            android:title="پزشک من" />
-        <!--<item-->
-            <!--android:id="@+id/nav1_known_myturn"-->
-            <!--android:icon="@drawable/ic_service"-->
-            <!--android:title="نوبت های من" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav1_known_inbox"-->
-            <!--android:icon="@drawable/ic_menu_inbox"-->
-            <!--android:title="صندوق پیام" />-->
-        <item
-            android:id="@+id/nav1_known_news"
-            android:icon="@drawable/ic_menu_news"
-            android:title="خبرنامه" />
-        <item
-            android:id="@+id/nav1_known_support"
-            android:icon="@drawable/ic_support"
-            android:title="پشتیبانی" />
-        <item
-            android:id="@+id/nav1_known_intro"
-            android:icon="@drawable/ic_inroduce"
-            android:title="معرفی پزشک" />
-        <item
-            android:id="@+id/nav1_known_about"
-            android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="درباره ما" />
-        <item
-            android:id="@+id/nav1_known_logout"
-            android:icon="@drawable/ic_quit"
-            android:title="خروج" />
-    </group>
+    <item
+        android:id="@+id/nav1_signIn"
+        android:icon="@drawable/ic_lock_open"
+        android:title="ورود" />
+    <item
+        android:id="@+id/nav1_signUp"
+        android:icon="@drawable/ic_person_add"
+        android:title="عضویت" />
+    <item
+        android:id="@+id/nav1_intro"
+        android:icon="@drawable/ic_inroduce"
+        android:title="معرفی پزشک" />
+    <item
+        android:id="@+id/nav1_account"
+        android:icon="@drawable/ic_person_outline_black_24dp"
+        android:title="حساب کاربری" />
+    <item
+        android:id="@+id/nav1_mydoctor"
+        android:icon="@drawable/ic_people_outline_black_24dp"
+        android:title="پزشک من" />
+    <item
+        android:id="@+id/nav1_support"
+        android:icon="@drawable/ic_support"
+        android:title="پشتیبانی" />
+    <item
+        android:id="@+id/nav1_news"
+        android:icon="@drawable/ic_menu_news"
+        android:title="خبرنامه" />
+    <item
+        android:id="@+id/nav1_about"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="درباره ما" />
+    <item
+        android:id="@+id/nav1_logout"
+        android:icon="@drawable/ic_quit"
+        android:title="خروج" />
+    <item
+        android:id="@+id/nav1_inbox"
+        android:icon="@drawable/ic_menu_inbox"
+        android:title="پیام ها" />
 </menu>

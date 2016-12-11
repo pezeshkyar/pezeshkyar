@@ -54,7 +54,7 @@ public class ActivityCreateQuestion extends AppCompatActivity {
     LinearLayout layout_help;
     Button btn_insert;
     Button btn_delete;
-    Button backBtn;
+    ImageButton backBtn;
     RadioButton rb_Selection;
     RadioButton rb_text;
     ListView mListView;
@@ -94,12 +94,12 @@ public class ActivityCreateQuestion extends AppCompatActivity {
             task_setQuestion.cancel(true);
         if (task_getQuestion != null)
             task_getQuestion.cancel(true);
-        if(task_deleteQuestion != null)
+        if (task_deleteQuestion != null)
             task_deleteQuestion.cancel(true);
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.toolbar_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         frm_layout = (FrameLayout) findViewById(R.id.question_listView_highlight);
         refresh_lv = (ImageView) findViewById(R.id.question_refresh);
         pageTitle = (TextView) findViewById(R.id.toolbar_title);

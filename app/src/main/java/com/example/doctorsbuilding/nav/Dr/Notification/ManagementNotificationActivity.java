@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,7 +49,8 @@ public class ManagementNotificationActivity extends AppCompatActivity {
     private ArrayList<Boolean> checkedItems = null;
     CustomAdapterSpinner mAdpater = null;
     private ArrayList<Rturn> mRturns = null;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     asyncCallGetPatientTurnInfoByDateWS task_getPatientTurnInfoByDateWS = null;
     asyncCallSendMessageBatchWS task_sendMessageBatchWS = null;
 
@@ -76,7 +78,9 @@ public class ManagementNotificationActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.message_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("ارسال پیام");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         fromDate = (TextView) findViewById(R.id.manageNotify_spinner_fromDate);
         toDate = (TextView) findViewById(R.id.manageNotify_spinner_toDate);
         message = (EditText) findViewById(R.id.manageNotify_message);

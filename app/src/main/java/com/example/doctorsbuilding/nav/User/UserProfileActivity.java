@@ -70,7 +70,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseAdapter database;
     private String password;
     private ImageButton btn_setting;
-    Button backBtn;
+    ImageButton backBtn;
 
     private int stateID = 25;
     private static int imageProfileId = 1;
@@ -119,7 +119,7 @@ public class UserProfileActivity extends AppCompatActivity {
         profileImage = (ImageView) findViewById(R.id.dr_imgProfile);
         Bitmap bmpImg = BitmapFactory.decodeResource(getResources(), R.drawable.doctor);
         profileImage.setImageBitmap(bmpImg);
-        backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.personalInfo_backBtn);
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);
         txtMobile = (EditText) findViewById(R.id.dr_Mobile);

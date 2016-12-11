@@ -14,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Expert;
@@ -24,7 +26,6 @@ import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SubExpert;
 import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.User.State;
-import com.example.doctorsbuilding.nav.Util.FormatHelper;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -56,7 +57,8 @@ public class DrClinicActivity extends AppCompatActivity {
     boolean isOfficeExist;
     int stateSelectedIndex = -1;
     int expertSelectedIndex = -1;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     ProgressDialog dialog;
 
     AsyncCallStateWS getStateTask;
@@ -124,7 +126,9 @@ public class DrClinicActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.clinic_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("مشخصات مطب");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         state = (Spinner) findViewById(R.id.dr_office_state);
         city = (Spinner) findViewById(R.id.dr_office_city);
         Address = (EditText) findViewById(R.id.dr_office_address);

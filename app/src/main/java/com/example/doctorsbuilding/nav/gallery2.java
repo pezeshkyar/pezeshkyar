@@ -25,6 +25,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -60,11 +61,12 @@ public class gallery2 extends Activity {
     private EditText aboutPic;
     private ImageView editPic;
     private ImageView insertPic;
-    private Button backBtn;
+    private ImageButton backBtn;
     private DatabaseAdapter database;
     ArrayList<PhotoDesc> photos = new ArrayList<PhotoDesc>();
     ProgressBar loading_progress;
     ArrayList<Boolean> visist_list;
+    TextView pageTitle;
     private ArrayList<PhotoDesc> imagesInWeb = null;
 
     asyncGetImageIdFromWeb asyncgetImageId;
@@ -180,7 +182,9 @@ public class gallery2 extends Activity {
         aboutPic = (EditText) findViewById(R.id.gallery2_about);
         editPic = (ImageView) findViewById(R.id.gallery2_apply_edit);
         insertPic = (ImageView) findViewById(R.id.gallery2_apply_image);
-        backBtn = (Button) findViewById(R.id.gallery2_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("گالری عکس");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         loading_progress = (ProgressBar) findViewById(R.id.loading_progress);
         mListView.setDivider(null);
         mListView.setDividerHeight(0);

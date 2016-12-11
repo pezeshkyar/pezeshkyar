@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +38,8 @@ public class UserMyNobatActivity extends AppCompatActivity {
     private ArrayList<ReservationByUser> resevations = new ArrayList<ReservationByUser>();
     private final int count = 10;
     private int index = 0;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     TextView turnTxtNothing;
     asyncCallGetReservayionByUserWS getReservayionByUser;
 
@@ -68,7 +70,9 @@ public class UserMyNobatActivity extends AppCompatActivity {
         turnTxtNothing = (TextView) findViewById(R.id.turnTxtNothing);
         listView = (ListView) findViewById(R.id.user_my_nobat_listview);
         moreBtn = (Button) findViewById(R.id.user_my_nobat_moreBtn);
-        backBtn = (Button) findViewById(R.id.userTurn_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("نوبت های من");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
     }
 
     private void eventListener() {

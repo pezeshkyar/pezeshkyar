@@ -5,9 +5,7 @@
     android:id="@+id/offices_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="right"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="left">
+    android:fitsSystemWindows="true">
 
     <include
         layout="@layout/activity_offices"
@@ -18,16 +16,14 @@
         android:id="@+id/offices_nav"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_1"
-        app:itemBackground="@drawable/nav_selected_item"
-        app:itemIconTint="@color/nav_selected_icon"
-        app:itemTextAppearance="@style/NavigationDrawerStyle"
-        app:itemTextColor="@color/nav_selected_text"
-        app:menu="@menu/activity_public_main_drawer">
+        android:layout_gravity="right|end">
+        <ListView
+            android:id="@+id/offices_nav_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="160dp"
+            android:divider="@null" />
 
         <include layout="@layout/nav_header_main" />
-
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

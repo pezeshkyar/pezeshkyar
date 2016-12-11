@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Dr.persindatepicker.util.PersianCalendar;
@@ -32,6 +33,8 @@ public class DiscussActivity extends Activity {
     private ListView mListView;
     private EditText mEditText;
     private ImageButton mBtnSend;
+    ImageButton backBtn;
+    TextView pageTitle;
     PersianCalendar persianCalendar = new PersianCalendar();
     MessageSender messageSender;
     MessageReciever messageReciever;
@@ -57,6 +60,9 @@ public class DiscussActivity extends Activity {
 
         ticketId = this.getIntent().getIntExtra("id", 0);
 
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("پشتیبانی");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         mListView = (ListView) findViewById(R.id.support_listview);
         mBtnSend = (ImageButton) findViewById(R.id.support_btn_send);
         adapter = new DiscussArrayAdapter(getApplicationContext(), R.layout.listitem_discuss);
@@ -83,6 +89,12 @@ public class DiscussActivity extends Activity {
                 }else {
                     new MessageBox(DiscussActivity.this, "لطفا متن درخواست را وارد نمایید .").show();
                 }
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
         addItems();

@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
     private ProgressDialog dialog;
     private TextView pageTitle;
     private FrameLayout frm_nothing;
-    private Button backBtn;
+    private ImageButton backBtn;
     private EndLessListView mListView;
     private FloatingActionButton mFab;
     private ArrayList<Office> offices = new ArrayList<Office>();
@@ -76,7 +77,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         eventListener();
     }
 
-    private void ShowLoadingDialog(){
+    private void ShowLoadingDialog() {
         dialog = ProgressDialog.show(ActivityAllDoctors.this, "", "لطفا شکیبا باشید ...");
         dialog.show();
         dialog.getWindow().setGravity(Gravity.END);
@@ -111,7 +112,7 @@ public class ActivityAllDoctors extends AppCompatActivity implements EndLessList
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText("پزشک های سامانه");
         frm_nothing = (FrameLayout) findViewById(R.id.myDoctor_nothing);
-        backBtn = (Button) findViewById(R.id.toolbar_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         mListView = (EndLessListView) findViewById(R.id.mydoctor_lv);
         mFab = (FloatingActionButton) findViewById(R.id.mydoctor_add_dr);
     }

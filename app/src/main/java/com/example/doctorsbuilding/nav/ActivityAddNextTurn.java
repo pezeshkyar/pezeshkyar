@@ -12,6 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.Dr.Profile.ExpChild;
 import com.example.doctorsbuilding.nav.Dr.Profile.ExpGroup;
@@ -36,7 +38,8 @@ public class ActivityAddNextTurn extends AppCompatActivity {
     private ArrayList<ExpGroup> list_Group;
     private ArrayList<ExpGroup> groups;
     private ArrayList<ExpChild> childs;
-    private Button backBtn;
+    private ImageButton backBtn;
+    TextView pageTitle;
     asyncCallTurn task_getTurn =null;
 
 
@@ -49,7 +52,9 @@ public class ActivityAddNextTurn extends AppCompatActivity {
         setContentView(R.layout.activity_add_next_turn);
         patientInfo = (PatientInfo)getIntent().getSerializableExtra("patientInfo");
         expListView = (ExpandableListView) findViewById(R.id.addNextTurn_explv);
-        backBtn = (Button) findViewById(R.id.addNextTurn_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("نوبت ها");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
 
         task_getTurn = new asyncCallTurn();
         task_getTurn.execute();

@@ -28,6 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class ActivityMyDoctors extends AppCompatActivity {
     TextView pageTitle;
-    Button backBtn;
+    ImageButton backBtn;
     FloatingActionButton addButton;
     ListView doctorsListView;
     ArrayList<Office> doctors = new ArrayList<Office>();
@@ -91,7 +92,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         readSharedPrefrence();
-       initActivity();
+        initActivity();
 
     }
 
@@ -128,7 +129,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
         addButton = (FloatingActionButton) findViewById(R.id.my_doctor_fab);
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText("پزشک من");
-        backBtn = (Button) findViewById(R.id.toolbar_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
 
     }
 
@@ -216,7 +217,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
                         task_getDoctorPic = new AsyncGetDoctorPic();
                         task_getDoctorPic.execute(String.valueOf(i));
                     }
-                }else {
+                } else {
                     new MessageBox(ActivityMyDoctors.this, "شما بیمار پزشکی نمی باشید، جهت افزودن پزشک از دکمه افزودن استفاده نمایید.").show();
                 }
             }

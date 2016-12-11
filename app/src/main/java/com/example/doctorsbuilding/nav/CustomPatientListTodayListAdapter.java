@@ -17,9 +17,8 @@ public class CustomPatientListTodayListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<PatientInfo> patientInfos = new ArrayList<PatientInfo>();
 
-    public CustomPatientListTodayListAdapter(Context context, ArrayList<PatientInfo> patientInfos) {
+    public CustomPatientListTodayListAdapter(Context context) {
         this.context = context;
-        this.patientInfos = patientInfos;
     }
 
     class Holder {
@@ -30,6 +29,12 @@ public class CustomPatientListTodayListAdapter extends BaseAdapter {
             name = (TextView) row.findViewById(R.id.search_item_name);
             mobile = (TextView) row.findViewById(R.id.search_item_mobile);
         }
+    }
+
+    public void addAll(ArrayList<PatientInfo> items){
+        patientInfos.clear();
+        patientInfos.addAll(items);
+        notifyDataSetChanged();
     }
 
     @Override

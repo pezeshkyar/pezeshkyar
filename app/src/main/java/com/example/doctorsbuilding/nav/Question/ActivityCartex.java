@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class ActivityCartex extends AppCompatActivity {
 
-    Button backBtn;
+    ImageButton backBtn;
     Button insertBtn;
     TextView pageTitle;
     LinearLayout layout;
@@ -59,7 +60,7 @@ public class ActivityCartex extends AppCompatActivity {
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.toolbar_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText("سابقه پزشکی");
         layout = (LinearLayout) findViewById(R.id.cartex_layout);

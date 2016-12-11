@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.example.doctorsbuilding.nav.Util.NonScrollListView;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -25,25 +28,29 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by hossein on 9/3/2016.
  */
 public class ActivityPatientListToday extends AppCompatActivity {
-    private Button backBtn;
-    private NonScrollListView listView;
-    private TextView txtNothing;
+    private ImageButton backBtn;
+    TextView pageTitle;
+    private ListView mListView;
     asyncCallGetPatientList task_getPatientList=null;
+    private CustomPatientListTodayListAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_patient_list_today);
-        backBtn = (Button) findViewById(R.id.patientList_backBtn);
+        adapter = new CustomPatientListTodayListAdapter(ActivityPatientListToday.this);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("لیست پذیرش امروز");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        listView = (NonScrollListView) findViewById(R.id.patientList_listview);
-        txtNothing = (TextView) findViewById(R.id.patientList_nothing);
+        mListView = (ListView) findViewById(R.id.patientList_listview);
+        mListView.setAdapter(adapter);
         task_getPatientList = new asyncCallGetPatientList();
         task_getPatientList.execute();
 
@@ -90,12 +97,12 @@ public class ActivityPatientListToday extends AppCompatActivity {
                 dialog.dismiss();
                 new MessageBox(ActivityPatientListToday.this, msg).show();
             } else {
+                dialog.dismiss();
                 if (patientInfos != null && patientInfos.size() > 0) {
-                    listView.setAdapter(new CustomPatientListTodayListAdapter(ActivityPatientListToday.this, patientInfos));
-                    dialog.dismiss();
+                    adapter.addAll(patientInfos);
+
                 } else {
-                    txtNothing.setVisibility(View.VISIBLE);
-                    dialog.dismiss();
+                    Toast.makeText(ActivityPatientListToday.this, "بیماری برای پذیرش وجود ندارد .",Toast.LENGTH_LONG).show();
                 }
             }
         }

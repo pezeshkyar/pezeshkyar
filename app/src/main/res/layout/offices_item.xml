@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_shadow"
+    android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/offices_rightLayout"
-        android:layout_width="100dp"
-        android:layout_height="130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:orientation="vertical">
@@ -22,16 +23,6 @@
             android:layout_height="96dp"
             app:civ_border_color="@color/colorDivider"
             app:civ_border_width="2dp" />
-
-        <TextView
-            android:id="@+id/offices_item_officeCode"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:text="کد مطب: " />
     </LinearLayout>
 
     <LinearLayout
@@ -47,29 +38,31 @@
             android:id="@+id/offices_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="2dp"
             android:text="دکتر غلام حسین جعفری دولت آبادی"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="2dp"
             android:background="@color/colorDivider" />
 
         <TextView
             android:id="@+id/offices_item_expert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
             android:text="فوق تخصص داخلی اطفال" />
 
         <TextView
             android:id="@+id/offices_item_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="14sp"
             android:maxLines="1"
             android:text="ساری بوار امیر مازندرانی جنب کوچه صفا ساختمان بلور کلینیک دکتر سخایی پلاک 19"
             android:textColor="@android:color/black" />
@@ -78,6 +71,7 @@
             android:id="@+id/offices_item_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:gravity="right"
             android:text="تلفن : 0113332658"
             android:textColor="@color/textColor" />

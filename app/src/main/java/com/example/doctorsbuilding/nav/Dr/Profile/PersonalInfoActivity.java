@@ -78,7 +78,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private TextView txt_name;
     private ImageView profileImage;
     private FloatingActionButton btnImgSelect;
-    private Button backBtn;
+    private ImageButton backBtn;
     private ImageButton btn_setting;
     ProgressDialog progressDialog;
     private DatabaseAdapter database;
@@ -148,7 +148,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         popupMenu.inflate(R.menu.menu_action_bar);
         btn_setting = (ImageButton) findViewById(R.id.personalInfo_setting);
         txt_name = (TextView) findViewById(R.id.profile_name);
-        backBtn = (Button) findViewById(R.id.personalInfo_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.personalInfo_backBtn);
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);
         txtMobile = (EditText) findViewById(R.id.dr_Mobile);

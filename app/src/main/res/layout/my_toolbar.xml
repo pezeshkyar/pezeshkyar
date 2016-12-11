@@ -2,29 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
+    android:paddingRight="10dp"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp"
     android:background="@color/colorPrimary">
+
+    <ImageButton
+        android:id="@+id/toolbar_backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/toolbar_backBtn"
         android:text="تست"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/toolbar_backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/inboxTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:drawableLeft="@drawable/ic_back_white"
-        android:textColor="@android:color/white" />
 </RelativeLayout>

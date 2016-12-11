@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,8 @@ public class ActivityReception extends AppCompatActivity {
     private EditText detailsTxt;
     private Button insertBtn;
     private Button addNextBtn;
-    private Button backBtn;
+    private ImageButton backBtn;
+    TextView pageTitle;
     private Button showFileBtn;
     private PatientInfo patientInfo = null;
     asyncCallReception task_reception = null;
@@ -74,7 +76,9 @@ public class ActivityReception extends AppCompatActivity {
         detailsTxt = (EditText) findViewById(R.id.reception_detail);
         insertBtn = (Button) findViewById(R.id.reception_addBtn);
         addNextBtn = (Button) findViewById(R.id.reception_addNextBtn);
-        backBtn = (Button) findViewById(R.id.reception_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("پذیرش");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         showFileBtn = (Button) findViewById(R.id.reception_showFileBtn);
         patientInfo = (PatientInfo) getIntent().getSerializableExtra("patientInfo");
         if (patientInfo != null) {

@@ -23,7 +23,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by hadi on 09/18/2016.
  */
 public class ContactUs extends AppCompatActivity {
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     ImageView imageView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +39,9 @@ public class ContactUs extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void initView() {
-        backBtn = (Button) findViewById(R.id.contact_us_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("درباره ما");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         imageView = (ImageView) findViewById(R.id.company_name_icon);
         imageView.setImageBitmap(RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 200));
     }

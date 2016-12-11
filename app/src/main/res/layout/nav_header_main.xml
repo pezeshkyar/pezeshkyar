@@ -16,21 +16,23 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_profile33"
-            android:src="@drawable/doctor"
-            android:layout_alignParentRight="true"
             android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/doctor"
+            app:civ_border_color="@color/colorDivider"
+            app:civ_border_width="2dp" />
 
         <TextView
             android:id="@+id/name33"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
             android:layout_marginRight="8dp"
             android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/img_profile33"
+            android:gravity="right"
             android:textColor="@android:color/white"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -39,12 +41,12 @@
             android:id="@+id/pezashyar_type33"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/img_profile33"
             android:layout_below="@id/name33"
-            android:gravity="right"
             android:layout_marginRight="8dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/img_profile33"
-            android:layout_alignBaseline="@+id/img_profile33"
+            android:gravity="right"
             android:textColor="#E3F2FD" />
 
 

@@ -17,11 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -46,6 +48,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private Button taskGroup_btn_edit;
     private ImageView taskGroup_btn_refresh;
     private FrameLayout taskGroup_listView_lock;
+    private RelativeLayout mtoolbar;
     private int taskGroup_selectedId = -1;
 
     private ArrayAdapter<Task> task_adapter;
@@ -62,7 +65,8 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     private int task_selectedId = -1;
 
     private ViewFlipper mViewFlipper;
-    private Button backBtn;
+    private ImageButton backBtn;
+    private TextView pageTitle;
 
     private asyncCallGetTaskGroups getTaskGroups;
     private asyncCallGetTask asyncGetTask;
@@ -193,7 +197,10 @@ public class ActivityManagementTaskes extends AppCompatActivity {
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.manage_taskes_backBtn);
+        mtoolbar = (RelativeLayout)findViewById(R.id.taskes_toolbar);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("مدیریت خدمات");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         mViewFlipper = (ViewFlipper) findViewById(R.id.manage_taskes_viewFlipper);
 
         taskGroup_adapter = new ArrayAdapter<TaskGroup>(ActivityManagementTaskes.this, R.layout.spinner_item);
@@ -368,12 +375,14 @@ public class ActivityManagementTaskes extends AppCompatActivity {
 
 
     private void showNext() {
+        mtoolbar.setVisibility(View.GONE);
         mViewFlipper.setInAnimation(getBaseContext(), R.anim.slide_in_from_left);
         mViewFlipper.setOutAnimation(getBaseContext(), R.anim.slide_out_to_right);
         mViewFlipper.showNext();
     }
 
     private void showPrevious() {
+        mtoolbar.setVisibility(View.VISIBLE);
         mViewFlipper.setInAnimation(getBaseContext(), R.anim.slide_in_from_right);
         mViewFlipper.setOutAnimation(getBaseContext(), R.anim.slide_out_to_left);
         mViewFlipper.showPrevious();

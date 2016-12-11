@@ -61,7 +61,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
         public TextView expert;
         public TextView address;
         public TextView phone;
-        public TextView officeCode;
+//        public TextView officeCode;
         public Button btnDelete;
 
         public Holder(View v) {
@@ -71,7 +71,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
             address = (TextView) v.findViewById(R.id.offices_item_address);
             phone = (TextView) v.findViewById(R.id.offices_item_phone);
             btnDelete = (Button) v.findViewById(R.id.offices_btn_delete);
-            officeCode = (TextView) v.findViewById(R.id.offices_item_officeCode);
+//            officeCode = (TextView) v.findViewById(R.id.offices_item_officeCode);
         }
     }
 
@@ -119,7 +119,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
         holder.expert.setText(offices.get(position).getSubExpertName());
         holder.address.setText(offices.get(position).getAddress());
         holder.phone.setText("تلفن : ".concat(offices.get(position).getPhone()));
-        holder.officeCode.setText("کد مطب" + ": " + offices.get(position).getId());
+//        holder.officeCode.setText("کد مطب" + ": " + offices.get(position).getId());
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +29,8 @@ public class SickActivity extends AppCompatActivity {
     TextView phone;
     ListView listView;
     ListAdapter adapter;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,9 @@ public class SickActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void initViews() {
-        backBtn = (Button)findViewById(R.id.sick_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("بیماران");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         name = (TextView)findViewById(R.id.sick_name);
         family = (TextView)findViewById(R.id.sick_family);
         address = (TextView)findViewById(R.id.sick_address);

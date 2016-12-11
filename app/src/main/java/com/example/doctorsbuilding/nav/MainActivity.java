@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -27,7 +28,10 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,8 +69,7 @@ import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-        , OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     NavigationView navigationView = null;
     public UserType menu = UserType.None;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView drPhone;
     TextView drBiography;
     SupportMapFragment mapFragment;
-    ImageView btnCall;
+    ImageButton btnCall;
     DatabaseAdapter database;
     final static int IMAGE_PROFILE_ID_USER = 2;
     CirclePageIndicator indicator;
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     asyncGetGalleryPic asyncGetGalleryPic = null;
     asyncGetImageIdFromWeb asyncBaner = null;
     ArrayList<Boolean> banerTaskList;
-    ImageView btn_menu;
+    ImageButton btn_menu;
     DrawerLayout mDrawerLayout;
     ImageView menu_header_image;
     TextView menu_header_name;
@@ -95,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ProgressBar baner_progress;
     DrawerLayout drawer;
     FloatingActionButton fab_getTurn;
+    private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+    private CustomNavListView adapter_nav;
+    private ListView nav_listview;
+    private FloatingActionButton btn_getReception;
+    private ImageButton btn_notice;
 
 
     @Override
@@ -159,7 +167,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 G.UserInfo.setImgProfile(BitmapFactory.decodeResource(getBaseContext().getResources(), id));
         }
 
-        setNavigationViewMenu(menu);
+        if (menuItems.size() == 0)
+            setNavigationViewMenu(menu);
     }
 
     private void initSlideShow(ArrayList<Integer> imageIdsInWeb) {
@@ -228,8 +237,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initViews() {
-
+        btnCall = (ImageButton) findViewById(R.id.btnCall);
+        btn_notice = (ImageButton)findViewById(R.id.btnNotice);
+        btn_getReception = (FloatingActionButton) findViewById(R.id.fab_getReception);
         fab_getTurn = (FloatingActionButton) findViewById(R.id.fab_getTurn);
+        if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+            fab_getTurn.setVisibility(View.VISIBLE);
+            btnCall.setVisibility(View.VISIBLE);
+        }
+        else if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()){
+            btn_getReception.setVisibility(View.VISIBLE);
+            btn_notice.setVisibility(View.VISIBLE);
+        }
+
+
+        adapter_nav = new CustomNavListView(MainActivity.this, new ArrayList<MenuItem>());
+        nav_listview = (ListView) findViewById(R.id.mainActivity_nav_lv);
+        nav_listview.setAdapter(adapter_nav);
         pageTitle = (TextView) findViewById(R.id.mainpage_title);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -266,14 +290,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         indicator = (CirclePageIndicator)
                 findViewById(R.id.indicator);
         baner_progress = (ProgressBar) findViewById(R.id.baner_progress);
-        btnCall = (ImageView) findViewById(R.id.btnCall);
-        btnCall.setEnabled(true);
         drName = (TextView) findViewById(R.id.content_main_name);
         drExpert = (TextView) findViewById(R.id.content_main_expert);
         drAddress = (TextView) findViewById(R.id.content_main_address);
         drPhone = (TextView) findViewById(R.id.content_main_tel);
         drBiography = (TextView) findViewById(R.id.content_main_biography);
-        btn_menu = (ImageView) findViewById(R.id.menu_btn);
+        btn_menu = (ImageButton) findViewById(R.id.menu_btn);
 
         setNavigationDrawer();
 
@@ -305,6 +327,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        nav_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                switch (menuItems.get(position).getItemId()) {
+                    case R.id.nav2_clinic:
+                        startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
+                        break;
+                    case R.id.nav2_addTurn:
+                        startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
+                        break;
+                    case R.id.nav2_manage_nobat:
+                        startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
+                        break;
+                    case R.id.nav2_gallery:
+                        startActivity(new Intent(MainActivity.this, gallery2.class));
+                        break;
+                    case R.id.nav2_taskes:
+                        startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
+                        break;
+                    case R.id.nav2_secretary:
+                        startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
+                        break;
+                    case R.id.nav2_map:
+                        startActivity(new Intent(MainActivity.this, MapActivity.class));
+                        break;
+                    case R.id.nav2_patientFile:
+                        startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
+                        break;
+                    case R.id.nav2_question:
+                        startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
+                        break;
+                    case R.id.nav2_user_patientFile:
+                        Intent intent = new Intent(MainActivity.this, ActivityPatientFile.class);
+                        intent.putExtra("patientUserName", G.UserInfo.getUserName());
+                        startActivity(intent);
+                        break;
+                    case R.id.nav2_my_nobat:
+                        startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
+                        break;
+                    case R.id.nav2_news:
+                        startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
+                        break;
+                    default:
+                        break;
+                }
+                drawer.closeDrawer(Gravity.RIGHT);
+            }
+        });
+        btn_getReception.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ActivityPatientListToday.class));
+            }
+        });
+        btn_notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
+            }
+        });
 
     }
 
@@ -314,9 +396,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LatLng latLng = new LatLng(G.officeInfo.getLatitude(), G.officeInfo.getLongitude());
         mMap.addMarker(new MarkerOptions().position(latLng));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
     }
-
 
     private void loadUser() {
         menu = UserType.values()[G.UserInfo.getRole()];
@@ -354,207 +434,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menu_header_image = (ImageView) navigationView.findViewById(R.id.img_profile33);
         menu_header_name = (TextView) navigationView.findViewById(R.id.name33);
         menu_header_version = (TextView) navigationView.findViewById(R.id.pezashyar_type33);
-//        setNavigationViewMenu(menu);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
-        setNavigationViewMenuFontStyle();
-
     }
 
-    private void setNavigationViewMenuFontStyle() {
-        Menu m = navigationView.getMenu();
-        for (int i = 0; i < m.size(); i++) {
-            MenuItem mi = m.getItem(i);
-
-            //for aapplying a font to subMenu ...
-            SubMenu subMenu = mi.getSubMenu();
-            if (subMenu != null && subMenu.size() > 0) {
-                for (int j = 0; j < subMenu.size(); j++) {
-                    MenuItem subMenuItem = subMenu.getItem(j);
-                    applyFontToMenuItem(subMenuItem);
-                }
-            }
-
-            //the method we have create in activity
-            applyFontToMenuItem(mi);
+    private void setNavigationItem(UserType user) {
+        PopupMenu p = new PopupMenu(this, null);
+        Menu menu = p.getMenu();
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
+        switch (user) {
+            case User:
+                menuItems.add(menu.findItem(R.id.nav2_addTurn));
+                menuItems.add(menu.findItem(R.id.nav2_user_patientFile));
+                menuItems.add(menu.findItem(R.id.nav2_my_nobat));
+                menuItems.add(menu.findItem(R.id.nav2_gallery));
+                break;
+            case Dr:
+                menuItems.add(menu.findItem(R.id.nav2_addTurn));
+                menuItems.add(menu.findItem(R.id.nav2_manage_nobat));
+                menuItems.add(menu.findItem(R.id.nav2_patientFile));
+                menuItems.add(menu.findItem(R.id.nav2_gallery));
+                menuItems.add(menu.findItem(R.id.nav2_clinic));
+                menuItems.add(menu.findItem(R.id.nav2_taskes));
+                menuItems.add(menu.findItem(R.id.nav2_map));
+                menuItems.add(menu.findItem(R.id.nav2_secretary));
+                menuItems.add(menu.findItem(R.id.nav2_question));
+                break;
+            case secretary:
+                menuItems.add(menu.findItem(R.id.nav2_addTurn));
+                menuItems.add(menu.findItem(R.id.nav2_manage_nobat));
+                menuItems.add(menu.findItem(R.id.nav2_patientFile));
+                menuItems.add(menu.findItem(R.id.nav2_gallery));
+                menuItems.add(menu.findItem(R.id.nav2_clinic));
+                menuItems.add(menu.findItem(R.id.nav2_taskes));
+                menuItems.add(menu.findItem(R.id.nav2_map));
+                menuItems.add(menu.findItem(R.id.nav2_question));
+                break;
         }
+        adapter_nav.addAll(menuItems);
     }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/IRANSans.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
-    }
-
 
     private void setNavigationViewMenu(UserType menu) {
 
+        setNavigationItem(menu);
+        menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
+        try {
+            menu_header_image.setImageBitmap(G.UserInfo.getImgProfile());
+        } catch (Exception ex) {
+            menu_header_image.setImageResource(R.drawable.doctor);
+        }
         switch (menu) {
             case Dr:
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, true);
-
-                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه پزشک");
-                try {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                }
-
                 break;
             case secretary:
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_dr, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, true);
-                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه منشی");
-                try {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                }
                 break;
             case User:
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_secretary, false);
-                navigationView.getMenu().setGroupVisible(R.id.navigation_view_user, true);
-                menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
                 menu_header_version.setText("نسخه بیمار");
-                try {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                } catch (Exception ex) {
-                    Bitmap drPic = RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 160);
-                    menu_header_image.setImageBitmap(drPic);
-                }
                 break;
         }
 
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_dr_clinic:
-                startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
-                break;
-            case R.id.nav_dr_profile:
-                startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
-                break;
-            case R.id.nav_dr_nobat:
-                startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
-                break;
-            case R.id.nav_dr_gallery:
-                startActivity(new Intent(MainActivity.this, gallery2.class));
-                break;
-            case R.id.nav_dr_patients:
-                startActivity(new Intent(MainActivity.this, ActivityPatientListToday.class));
-                break;
-            case R.id.nav_dr_taskes:
-                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
-                break;
-            case R.id.nav_dr_secretary:
-                startActivity(new Intent(MainActivity.this, ActivityManageSecretary.class));
-                break;
-            case R.id.nav_dr_notification:
-                startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
-                break;
-            case R.id.nav_dr_inbox:
-                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-                break;
-            case R.id.nav_dr_map:
-                startActivity(new Intent(MainActivity.this, MapActivity.class));
-                break;
-            case R.id.nav_dr_patientFile:
-                startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
-                break;
-            case R.id.nav_dr_question:
-                startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
-                break;
-            ////////////////////////////////////////////////////////////////////////////////////////////////////
-            case R.id.nav_secretary_clinic:
-                startActivity(new Intent(MainActivity.this, DrClinicActivity.class));
-                break;
-            case R.id.nav_secretary_profile:
-                startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
-                break;
-            case R.id.nav_secretary_nobat:
-                startActivity(new Intent(MainActivity.this, DrNobatActivity.class));
-                break;
-            case R.id.nav_secretary_gallery:
-                startActivity(new Intent(MainActivity.this, gallery2.class));
-                break;
-            case R.id.nav_secretary_patients:
-                startActivity(new Intent(MainActivity.this, ActivityPatientListToday.class));
-                break;
-            case R.id.nav_secretary_taskes:
-                startActivity(new Intent(MainActivity.this, ActivityManagementTaskes.class));
-                break;
-            case R.id.nav_secretary_notification:
-                startActivity(new Intent(MainActivity.this, ManagementNotificationActivity.class));
-                break;
-            case R.id.nav_secretary_inbox:
-                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-                break;
-            case R.id.nav_secretary_map:
-                startActivity(new Intent(MainActivity.this, MapActivity.class));
-                break;
-            case R.id.nav_secretary_patientFile:
-                startActivity(new Intent(MainActivity.this, ActivitySearchPatient.class));
-                break;
-            case R.id.nav_secretary_question:
-                startActivity(new Intent(MainActivity.this, ActivityCreateQuestion.class));
-                break;
-            ////////////////////////////////////////////////////////////////////////////////////////////////////
-            case R.id.nav_user_addTurn:
-                startActivity(new Intent(MainActivity.this, DrProfileActivity.class));
-                break;
-            case R.id.nav_user_patientFile:
-                Intent intent = new Intent(MainActivity.this, ActivityPatientFile.class);
-                intent.putExtra("patientUserName", G.UserInfo.getUserName());
-                startActivity(intent);
-                break;
-            case R.id.nav_user_nobat:
-                startActivity(new Intent(MainActivity.this, UserMyNobatActivity.class));
-                break;
-            case R.id.nav_user_inbox:
-                startActivity(new Intent(MainActivity.this, UserInboxActivity.class));
-                break;
-            case R.id.nav_user_news:
-                startActivity(new Intent(MainActivity.this, UserNewsActivity.class));
-                break;
-            case R.id.nav_user_gallery:
-                startActivity(new Intent(MainActivity.this, gallery2.class));
-                break;
-//            case R.id.nav_user_cartex:
-//                startActivity(new Intent(MainActivity.this, ActivityCartex.class));
-//                break;
-//            case R.id.nav_user_logout:
-//                logOut();
-//                break;
-            //////////////////////////////////////////////////////////////////////////////////////////////////
-
-            default:
-                break;
-        }
-
-
-        drawer.closeDrawer(Gravity.RIGHT);
-        return true;
-    }
-
-    private void startSignInActivity() {
-        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-        startActivityForResult(intent, 1);
     }
 
     @Override

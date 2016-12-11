@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="nav1_dr_title">
+        <item>@string/nav1_account</item>
+        <item>@string/nav1_mydoctor</item>
+        <item>@string/nav1_news</item>
+        <item>@string/nav1_support</item>
+        <item>@string/nav1_intro</item>
+        <item>@string/nav1_about</item>
+        <item>@string/nav1_signout</item>
+    </array>
+    <integer-array name="nav1_dr_icon">
+        <item>@drawable/ic_person_outline_black_24dp</item>
+        <item>@drawable/ic_people_outline_black_24dp</item>
+        <item>@drawable/ic_menu_news</item>
+        <item>@drawable/ic_support</item>
+        <item>@drawable/ic_inroduce</item>
+        <item>@drawable/ic_info_outline_black_24dp</item>
+        <item>@drawable/ic_quit</item>
+    </integer-array>
+    <array name="nav1_user_title">
+        <item>@string/nav1_account</item>
+        <item>@string/nav1_news</item>
+        <item>@string/nav1_support</item>
+        <item>@string/nav1_intro</item>
+        <item>@string/nav1_about</item>
+        <item>@string/nav1_signout</item>
+    </array>
+    <integer-array name="nav1_user_icon">
+        <item>@drawable/ic_person_outline_black_24dp</item>
+        <item>@drawable/ic_menu_news</item>
+        <item>@drawable/ic_support</item>
+        <item>@drawable/ic_inroduce</item>
+        <item>@drawable/ic_info_outline_black_24dp</item>
+        <item>@drawable/ic_quit</item>
+    </integer-array>
+    <array name="nav1_guest_title">
+        <item>@string/nav1_signin</item>
+        <item>@string/nav1_signup</item>
+        <item>@string/nav1_intro</item>
+        <item>@string/nav1_news</item>
+        <item>@string/nav1_about</item>
+        <item>@string/nav1_signout</item>
+    </array>
+    <integer-array name="nav1_guest_icon">
+        <item>@drawable/ic_lock_open</item>
+        <item>@drawable/ic_person_add</item>
+        <item>@drawable/ic_inroduce</item>
+        <item>@drawable/ic_menu_news</item>
+        <item>@drawable/ic_info_outline_black_24dp</item>
+        <item>@drawable/ic_quit</item>
+    </integer-array>
+
+    <string name="nav1_signin">ورود</string>
+    <string name="nav1_signup">عضویت</string>
+    <string name="nav1_account">حساب کاربری</string>
+    <string name="nav1_mydoctor">پزشک من</string>
+    <string name="nav1_news">خبرنامه</string>
+    <string name="nav1_support">پشتیبانی</string>
+    <string name="nav1_intro">معرفی پزشک</string>
+    <string name="nav1_about">درباره ما</string>
+    <string name="nav1_signout">خروج</string>
+
+    <integer name="nav1_signin_id">1</integer>
+    <integer name="nav1_signup_id">2</integer>
+    <integer name="nav1_account_id">3</integer>
+    <integer name="nav1_mydoctor_id">4</integer>
+    <integer name="nav1_news_id">5</integer>
+    <integer name="nav1_support_id">6</integer>
+    <integer name="nav1_intro_id">7</integer>
+    <integer name="nav1_about_id">8</integer>
+    <integer name="nav1_signout_id">9</integer>
+
+
+</resources>

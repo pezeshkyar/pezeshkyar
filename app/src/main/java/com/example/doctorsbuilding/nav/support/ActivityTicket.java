@@ -14,7 +14,9 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
@@ -41,7 +43,8 @@ public class ActivityTicket extends AppCompatActivity {
     private Spinner sp_subject;
     private Spinner sp_priority;
     private EditText content;
-    private Button backBtn;
+    private ImageButton backBtn;
+    private TextView pageTitle;
     private Button sendBtn;
     private ArrayAdapter<Priority> priority_adapter;
     private ArrayAdapter<Subject> subject_adapter;
@@ -77,7 +80,9 @@ public class ActivityTicket extends AppCompatActivity {
         sp_subject = (Spinner) findViewById(R.id.ticket_subject);
         sp_priority = (Spinner) findViewById(R.id.ticket_priority);
         content = (EditText) findViewById(R.id.ticket_message);
-        backBtn = (Button) findViewById(R.id.ticket_backBtn);
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("درخواست جدید");
         sendBtn = (Button) findViewById(R.id.ticket_send);
 
         subject_adapter = new ArrayAdapter<Subject>(ActivityTicket.this, R.layout.spinner_item);

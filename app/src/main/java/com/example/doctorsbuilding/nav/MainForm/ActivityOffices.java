@@ -3,11 +3,9 @@ package com.example.doctorsbuilding.nav.MainForm;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,16 +18,13 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
+import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -42,16 +37,18 @@ import android.widget.ViewFlipper;
 
 import com.example.doctorsbuilding.nav.ActivityNotificationDialog;
 import com.example.doctorsbuilding.nav.ContactUs;
-import com.example.doctorsbuilding.nav.CustomTypefaceSpan;
+import com.example.doctorsbuilding.nav.CustomNavListView;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.Dr.Profile.PersonalInfoActivity;
 import com.example.doctorsbuilding.nav.G;
+import com.example.doctorsbuilding.nav.MainActivity;
 import com.example.doctorsbuilding.nav.MessageInfo;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
 import com.example.doctorsbuilding.nav.User.User;
+import com.example.doctorsbuilding.nav.User.UserInboxActivity;
 import com.example.doctorsbuilding.nav.User.UserNewsActivity;
 import com.example.doctorsbuilding.nav.User.UserProfileActivity;
 import com.example.doctorsbuilding.nav.UserType;
@@ -92,6 +89,9 @@ public class ActivityOffices extends AppCompatActivity {
     AsyncGetDoctorPic task_getDoctorPic = null;
     AsyncGetOfficeForDoctorOrSercretary task_getOfficeForDoctorOrSercretary;
     AsyncCallGetUnreadMessagesWs task_unreadMessages;
+    private CustomNavListView adapter_nav;
+    private ListView menu_listview;
+    private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
     private static final int MY_OFFICE = 0;
     private static final int MY_DOCTOR = 1;
     private static final int LOGIN_REQUEST = 1;
@@ -174,6 +174,9 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void initViews() {
+        adapter_nav = new CustomNavListView(ActivityOffices.this, new ArrayList<MenuItem>());
+        menu_listview = (ListView) findViewById(R.id.offices_nav_lv);
+        menu_listview.setAdapter(adapter_nav);
         unreadMessageLayout = (RelativeLayout) findViewById(R.id.unreadMessage);
         badge = new BadgeView(ActivityOffices.this, unreadMessageLayout);
         badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
@@ -203,41 +206,9 @@ public class ActivityOffices extends AppCompatActivity {
             public void onClick(View view) {
                 if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
                     startActivity(new Intent(ActivityOffices.this, ActivityAllDoctors.class));
-//                    final DialogAddOffice dialog_addOffice = new DialogAddOffice(ActivityOffices.this, R.style.AlertDialogCustom);
-//                    dialog_addOffice.show();
-//                    dialog_addOffice.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(DialogInterface dialogInterface) {
-//
-//                            Office office = dialog_addOffice.getOffice();
-//                            if (office != null) {
-//                                if (database.openConnection()) {
-//                                    doctors = database.getMyDoctorOffice();
-//                                    database.closeConnection();
-//                                }
-//                                if (doctors != null && doctors.size() > 0) {
-//                                    adapter_doctors.addAll(doctors);
-//                                }
-//                            }
-//
-//                            try {
-//                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-//                            } catch (Exception ex) {
-//                            }
-//                            addButton.show();
-//                        }
-//                    });
                 } else {
                     startActivity(new Intent(ActivityOffices.this, SignInActivity.class));
                 }
-            }
-        });
-        mNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-
-                return false;
             }
         });
         btn_menu.setOnClickListener(new View.OnClickListener() {
@@ -247,62 +218,43 @@ public class ActivityOffices extends AppCompatActivity {
             }
         });
 
-        officesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        menu_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Toast.makeText(ActivityOffices.this, "dsfsd", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav1_unKnown_signIn:
+                switch (menuItems.get(position).getItemId()) {
+                    case R.id.nav1_signIn:
                         btn_signIn.performClick();
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_unKnown_signUp:
+                    case R.id.nav1_signUp:
                         btn_signUp.performClick();
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_unKnown_news:
+                    case R.id.nav1_news:
                         startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_unKnown_about:
+                    case R.id.nav1_about:
                         startActivity(new Intent(ActivityOffices.this, ContactUs.class));
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_known_support:
+                    case R.id.nav1_support:
                         startActivity(new Intent(ActivityOffices.this, ActivityTickets.class));
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_known_news:
-                        startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
-                        mDrawer.closeDrawers();
-                        break;
-                    case R.id.nav1_known_about:
-                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
-                        mDrawer.closeDrawers();
-                        break;
-                    case R.id.nav1_known_logout:
+                    case R.id.nav1_logout:
                         logOut();
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_known_info:
+                    case R.id.nav1_account:
                         startActivity(new Intent(ActivityOffices.this, PersonalInfoActivity.class));
-                        mDrawer.closeDrawers();
                         break;
-                    case R.id.nav1_known_mydoctor:
+                    case R.id.nav1_mydoctor:
                         startActivity(new Intent(ActivityOffices.this, ActivityMyDoctors.class));
-                        mDrawer.closeDrawers();
+                        break;
+                    case R.id.nav1_inbox:
+                        startActivity(new Intent(ActivityOffices.this, UserInboxActivity.class));
                         break;
                 }
-
-                return false;
+                mDrawer.closeDrawers();
             }
         });
+
+
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -327,26 +279,47 @@ public class ActivityOffices extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    private void setNavigationItem(UserType user) {
+        PopupMenu p = new PopupMenu(this, null);
+        Menu menu = p.getMenu();
+        getMenuInflater().inflate(R.menu.activity_public_main_drawer, menu);
+        if (user == UserType.Guest) {
+            menuItems.add(menu.findItem(R.id.nav1_signIn));
+            menuItems.add(menu.findItem(R.id.nav1_signUp));
+            menuItems.add(menu.findItem(R.id.nav1_intro));
+            menuItems.add(menu.findItem(R.id.nav1_about));
+        } else if (user == UserType.User) {
+            menuItems.add(menu.findItem(R.id.nav1_account));
+            menuItems.add(menu.findItem(R.id.nav1_inbox));
+            menuItems.add(menu.findItem(R.id.nav1_support));
+            menuItems.add(menu.findItem(R.id.nav1_intro));
+            menuItems.add(menu.findItem(R.id.nav1_logout));
+        } else if (user == UserType.Dr || user == UserType.secretary) {
+            menuItems.add(menu.findItem(R.id.nav1_account));
+            menuItems.add(menu.findItem(R.id.nav1_inbox));
+            menuItems.add(menu.findItem(R.id.nav1_mydoctor));
+            menuItems.add(menu.findItem(R.id.nav1_support));
+            menuItems.add(menu.findItem(R.id.nav1_intro));
+            menuItems.add(menu.findItem(R.id.nav1_logout));
+        }
+        adapter_nav.addAll(menuItems);
+    }
+
 
     private void setNavigationViewMenu(UserType menu) {
 
         ImageView menu_header_image = (ImageView) mNavigation.findViewById(R.id.img_profile33);
         TextView menu_header_name = (TextView) mNavigation.findViewById(R.id.name33);
         TextView menu_header_version = (TextView) mNavigation.findViewById(R.id.pezashyar_type33);
-
+        setNavigationItem(menu);
         if (menu != UserType.Guest) {
-            mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, false);
-            mNavigation.getMenu().setGroupVisible(R.id.nav1_known, true);
-            Bitmap drPic = RoundedImageView.getCroppedBitmap(G.UserInfo.getImgProfile(), 160);
-            menu_header_image.setImageBitmap(drPic);
+            menu_header_image.setImageBitmap(G.UserInfo.getImgProfile());
             menu_header_name.setText(G.UserInfo.getFirstName().concat(" " + G.UserInfo.getLastName()));
         } else {
-            mNavigation.getMenu().setGroupVisible(R.id.nav1_known, false);
-            mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, true);
             menu_header_name.setText("کاربر میهمان");
-            menu_header_image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
+            menu_header_image.setImageResource(R.drawable.doctor);
             menu_header_version.setText("");
         }
 
@@ -369,7 +342,8 @@ public class ActivityOffices extends AppCompatActivity {
         if (requestCode == LOGIN_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 readSharedPrefrence();
-
+                menuItems.clear();
+                adapter_nav.removeAll();
                 if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
 
                     setDoctorLayout(true);
@@ -387,7 +361,8 @@ public class ActivityOffices extends AppCompatActivity {
         }
         if (requestCode == SIGNUP_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-//                setUserLayout(false);
+                menuItems.clear();
+                adapter_nav.removeAll();
                 startActivity(new Intent(ActivityOffices.this, ActivityAllDoctors.class));
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -400,8 +375,7 @@ public class ActivityOffices extends AppCompatActivity {
         G.getSharedPreferences().edit().remove("user").apply();
         G.getSharedPreferences().edit().remove("pass").apply();
         G.getSharedPreferences().edit().remove("role").apply();
-        mNavigation.getMenu().setGroupVisible(R.id.nav1_known, false);
-        mNavigation.getMenu().setGroupVisible(R.id.nav1_unKnown, true);
+        setNavigationItem(UserType.Guest);
         G.UserInfo = new User();
         if (database.openConnection()) {
             database.deleteAllOffice();
@@ -414,6 +388,8 @@ public class ActivityOffices extends AppCompatActivity {
             unreadMessages.clear();
         offices = new ArrayList<Office>();
         doctors = new ArrayList<Office>();
+        menuItems.clear();
+        adapter_nav.removeAll();
         setWellcomeLayout();
 
     }
@@ -429,34 +405,8 @@ public class ActivityOffices extends AppCompatActivity {
                 this, mDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
-        setNavigationViewMenuFontStyle();
 
     }
-
-    private void setNavigationViewMenuFontStyle() {
-        Menu m = mNavigation.getMenu();
-        for (int i = 0; i < m.size(); i++) {
-            MenuItem mi = m.getItem(i);
-
-            SubMenu subMenu = mi.getSubMenu();
-            if (subMenu != null && subMenu.size() > 0) {
-                for (int j = 0; j < subMenu.size(); j++) {
-                    MenuItem subMenuItem = subMenu.getItem(j);
-                    applyFontToMenuItem(subMenuItem);
-                }
-            }
-
-            applyFontToMenuItem(mi);
-        }
-    }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/IRANSans.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -483,7 +433,7 @@ public class ActivityOffices extends AppCompatActivity {
         badge.hide();
         addButton.setVisibility(View.GONE);
         mViewFlipper.setVisibility(View.GONE);
-        if (mNavigation != null) {
+        if (mNavigation != null && menuItems.size() == 0) {
             setNavigationViewMenu(UserType.Guest);
         }
         unreadMessageLayout.setVisibility(View.GONE);
@@ -491,7 +441,6 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setUserLayout(boolean readDataFromWeb) {
-//        badge.show();
         unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
@@ -499,9 +448,8 @@ public class ActivityOffices extends AppCompatActivity {
         mViewFlipper.setDisplayedChild(MY_DOCTOR);
         doctorsListView.setEnabled(false);
         officesListView.setEnabled(false);
-        if (mNavigation != null) {
+        if (mNavigation != null && menuItems.size() == 0) {
             setNavigationViewMenu(UserType.values()[G.getSharedPreferences().getInt("role", 0)]);
-            mNavigation.getMenu().findItem(R.id.nav1_known_mydoctor).setVisible(false);
         }
         if (readDataFromWeb) {
             task_getOffices = new AsyncGetOfficeForUser();
@@ -522,7 +470,6 @@ public class ActivityOffices extends AppCompatActivity {
     }
 
     private void setDoctorLayout(boolean readDataFromWeb) {
-//        badge.show();
         unreadMessageLayout.setVisibility(View.VISIBLE);
         welcomePage.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
@@ -530,7 +477,7 @@ public class ActivityOffices extends AppCompatActivity {
         mViewFlipper.setDisplayedChild(MY_OFFICE);
         doctorsListView.setEnabled(false);
         officesListView.setEnabled(false);
-        if (mNavigation != null) {
+        if (mNavigation != null && menuItems.size() == 0) {
             setNavigationViewMenu(UserType.values()[G.getSharedPreferences().getInt("role", 0)]);
         }
         if (readDataFromWeb) {

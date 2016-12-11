@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,8 @@ public class DrNobatActivity extends AppCompatActivity {
     int hour, min, duration, capacity;
     String shortStartDate, shortEndDate;
     String dayOfWeek;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
 
     TextView txtWait;
 
@@ -93,7 +95,9 @@ public class DrNobatActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.nobat_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("مدیریت نوبت دهی");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         txtWait = (TextView) findViewById(R.id.nobat_wait);
         startDate = (TextView) findViewById(R.id.nobat_start_date);
         endDate = (TextView) findViewById(R.id.nobat_end_date);

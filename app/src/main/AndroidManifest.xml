@@ -150,11 +150,6 @@
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".LazyLoad.Gallery3"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyTheme"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".ContactUs"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"

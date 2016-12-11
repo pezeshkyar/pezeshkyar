@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,7 +37,8 @@ public class PatientsActivity extends AppCompatActivity implements View.OnClickL
     Button btnSearch;
     ListView listView;
     ListAdapter adapter;
-    Button backBtn;
+    ImageButton backBtn;
+    TextView pageTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +70,9 @@ public class PatientsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initViews() {
-        backBtn = (Button) findViewById(R.id.patients_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("بیماران");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         name = (EditText) findViewById(R.id.patients_name);
         family = (EditText) findViewById(R.id.patients_family);
         startDate = (TextView) findViewById(R.id.patients_start_date);
@@ -89,7 +93,7 @@ public class PatientsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.patients_btn_search:
                 checkFields();
                 break;
-            case  R.id.patients_backBtn:
+            case  R.id.toolbar_backBtn:
                 PatientsActivity.this.onBackPressed();
             default:
                 break;

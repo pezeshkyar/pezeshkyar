@@ -18,8 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
@@ -37,7 +39,8 @@ public class ActivityManageSecretary extends AppCompatActivity {
 
     private EditText txt_username;
     private Button btn_add;
-    private Button backBtn;
+    private ImageButton backBtn;
+    private TextView pageTitle;
     private Button btn_delete;
     private ListView mListview;
     private FrameLayout lock_pan;
@@ -93,7 +96,9 @@ public class ActivityManageSecretary extends AppCompatActivity {
         btn_refresh = (ImageView) findViewById(R.id.manage_secretary_refresh);
         lock_pan = (FrameLayout) findViewById(R.id.manage_secretary_framLayout);
         mListview = (ListView) findViewById(R.id.manage_secretary_listView);
-        backBtn = (Button) findViewById(R.id.manage_secretary_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("مدیریت منشی");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         secretaries = new ArrayList<User>();
 
     }

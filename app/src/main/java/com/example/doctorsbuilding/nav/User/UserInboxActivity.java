@@ -10,9 +10,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatActivity;
 import com.example.doctorsbuilding.nav.G;
@@ -35,8 +37,8 @@ public class UserInboxActivity extends AppCompatActivity {
     private ArrayList<MessageInfo> messageInfos = null;
     private ListView listView;
     private ListAdapter adapter;
-    private TextView inboxNothing;
-    private Button backBtn;
+    private ImageButton backBtn;
+    TextView pageTitle;
     AsyncCallGetAllMessagesWs task_getAllMessages = null;
     AsyncCallSetMessageReadWs task_SetMessageRead = null;
 
@@ -47,9 +49,9 @@ public class UserInboxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_inbox);
         listView = (ListView) findViewById(R.id.userInbox_listView);
         messageInfos = new ArrayList<MessageInfo>();
-        inboxNothing = (TextView) findViewById(R.id.inboxTxtNothing);
-        inboxNothing.setVisibility(View.GONE);
-        backBtn = (Button) findViewById(R.id.inbox_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("صندوق پیام");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +102,7 @@ public class UserInboxActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                messageInfos = WebService.invokeGetAllMessagesWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId);
+                messageInfos = WebService.invokeGetAllMessagesWS(G.UserInfo.getUserName(), G.UserInfo.getPassword());
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -115,15 +117,13 @@ public class UserInboxActivity extends AppCompatActivity {
                 new MessageBox(UserInboxActivity.this, msg).show();
             } else {
                 if (messageInfos != null && messageInfos.size() != 0) {
-                    inboxNothing.setVisibility(View.GONE);
                     listView = (ListView) findViewById(R.id.userInbox_listView);
                     adapter = new CustomListAdapterUserInbox(UserInboxActivity.this, messageInfos);
                     listView.setAdapter(adapter);
                     dialog.dismiss();
                 } else {
-                    inboxNothing.setVisibility(View.VISIBLE);
                     dialog.dismiss();
-                    inboxNothing.setText("هیچ پیامی برای شما وجود ندارد .");
+                    Toast.makeText(UserInboxActivity.this, "هیچ پیامی برای شما وجود ندارد .",Toast.LENGTH_LONG).show();
                 }
             }
         }

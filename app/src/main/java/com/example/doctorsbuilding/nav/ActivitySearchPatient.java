@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +33,9 @@ public class ActivitySearchPatient extends AppCompatActivity {
     private EditText name;
     private EditText lastname;
     private EditText mobileNo;
-    private Button backBtn;
+    private ImageButton backBtn;
     private Button searchBtn;
+    TextView pageTitle;
     private ListView mListView;
     asyncCallSearchUser task_searchUser = null;
 
@@ -64,7 +66,9 @@ public class ActivitySearchPatient extends AppCompatActivity {
         name = (EditText) findViewById(R.id.searchPatient_name);
         lastname = (EditText)findViewById(R.id.searchPatient_family);
         mobileNo = (EditText)findViewById(R.id.searchPatient_mobile);
-        backBtn = (Button) findViewById(R.id.searchPatient_backBtn);
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("جستجو");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         searchBtn = (Button) findViewById(R.id.searchPatient_btnSearch);
         mListView = (ListView) findViewById(R.id.searchPatient_listView);
     }

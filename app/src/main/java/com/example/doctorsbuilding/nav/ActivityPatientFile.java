@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ActivityPatientFile extends AppCompatActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-    Button backBtn;
+    ImageButton backBtn;
     TextView pageTitle;
     String patientUsername;
     TabLayout mTableLayout;
@@ -56,7 +57,7 @@ public class ActivityPatientFile extends AppCompatActivity {
         patientUsername = getIntent().getExtras().getString("patientUserName");
         pageTitle = (TextView)findViewById(R.id.toolbar_title);
         pageTitle.setText("پرونده بیمار");
-        backBtn = (Button)findViewById(R.id.toolbar_backBtn);
+        backBtn = (ImageButton)findViewById(R.id.toolbar_backBtn);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager mViewPager = (ViewPager)findViewById(R.id.patient_file_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);

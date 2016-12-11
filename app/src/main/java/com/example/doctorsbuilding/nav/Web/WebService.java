@@ -1644,18 +1644,61 @@ public class WebService {
     }
 
 
-    public static ArrayList<MessageInfo> invokeGetAllMessagesWS(String username, String password, int officeId) throws PException {
+//    public static ArrayList<MessageInfo> invokeGetAllMessagesWS(String username, String password, int officeId) throws PException {
+//        if (!G.isOnline()) {
+//            throw new PException(isOnlineMessage);
+//        }
+//        MessageInfo messageInfo = null;
+//        ArrayList<MessageInfo> result = null;
+//        String webMethName = "getAllMessages";
+//        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+//
+//        request.addProperty("username", username);
+//        request.addProperty("password", password);
+//        request.addProperty("officeId", officeId);
+//
+//        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//        envelope.setOutputSoapObject(request);
+//        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+//
+//        try {
+//            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+//            SoapObject response = (SoapObject) envelope.bodyIn;
+//            result = new ArrayList<MessageInfo>();
+//            for (int i = 0; i < response.getPropertyCount(); i++) {
+//                SoapObject obj = (SoapObject) response.getProperty(i);
+//                messageInfo = new MessageInfo();
+//                messageInfo.setId(Integer.parseInt(obj.getProperty("id").toString()));
+//                messageInfo.setSenderUsername(obj.getProperty("senderUsername").toString());
+//                messageInfo.setSenderFirstName(obj.getProperty("senderFirstName").toString());
+//                messageInfo.setSenderLastName(obj.getProperty("senderLastName").toString());
+//                messageInfo.setSubject(obj.getProperty("subject").toString());
+//                messageInfo.setMessage(obj.getProperty("message").toString());
+//                messageInfo.setDate(obj.getProperty("date").toString());
+//                messageInfo.setTime(obj.getProperty("time").toString());
+//                result.add(messageInfo);
+//
+//            }
+//        } catch (ConnectException ex) {
+//            throw new PException(connectMessage);
+//        } catch (Exception ex) {
+//            throw new PException(otherMessage);
+//        }
+//
+//        return result;
+//    }
+
+    public static ArrayList<MessageInfo> invokeGetAllMessagesWS(String username, String password) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
         MessageInfo messageInfo = null;
         ArrayList<MessageInfo> result = null;
-        String webMethName = "getAllMessages";
+        String webMethName = "getAllMessages1";
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
         request.addProperty("username", username);
         request.addProperty("password", password);
-        request.addProperty("officeId", officeId);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);

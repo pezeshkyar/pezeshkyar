@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:background="#e7f0f7"
     android:orientation="vertical">
+    <include layout="@layout/my_toolbar" android:id="@+id/support_toolbar"/>
 
     <ListView
         android:id="@+id/support_listview"
         android:layout_width="match_parent"
+        android:layout_marginBottom="60dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/form"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/support_toolbar"
         android:divider="@null"></ListView>
 
     <View

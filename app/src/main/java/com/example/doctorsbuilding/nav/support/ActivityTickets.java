@@ -40,7 +40,8 @@ public class ActivityTickets extends AppCompatActivity {
 
     private ListView mListView;
     private FloatingActionButton mFab;
-    private Button backBtn;
+    private ImageButton backBtn;
+    private TextView pageTitle;
     private AsyncGetTicketWS getTicketTask;
 
     @Override
@@ -69,9 +70,9 @@ public class ActivityTickets extends AppCompatActivity {
     private void initViews() {
         mListView = (ListView)findViewById(R.id.tickets_listView);
         mFab = (FloatingActionButton)findViewById(R.id.tickets_fab);
-        backBtn = (Button)findViewById(R.id.toolbar_backBtn);
-        TextView toolbarTitle = (TextView)findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("لیست درخواست ها");
+        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle.setText("لیست درخواست ها");
+        backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         G.mAdapter = new ArrayAdapter<Ticket>(ActivityTickets.this, R.layout.spinner_item);
         mListView.setAdapter(G.mAdapter);
 

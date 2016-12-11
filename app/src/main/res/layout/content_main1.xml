@@ -81,15 +81,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/menu_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/ic_menu_black_24dp"
-                        android:paddingTop="10dp" />
+                        android:layout_marginTop="5dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/ic_menu_black_24dp"
+                        android:tint="@android:color/white" />
 
                     <TextView
                         android:id="@+id/mainpage_title"
@@ -103,16 +105,30 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                        <ImageView
-                            android:id="@+id/btnCall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="17dp"
-                            android:src="@drawable/ic_menu_call"
-                            android:tint="@android:color/white" />
-                    </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/btnCall"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="17dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_menu_call"
+                        android:tint="@android:color/white" />
+
+                    <ImageButton
+                        android:id="@+id/btnNotice"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="12dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_sheipor"
+                        android:tint="@android:color/white" />
+                </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -212,12 +228,25 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_getTurn"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/cm1_appbar"
-        app:layout_anchorGravity="bottom|left|start"
-        android:src="@drawable/ic_get_turn_black_24dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_get_turn_white_24dp"
         android:tint="@android:color/white"
-        app:backgroundTint="@color/myyellow"/>
+        android:visibility="gone"
+        app:backgroundTint="@color/myyellow"
+        app:layout_anchor="@id/cm1_appbar"
+        app:layout_anchorGravity="bottom|left|start" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_getReception"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_patients"
+        android:tint="@android:color/white"
+        android:visibility="gone"
+        app:backgroundTint="@color/myyellow"
+        app:layout_anchor="@id/cm1_appbar"
+        app:layout_anchorGravity="bottom|left|start" />
 
 </android.support.design.widget.CoordinatorLayout>

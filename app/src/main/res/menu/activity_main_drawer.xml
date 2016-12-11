@@ -1,170 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/navigation_view_dr"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item android:title="نوبت دهی">
-            <menu>
-                <item
-                    android:id="@+id/nav_dr_profile"
-                    android:icon="@drawable/ic_turns"
-                    android:title="دریافت نوبت" />
-                <item
-                    android:id="@+id/nav_dr_nobat"
-                    android:icon="@drawable/ic_manage_turn"
-                    android:title="مدیریت نوبت دهی" />
-                <item
-                    android:id="@+id/nav_dr_patients"
-                    android:icon="@drawable/ic_patients"
-                    android:title="لیست پذیرش" />
-                <item
-                    android:id="@+id/nav_dr_notification"
-                    android:icon="@drawable/ic_notifications"
-                    android:title="اطلاعیه" />
-            </menu>
-        </item>
-        <item android:title="مطب">
-            <menu>
-                <item
-                    android:id="@+id/nav_dr_clinic"
-                    android:icon="@drawable/ic_menu_home"
-                    android:title="مشخصات مطب" />
-                <item
-                    android:id="@+id/nav_dr_map"
-                    android:icon="@drawable/ic_location"
-                    android:title="نقشه مطب" />
-                <item
-                    android:id="@+id/nav_dr_taskes"
-                    android:icon="@drawable/ic_service"
-                    android:title="خدمات مطب" />
-                <item
-                    android:id="@+id/nav_dr_secretary"
-                    android:icon="@drawable/ic_secretary_manage"
-                    android:title="مدیریت منشی" />
-                <item
-                    android:id="@+id/nav_dr_gallery"
-                    android:icon="@drawable/ic_gallery"
-                    android:title="گالری عکس" />
-                <item
-                    android:id="@+id/nav_dr_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="صندوق ورودی" />
-                <item
-                    android:id="@+id/nav_dr_patientFile"
-                    android:icon="@drawable/ic_nobat"
-                    android:title="پرونده بیمار" />
-                <item
-                    android:id="@+id/nav_dr_question"
-                    android:icon="@drawable/ic_questions"
-                    android:title="بانک سوال" />
-
-            </menu>
-        </item>
-    </group>
-
-    <group
-        android:id="@+id/navigation_view_secretary"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item android:title="نوبت دهی">
-            <menu>
-                <item
-                    android:id="@+id/nav_secretary_profile"
-                    android:icon="@drawable/ic_turns"
-                    android:title="دریافت نوبت" />
-                <item
-                    android:id="@+id/nav_secretary_nobat"
-                    android:icon="@drawable/ic_manage_turn"
-                    android:title="مدیریت نوبت دهی" />
-                <item
-                    android:id="@+id/nav_secretary_patients"
-                    android:icon="@drawable/ic_patients"
-                    android:title="لیست پذیرش" />
-                <item
-                    android:id="@+id/nav_secretary_notification"
-                    android:icon="@drawable/ic_notifications"
-                    android:title="اطلاعیه" />
-            </menu>
-        </item>
-        <item android:title="پروفایل">
-            <menu>
-
-
-            </menu>
-        </item>
-        <item android:title="مطب">
-            <menu>
-                <item
-                    android:id="@+id/nav_secretary_clinic"
-                    android:icon="@drawable/ic_menu_home"
-                    android:title="مشخصات مطب" />
-                <item
-                    android:id="@+id/nav_secretary_map"
-                    android:icon="@drawable/ic_location"
-                    android:title="نقشه مطب" />
-                <item
-                    android:id="@+id/nav_secretary_taskes"
-                    android:icon="@drawable/ic_service"
-                    android:title="خدمات مطب" />
-                <item
-                    android:id="@+id/nav_secretary_patientFile"
-                    android:icon="@drawable/ic_nobat"
-                    android:title="پرونده بیمار" />
-                <item
-                    android:id="@+id/nav_secretary_gallery"
-                    android:icon="@drawable/ic_gallery"
-                    android:title="گالری عکس" />
-                <item
-                    android:id="@+id/nav_secretary_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="صندوق ورودی" />
-                <item
-                    android:id="@+id/nav_secretary_question"
-                    android:icon="@drawable/ic_questions"
-                    android:title="بانک سوال" />
-
-            </menu>
-        </item>
-    </group>
-
-    <group
-        android:id="@+id/navigation_view_user"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item android:title="مطب">
-            <menu>
-                <item
-                    android:id="@+id/nav_user_addTurn"
-                    android:icon="@drawable/ic_turns"
-                    android:title="دریافت نوبت" />
-                <item
-                    android:id="@+id/nav_user_gallery"
-                    android:icon="@drawable/ic_gallery"
-                    android:title="گالری عکس" />
-                <item
-                    android:id="@+id/nav_user_news"
-                    android:icon="@drawable/ic_menu_news"
-                    android:title="خبرنامه" />
-            </menu>
-        </item>
-        <item android:title="پروفایل">
-            <menu>
-                <item
-                    android:id="@+id/nav_user_patientFile"
-                    android:icon="@drawable/ic_service"
-                    android:title="پرونده پزشکی" />
-                <item
-                    android:id="@+id/nav_user_nobat"
-                    android:icon="@drawable/ic_nobat"
-                    android:title="نوبت های من" />
-                <item
-                    android:id="@+id/nav_user_inbox"
-                    android:icon="@drawable/ic_menu_inbox"
-                    android:title="پیام ها" />
-            </menu>
-        </item>
-
-    </group>
+    <item
+        android:id="@+id/nav2_secretary"
+        android:icon="@drawable/ic_secretary_manage"
+        android:title="مدیریت منشی" />
+    <item
+        android:id="@+id/nav2_reception"
+        android:icon="@drawable/ic_patients"
+        android:title="لیست پذیرش" />
+    <item
+        android:id="@+id/nav2_notification"
+        android:icon="@drawable/ic_notifications"
+        android:title="اطلاعیه" />
+    <item
+        android:id="@+id/nav2_clinic"
+        android:icon="@drawable/ic_menu_home"
+        android:title="مشخصات مطب" />
+    <item
+        android:id="@+id/nav2_map"
+        android:icon="@drawable/ic_location"
+        android:title="نقشه مطب" />
+    <item
+        android:id="@+id/nav2_taskes"
+        android:icon="@drawable/ic_needle_black_24"
+        android:title="خدمات مطب" />
+    <item
+        android:id="@+id/nav2_question"
+        android:icon="@drawable/ic_questions"
+        android:title="کاردکس" />
+    <item
+        android:id="@+id/nav2_addTurn"
+        android:icon="@drawable/ic_get_turn_black_24dp"
+        android:title="دریافت نوبت" />
+    <item
+        android:id="@+id/nav2_gallery"
+        android:icon="@drawable/ic_gallery"
+        android:title="گالری عکس" />
+    <item
+        android:id="@+id/nav2_news"
+        android:icon="@drawable/ic_menu_news"
+        android:title="خبرنامه" />
+    <item
+        android:id="@+id/nav2_user_patientFile"
+        android:icon="@drawable/ic_nobat"
+        android:title="پرونده پزشکی" />
+    <item
+        android:id="@+id/nav2_patientFile"
+        android:icon="@drawable/ic_patient_file_black_24"
+        android:title="پرونده بیمار" />
+    <item
+        android:id="@+id/nav2_my_nobat"
+        android:icon="@drawable/ic_nobat"
+        android:title="نوبت های من" />
+    <item
+        android:id="@+id/nav2_manage_nobat"
+        android:icon="@drawable/ic_timetable_black_24"
+        android:title="مدیریت نوبت دهی" />
 </menu>
