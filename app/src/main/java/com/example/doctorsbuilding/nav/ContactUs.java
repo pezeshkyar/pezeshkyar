@@ -7,15 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.doctorsbuilding.nav.Util.NonScrollListView;
-import com.example.doctorsbuilding.nav.Util.RoundedImageView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -43,7 +37,7 @@ public class ContactUs extends AppCompatActivity {
         pageTitle.setText("درباره ما");
         backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         imageView = (ImageView) findViewById(R.id.company_name_icon);
-        imageView.setImageBitmap(RoundedImageView.getCroppedBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor), 200));
+        imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doctor));
     }
 
     private void eventListener() {

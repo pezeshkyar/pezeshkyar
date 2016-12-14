@@ -15,3 +15,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#-keepclassmembers class com.example.doctorsbuilding.nav.Util.ScaleImageView
+#-keepclassmembers class com.example.doctorsbuilding.nav.Util.NonScrollListView
+#-keepclassmembers class com.example.doctorsbuilding.nav.Util.NonScrollExpanableListView
+#-dontwarn org.xmlpull.**
+-dontnote android.net.http.**
+-dontnote org.apache.http.**
+-dontnote com.google.vending.licensing.**
+-dontnote com.android.vending.licensing.**
+-keepattributes Signature
+-dontwarn com.viewpagerindicator.**

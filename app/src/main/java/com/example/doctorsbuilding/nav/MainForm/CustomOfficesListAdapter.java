@@ -1,32 +1,20 @@
 package com.example.doctorsbuilding.nav.MainForm;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.G;
-import com.example.doctorsbuilding.nav.MainActivity;
-import com.example.doctorsbuilding.nav.PException;
-import com.example.doctorsbuilding.nav.PhotoDesc;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
 import com.example.doctorsbuilding.nav.SplashActivity;
-import com.example.doctorsbuilding.nav.Util.MessageBox;
-import com.example.doctorsbuilding.nav.Util.RoundedImageView;
-import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.util.ArrayList;
 

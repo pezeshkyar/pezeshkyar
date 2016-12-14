@@ -2,29 +2,19 @@ package com.example.doctorsbuilding.nav.Dr.Profile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.ActivityImageShow;
@@ -32,16 +22,7 @@ import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Nobat.DrNobatFragment;
 import com.example.doctorsbuilding.nav.Dr.Notification.NotificationFragment;
 import com.example.doctorsbuilding.nav.G;
-import com.example.doctorsbuilding.nav.LazyLoad.Gallery3;
-import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
-import com.example.doctorsbuilding.nav.Util.DbBitmapUtility;
-import com.example.doctorsbuilding.nav.Util.MessageBox;
-import com.example.doctorsbuilding.nav.Util.RoundedImageView;
-import com.example.doctorsbuilding.nav.Web.WebService;
-import com.example.doctorsbuilding.nav.gallery2;
-
-import java.util.EventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -93,8 +74,7 @@ public class DrProfileActivity extends AppCompatActivity {
 
 
         }
-        Bitmap imgRound = RoundedImageView.getCroppedBitmap(G.doctorImageProfile, 160);
-        profileImage.setImageBitmap(imgRound);
+        profileImage.setImageBitmap(G.doctorImageProfile);
 
         TextView drName = (TextView) findViewById(R.id.tv_doctorName);
         TextView drExpert = (TextView) findViewById(R.id.tv_doctorInfo);

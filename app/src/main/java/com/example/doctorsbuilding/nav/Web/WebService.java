@@ -1,6 +1,5 @@
 package com.example.doctorsbuilding.nav.Web;
 
-import android.app.DownloadManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -26,7 +25,6 @@ import com.example.doctorsbuilding.nav.Turn;
 import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
-import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.support.Message;
 import com.example.doctorsbuilding.nav.support.Subject;
 import com.example.doctorsbuilding.nav.support.Ticket;
@@ -40,11 +38,9 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.ByteArrayOutputStream;
-import java.net.Authenticator;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 public class WebService {
