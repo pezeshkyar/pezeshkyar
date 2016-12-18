@@ -1,10 +1,14 @@
 package com.example.doctorsbuilding.nav.Util;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.WindowManager;
 
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.R;
 
 import java.text.DecimalFormat;
@@ -13,7 +17,7 @@ import java.text.DecimalFormatSymbols;
 /**
  * Created by hossein on 9/6/2016.
  */
-public class Util{
+public class Util {
     public static String getCurrency(int number) {
         final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator(',');
@@ -75,5 +79,9 @@ public class Util{
         } else if (R != ctrl) return false;
 
         return true;
+    }
+
+    public static String getStringWS(int id) {
+        return G.getContext().getString(id);
     }
 }

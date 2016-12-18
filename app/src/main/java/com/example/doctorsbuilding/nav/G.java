@@ -35,11 +35,13 @@ public class G extends Application {
     public static Bitmap doctorImageProfile;
 
     private static G instance;
+    private static Context mContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        mContext = this;
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
                 .setFontAttrId(R.attr.fontPath)
@@ -77,5 +79,8 @@ public class G extends Application {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.statusBarColor));
         }
+    }
+    public static Context getContext(){
+        return mContext;
     }
 }
