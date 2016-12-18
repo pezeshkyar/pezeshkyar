@@ -36,6 +36,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.doctorsbuilding.nav.ActivityNotificationDialog;
+import com.example.doctorsbuilding.nav.ActivityPaymnet;
 import com.example.doctorsbuilding.nav.ContactUs;
 import com.example.doctorsbuilding.nav.CustomNavListView;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
@@ -230,7 +231,8 @@ public class ActivityOffices extends AppCompatActivity {
                         startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
                         break;
                     case R.id.nav1_about:
-                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
+//                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
+                        startActivity(new Intent(ActivityOffices.this, ActivityPaymnet.class));
                         break;
                     case R.id.nav1_support:
                         startActivity(new Intent(ActivityOffices.this, ActivityTickets.class));

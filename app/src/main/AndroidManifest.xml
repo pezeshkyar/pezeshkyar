@@ -204,6 +204,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityPaymnet"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

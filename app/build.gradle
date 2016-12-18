@@ -16,7 +16,6 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'WSUrl', '"http://185.129.168.135:8080/pezeshkyar_new_user3/services/Webservices?wsdl"'
         }
     }
 
