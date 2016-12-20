@@ -251,5 +251,6 @@
     <string name="ws_addOfficeForUser">addOfficeForUser</string>
     <string name="ws_deleteOfficeForUser">deleteOfficeForUser</string>
     <string name="ws_getRoleInOffice">getRoleInOffice</string>
+    <string name="payment_connecting">در حال اتصال به درگاه بانک ...</string>
 
 </resources>
