@@ -209,6 +209,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityFactor"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

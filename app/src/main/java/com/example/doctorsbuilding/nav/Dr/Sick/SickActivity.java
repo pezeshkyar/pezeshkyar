@@ -66,7 +66,7 @@ public class SickActivity extends AppCompatActivity {
         address.setText("ساری - بلوار کشاورز - کوی بهار ازادی - کوچه چهارم شهید مطهری");
         phone.setText("09384782571");
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item
-                , getResources().getStringArray(R.array.list_groups));
+                , getResources().getStringArray(R.array.pay_types));
         listView.setAdapter(adapter);
     }
 

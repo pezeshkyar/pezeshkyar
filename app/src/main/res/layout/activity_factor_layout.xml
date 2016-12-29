@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/my_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/factor_lbl_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="نام و نام خانوادگی : " />
+
+        <TextView
+            android:id="@+id/factor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/factor_lbl_name"
+            android:text="نقی تقی زاده" />
+        <TextView
+            android:id="@+id/factor_lbl_drname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/factor_lbl_name"
+            android:layout_alignRight="@+id/factor_lbl_name"
+            android:text="نام پزشک : " />
+        <TextView
+            android:id="@+id/factor_drname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/factor_name"
+            android:layout_alignRight="@id/factor_name"
+            android:text="دکتر علی نقی تقی زادگان" />
+        <TextView
+            android:id="@+id/factor_lbl_date"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/factor_lbl_drname"
+            android:layout_alignRight="@+id/factor_lbl_drname"
+            android:text="تاریخ مراجعه :" />
+        <TextView
+            android:id="@+id/factor_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/factor_drname"
+            android:layout_alignRight="@+id/factor_drname"
+            android:text="چهارشنبه 1 دی 1397" />
+        <TextView
+            android:id="@+id/factor_lbl_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/factor_lbl_date"
+            android:layout_alignRight="@+id/factor_lbl_date"
+            android:text="ساعت مراجعه : " />
+        <TextView
+            android:id="@+id/factor_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/factor_date"
+            android:layout_alignRight="@id/factor_date"
+            android:text="18:30 الی 20:30" />
+        <TextView
+            android:id="@+id/factor_lbl_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/factor_lbl_time"
+            android:layout_alignRight="@id/factor_lbl_time"
+            android:text="مبلغ قابل پرداخت : " />
+        <TextView
+            android:id="@+id/factor_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/factor_time"
+            android:layout_alignRight="@id/factor_time"
+            android:text="2500000000" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/factor_btn_payment"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/my_add_button"
+        android:text="پرداخت"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="در صورت عدم دریافت کد رهگیری از سامانه لطفا از قسمت پشتبانی مشکل را با همکاران ما در میان بگذارید."
+        android:textColor="@color/delete" />
+
+</LinearLayout>

@@ -6,6 +6,8 @@ package com.example.doctorsbuilding.nav;
 public class Reservation {
     int id;
     String username;
+    String date;
+    String time;
     int turnId;
     int taskId;
     String patientFirstName;
@@ -16,7 +18,32 @@ public class Reservation {
     int payment;
     int numberOfTurns;
     int price;
+    int cityId;
+    UserType owner;
 
+    public UserType getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserType owner) {
+        this.owner = owner;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public int getId() {
         return id;
@@ -112,5 +139,13 @@ public class Reservation {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 }

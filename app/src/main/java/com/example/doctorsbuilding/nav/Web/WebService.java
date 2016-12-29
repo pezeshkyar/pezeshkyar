@@ -13,6 +13,7 @@ import com.example.doctorsbuilding.nav.MessageInfo;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.PatientFile;
 import com.example.doctorsbuilding.nav.PatientInfo;
+import com.example.doctorsbuilding.nav.PaymentInfo;
 import com.example.doctorsbuilding.nav.PhotoDesc;
 import com.example.doctorsbuilding.nav.Question.Question;
 import com.example.doctorsbuilding.nav.Question.Reply;
@@ -1126,7 +1127,7 @@ public class WebService {
 //        if (!G.isOnline()) {
 //            throw new PException(isOnlineMessage);
 //        }
-//        Reservation reservation = null;
+//        Reservation reservationInfo = null;
 //        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 //        String webMethName = "getReservationByDate";
 //        SoapObject request = new SoapObject(NAMESPACE, webMethName);
@@ -1147,17 +1148,17 @@ public class WebService {
 //            for (int i = 0; i < response.getPropertyCount(); i++) {
 //
 //                SoapObject obj = (SoapObject) response.getProperty(i);
-//                reservation = new Reservation();
-//                reservation.setId(Integer.parseInt(obj.getProperty("id").toString()));
-//                reservation.setUsername(obj.getProperty("username").toString());
-//                reservation.setTurnId(Integer.parseInt(obj.getProperty("turnId").toString()));
-//                reservation.setTaskId(Integer.parseInt(obj.getProperty("taskId").toString()));
-//                reservation.setPatientFirstName(obj.getProperty("patientFirstName").toString());
-//                reservation.setPatientLastName(obj.getProperty("patientLastName").toString());
-//                reservation.setFirstReservationId(Integer.parseInt(obj.getProperty("firstResevationId").toString()));
-//                reservation.setPayment(Integer.parseInt(obj.getProperty("payment").toString()));
-//                reservation.setNumberOfTurns(Integer.parseInt(obj.getProperty("numberOfTurns").toString()));
-//                reservations.add(reservation);
+//                reservationInfo = new Reservation();
+//                reservationInfo.setId(Integer.parseInt(obj.getProperty("id").toString()));
+//                reservationInfo.setUsername(obj.getProperty("username").toString());
+//                reservationInfo.setTurnId(Integer.parseInt(obj.getProperty("turnId").toString()));
+//                reservationInfo.setTaskId(Integer.parseInt(obj.getProperty("taskId").toString()));
+//                reservationInfo.setPatientFirstName(obj.getProperty("patientFirstName").toString());
+//                reservationInfo.setPatientLastName(obj.getProperty("patientLastName").toString());
+//                reservationInfo.setFirstReservationId(Integer.parseInt(obj.getProperty("firstResevationId").toString()));
+//                reservationInfo.setPayment(Integer.parseInt(obj.getProperty("PaymentInfo").toString()));
+//                reservationInfo.setNumberOfTurns(Integer.parseInt(obj.getProperty("numberOfTurns").toString()));
+//                reservations.add(reservationInfo);
 //            }
 //        } catch (ConnectException ex) {
 //            throw new PException(connectMessage);
@@ -1281,7 +1282,43 @@ public class WebService {
         return result;
     }
 
-    public static int invokeReserveForMeWS(String username, String password, Reservation reservation) throws PException {
+    public static int invokeReserveForGuestFromUserWS(String username, String password, Reservation reservation, int resNum) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        int result = 0;
+        String webMethName = Util.getStringWS(R.string.ws_reserveForGuestFromUser);
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty(Util.getStringWS(R.string.ws_username), username);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
+        request.addProperty(Util.getStringWS(R.string.ws_turnId), reservation.getTurnId());
+        request.addProperty(Util.getStringWS(R.string.ws_firstReservationId), reservation.getFirstReservationId());
+        request.addProperty(Util.getStringWS(R.string.ws_taskId), reservation.getTaskId());
+        request.addProperty(Util.getStringWS(R.string.ws_numberOfTurns), reservation.getNumberOfTurns());
+        request.addProperty(Util.getStringWS(R.string.ws_patientFirstName), reservation.getPatientFirstName());
+        request.addProperty(Util.getStringWS(R.string.ws_patientLastName), reservation.getPatientLastName());
+        request.addProperty(Util.getStringWS(R.string.ws_patientPhoneNo), reservation.getPatientPhoneNo());
+        request.addProperty(Util.getStringWS(R.string.ws_patientCityId), reservation.getCityId());
+        request.addProperty(Util.getStringWS(R.string.ws_resNum), resNum);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = Integer.parseInt(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static int invokeReserveForMeWS(String username, String password, Reservation reservation, int resNum) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
@@ -1295,6 +1332,7 @@ public class WebService {
         request.addProperty(Util.getStringWS(R.string.ws_firstReservationId), reservation.getFirstReservationId());
         request.addProperty(Util.getStringWS(R.string.ws_taskId), reservation.getTaskId());
         request.addProperty(Util.getStringWS(R.string.ws_numberOfTurns), reservation.getNumberOfTurns());
+        request.addProperty(Util.getStringWS(R.string.ws_resNum), resNum);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
@@ -3086,4 +3124,38 @@ public class WebService {
         return result;
     }
 
+    public static PaymentInfo getRequestNumber(String username, String password, int amount) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = Util.getStringWS(R.string.ws_setResNum);
+        int result = 0;
+        PaymentInfo paymentInfo = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty(Util.getStringWS(R.string.ws_username), username);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
+        request.addProperty(Util.getStringWS(R.string.ws_amount1), amount);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.getResponse();
+            paymentInfo = new PaymentInfo();
+            paymentInfo.setUrl(response.getProperty(Util.getStringWS(R.string.ws_payUrl)).toString());
+            paymentInfo.setRedirecturl(response.getProperty(Util.getStringWS(R.string.ws_redirectUrl)).toString());
+            paymentInfo.setMid(Integer.valueOf(response.getProperty(Util.getStringWS(R.string.ws_mid)).toString()));
+            paymentInfo.setResNum(Integer.parseInt(response.getProperty(Util.getStringWS(R.string.ws_resNum)).toString()));
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+
+        return paymentInfo;
+    }
 }

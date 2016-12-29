@@ -79,7 +79,7 @@
 
     <string name="google_play_map">AIzaSyDPxvHFihvS4p2yPFoH53zZ6X8Ex0CZIww</string>
 
-    <string name="ws_url">http://185.129.168.135:8080/pezeshkyar_new_user3/services/Webservices?wsdl</string>
+    <string name="ws_url">http://pezeshkiar.com:8080/pezeshkyar_new_user3/services/Webservices?wsdl</string>
     <string name="ws_package">http://docTurn/</string>
     <string name="ws_getProvince">getProvince</string>
     <string name="ws_id">id</string>
@@ -252,5 +252,18 @@
     <string name="ws_deleteOfficeForUser">deleteOfficeForUser</string>
     <string name="ws_getRoleInOffice">getRoleInOffice</string>
     <string name="payment_connecting">در حال اتصال به درگاه بانک ...</string>
+    <string name="ws_setResNum">setResNum</string>
+    <string name="ws_reserveId">reserveId</string>
+    <string name="pay_Amount">Amount</string>
+    <string name="pay_MID">MID</string>
+    <string name="pay_ResNum">ResNum</string>
+    <string name="pay_RedirectURL">RedirectURL</string>
+    <string name="ws_payUrl">url</string>
+    <string name="ws_redirectUrl">redirectUrl</string>
+    <string name="ws_amount">amount</string>
+    <string name="ws_mid">mid</string>
+    <string name="ws_resNum">resNum</string>
+    <string name="ws_amount1">amount</string>
+    <string name="ws_reserveForGuestFromUser">reserveForGuestFromUser</string>
 
 </resources>

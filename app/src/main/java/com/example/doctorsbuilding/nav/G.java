@@ -33,6 +33,8 @@ public class G extends Application {
     public static User UserInfo;
     public static Office officeInfo = null;
     public static Bitmap doctorImageProfile;
+    public static Reservation reservationInfo = null;
+    public static int resNum = -1;
 
     private static G instance;
     private static Context mContext;

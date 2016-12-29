@@ -1,5 +1,8 @@
 package com.example.doctorsbuilding.nav.Dr.Profile;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,9 +15,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doctorsbuilding.nav.CancelReservationDialog;
 import com.example.doctorsbuilding.nav.DialogAddTurn;
+import com.example.doctorsbuilding.nav.DialogCallback;
 import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.Turn;
@@ -274,37 +279,65 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     }
 
     private Turn temp = null;
+    private Turn currentTurn = null;
+
+    DialogCallback dialogCallback = new DialogCallback() {
+        @Override
+        public void getResult(int reservationId) {
+            G.reservationInfo = null;
+            if (reservationId > 0) {
+//                Toast.makeText(context, results, Toast.LENGTH_LONG).show();
+                if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
+
+                    temp.setReserved(currentTurn.getReserved() + 1);
+                    temp.setIsReserved(true);
+                    notifyDataSetChanged();
+
+                } else if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+
+                    temp.setReserved(currentTurn.getReserved() + 1);
+                    temp.setIsReserved(true);
+                    notifyDataSetChanged();
+                }
+            }
+        }
+    };
 
     private void reservation(final Turn turn) {
         temp = turn;
-        final DialogAddTurn addTurn = new DialogAddTurn(context, turn.getId());
-        if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
-            addTurn.show();
-             addTurn.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    if (addTurn.getResevationId() > 0) {
-                        temp.setReserved(turn.getReserved() + 1);
-                        temp.setIsReserved(true);
-                        notifyDataSetChanged();
-                    }
-                }
-            });
+        currentTurn = turn;
+        DialogAddTurn.newInstance(context, turn).setCallBack(dialogCallback).show(((Activity) context).getFragmentManager(), "");
+//        new DialogAddTurn().setCallBack(dialogCallback).show(((Activity) context).getFragmentManager(),"");
 
-        } else if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+//        final DialogAddTurn addTurn = new DialogAddTurn(context, turn);
+//        addTurn.show();
+//        if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
+//            addTurn.show();
+//             addTurn.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                @Override
+//                public void onDismiss(DialogInterface dialogInterface) {
+//                    if (addTurn.getResevationId() > 0) {
+//                        temp.setReserved(turn.getReserved() + 1);
+//                        temp.setIsReserved(true);
+//                        notifyDataSetChanged();
+//                    }
+//                }
+//            });
 
-            addTurn.show();
-            addTurn.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    if (addTurn.getResevationId() > 0) {
-                        temp.setReserved(turn.getReserved() + 1);
-                        temp.setIsReserved(true);
-                        notifyDataSetChanged();
-                    }
-                }
-            });
-        }
+//        } else if (G.UserInfo.getRole() == UserType.User.ordinal()) {
+//
+//            addTurn.show();
+//            addTurn.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                @Override
+//                public void onDismiss(DialogInterface dialogInterface) {
+//                    if (addTurn.getResevationId() > 0) {
+//                        temp.setReserved(turn.getReserved() + 1);
+//                        temp.setIsReserved(true);
+//                        notifyDataSetChanged();
+//                    }
+//                }
+//            });
+//        }
     }
 
     private void cancelReservation(final Turn turn) {

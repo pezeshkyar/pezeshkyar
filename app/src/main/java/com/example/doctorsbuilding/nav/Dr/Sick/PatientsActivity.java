@@ -59,7 +59,7 @@ public class PatientsActivity extends AppCompatActivity implements View.OnClickL
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     private void setListView() {
-        adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.list_groups));
+        adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.pay_types));
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
