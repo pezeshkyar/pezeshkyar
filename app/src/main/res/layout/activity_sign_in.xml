@@ -128,7 +128,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_edit_text"
                     android:hint="کد ملی"
-                    android:inputType="number|textNoSuggestions"
+                    android:inputType="text|textNoSuggestions"
                     android:maxLength="11"
                     android:padding="8dp" />
 

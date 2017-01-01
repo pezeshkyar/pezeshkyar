@@ -31,13 +31,14 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.EventListener;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 6/18/2016.
  */
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInActivity extends AppCompatActivity {
     private ViewFlipper viewFlipper;
     private Button forgetButton;
     private Button btnGetPassword;
@@ -61,6 +62,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         settings = G.getSharedPreferences();
         G.setStatusBarColor(SignInActivity.this);
         initViews();
+        eventListener();
     }
 
     @Override
@@ -87,31 +89,37 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         txtUserName = (EditText) viewFlipper.findViewById(R.id.login_userName);
         txtPassword = (EditText) viewFlipper.findViewById(R.id.login_password);
         txtmelicode = (EditText) viewFlipper.findViewById(R.id.login_melicode);
-        forgetButton.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-        btnSignIn.setOnClickListener(this);
+
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login_btn_forget:
+    private void eventListener(){
+        forgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showNext();
-                break;
-            case R.id.login_btnBack:
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showPrevious();
-                break;
-            case R.id.login_btn_signIn:
+            }
+        });
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 signIn();
-                break;
-            case R.id.login_btn_sms:
+            }
+        });
+        btnGetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if (checkFieldForgetPass()) {
                     task_forgetPassword = new AsyncForgetPasswordWS();
                     task_forgetPassword.execute();
                 }
-
-        }
-
+            }
+        });
     }
 
     private boolean checkFieldForgetPass() {
@@ -283,6 +291,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Void aVoid) {
             if (msg != null) {
+                btnGetPassword.setClickable(true);
                 dialog.dismiss();
                 new MessageBox(SignInActivity.this, msg).show();
             } else {
@@ -292,6 +301,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(SignInActivity.this, Util.getStringWS(R.string.siginACT_forget_msg), Toast.LENGTH_SHORT).show();
                     } else {
                         new MessageBox(SignInActivity.this, result).show();
+                        btnGetPassword.setClickable(true);
                     }
                 } else {
                     new MessageBox(SignInActivity.this, "درخواست شما با مشکل مواجه شده است .").show();
