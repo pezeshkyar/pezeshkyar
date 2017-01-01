@@ -315,9 +315,9 @@ public class DialogAddTurn extends DialogFragment {
         addTurnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTurnBtn.setClickable(false);
-                myCheckBox.setClickable(false);
-                taskBackBtn.setClickable(false);
+//                addTurnBtn.setClickable(false);
+//                myCheckBox.setClickable(false);
+//                taskBackBtn.setClickable(false);
                 if (myCheckBox.isChecked()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         if (reserveForUserTask == null) {
@@ -360,28 +360,35 @@ public class DialogAddTurn extends DialogFragment {
                 if (checkField()) {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
                         addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                        if (asyncGetTaskGroups == null) {
+                        if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                             asyncGetTaskGroups = new asyncCallGetTaskGroups();
                             asyncGetTaskGroups.execute();
+                        }else {
+                            viewFlipper.setDisplayedChild(2);
+                            taskBackBtn.setVisibility(View.VISIBLE);
                         }
                     } else {
                         if (myCheckBox.isChecked()) {
 
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                            if (asyncGetTaskGroups == null) {
+                            if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                                 asyncGetTaskGroups = new asyncCallGetTaskGroups();
                                 asyncGetTaskGroups.execute();
+                            }else {
+                                viewFlipper.setDisplayedChild(2);
+                            taskBackBtn.setVisibility(View.VISIBLE);
                             }
 
                         } else {
 
                             addTurnPatientName.setText(nonMemberName.getText().toString().trim().concat(" " + nonMemberFamily.getText().toString().trim()));
-                            if (asyncGetTaskGroups == null) {
+                            if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                                 asyncGetTaskGroups = new asyncCallGetTaskGroups();
                                 asyncGetTaskGroups.execute();
+                            }else {
+                                viewFlipper.setDisplayedChild(2);
+                            taskBackBtn.setVisibility(View.VISIBLE);
                             }
-//                            viewFlipper.setDisplayedChild(2);
-//                            taskBackBtn.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -418,9 +425,9 @@ public class DialogAddTurn extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        addTurnBtn.setClickable(true);
-        myCheckBox.setClickable(true);
-        taskBackBtn.setClickable(true);
+//        addTurnBtn.setClickable(true);
+//        myCheckBox.setClickable(true);
+//        taskBackBtn.setClickable(true);
         if (resultCode == UserType.User.ordinal()) {
             if (G.UserInfo.getRole() == UserType.User.ordinal()) {
 
@@ -510,7 +517,7 @@ public class DialogAddTurn extends DialogFragment {
                         userInfo.add(user.getPhone());
                         userha.add(userInfo);
                     }
-                    memberListView.setAdapter(new CustomReservationListAdapter(getContext(), userha, turnData.getId()));
+                    memberListView.setAdapter(new CustomReservationListAdapter(context, userha, turnData.getId()));
                     memberListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View container, int position, long id) {
@@ -527,7 +534,7 @@ public class DialogAddTurn extends DialogFragment {
                 } else {
                     memberSearchBtn.setClickable(true);
                     dialog.dismiss();
-                    memberListView.setAdapter(new CustomReservationListAdapter(getContext()
+                    memberListView.setAdapter(new CustomReservationListAdapter(context
                             , new ArrayList<ArrayList<String>>(), turnData.getId()));
                     Toast.makeText(context, "بیماری با این مشخصات یافت نشده است .", Toast.LENGTH_SHORT).show();
                 }
@@ -684,7 +691,7 @@ public class DialogAddTurn extends DialogFragment {
                 } else if (result == 0) {
                     new MessageBox(context, "ثبت نوبت با مشکل مواجه شد !").show();
                 } else if (result == -1) {
-                    new MessageBox(context, "موجودی حساب شما کافی نمی باشد .").show();
+                    new MessageBox(context, Util.getStringWS(R.string.addturn_etebar_error)).show();
                 }
             }
         }
@@ -825,7 +832,7 @@ public class DialogAddTurn extends DialogFragment {
                 } else if (result == 0) {
                     new MessageBox(context, "ثبت نوبت با مشکل مواجه شد !").show();
                 } else if (result == -1) {
-                    new MessageBox(context, "موجودی حساب شما کافی نمی باشد .").show();
+                    new MessageBox(context, Util.getStringWS(R.string.addturn_etebar_error)).show();
                 }
             }
         }

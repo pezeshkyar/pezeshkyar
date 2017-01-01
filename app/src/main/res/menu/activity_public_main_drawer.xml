@@ -37,6 +37,10 @@
         android:icon="@drawable/ic_quit"
         android:title="خروج" />
     <item
+        android:id="@+id/nav1_etebar"
+        android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+        android:title="افزایش اعتبار" />
+    <item
         android:id="@+id/nav1_inbox"
         android:icon="@drawable/ic_menu_inbox"
         android:title="پیام ها" />

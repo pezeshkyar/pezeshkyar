@@ -54,8 +54,8 @@ public class CancelReservationDialog extends Dialog {
 
     private void initViews() {
         mListView = (ListView) findViewById(R.id.cancelReservationListView);
-        progressBar = (ProgressBar)findViewById(R.id.cancelReservation_Progress);
-        nothingTxt = (TextView)findViewById(R.id.cancelReservation_nothing);
+        progressBar = (ProgressBar) findViewById(R.id.cancelReservation_Progress);
+        nothingTxt = (TextView) findViewById(R.id.cancelReservation_nothing);
         getReservationByTurnIdTask = new asyncCallGetReservationByTurnIdWS();
         getReservationByTurnIdTask.execute();
     }
@@ -64,10 +64,10 @@ public class CancelReservationDialog extends Dialog {
     @Override
     public void dismiss() {
         super.dismiss();
-        if(getReservationByTurnIdTask != null){
+        if (getReservationByTurnIdTask != null) {
             getReservationByTurnIdTask.cancel(true);
         }
-        if(cancelReservationTask != null){
+        if (cancelReservationTask != null) {
             cancelReservationTask.cancel(true);
         }
     }
@@ -131,7 +131,7 @@ public class CancelReservationDialog extends Dialog {
                     }
                     mListView.setAdapter(new CustomReservationListAdapter(getContext(), users, turnId));
                     progressBar.setVisibility(View.GONE);
-                }else {
+                } else {
                     progressBar.setVisibility(View.GONE);
                     nothingTxt.setVisibility(View.VISIBLE);
                 }
@@ -140,7 +140,7 @@ public class CancelReservationDialog extends Dialog {
     }
 
     private class asyncCallCancelReservationWS extends AsyncTask<String, Void, Void> {
-        boolean result = false;
+        String result = null;
         String msg = null;
         ProgressDialog dialog;
 
@@ -171,10 +171,15 @@ public class CancelReservationDialog extends Dialog {
                 dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
-                if (result) {
-                    cancleResult = result;
+                if (result != null) {
                     dialog.dismiss();
-                    Toast.makeText(context, "حذف نوبت با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
+                    if (result.toUpperCase().equals("OK")) {
+                        cancleResult = true;
+                        Toast.makeText(context, "حذف نوبت با موفقیت انجام شده است .", Toast.LENGTH_SHORT).show();
+                    } else {
+                        cancleResult = false;
+                        new MessageBox(context, result).show();
+                    }
                     dismiss();
                 } else {
                     dialog.dismiss();

@@ -62,7 +62,7 @@ public class ActivityFactor extends AppCompatActivity {
         doctorName.setText(G.officeInfo.getFirstname().concat(" ").concat(G.officeInfo.getLastname()));
         date.setText(G.reservationInfo.getDate());
         time.setText(G.reservationInfo.getTime());
-        payment.setText(Util.getCurrency(G.reservationInfo.getPrice()).concat("  تومان"));
+        payment.setText(Util.getCurrency(G.reservationInfo.getPrice()).concat("  ریال"));
     }
 
     @Override
@@ -87,7 +87,9 @@ public class ActivityFactor extends AppCompatActivity {
                             intent.putExtra("requestCode", requestCode);
                             startActivityForResult(intent, requestCode);
                         }else if(dialogPayType.getPayWay() == 1){
-
+                            //wallet
+                            setResult(requestCode);
+                            finish();
                         }
                     }
                 });

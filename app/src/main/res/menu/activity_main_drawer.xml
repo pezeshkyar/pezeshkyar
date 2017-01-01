@@ -43,7 +43,7 @@
         android:title="خبرنامه" />
     <item
         android:id="@+id/nav2_user_patientFile"
-        android:icon="@drawable/ic_nobat"
+        android:icon="@drawable/ic_assignment_black_24dp"
         android:title="پرونده پزشکی" />
     <item
         android:id="@+id/nav2_patientFile"

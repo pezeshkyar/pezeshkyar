@@ -1006,12 +1006,12 @@ public class WebService {
         return result;
     }
 
-    public static boolean invokeCancleReservation(String username, String password, int reservationId) throws PException {
+    public static String invokeCancleReservation(String username, String password, int reservationId) throws PException {
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);
         }
         String webMethName = Util.getStringWS(R.string.ws_cancelReservation);
-        boolean result = false;
+        String result = null;
         SoapObject request = new SoapObject(NAMESPACE, webMethName);
 
         request.addProperty(Util.getStringWS(R.string.ws_username), username);
@@ -1026,7 +1026,7 @@ public class WebService {
         try {
             androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
             SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-            result = Boolean.valueOf(response.toString());
+            result = response.toString();
         } catch (ConnectException ex) {
             throw new PException(connectMessage);
         } catch (Exception ex) {
@@ -1265,6 +1265,33 @@ public class WebService {
         request.addProperty(Util.getStringWS(R.string.ws_patientLastName), reservation.getPatientLastName());
         request.addProperty(Util.getStringWS(R.string.ws_patientPhoneNo), reservation.getPatientPhoneNo());
         request.addProperty(Util.getStringWS(R.string.ws_patientCityId), cityId);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = Integer.parseInt(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static int invokeGetWalletWS(String username, String password) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        int result = 0;
+        String webMethName = Util.getStringWS(R.string.ws_getWallet);
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        request.addProperty(Util.getStringWS(R.string.ws_username), username);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);

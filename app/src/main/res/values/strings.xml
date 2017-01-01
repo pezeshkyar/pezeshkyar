@@ -265,5 +265,14 @@
     <string name="ws_resNum">resNum</string>
     <string name="ws_amount1">amount</string>
     <string name="ws_reserveForGuestFromUser">reserveForGuestFromUser</string>
+    <string name="etebar">لطفاً مبلغ درخواستی جهت افزایش اعتبار را به ریال وارد نمایید</string>
+    <string name="etebar_cost">مبلغ درخواستی به ریال</string>
+    <string name="etebar_txtBtn">افزایش اعتبار</string>
+    <string name="etebar_p1">اعتبار فعلی شما</string>
+    <string name="etebar_p2">ریال می باشد</string>
+    <string name="ws_getWallet">getWallet</string>
+    <string name="etebar_title">افزایش اعتبار</string>
+    <string name="etebar_err">لطفا مبلغ درخواستی را وارد نمایید .</string>
+    <string name="addturn_etebar_error">مبلغ اعتبار شما جهت پرداخت کافی نمی باشد .</string>
 
 </resources>

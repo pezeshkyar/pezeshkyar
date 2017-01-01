@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.example.doctorsbuilding.nav.ActivityEtebar;
 import com.example.doctorsbuilding.nav.ActivityFactor;
 import com.example.doctorsbuilding.nav.ActivityNotificationDialog;
 import com.example.doctorsbuilding.nav.ActivityPaymnet;
@@ -232,8 +233,7 @@ public class ActivityOffices extends AppCompatActivity {
                         startActivity(new Intent(ActivityOffices.this, UserNewsActivity.class));
                         break;
                     case R.id.nav1_about:
-//                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
-                        startActivity(new Intent(ActivityOffices.this, ActivityFactor.class));
+                        startActivity(new Intent(ActivityOffices.this, ContactUs.class));
                         break;
                     case R.id.nav1_support:
                         startActivity(new Intent(ActivityOffices.this, ActivityTickets.class));
@@ -249,6 +249,9 @@ public class ActivityOffices extends AppCompatActivity {
                         break;
                     case R.id.nav1_inbox:
                         startActivity(new Intent(ActivityOffices.this, UserInboxActivity.class));
+                        break;
+                    case R.id.nav1_etebar:
+                        startActivity(new Intent(ActivityOffices.this, ActivityEtebar.class));
                         break;
                 }
                 mDrawer.closeDrawers();
@@ -293,12 +296,14 @@ public class ActivityOffices extends AppCompatActivity {
             menuItems.add(menu.findItem(R.id.nav1_about));
         } else if (user == UserType.User) {
             menuItems.add(menu.findItem(R.id.nav1_account));
+            menuItems.add(menu.findItem(R.id.nav1_etebar));
             menuItems.add(menu.findItem(R.id.nav1_inbox));
             menuItems.add(menu.findItem(R.id.nav1_support));
             menuItems.add(menu.findItem(R.id.nav1_intro));
             menuItems.add(menu.findItem(R.id.nav1_logout));
         } else if (user == UserType.Dr || user == UserType.secretary) {
             menuItems.add(menu.findItem(R.id.nav1_account));
+            menuItems.add(menu.findItem(R.id.nav1_etebar));
             menuItems.add(menu.findItem(R.id.nav1_inbox));
             menuItems.add(menu.findItem(R.id.nav1_mydoctor));
             menuItems.add(menu.findItem(R.id.nav1_support));

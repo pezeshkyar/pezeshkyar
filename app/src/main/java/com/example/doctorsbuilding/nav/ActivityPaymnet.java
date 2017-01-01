@@ -1,6 +1,7 @@
 package com.example.doctorsbuilding.nav;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -24,6 +25,8 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by hossein on 12/18/2016.
@@ -71,9 +74,13 @@ public class ActivityPaymnet extends AppCompatActivity implements MyWebChromeCli
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         setResult(requestCode);
         finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private class MyBrowser extends WebViewClient {
@@ -99,14 +106,10 @@ public class ActivityPaymnet extends AppCompatActivity implements MyWebChromeCli
     private class GetPaymentInfo extends AsyncTask<String, Void, Void> {
         PaymentInfo result = null;
         String msg = null;
-//        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            progressDialog = ProgressDialog.show(ActivityPaymnet.this, "", "لطفا شکیبا باشید ...");
-//            progressDialog.getWindow().setGravity(Gravity.END);
-//            progressDialog.setCancelable(false);
         }
 
 
@@ -125,10 +128,8 @@ public class ActivityPaymnet extends AppCompatActivity implements MyWebChromeCli
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (msg != null) {
-//                progressDialog.dismiss();
                 new MessageBox(ActivityPaymnet.this, msg).show();
             } else {
-//                progressDialog.dismiss();
                 if (result != null) {
                     G.resNum = result.getResNum();
                     String mUrl = result.getUrl();

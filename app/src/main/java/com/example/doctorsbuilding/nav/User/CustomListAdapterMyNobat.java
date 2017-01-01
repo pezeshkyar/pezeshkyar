@@ -95,7 +95,7 @@ public class CustomListAdapterMyNobat extends BaseAdapter {
     }
 
     private class asyncCallCancelReservationWS extends AsyncTask<String, Void, Void> {
-        boolean result = false;
+        String result = null;
         private int position;
         String msg = null;
         ProgressDialog dialog;
@@ -113,7 +113,7 @@ public class CustomListAdapterMyNobat extends BaseAdapter {
             try {
                 result = WebService.invokeCancleReservation(G.UserInfo.getUserName(), G.UserInfo.getPassword(), Integer.parseInt(strings[0]));
             } catch (PException ex) {
-               msg = ex.getMessage();
+                msg = ex.getMessage();
             }
             return null;
         }
@@ -125,11 +125,16 @@ public class CustomListAdapterMyNobat extends BaseAdapter {
                 dialog.dismiss();
                 new MessageBox(context, msg).show();
             } else {
-                if (result) {
+                if (result != null) {
                     dialog.dismiss();
-                    Toast.makeText(context, "حذف نوبت با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
-                    items.remove(position);
-                    notifyDataSetChanged();
+                    if (result.toUpperCase().equals("OK")) {
+                        Toast.makeText(context, "حذف نوبت با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
+                        items.remove(position);
+                        notifyDataSetChanged();
+                    } else {
+                        new MessageBox(context, result).show();
+                    }
+
                 } else {
                     dialog.dismiss();
                     new MessageBox(context, "عملیات حذف با مشکل مواجه شد !").show();
