@@ -274,5 +274,15 @@
     <string name="etebar_title">افزایش اعتبار</string>
     <string name="etebar_err">لطفا مبلغ درخواستی را وارد نمایید .</string>
     <string name="addturn_etebar_error">مبلغ اعتبار شما جهت پرداخت کافی نمی باشد .</string>
+    <string name="factor_warn1">در صورت عدم دریافت کد رهگیری از سامانه لطفا از قسمت پشتبانی مشکل را با همکاران ما در میان بگذارید.</string>
+    <string name="factor_warn2">امکان لغو نوبت تنها یک روز مانده به نوبت شما فعال می باشد در صورت توجه نکردن به این موضوع عواقب آن مربوط به خود شخص می باشد.</string>
+    <string name="factor_txt1">نام و نام خانوادگی : </string>
+    <string name="factor_txt2">نام پزشک : </string>
+    <string name="factor_txt3">تاریخ مراجعه :</string>
+    <string name="factor_txt4">ساعت مراجعه : </string>
+    <string name="factor_txt5">مبلغ قابل پرداخت :</string>
+    <string name="factor_txt6">پرداخت</string>
+    <string name="ws_forgetPassword">forgetPassword</string>
+    <string name="siginACT_forget_msg">درخواست شما با موفقیت ارسال شد، تا چند لحظه دیگر پسورد جدید به تلفن همراه شما پیامک می شود .</string>
 
 </resources>

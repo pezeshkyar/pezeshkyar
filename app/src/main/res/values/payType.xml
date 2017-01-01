@@ -2,6 +2,6 @@
 <resources>
     <string-array name="pay_types">
         <item>پرداخت از درگاه بانک سامان</item>
-        <item>پرداخت از موجودی حساب</item>
+        <item>پرداخت از اعتبار شما</item>
     </string-array>
 </resources>

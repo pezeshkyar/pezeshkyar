@@ -25,6 +25,7 @@ import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.MainForm.ActivityOffices;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
+import com.example.doctorsbuilding.nav.Util.Util;
 import com.example.doctorsbuilding.nav.Web.Hashing;
 import com.example.doctorsbuilding.nav.Web.WebService;
 
@@ -39,16 +40,20 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
     private ViewFlipper viewFlipper;
     private Button forgetButton;
+    private Button btnGetPassword;
     private Button backButton;
     private Button btnSignIn;
     private EditText txtUserName;
     private EditText txtPassword;
+    private EditText txtmelicode;
     private SharedPreferences settings;
     private String password;
     AsyncCallLoginWS loginWS;
+    AsyncForgetPasswordWS task_forgetPassword;
 
 
     @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -69,15 +74,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         if (loginWS != null) {
             loginWS.cancel(true);
         }
+        if (task_forgetPassword != null)
+            task_forgetPassword.cancel(true);
     }
 
     private void initViews() {
         viewFlipper = (ViewFlipper) findViewById(R.id.login_viewFlipper);
         backButton = (Button) viewFlipper.findViewById(R.id.login_btnBack);
         forgetButton = (Button) viewFlipper.findViewById(R.id.login_btn_forget);
+        btnGetPassword = (Button) viewFlipper.findViewById(R.id.login_btn_sms);
         btnSignIn = (Button) viewFlipper.findViewById(R.id.login_btn_signIn);
         txtUserName = (EditText) viewFlipper.findViewById(R.id.login_userName);
         txtPassword = (EditText) viewFlipper.findViewById(R.id.login_password);
+        txtmelicode = (EditText) viewFlipper.findViewById(R.id.login_melicode);
         forgetButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
@@ -95,8 +104,22 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.login_btn_signIn:
                 signIn();
                 break;
+            case R.id.login_btn_sms:
+                if (checkFieldForgetPass()) {
+                    task_forgetPassword = new AsyncForgetPasswordWS();
+                    task_forgetPassword.execute();
+                }
+
         }
 
+    }
+
+    private boolean checkFieldForgetPass() {
+        if (txtmelicode.getText().toString().trim().equals("")) {
+            new MessageBox(SignInActivity.this, "لطفا کد ملی را وارد نمایید .").show();
+            return false;
+        }
+        return true;
     }
 
     private void signIn() {
@@ -185,7 +208,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     intent.putExtra("menu", userType);
                     switch (userType) {
                         case None:
-                            new MessageBox(SignInActivity.this, "نام کاربری یا کلمه عبور اشتباه می باشد .").show();
+                            new MessageBox(SignInActivity.this, "کد ملی یا کلمه عبور اشتباه می باشد .").show();
                             break;
                         case User:
                             UserType.User.attachTo(intent);
@@ -201,7 +224,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             break;
                         default:
                             break;
-
 
                     }
                 }
@@ -230,6 +252,53 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             } catch (Exception ex) {
             }
         }
+    }
 
+    private class AsyncForgetPasswordWS extends AsyncTask<String, Void, Void> {
+        private String result = null;
+        String msg = null;
+        ProgressDialog dialog;
+        String username1;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            username1 = txtmelicode.getText().toString().trim();
+            dialog = ProgressDialog.show(SignInActivity.this, "", "لطفا شکیبا باشید ...");
+            dialog.getWindow().setGravity(Gravity.END);
+            dialog.setCancelable(true);
+            btnGetPassword.setClickable(false);
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                result = WebService.ForegetPasswordWS(username1);
+            } catch (PException ex) {
+                msg = ex.getMessage();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (msg != null) {
+                dialog.dismiss();
+                new MessageBox(SignInActivity.this, msg).show();
+            } else {
+                dialog.dismiss();
+                if (result != null) {
+                    if (result.toUpperCase().equals("OK")) {
+                        Toast.makeText(SignInActivity.this, Util.getStringWS(R.string.siginACT_forget_msg), Toast.LENGTH_SHORT).show();
+                    } else {
+                        new MessageBox(SignInActivity.this, result).show();
+                    }
+                } else {
+                    new MessageBox(SignInActivity.this, "درخواست شما با مشکل مواجه شده است .").show();
+                    btnGetPassword.setClickable(true);
+                }
+            }
+        }
     }
 }
+

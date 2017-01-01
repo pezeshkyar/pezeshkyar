@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/payListView"
-        android:entries="@array/pay_types"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="پرداخت از طریق"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
 
-    </ListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent" />
 
+    <Button
+        android:id="@+id/pay_btn_saman"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="right|center_vertical"
+        android:drawableLeft="@drawable/sep_logo"
+        android:text="بانک سامان" />
+
+    <Button
+        android:id="@+id/pay_btn_etebar"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="right|center_vertical"
+        android:drawableLeft="@drawable/wallet"
+        android:text="اعتبار شما" />
 </LinearLayout>
