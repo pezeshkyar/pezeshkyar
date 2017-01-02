@@ -9,7 +9,7 @@
 
     <include layout="@layout/my_toolbar" />
 
-    <ScrollView
+    <com.example.doctorsbuilding.nav.VerticalScrollview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_vertical_margin"
@@ -50,7 +50,8 @@
                 android:inputType="text|textNoSuggestions"
                 android:maxLength="2000"
                 android:maxLines="10"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/dr_office_phone"
@@ -62,7 +63,8 @@
                 android:inputType="phone|textNoSuggestions"
                 android:maxLength="11"
                 android:maxLines="1"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/dr_office_spec"
@@ -108,7 +110,8 @@
                 android:inputType="textMultiLine|textNoSuggestions"
                 android:maxLength="1000"
                 android:maxLines="10"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/dr_office_btnInsert"
@@ -123,5 +126,5 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </ScrollView>
+    </com.example.doctorsbuilding.nav.VerticalScrollview>
 </LinearLayout>

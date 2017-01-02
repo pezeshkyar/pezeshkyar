@@ -109,6 +109,37 @@ public class DialogSearchFilter extends Dialog {
         subExpert = (Spinner) findViewById(R.id.filter_office_subExpert);
         applyBtn = (Button) findViewById(R.id.filter_office_btn_apply);
 
+        State s = new State();
+        s.SetStateName("استان ...");
+        states = new ArrayList<State>();
+        states.add(s);
+        stateAdapter = new ArrayAdapter<State>(contex
+                , R.layout.spinner_item, states);
+        state.setAdapter(stateAdapter);
+
+        City c = new City();
+        c.SetCityName("شهر ...");
+        cities = new ArrayList<City>();
+        cities.add(c);
+        cityAdapter = new ArrayAdapter<City>(contex
+                , R.layout.spinner_item, cities);
+        city.setAdapter(cityAdapter);
+
+        Expert e = new Expert();
+        e.setName("تخصص ...");
+        experts = new ArrayList<Expert>();
+        experts.add(e);
+        expertAdapter = new ArrayAdapter<Expert>(contex
+                , R.layout.spinner_item, experts);
+        expert.setAdapter(expertAdapter);
+
+        SubExpert se = new SubExpert();
+        se.setName("شاخه تخصص ...");
+        subExperts = new ArrayList<SubExpert>();
+        subExperts.add(se);
+        subExpertAdapter = new ArrayAdapter<SubExpert>(contex
+                , R.layout.spinner_item, subExperts);
+        subExpert.setAdapter(subExpertAdapter);
     }
 
     private void eventListener() {
@@ -188,8 +219,8 @@ public class DialogSearchFilter extends Dialog {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                states = WebService.invokeGetProvinceNameWS();
-                cities = WebService.invokeGetCityNameWS(1);
+                states.addAll(WebService.invokeGetProvinceNameWS());
+                cities.addAll(WebService.invokeGetCityNameWS(1));
             } catch (PException ex) {
                 msg = ex.getMessage();
             }
@@ -201,29 +232,9 @@ public class DialogSearchFilter extends Dialog {
             if (msg != null) {
                 new MessageBox(contex, msg).show();
             } else {
-
-                setStateSpinner();
-
-                setCitySpinner();
+                stateAdapter.notifyDataSetChanged();
+                cityAdapter.notifyDataSetChanged();
             }
-        }
-
-        private void setStateSpinner() {
-            State s = new State();
-            s.SetStateName("استان ...");
-            states.add(0, s);
-            stateAdapter = new ArrayAdapter<State>(contex
-                    , R.layout.spinner_item, states);
-            state.setAdapter(stateAdapter);
-        }
-
-        private void setCitySpinner() {
-            City c = new City();
-            c.SetCityName("شهر ...");
-            cities.add(0, c);
-            cityAdapter = new ArrayAdapter<City>(contex
-                    , R.layout.spinner_item, cities);
-            city.setAdapter(cityAdapter);
         }
 
     }
@@ -242,7 +253,8 @@ public class DialogSearchFilter extends Dialog {
         protected Void doInBackground(String... strings) {
             try {
                 if (stateSelectedIndex != -1) {
-                    cities = WebService.invokeGetCityNameWS(states.get(stateSelectedIndex).GetStateID());
+                    cities.subList(1, cities.size()).clear();
+                    cities.addAll(WebService.invokeGetCityNameWS(states.get(stateSelectedIndex).GetStateID()));
                 }
             } catch (PException ex) {
                 msg = ex.getMessage();
@@ -255,19 +267,9 @@ public class DialogSearchFilter extends Dialog {
             if (msg != null) {
                 new MessageBox(contex, msg).show();
             } else {
-                setCitySpinner();
+                cityAdapter.notifyDataSetChanged();
             }
         }
-
-        private void setCitySpinner() {
-            City c = new City();
-            c.SetCityName("شهر ...");
-            cities.add(0, c);
-            cityAdapter = new ArrayAdapter<City>(contex
-                    , R.layout.spinner_item, cities);
-            city.setAdapter(cityAdapter);
-        }
-
     }
 
     //set expert spinner ..........................................................................
@@ -283,9 +285,8 @@ public class DialogSearchFilter extends Dialog {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                experts = WebService.invokeGetSpecWS();
-
-                subExperts = WebService.invokeGetSubSpecWS(1);
+                experts.addAll(WebService.invokeGetSpecWS());
+                subExperts.addAll(WebService.invokeGetSubSpecWS(1));
 
             } catch (PException ex) {
                 msg = ex.getMessage();
@@ -298,30 +299,10 @@ public class DialogSearchFilter extends Dialog {
             if (msg != null) {
                 new MessageBox(contex, msg).show();
             } else {
-                setExpertSpinner();
-
-                setSubExpertSpinner();
+                expertAdapter.notifyDataSetChanged();
+                subExpertAdapter.notifyDataSetChanged();
             }
         }
-
-        private void setExpertSpinner() {
-            Expert e = new Expert();
-            e.setName("تخصص ...");
-            experts.add(0, e);
-            expertAdapter = new ArrayAdapter<Expert>(contex
-                    , R.layout.spinner_item, experts);
-            expert.setAdapter(expertAdapter);
-        }
-
-        private void setSubExpertSpinner() {
-            SubExpert s = new SubExpert();
-            s.setName("شاخه تخصص ...");
-            subExperts.add(0, s);
-            subExpertAdapter = new ArrayAdapter<SubExpert>(contex
-                    , R.layout.spinner_item, subExperts);
-            subExpert.setAdapter(subExpertAdapter);
-        }
-
     }
 
     //set sub expert  ..............................................................
@@ -338,7 +319,8 @@ public class DialogSearchFilter extends Dialog {
         protected Void doInBackground(String... strings) {
             if (expertSelectedIndex != -1) {
                 try {
-                    subExperts = WebService.invokeGetSubSpecWS(experts.get(expertSelectedIndex).getId());
+                    subExperts.subList(1, subExperts.size()).clear();
+                    subExperts.addAll(WebService.invokeGetSubSpecWS(experts.get(expertSelectedIndex).getId()));
                 } catch (PException ex) {
                     msg = ex.getMessage();
                 }
@@ -351,20 +333,9 @@ public class DialogSearchFilter extends Dialog {
             if (msg != null) {
                 new MessageBox(contex, msg).show();
             } else {
-                setSubExpertSpinner();
+                subExpertAdapter.notifyDataSetChanged();
             }
         }
-
-        private void setSubExpertSpinner() {
-            SubExpert s = new SubExpert();
-            s.setName("شاخه تخصص ...");
-            s.setId(-1);
-            subExperts.add(0, s);
-            subExpertAdapter = new ArrayAdapter<SubExpert>(contex
-                    , R.layout.spinner_item, subExperts);
-            subExpert.setAdapter(subExpertAdapter);
-        }
-
     }
 
     public int getProvinceId() {
