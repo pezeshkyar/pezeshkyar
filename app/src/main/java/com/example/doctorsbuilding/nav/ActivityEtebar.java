@@ -47,8 +47,6 @@ public class ActivityEtebar extends AppCompatActivity {
         etebarFeli = (TextView) findViewById(R.id.etebar);
         txtAmount = (EditText) findViewById(R.id.etebar_amount);
         btnPay = (Button) findViewById(R.id.etebar_btn);
-        getWallet = new AsyncGetWallet();
-        getWallet.execute();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +77,14 @@ public class ActivityEtebar extends AppCompatActivity {
         if (getWallet != null) {
             getWallet.cancel(true);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWallet = new AsyncGetWallet();
+        getWallet.execute();
+
     }
 
     @Override
