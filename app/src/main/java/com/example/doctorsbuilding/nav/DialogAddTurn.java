@@ -398,10 +398,10 @@ public class DialogAddTurn extends DialogFragment {
         taskGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if (asyncGetTaskes == null) {
+//                if (asyncGetTaskes == null) {
                     asyncGetTaskes = new asyncCallGetTaskes();
                     asyncGetTaskes.execute();
-                }
+//                }
             }
 
             @Override
@@ -771,6 +771,7 @@ public class DialogAddTurn extends DialogFragment {
                 new MessageBox(context, msg).show();
             } else {
                 if (taskes != null && taskes.size() != 0) {
+                    task_adapter.clear();
                     task_adapter.addAll(taskes);
                     addTurnBtn.setClickable(true);
                 } else {
