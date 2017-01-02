@@ -193,12 +193,16 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             new MessageBox(ActivityManagementTaskes.this, "مبلغ وارد شده نادرست می باشد .").show();
             return false;
         }
+        if (Integer.valueOf(Util.getNumber(task_price.getText().toString().trim())) < 1000) {
+            new MessageBox(ActivityManagementTaskes.this, "مبلغ پایه نباید کمتر از 100 تومان باشد .").show();
+            return false;
+        }
         return true;
     }
 
     private void initViews() {
-        mtoolbar = (RelativeLayout)findViewById(R.id.taskes_toolbar);
-        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        mtoolbar = (RelativeLayout) findViewById(R.id.taskes_toolbar);
+        pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText("مدیریت خدمات");
         backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         mViewFlipper = (ViewFlipper) findViewById(R.id.manage_taskes_viewFlipper);
