@@ -3212,4 +3212,60 @@ public class WebService {
         }
         return result;
     }
+
+    public static String verifySecurityCodeWS(String username, String password) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = Util.getStringWS(R.string.ws_verifySecurityCode);
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty(Util.getStringWS(R.string.ws_username), username);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = String.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
+
+    public static String changePasswordWS(String username, String password) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = Util.getStringWS(R.string.ws_changePassword);
+        String result = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty(Util.getStringWS(R.string.ws_username), username);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+            result = String.valueOf(response.toString());
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+        return result;
+    }
 }

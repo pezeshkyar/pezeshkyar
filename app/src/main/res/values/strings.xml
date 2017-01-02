@@ -283,6 +283,8 @@
     <string name="factor_txt5">مبلغ قابل پرداخت :</string>
     <string name="factor_txt6">پرداخت</string>
     <string name="ws_forgetPassword">forgetPassWord</string>
-    <string name="siginACT_forget_msg">درخواست شما با موفقیت ارسال شد، تا چند لحظه دیگر پسورد جدید به تلفن همراه شما پیامک می شود .</string>
+    <string name="siginACT_forget_msg">تا چند لحظه دیگر کد تایید به شماره تلفن همراه شما پیامک خواهد شد .</string>
+    <string name="ws_verifySecurityCode">verifySecurityCode</string>
+    <string name="ws_changePassword">changePassword</string>
 
 </resources>

@@ -128,7 +128,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_edit_text"
                     android:hint="کد ملی"
-                    android:inputType="text|textNoSuggestions"
+                    android:inputType="number|textNoSuggestions"
                     android:maxLength="11"
                     android:padding="8dp" />
 
@@ -141,7 +141,109 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_button"
-                    android:text="یادآوری کلمه عبور"
+                    android:text="بعدی"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/layout_shadow"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/login_btn_resendSms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@drawable/ic_arrow_forward"
+                    android:text="ارسال کد تایید جدید"
+                    android:textColor="#6a737b"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/login_txt_smsCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/login_btn_resendSms"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_edit_text"
+                    android:hint="کد تایید"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxLength="11"
+                    android:padding="8dp" />
+
+                <Button
+                    android:id="@+id/login_btn_smsCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/login_txt_smsCode"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_button"
+                    android:text="بعدی"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/layout_shadow"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/login_txt_newPwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_edit_text"
+                    android:hint="کلمه عبور"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxLength="11"
+                    android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/login_txt_reNewPwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/login_txt_newPwd"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_edit_text"
+                    android:hint="تکرار کلمه عبور"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxLength="11"
+                    android:padding="8dp" />
+
+                <Button
+                    android:id="@+id/login_btn_newPwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/login_txt_reNewPwd"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/my_button"
+                    android:text="تایید"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
             </RelativeLayout>
