@@ -1,11 +1,9 @@
 package com.example.doctorsbuilding.nav.Web;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
-import com.example.doctorsbuilding.nav.BuildConfig;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.Expert;
 import com.example.doctorsbuilding.nav.G;
@@ -29,8 +27,8 @@ import com.example.doctorsbuilding.nav.Turn;
 import com.example.doctorsbuilding.nav.User.City;
 import com.example.doctorsbuilding.nav.User.State;
 import com.example.doctorsbuilding.nav.User.User;
-import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.Util;
+import com.example.doctorsbuilding.nav.VersionInfo;
 import com.example.doctorsbuilding.nav.support.Message;
 import com.example.doctorsbuilding.nav.support.Subject;
 import com.example.doctorsbuilding.nav.support.Ticket;
@@ -3267,5 +3265,40 @@ public class WebService {
             throw new PException(otherMessage);
         }
         return result;
+    }
+
+    public static VersionInfo getVersionInfo(String versionCode, String password) throws PException {
+        if (!G.isOnline()) {
+            throw new PException(isOnlineMessage);
+        }
+        String webMethName = Util.getStringWS(R.string.ws_getVersionName);
+        VersionInfo versionInfo = null;
+        SoapObject request = new SoapObject(NAMESPACE, webMethName);
+
+        PropertyInfo property = new PropertyInfo();
+        request.addProperty(Util.getStringWS(R.string.ws_versionName), versionCode);
+        request.addProperty(Util.getStringWS(R.string.ws_password), password);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransportSE = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransportSE.call(SOAP_ACTION + webMethName, envelope);
+            SoapObject response = (SoapObject) envelope.getResponse();
+            if(response != null) {
+                versionInfo = new VersionInfo();
+                versionInfo.setVersionName(Double.parseDouble(response.getProperty(Util.getStringWS(R.string.ws_versionName)).toString()));
+                versionInfo.setUrl(response.getProperty(Util.getStringWS(R.string.ws_versionUrl)).toString());
+                versionInfo.setDetails(response.getProperty(Util.getStringWS(R.string.ws_versionDetails)).toString());
+                versionInfo.setForce(Boolean.valueOf(response.getProperty(Util.getStringWS(R.string.ws_forceInstall)).toString()));
+            }
+        } catch (ConnectException ex) {
+            throw new PException(connectMessage);
+        } catch (Exception ex) {
+            throw new PException(otherMessage);
+        }
+
+        return versionInfo;
     }
 }

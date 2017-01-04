@@ -169,55 +169,55 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
         if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
             if (child.getTurn().getReserved() > 0) {
-                holder.addNobatBtn.setVisibility(View.INVISIBLE);
-                holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
+                holder.addNobatBtn.setVisibility(View.GONE);
+                holder.fullCapacityBtn.setVisibility(View.GONE);
                 holder.addBtn.setVisibility(View.VISIBLE);
                 holder.deleteBtn.setVisibility(View.VISIBLE);
 
 
             } else {
-                holder.deleteBtn.setVisibility(View.INVISIBLE);
-                holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
-                holder.addBtn.setVisibility(View.INVISIBLE);
+                holder.deleteBtn.setVisibility(View.GONE);
+                holder.fullCapacityBtn.setVisibility(View.GONE);
+                holder.addBtn.setVisibility(View.GONE);
                 holder.addNobatBtn.setVisibility(View.VISIBLE);
             }
             if (child.getTurn().getCapacity() <= child.getTurn().getReserved()) {
-                holder.addBtn.setVisibility(View.INVISIBLE);
-                holder.addNobatBtn.setVisibility(View.INVISIBLE);
+                holder.addBtn.setVisibility(View.GONE);
+                holder.addNobatBtn.setVisibility(View.GONE);
                 holder.deleteBtn.setVisibility(View.VISIBLE);
-                holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
+                holder.fullCapacityBtn.setVisibility(View.GONE);
             }
 
         } else {
             if (child.getTurn().getReserved() > 0) {
                 if (child.getTurn().getIsReserved()) {
-                    holder.addNobatBtn.setVisibility(View.INVISIBLE);
-                    holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
+                    holder.addNobatBtn.setVisibility(View.GONE);
+                    holder.fullCapacityBtn.setVisibility(View.GONE);
                     holder.addBtn.setVisibility(View.VISIBLE);
                     holder.deleteBtn.setVisibility(View.VISIBLE);
                 } else {
                     holder.addNobatBtn.setVisibility(View.VISIBLE);
-                    holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
-                    holder.addBtn.setVisibility(View.INVISIBLE);
-                    holder.deleteBtn.setVisibility(View.INVISIBLE);
+                    holder.fullCapacityBtn.setVisibility(View.GONE);
+                    holder.addBtn.setVisibility(View.GONE);
+                    holder.deleteBtn.setVisibility(View.GONE);
                 }
             } else {
-                holder.deleteBtn.setVisibility(View.INVISIBLE);
-                holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
-                holder.addBtn.setVisibility(View.INVISIBLE);
+                holder.deleteBtn.setVisibility(View.GONE);
+                holder.fullCapacityBtn.setVisibility(View.GONE);
+                holder.addBtn.setVisibility(View.GONE);
                 holder.addNobatBtn.setVisibility(View.VISIBLE);
             }
             if (child.getTurn().getCapacity() <= child.getTurn().getReserved()) {
 
                 if (child.getTurn().getIsReserved()) {
-                    holder.addBtn.setVisibility(View.INVISIBLE);
-                    holder.addNobatBtn.setVisibility(View.INVISIBLE);
+                    holder.addBtn.setVisibility(View.GONE);
+                    holder.addNobatBtn.setVisibility(View.GONE);
                     holder.deleteBtn.setVisibility(View.VISIBLE);
-                    holder.fullCapacityBtn.setVisibility(View.INVISIBLE);
+                    holder.fullCapacityBtn.setVisibility(View.GONE);
                 } else {
-                    holder.addBtn.setVisibility(View.INVISIBLE);
-                    holder.addNobatBtn.setVisibility(View.INVISIBLE);
-                    holder.deleteBtn.setVisibility(View.INVISIBLE);
+                    holder.addBtn.setVisibility(View.GONE);
+                    holder.addNobatBtn.setVisibility(View.GONE);
+                    holder.deleteBtn.setVisibility(View.GONE);
                     holder.fullCapacityBtn.setVisibility(View.VISIBLE);
                 }
 

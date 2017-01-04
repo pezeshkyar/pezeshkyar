@@ -325,13 +325,21 @@ public class DialogAddTurn extends DialogFragment {
                             reserveForUserTask.execute(users.get(selectedItem).getUserName());
                         }
                     } else {
-                        if (reserveForMeTask == null) {
-                            G.reservationInfo = getPayInfo();
-                            G.reservationInfo.setOwner(UserType.User);
-                            Intent intent = new Intent(context, ActivityFactor.class);
-                            intent.putExtra("requestCode", UserType.User.ordinal());
-                            startActivityForResult(intent, UserType.User.ordinal());
+                        if (Integer.valueOf(Util.getNumber(taskPrice.getText().toString())) != 0) {
+                            if (reserveForMeTask == null) {
+                                G.reservationInfo = getPayInfo();
+                                G.reservationInfo.setOwner(UserType.User);
+                                Intent intent = new Intent(context, ActivityFactor.class);
+                                intent.putExtra("requestCode", UserType.User.ordinal());
+                                startActivityForResult(intent, UserType.User.ordinal());
+                            }
+                        } else {
+                            if (reserveForMeTask == null) {
+                                reserveForMeTask = new asyncCallReserveForMeWS();
+                                reserveForMeTask.execute();
+                            }
                         }
+
                     }
                 } else {
                     if (G.UserInfo.getRole() == UserType.Dr.ordinal() || G.UserInfo.getRole() == UserType.secretary.ordinal()) {
@@ -341,12 +349,20 @@ public class DialogAddTurn extends DialogFragment {
                                     , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
                         }
                     } else {
-                        if (reserveForGuestTask == null) {
-                            G.reservationInfo = getPayInfo();
-                            G.reservationInfo.setOwner(UserType.Guest);
-                            Intent intent = new Intent(context, ActivityFactor.class);
-                            intent.putExtra("requestCode", UserType.Guest.ordinal());
-                            startActivityForResult(intent, UserType.Guest.ordinal());
+                        if (Integer.valueOf(Util.getNumber(taskPrice.getText().toString())) != 0) {
+                            if (reserveForGuestTask == null) {
+                                G.reservationInfo = getPayInfo();
+                                G.reservationInfo.setOwner(UserType.Guest);
+                                Intent intent = new Intent(context, ActivityFactor.class);
+                                intent.putExtra("requestCode", UserType.Guest.ordinal());
+                                startActivityForResult(intent, UserType.Guest.ordinal());
+                            }
+                        } else {
+                            if (reserveForGuestTask == null) {
+                                reserveForGuestFromUserTask = new asyncCallReserveForGuestFromUserWS();
+                                reserveForGuestFromUserTask.execute(nonMemberName.getText().toString().trim()
+                                        , nonMemberFamily.getText().toString().trim(), nonMemberMobile.getText().toString().trim());
+                            }
                         }
                     }
                 }
@@ -363,7 +379,7 @@ public class DialogAddTurn extends DialogFragment {
                         if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                             asyncGetTaskGroups = new asyncCallGetTaskGroups();
                             asyncGetTaskGroups.execute();
-                        }else {
+                        } else {
                             viewFlipper.setDisplayedChild(2);
                             taskBackBtn.setVisibility(View.VISIBLE);
                         }
@@ -374,9 +390,9 @@ public class DialogAddTurn extends DialogFragment {
                             if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                                 asyncGetTaskGroups = new asyncCallGetTaskGroups();
                                 asyncGetTaskGroups.execute();
-                            }else {
+                            } else {
                                 viewFlipper.setDisplayedChild(2);
-                            taskBackBtn.setVisibility(View.VISIBLE);
+                                taskBackBtn.setVisibility(View.VISIBLE);
                             }
 
                         } else {
@@ -385,9 +401,9 @@ public class DialogAddTurn extends DialogFragment {
                             if (asyncGetTaskGroups == null && taskGroup_adapter.isEmpty()) {
                                 asyncGetTaskGroups = new asyncCallGetTaskGroups();
                                 asyncGetTaskGroups.execute();
-                            }else {
+                            } else {
                                 viewFlipper.setDisplayedChild(2);
-                            taskBackBtn.setVisibility(View.VISIBLE);
+                                taskBackBtn.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -399,8 +415,8 @@ public class DialogAddTurn extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 //                if (asyncGetTaskes == null) {
-                    asyncGetTaskes = new asyncCallGetTaskes();
-                    asyncGetTaskes.execute();
+                asyncGetTaskes = new asyncCallGetTaskes();
+                asyncGetTaskes.execute();
 //                }
             }
 
@@ -638,7 +654,7 @@ public class DialogAddTurn extends DialogFragment {
                     resevationId = result;
                     Toast.makeText(context, "ثبت نوبت با موفقیت انجام شد .", Toast.LENGTH_SHORT).show();
                     dismiss();
-                } else{
+                } else {
                     new MessageBox(context, "ثبت نوبت با مشکل مواجه شد !").show();
                 }
             }

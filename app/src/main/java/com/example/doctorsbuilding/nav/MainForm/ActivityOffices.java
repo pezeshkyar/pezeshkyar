@@ -1,15 +1,19 @@
 package com.example.doctorsbuilding.nav.MainForm;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -42,6 +46,7 @@ import com.example.doctorsbuilding.nav.ActivityPaymnet;
 import com.example.doctorsbuilding.nav.ContactUs;
 import com.example.doctorsbuilding.nav.CustomNavListView;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
+import com.example.doctorsbuilding.nav.DownloadService;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.Dr.Profile.PersonalInfoActivity;
 import com.example.doctorsbuilding.nav.G;
@@ -59,6 +64,7 @@ import com.example.doctorsbuilding.nav.Web.WebService;
 import com.example.doctorsbuilding.nav.support.ActivityTickets;
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -108,7 +114,6 @@ public class ActivityOffices extends AppCompatActivity {
         G.setStatusBarColor(ActivityOffices.this);
         initViews();
         eventListener();
-
         adapter_office = new CustomOfficesListAdapter(ActivityOffices.this, new ArrayList<Office>());
         officesListView.setAdapter(adapter_office);
         adapter_doctors = new CustomDoctorsListAdapter(ActivityOffices.this, new ArrayList<Office>());

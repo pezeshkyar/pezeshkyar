@@ -1,12 +1,10 @@
 package com.example.doctorsbuilding.nav.MainForm;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -21,22 +19,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
-import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.G;
-import com.example.doctorsbuilding.nav.MainActivity;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.User.User;
 import com.example.doctorsbuilding.nav.UserType;
 import com.example.doctorsbuilding.nav.Util.MessageBox;
 import com.example.doctorsbuilding.nav.Web.WebService;
-
-import java.util.ArrayList;
-import java.util.EventListener;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -52,6 +43,7 @@ public class ActivityLoading extends AppCompatActivity {
     public UserType menu = UserType.None;
     private SharedPreferences settings;
     DatabaseAdapter database;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +73,6 @@ public class ActivityLoading extends AppCompatActivity {
         frm_run = (FrameLayout) findViewById(R.id.app_loading_run);
         frm_error = (FrameLayout) findViewById(R.id.app_loading_error);
     }
-
     private void eventListener() {
         btn_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +106,6 @@ public class ActivityLoading extends AppCompatActivity {
             frm_error.setVisibility(View.VISIBLE);
         }
     }
-
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
@@ -201,4 +191,5 @@ public class ActivityLoading extends AppCompatActivity {
             }
         }
     }
+
 }

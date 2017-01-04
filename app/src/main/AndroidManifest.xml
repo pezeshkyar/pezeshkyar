@@ -16,6 +16,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="پزشک یار"
         android:theme="@style/MyTheme">
+        <service android:name=".DownloadService" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.example.doctorsbuilding.nav.MainActivity" />
@@ -27,7 +29,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainForm.ActivityLoading"
+            android:name=".ActivityUpdate"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden">
@@ -216,6 +218,11 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityEtebar"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".MainForm.ActivityLoading"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme"
             android:windowSoftInputMode="stateHidden" />

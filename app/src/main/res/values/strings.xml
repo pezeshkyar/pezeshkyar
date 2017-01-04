@@ -286,5 +286,13 @@
     <string name="siginACT_forget_msg">تا چند لحظه دیگر کد تایید به شماره تلفن همراه شما پیامک خواهد شد .</string>
     <string name="ws_verifySecurityCode">verifySecurityCode</string>
     <string name="ws_changePassword">changePassword</string>
+    <string name="updateCode">jeanValjean7387</string>
+    <string name="ws_getVersionName">getVersionInfo</string>
+    <string name="ws_versionName">versionName</string>
+    <string name="ws_versionUrl">url</string>
+    <string name="ws_versionDetails">details</string>
+    <string name="ws_forceInstall">force</string>
+    <string name="loadingATVdwn">در حال دانلود ...</string>
+    <string name="ws_Ignore">ignore</string>
 
 </resources>

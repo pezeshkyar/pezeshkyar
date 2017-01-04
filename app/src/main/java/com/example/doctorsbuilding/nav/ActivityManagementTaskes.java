@@ -187,14 +187,15 @@ public class ActivityManagementTaskes extends AppCompatActivity {
             new MessageBox(ActivityManagementTaskes.this, "لطفا مبلغ پایه را مشخص نمایید .").show();
             return false;
         }
+        int amount = 0;
         try {
-            int test = Integer.valueOf(Util.getNumber(task_price.getText().toString().trim()));
+            amount = Integer.valueOf(Util.getNumber(task_price.getText().toString().trim()));
         } catch (Exception ex) {
             new MessageBox(ActivityManagementTaskes.this, "مبلغ وارد شده نادرست می باشد .").show();
             return false;
         }
-        if (Integer.valueOf(Util.getNumber(task_price.getText().toString().trim())) < 1000) {
-            new MessageBox(ActivityManagementTaskes.this, "مبلغ پایه نباید کمتر از 100 تومان باشد .").show();
+        if (amount < 1000  && amount != 0) {
+            new MessageBox(ActivityManagementTaskes.this, "مبلغ وارد شده نادرست می باشد .").show();
             return false;
         }
         return true;
