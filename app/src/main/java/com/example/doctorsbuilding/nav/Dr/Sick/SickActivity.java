@@ -14,6 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -35,6 +36,7 @@ public class SickActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(SickActivity.this);
         setContentView(R.layout.actvity_sick);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initViews();

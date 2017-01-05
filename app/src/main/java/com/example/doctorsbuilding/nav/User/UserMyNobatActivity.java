@@ -47,6 +47,7 @@ public class UserMyNobatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(UserMyNobatActivity.this);
         setContentView(R.layout.activity_my_nobat_user);
         initViews();
         turnTxtNothing.setVisibility(View.GONE);

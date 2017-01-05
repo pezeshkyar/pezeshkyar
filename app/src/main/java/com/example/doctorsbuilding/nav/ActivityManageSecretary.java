@@ -58,6 +58,7 @@ public class ActivityManageSecretary extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityManageSecretary.this);
         setContentView(R.layout.activity_manage_secretary);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 

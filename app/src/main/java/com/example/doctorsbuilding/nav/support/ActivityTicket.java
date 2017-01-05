@@ -188,7 +188,7 @@ public class ActivityTicket extends AppCompatActivity {
         }
     }
 
-    class TicketSender extends AsyncTask<String, String, Boolean>{
+    class TicketSender extends AsyncTask<String, String, String>{
         Ticket t;
         String errMsg = null;
         int ticketId;
@@ -213,36 +213,36 @@ public class ActivityTicket extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean res = true;
+        protected String doInBackground(String... strings) {
+            String res = null;
             try {
                 ticketId = WebService.invokeRegisterTicketWS(
                         G.UserInfo.getUserName(), G.UserInfo.getPassword(),
                         G.officeId, t);
                 t.setId(ticketId);
-                errMsg = WebService.invokeSetUserTicketMessageWS(
-                        G.UserInfo.getUserName(), G.UserInfo.getPassword(),
-                        G.officeId, ticketId, ticketMsg);
-                res = errMsg.toLowerCase().equals("ok") ?true :false;
+                res = WebService.invokeSetUserTicketMessageWS(
+                        G.UserInfo.getUserName(), G.UserInfo.getPassword(), ticketId, ticketMsg);
             } catch (PException e) {
                 errMsg = e.getMessage();
-                res = false;
             }
 
             return res;
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(String res) {
+            super.onPostExecute(res);
             sendBtn.setClickable(true);
-            if(errMsg != null && !errMsg.toUpperCase().equals("OK")) {
+            if(errMsg != null) {
                 dialog.dismiss();
                 new MessageBox(ActivityTicket.this, errMsg).show();
             }else {
-                if (aBoolean) {
+                if (res != null && !res.toLowerCase().equals("error")) {
                     G.mAdapter.add(t);
                     ActivityTicket.this.finish();
+                }else {
+                    dialog.dismiss();
+                    new MessageBox(ActivityTicket.this, "خطایی در ثبت درخواست رخ داده است .").show();
                 }
             }
         }

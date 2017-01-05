@@ -61,6 +61,7 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(MapActivity.this);
         setContentView(R.layout.activity_map);
         displayMeOnMap();
         btnStartLocationUpdates = (Button) findViewById(R.id.btnLocationUpdates);

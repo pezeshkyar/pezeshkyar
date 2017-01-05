@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -93,6 +94,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(PersonalInfoActivity.this);
         setContentView(R.layout.activity_personal_info);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initViews();
@@ -150,6 +152,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         txtFirstName = (EditText) findViewById(R.id.dr_FirstName);
         txtLastName = (EditText) findViewById(R.id.dr_LastName);
         txtMobile = (EditText) findViewById(R.id.dr_Mobile);
+        txtMobile.setRawInputType(Configuration.KEYBOARD_QWERTY);
         txtUserName = (EditText) findViewById(R.id.dr_UserName);
         txtUserName.setVisibility(View.GONE);
         txtPassword = (EditText) findViewById(R.id.dr_Password);

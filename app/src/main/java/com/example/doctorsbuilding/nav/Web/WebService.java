@@ -2756,8 +2756,7 @@ public class WebService {
         return result;
     }
 
-    public static String invokeSetUserTicketMessageWS(String username, String password,
-                                                      Integer officeId, int ticketId, String message) throws PException {
+    public static String invokeSetUserTicketMessageWS(String username, String password, int ticketId, String message) throws PException {
 
         if (!G.isOnline()) {
             throw new PException(isOnlineMessage);

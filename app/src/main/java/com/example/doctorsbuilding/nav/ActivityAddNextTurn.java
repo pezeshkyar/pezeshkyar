@@ -48,6 +48,7 @@ public class ActivityAddNextTurn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityAddNextTurn.this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_add_next_turn);
         patientInfo = (PatientInfo)getIntent().getSerializableExtra("patientInfo");

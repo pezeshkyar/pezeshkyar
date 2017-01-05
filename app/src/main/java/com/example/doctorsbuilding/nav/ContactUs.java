@@ -24,6 +24,7 @@ public class ContactUs extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ContactUs.this);
         setContentView(R.layout.activity_contact_us);
         initView();
         eventListener();

@@ -35,11 +35,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by hossein on 11/16/2016.
  */
 public class ActivityLoading extends AppCompatActivity {
-    Button btn_wifi;
-    Button btn_mobiledata;
-    Button btn_reconect;
-    FrameLayout frm_run;
-    FrameLayout frm_error;
     public UserType menu = UserType.None;
     private SharedPreferences settings;
     DatabaseAdapter database;
@@ -49,11 +44,11 @@ public class ActivityLoading extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityLoading.this);
         setContentView(R.layout.app_loading_layout);
         G.setStatusBarColor(ActivityLoading.this);
         initViews();
-        eventListener();
-        checkIsOnline();
+        loadData();
         database = new DatabaseAdapter(ActivityLoading.this);
         database.initialize();
     }
@@ -67,52 +62,14 @@ public class ActivityLoading extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.mPro);
         Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
         imageView.startAnimation(pulse);
-        btn_wifi = (Button) findViewById(R.id.app_loading_wifi);
-        btn_mobiledata = (Button) findViewById(R.id.app_loading_mobildata);
-        btn_reconect = (Button) findViewById(R.id.app_loading_reconect);
-        frm_run = (FrameLayout) findViewById(R.id.app_loading_run);
-        frm_error = (FrameLayout) findViewById(R.id.app_loading_error);
-    }
-    private void eventListener() {
-        btn_wifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-            }
-        });
-
-        btn_mobiledata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-            }
-        });
-        btn_reconect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                frm_error.setVisibility(View.GONE);
-                checkIsOnline();
-
-            }
-        });
-
     }
 
-    private void checkIsOnline() {
-        if (isOnline()) {
-            loadData();
-        } else {
-            frm_run.setVisibility(View.GONE);
-            frm_error.setVisibility(View.VISIBLE);
-        }
-    }
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
     }
 
     private void loadData() {
-        frm_run.setVisibility(View.VISIBLE);
         if (G.UserInfo == null)
             G.UserInfo = new User();
         loadUser();
@@ -120,19 +77,10 @@ public class ActivityLoading extends AppCompatActivity {
         task.execute();
     }
 
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
     private void loadUser() {
-
         settings = G.getSharedPreferences();
         G.UserInfo.setUserName(settings.getString("user", ""));
         G.UserInfo.setPassword(settings.getString("pass", ""));
-
     }
 
     private class AsyncCallGetData extends AsyncTask<String, Void, Void> {
@@ -171,8 +119,6 @@ public class ActivityLoading extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (msg != null) {
                 new MessageBox(ActivityLoading.this, msg).show();
-                frm_run.setVisibility(View.GONE);
-                frm_error.setVisibility(View.VISIBLE);
             } else {
                 if (user != null) {
                     G.UserInfo = user;

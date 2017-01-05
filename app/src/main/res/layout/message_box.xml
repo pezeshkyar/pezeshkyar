@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Theme.AppCompat.DayNight.Dialog"
     android:layout_width="match_parent"
+    android:padding="5dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
         android:text="توجه"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -29,11 +28,11 @@
     <View
         android:id="@+id/msgLine"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/msgTitle"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:background="@android:color/holo_blue_light" />
+        android:background="@color/colorDivider" />
 
     <TextView
         android:id="@+id/message_error"
@@ -44,6 +43,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textColor="@color/textColor"
         android:lineSpacingExtra="10dp"
         android:padding="@dimen/my_padding"
         android:textSize="16sp" />
@@ -54,7 +54,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/message_error"
         android:layout_marginTop="5dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/colorDivider" />
 
     <Button
         android:id="@+id/message_btn_accept"
@@ -65,7 +65,7 @@
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:text="قبول"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 
 </RelativeLayout>

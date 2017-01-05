@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class ActivityNotificationDialog extends Dialog {
     private Context context;
     private ArrayList<MessageInfo> items;
-    public ActivityNotificationDialog(Context context, int themeResId, ArrayList<MessageInfo> items) {
-        super(context, themeResId);
+    public ActivityNotificationDialog(Context context, ArrayList<MessageInfo> items) {
+        super(context);
         this.context = context;
         this.items = items;
     }

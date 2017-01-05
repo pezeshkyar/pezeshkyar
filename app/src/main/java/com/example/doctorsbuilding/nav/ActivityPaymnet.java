@@ -42,6 +42,8 @@ public class ActivityPaymnet extends AppCompatActivity implements MyWebChromeCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityPaymnet.this);
+
         setContentView(R.layout.activity_payment);
         amount = getIntent().getIntExtra("amount", -1);
         requestCode = getIntent().getIntExtra("requestCode", -1);

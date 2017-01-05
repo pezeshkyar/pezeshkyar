@@ -38,6 +38,7 @@ public class ActivityPatientListToday extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityPatientListToday.this);
         setContentView(R.layout.activity_patient_list_today);
         adapter = new CustomPatientListTodayListAdapter(ActivityPatientListToday.this);
         pageTitle = (TextView)findViewById(R.id.toolbar_title);

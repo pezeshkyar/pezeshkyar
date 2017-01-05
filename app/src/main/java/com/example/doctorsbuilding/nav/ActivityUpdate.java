@@ -21,8 +21,10 @@ import android.os.ResultReceiver;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -109,6 +111,11 @@ public class ActivityUpdate extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     private void checkIsOnline() {
         if (isOnline()) {
             loadData();
@@ -119,7 +126,7 @@ public class ActivityUpdate extends AppCompatActivity {
     }
 
     private void loadData() {
-        G.getSharedPreferences().edit().remove("ignore").apply();
+//        G.getSharedPreferences().edit().remove("ignore").apply();
         frm_run.setVisibility(View.VISIBLE);
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -175,12 +182,14 @@ public class ActivityUpdate extends AppCompatActivity {
 
                 if (G.getSharedPreferences().getString("ignore", "").equals(String.valueOf(versionInfo.getVersionName()))) {
                     startActivity(new Intent(ActivityUpdate.this, ActivityLoading.class));
+                    ActivityUpdate.this.overridePendingTransition(0, 0);
                     finish();
                     return;
                 }
 
                 if ((Double.valueOf(pInfo.versionName) >= versionInfo.getVersionName())) {
                     startActivity(new Intent(ActivityUpdate.this, ActivityLoading.class));
+                    ActivityUpdate.this.overridePendingTransition(0, 0);
                     finish();
                     return;
                 }
@@ -209,6 +218,7 @@ public class ActivityUpdate extends AppCompatActivity {
                                 editor.putString(Util.getStringWS(R.string.ws_Ignore), String.valueOf(versionInfo.getVersionName()));
                                 editor.apply();
                                 startActivity(new Intent(ActivityUpdate.this, ActivityLoading.class));
+                                ActivityUpdate.this.overridePendingTransition(0, 0);
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEUTRAL:

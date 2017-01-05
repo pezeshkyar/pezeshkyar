@@ -9,6 +9,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -162,8 +163,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/my_edit_text"
+                android:digits="0123456789"
                 android:hint="@string/drMobile"
-                android:inputType="phone|textNoSuggestions"
+                android:inputType="number|textNoSuggestions"
                 android:maxLength="11"
                 android:maxLines="1"
                 android:padding="8dp" />

@@ -41,6 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(SplashActivity.this);
         setContentView(R.layout.activity_splash);
 
         splashTv = (TextView) findViewById(R.id.splash_tv);

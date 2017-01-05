@@ -35,6 +35,8 @@ public class ActivityFactor extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityFactor.this);
+
         setContentView(R.layout.activity_factor_layout);
         requestCode = getIntent().getIntExtra("requestCode", -1);
         intiViews();

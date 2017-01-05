@@ -55,6 +55,7 @@ public class DrProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(DrProfileActivity.this);
         setContentView(R.layout.activity_dr_profile);
         database = new DatabaseAdapter(DrProfileActivity.this);
 

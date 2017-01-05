@@ -58,6 +58,7 @@ public class ManagementNotificationActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ManagementNotificationActivity.this);
         setContentView(R.layout.activity_notification_management);
         initViews();
         eventListener();

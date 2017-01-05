@@ -280,8 +280,7 @@ public class ActivityOffices extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (unreadMessages != null && unreadMessages.size() != 0) {
-                    ActivityNotificationDialog dialog = new ActivityNotificationDialog(ActivityOffices.this,
-                            android.R.style.Theme_DeviceDefault_Dialog_MinWidth, unreadMessages);
+                    ActivityNotificationDialog dialog = new ActivityNotificationDialog(ActivityOffices.this, unreadMessages);
                     dialog.show();
                 } else {
                     Toast.makeText(ActivityOffices.this, "هیچ پیام جدیدی برای خواندن وجود ندارد .", Toast.LENGTH_SHORT).show();

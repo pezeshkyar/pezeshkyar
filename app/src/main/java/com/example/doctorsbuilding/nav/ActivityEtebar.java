@@ -3,6 +3,7 @@ package com.example.doctorsbuilding.nav;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,12 +41,14 @@ public class ActivityEtebar extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityEtebar.this);
         setContentView(R.layout.activity_etebar);
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText(Util.getStringWS(R.string.etebar_title));
         backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         etebarFeli = (TextView) findViewById(R.id.etebar);
         txtAmount = (EditText) findViewById(R.id.etebar_amount);
+        txtAmount.setRawInputType(Configuration.KEYBOARD_QWERTY);
         btnPay = (Button) findViewById(R.id.etebar_btn);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,18 +60,28 @@ public class ActivityEtebar extends AppCompatActivity {
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!txtAmount.getText().toString().trim().isEmpty()) {
+                if (checkField()) {
                     Intent intent = new Intent(ActivityEtebar.this, ActivityPaymnet.class);
                     intent.putExtra("amount", Integer.valueOf(Util.getNumber(txtAmount.getText().toString().trim())));
                     intent.putExtra("requestCode", 1002);
                     startActivityForResult(intent, 1002);
-                } else {
-                    new MessageBox(ActivityEtebar.this, Util.getStringWS(R.string.etebar_err)).show();
                 }
             }
         });
         txtAmount.addTextChangedListener(new MoneyTextWatcher(txtAmount));
 
+    }
+
+    private boolean checkField(){
+        if (txtAmount.getText().toString().trim().isEmpty()) {
+            new MessageBox(ActivityEtebar.this, Util.getStringWS(R.string.etebar_err)).show();
+            return false;
+        }
+        if(Integer.valueOf(Util.getNumber(txtAmount.getText().toString().trim())) < 1000){
+            new MessageBox(ActivityEtebar.this, Util.getStringWS(R.string.etebar_err1)).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

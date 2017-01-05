@@ -141,6 +141,7 @@ public class gallery2 extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        G.setStatusBarColor(gallery2.this);
         setContentView(R.layout.activity_gallery2);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initViews();

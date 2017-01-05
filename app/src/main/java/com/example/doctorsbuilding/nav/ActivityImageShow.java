@@ -19,6 +19,7 @@ public class ActivityImageShow extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityImageShow.this);
         setContentView(R.layout.activity_showimage_profile);
         imageView = (ImageView)findViewById(R.id.zoomImageProfile);
 

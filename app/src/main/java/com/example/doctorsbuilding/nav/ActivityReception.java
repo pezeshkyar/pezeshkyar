@@ -50,6 +50,7 @@ public class ActivityReception extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityReception.this);
         setContentView(R.layout.activity_reception);
         initViews();
         eventListener();

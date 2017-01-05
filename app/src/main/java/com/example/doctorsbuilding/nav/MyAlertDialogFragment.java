@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.LinearLayout;
 
 public class MyAlertDialogFragment extends DialogFragment {
     private OnClickListener onClickListener;

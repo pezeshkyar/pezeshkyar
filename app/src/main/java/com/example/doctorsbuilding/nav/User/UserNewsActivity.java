@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.doctorsbuilding.nav.G;
 import com.example.doctorsbuilding.nav.R;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class UserNewsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(UserNewsActivity.this);
         setContentView(R.layout.activity_user_news);
         initViews();
         nothingTxt.setText("هیچ خبرنامه ای درج نشده است .");

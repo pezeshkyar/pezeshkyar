@@ -22,7 +22,7 @@ public class MessageBox extends Dialog implements View.OnClickListener{
 
 
     public MessageBox(Context context, String errorMessage) {
-        super(context, android.R.style.Theme_DeviceDefault_Dialog_MinWidth);
+        super(context);
         this.context = context;
         this.errorMessage = errorMessage;
     }

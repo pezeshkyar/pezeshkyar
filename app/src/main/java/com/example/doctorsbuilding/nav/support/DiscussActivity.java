@@ -57,10 +57,11 @@ public class DiscussActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discuss);
+        G.setStatusBarColor(DiscussActivity.this);
 
         ticketId = this.getIntent().getIntExtra("id", 0);
 
-        pageTitle = (TextView)findViewById(R.id.toolbar_title);
+        pageTitle = (TextView) findViewById(R.id.toolbar_title);
         pageTitle.setText("پشتیبانی");
         backBtn = (ImageButton) findViewById(R.id.toolbar_backBtn);
         mListView = (ListView) findViewById(R.id.support_listview);
@@ -83,10 +84,11 @@ public class DiscussActivity extends Activity {
                     try {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    } catch (Exception ex) {}
+                    } catch (Exception ex) {
+                    }
                     mListView.setSelection(mListView.getChildCount());
 
-                }else {
+                } else {
                     new MessageBox(DiscussActivity.this, "لطفا متن درخواست را وارد نمایید .").show();
                 }
             }
@@ -102,12 +104,11 @@ public class DiscussActivity extends Activity {
 
 
     private void addItems() {
-//        adapter.add(new OneComment(true, "سلام، مشکل چیه ؟!", persianCalendar.getPersianLongDateAndTime(), "حسین سالخورده"));
         messageReciever = new MessageReciever();
         messageReciever.execute();
     }
 
-    class MessageSender extends AsyncTask<String, String, Boolean> {
+    class MessageSender extends AsyncTask<String, Void, String> {
         String msg;
         String errMsg;
         ProgressDialog dialog;
@@ -123,30 +124,29 @@ public class DiscussActivity extends Activity {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean res;
+        protected String doInBackground(String... strings) {
+            String res = null;
             try {
-                String str = WebService.invokeSetUserTicketMessageWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), G.officeId, ticketId, msg);
-                res = str.toLowerCase().equals("ok") ? true : false;
+                res = WebService.invokeSetUserTicketMessageWS(G.UserInfo.getUserName(), G.UserInfo.getPassword(), ticketId, msg);
             } catch (PException e) {
                 errMsg = e.getMessage();
-                return false;
+                return null;
             } catch (Throwable t) {
-                res = false;
+                res = null;
             }
             return res;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             mBtnSend.setClickable(true);
             if (errMsg != null) {
                 dialog.dismiss();
                 new MessageBox(DiscussActivity.this, msg).show();
             } else {
-                if (result) {
-                    adapter.add(new OneComment(false, msg, persianCalendar.getPersianLongDateAndTime(), G.UserInfo.getFirstName() + " " + G.UserInfo.getLastName()));
+                if (result != null && !result.toUpperCase().equals("ERROR")) {
+                    adapter.add(new OneComment(false, msg, result, G.UserInfo.getFirstName() + " " + G.UserInfo.getLastName()));
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();

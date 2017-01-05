@@ -294,5 +294,6 @@
     <string name="ws_forceInstall">force</string>
     <string name="loadingATVdwn">در حال دانلود ...</string>
     <string name="ws_Ignore">ignore</string>
+    <string name="etebar_err1">مبلغ وارد شده نادرست می باشد .</string>
 
 </resources>

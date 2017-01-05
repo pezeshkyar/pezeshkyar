@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/notification_rowItem_drName"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/colorStroke"
+        android:textColor="@color/textColor"
         android:textSize="12sp" />
 
 
@@ -31,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/notification_rowItem_date"
         android:layout_marginTop="20dp"
-        android:textColor="@color/colorStroke"
+        android:textColor="@color/textColor"
         android:textSize="12sp" />
 </RelativeLayout>

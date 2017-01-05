@@ -46,6 +46,7 @@ public class UserInboxActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(UserInboxActivity.this);
         setContentView(R.layout.activity_user_inbox);
         listView = (ListView) findViewById(R.id.userInbox_listView);
         messageInfos = new ArrayList<MessageInfo>();

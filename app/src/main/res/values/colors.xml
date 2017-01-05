@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0088cc</color>
-    <color name="statusBarColor">#036ca1</color>
+    <color name="colorPrimary">#036ca1</color>
+    <color name="statusBarColor">#02547e</color>
     <color name="myyellow">#f47721</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#2196f3</color>
+    <color name="colorAccent">#0d81bc</color>
     <color name="colorMainContent">#e8eded</color>
     <color name="colorContentRow">#f4f7f9</color>
     <color name="tabIndicatorColor">#ff4c4c</color>
@@ -19,5 +19,5 @@
     <color name="expGroupTextColorWhenNotExpanded">#000000</color>
     <color name="textColor">#434343</color>
     <color name="highlightColor">#90000000</color>
-    <color name="blueColor">#2196F3</color>
+    <color name="blueColor">#0d81bc</color>
 </resources>

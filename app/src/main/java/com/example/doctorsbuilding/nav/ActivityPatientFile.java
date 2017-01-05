@@ -52,6 +52,7 @@ public class ActivityPatientFile extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(ActivityPatientFile.this);
         setContentView(R.layout.activity_patient_file);
 
         patientUsername = getIntent().getExtras().getString("patientUserName");

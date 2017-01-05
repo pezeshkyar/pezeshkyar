@@ -66,6 +66,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        G.setStatusBarColor(SignInActivity.this);
         setContentView(R.layout.activity_sign_in);
         settings = G.getSharedPreferences();
         G.setStatusBarColor(SignInActivity.this);
