@@ -16,8 +16,7 @@
             android:groupIndicator="@null"
             android:layout_height="match_parent"
             android:childDivider="#eeeeee"
-            android:dividerHeight="1dp"
-            android:padding="10dp"></com.example.doctorsbuilding.nav.Util.NonScrollExpanableListView>
+            android:dividerHeight="1dp"></com.example.doctorsbuilding.nav.Util.NonScrollExpanableListView>
     </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

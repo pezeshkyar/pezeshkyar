@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/my_toolbar" />
+    <include layout="@layout/toolbar_with_menu" />
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.example.doctorsbuilding.nav.VerticalScrollview xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,41 +28,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/my_text_view"
-                    android:padding="8dp" />
-
-                <TextView
-                    android:id="@+id/reception_taskGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/reception_name"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/my_text_view"
+                    android:layout_marginTop="8dp"
                     android:padding="8dp" />
 
                 <TextView
                     android:id="@+id/reception_task"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/reception_taskGroup"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/my_text_view"
+                    android:layout_below="@id/reception_name"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:id="@+id/reception_payment"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/fabColor"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reception_task"
+                    android:layout_marginBottom="8dp"
                     android:padding="8dp" />
 
                 <EditText
                     android:id="@+id/reception_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/reception_task"
+                    android:layout_below="@id/reception_payment"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/my_edit_text"
                     android:digits="0123456789"
-                    android:hint="مبلغ پرداختی"
-                    android:inputType="phone|textNoSuggestions"
+                    android:hint="مبلغ پرداختی به ریال"
+                    android:inputType="number|textNoSuggestions"
                     android:maxLength="20"
                     android:padding="8dp"
                     android:textColor="@color/textColor" />
@@ -83,54 +77,15 @@
                     android:textColor="@color/textColor" />
             </RelativeLayout>
 
-            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/reception_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                tools:context=".ActivityReception">
-
-                <Button
-                    android:id="@+id/reception_addBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/my_button"
-                    android:text="ثبت"
-                    android:textColor="@android:color/white"
-                    app:layout_marginLeftPercent="1%"
-                    app:layout_widthPercent="49%" />
-
-                <Button
-                    android:id="@+id/reception_addNextBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:background="@drawable/my_add_button"
-                    android:text="دریافت نوبت بعدی"
-                    android:textColor="@android:color/white"
-                    app:layout_marginRightPercent="1%"
-                    app:layout_widthPercent="49%" />
-
-            </android.support.percent.PercentRelativeLayout>
-
             <Button
-                android:id="@+id/reception_showFileBtn"
+                android:id="@+id/reception_addBtn"
                 android:layout_width="match_parent"
+                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/reception_ll"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/my_delete_button"
-                android:text="پرونده بیمار"
-                android:textColor="@android:color/white" />
+                android:background="@drawable/my_button"
+                android:text="ثبت در پرونده"
+                android:textColor="@android:color/white"/>
+
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </com.example.doctorsbuilding.nav.VerticalScrollview>
 </LinearLayout>

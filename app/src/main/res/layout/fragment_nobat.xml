@@ -8,7 +8,7 @@
         android:childDivider="#eeeeee"
         android:groupIndicator="@null"
         android:dividerHeight="1dp"
-        android:padding="10dp">
+        android:padding="0dp">
     </com.example.doctorsbuilding.nav.Util.NonScrollExpanableListView>
 </android.support.v4.widget.NestedScrollView>
 

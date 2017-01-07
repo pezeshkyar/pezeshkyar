@@ -2,6 +2,7 @@ package com.example.doctorsbuilding.nav.Dr.Clinic;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -134,6 +135,7 @@ public class DrClinicActivity extends AppCompatActivity {
         city = (Spinner) findViewById(R.id.dr_office_city);
         Address = (EditText) findViewById(R.id.dr_office_address);
         phone = (EditText) findViewById(R.id.dr_office_phone);
+        phone.setRawInputType(Configuration.KEYBOARD_QWERTY);
         expert = (Spinner) findViewById(R.id.dr_office_spec);
         subExpert = (Spinner) findViewById(R.id.dr_office_subSpec);
 //        secretary = (EditText) findViewById(R.id.dr_office_secretary);

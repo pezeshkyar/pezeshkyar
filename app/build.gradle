@@ -32,5 +32,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-
+    compile 'com.uncopt:android.justified:1.0'
 }

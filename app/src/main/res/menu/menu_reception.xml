@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reception_next_turn"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="دریافت نوبت بعدی"/>
+    <item
+        android:id="@+id/reception_patient_file"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="مشاهده پرونده بیمار"/>
+</menu>

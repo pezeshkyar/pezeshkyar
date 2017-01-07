@@ -15,30 +15,22 @@
             android:layout_centerInParent="true"
             android:gravity="center" />
 
-        <ProgressBar
-            android:id="@+id/splash_prbar"
+        <ImageView
+            android:id="@+id/splash_heart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_tv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/splash_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/splash_prbar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_reload"
-            android:visibility="gone" />
-
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_heart_blue_24dp"
+            android:tint="@color/colorAccent" />
         <Button
             android:id="@+id/splash_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/splash_img"
+            android:layout_below="@+id/splash_heart"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"

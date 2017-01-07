@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar33"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:contentInsetEnd="0dp"
+    android:contentInsetLeft="0dp"
+    android:contentInsetRight="0dp"
+    android:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
+    app:layout_collapseMode="pin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <ImageButton
+            android:id="@+id/menu_toolbar_backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/menu_toolbar_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/menu_toolbar_backBtn"
+            android:text="تست"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/menu_toolbar_setting"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="13dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vert_white_24dp"
+            android:tint="@android:color/white" />
+
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

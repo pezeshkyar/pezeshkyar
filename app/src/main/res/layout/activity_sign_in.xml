@@ -46,9 +46,10 @@
                     android:layout_below="@+id/login_img"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_edit_text"
+                    android:digits="0123456789"
                     android:hint="کد ملی"
-                    android:inputType="text|textNoSuggestions"
-                    android:maxLength="20"
+                    android:inputType="number|textNoSuggestions"
+                    android:maxLength="10"
                     android:maxLines="1"
                     android:padding="8dp" />
 
@@ -129,7 +130,8 @@
                     android:background="@drawable/my_edit_text"
                     android:hint="کد ملی"
                     android:inputType="number|textNoSuggestions"
-                    android:maxLength="11"
+                    android:digits="0123456789"
+                    android:maxLength="10"
                     android:padding="8dp" />
 
                 <Button
@@ -180,7 +182,8 @@
                     android:background="@drawable/my_edit_text"
                     android:hint="کد تایید"
                     android:inputType="number|textNoSuggestions"
-                    android:maxLength="11"
+                    android:digits="0123456789"
+                    android:maxLength="10"
                     android:padding="8dp" />
 
                 <Button
@@ -216,8 +219,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_edit_text"
                     android:hint="کلمه عبور"
-                    android:inputType="number|textNoSuggestions"
-                    android:maxLength="11"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLength="20"
                     android:padding="8dp" />
 
                 <EditText
@@ -230,8 +233,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/my_edit_text"
                     android:hint="تکرار کلمه عبور"
-                    android:inputType="number|textNoSuggestions"
-                    android:maxLength="11"
+                    android:inputType="text|textNoSuggestions"
+                    android:maxLength="20"
                     android:padding="8dp" />
 
                 <Button

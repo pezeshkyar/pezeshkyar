@@ -118,10 +118,10 @@ public class CustomListAdapterAddNextTurn extends BaseExpandableListAdapter {
 
     private void checkTurn(Holder holder, ExpChild child) {
 
-        holder.addBtn.setVisibility(View.INVISIBLE);
-        holder.deleteBtn.setVisibility(View.INVISIBLE);
+        holder.addBtn.setVisibility(View.GONE);
+        holder.deleteBtn.setVisibility(View.GONE);
         if (child.getTurn().getCapacity() <= child.getTurn().getReserved()) {
-            holder.addNobatBtn.setVisibility(View.INVISIBLE);
+            holder.addNobatBtn.setVisibility(View.GONE);
             holder.fullCapacityBtn.setVisibility(View.VISIBLE);
         }
     }

@@ -2,24 +2,24 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#34a853" />
-            <stroke android:width="2dp" android:color="#298341" />
+            <solid android:color="#0c8066" />
+            <stroke android:width="2dp" android:color="#006c54" />
             <corners android:radius="2dp" />
             <size android:height="20dp" />
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="#92d6a4" />
-            <stroke android:width="2dp" android:color="#92d6a4" />
+            <solid android:color="#0c8066" />
+            <stroke android:width="2dp" android:color="#0c8066" />
             <corners android:radius="2dp" />
             <size android:height="20dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <gradient android:angle="270" android:endColor="#298341" android:startColor="#34a853" />
-            <stroke android:width="1dp" android:color="#34a853" />
+            <gradient android:angle="270" android:endColor="#006c54" android:startColor="#0c8066" />
+            <stroke android:width="1dp" android:color="#0c8066" />
             <corners android:radius="2dp" />
             <size android:height="20dp" />
         </shape>

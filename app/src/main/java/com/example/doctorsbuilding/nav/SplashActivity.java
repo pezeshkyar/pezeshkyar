@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,7 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class SplashActivity extends AppCompatActivity {
     TextView splashTv;
-    ProgressBar progressBar;
+    ImageView progressBar;
     public UserType menu = UserType.None;
     DatabaseAdapter database;
     AsyncCallGetData asyncCallGetData = null;
@@ -45,8 +47,10 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         splashTv = (TextView) findViewById(R.id.splash_tv);
-        progressBar = (ProgressBar) findViewById(R.id.splash_prbar);
+        progressBar = (ImageView) findViewById(R.id.splash_heart);
         progressBar.setVisibility(View.VISIBLE);
+        Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
+        progressBar.startAnimation(pulse);
         loadData();
         database = new DatabaseAdapter(SplashActivity.this);
 
@@ -94,6 +98,8 @@ public class SplashActivity extends AppCompatActivity {
             } catch (PException ex) {
                 msg = ex.getMessage();
 
+            } catch (Throwable ex){
+                msg = ex.getMessage();
             }
             return null;
         }
@@ -101,6 +107,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            int currentRole = G.getSharedPreferences().getInt("role", 0);
             if (msg != null) {
                 new MessageBox(SplashActivity.this, msg).show();
             } else {
@@ -113,7 +120,7 @@ public class SplashActivity extends AppCompatActivity {
                         doctorPic = BitmapFactory.decodeResource(SplashActivity.this.getResources(), R.drawable.doctor);
 
                     G.officeInfo.setPhoto(doctorPic);
-                    if (G.getSharedPreferences().getInt("role", 0) == G.UserInfo.getRole()) {
+                    if (currentRole == G.UserInfo.getRole()) {
                         G.officeInfo.setMyOffice(true);
                     } else {
                         G.officeInfo.setMyOffice(false);

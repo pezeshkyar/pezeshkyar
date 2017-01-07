@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layoutDirection="rtl"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -10,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_gravity="right"
+        android:gravity="right"
         android:text="تاریخ نوبت دهی"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="18sp"
@@ -51,6 +52,6 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:clickable="true"
         android:text="قبول"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/statusBarColor" />
 
 </LinearLayout>

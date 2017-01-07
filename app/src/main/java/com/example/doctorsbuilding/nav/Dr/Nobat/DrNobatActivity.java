@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -105,6 +106,7 @@ public class DrNobatActivity extends AppCompatActivity {
         startTime = (TextView) findViewById(R.id.nobat_start_time);
         endTime = (TextView) findViewById(R.id.nobat_end_time);
         maxCapacity = (EditText) findViewById(R.id.nobat_capacity);
+        maxCapacity.setRawInputType(Configuration.KEYBOARD_QWERTY);
         btnInsert = (Button) findViewById(R.id.dr_btnNobatInsert);
         btnShowTurn = (Button) findViewById(R.id.dr_btnNobatShow);
         listView = (NonScrollListView) findViewById(R.id.nobat_listView);

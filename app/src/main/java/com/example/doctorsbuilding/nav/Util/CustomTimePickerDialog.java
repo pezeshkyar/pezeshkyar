@@ -25,7 +25,7 @@ public class CustomTimePickerDialog extends Dialog implements
     public int BUTTON_TYPE = Dialog.BUTTON_NEGATIVE;
 
     public CustomTimePickerDialog(Context context) {
-        super(context, android.R.style.Theme_DeviceDefault_Dialog_MinWidth);
+        super(context);
         this.context = context;
     }
 

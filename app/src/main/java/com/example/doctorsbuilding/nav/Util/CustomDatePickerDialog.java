@@ -22,7 +22,7 @@ public class CustomDatePickerDialog extends Dialog implements View.OnClickListen
     public int BUTTON_TYPE = Dialog.BUTTON_NEGATIVE;
 
     public CustomDatePickerDialog(Context context) {
-        super(context, android.R.style.Theme_DeviceDefault_Dialog_MinWidth);
+        super(context);
         this.context = context;
     }
 

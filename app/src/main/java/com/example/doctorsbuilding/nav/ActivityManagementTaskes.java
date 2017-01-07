@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -226,6 +227,7 @@ public class ActivityManagementTaskes extends AppCompatActivity {
         task_btnBack = (Button) findViewById(R.id.add_task_btnBack);
         task_name = (EditText) findViewById(R.id.subtask_name);
         task_price = (EditText) findViewById(R.id.subtask_price);
+        task_price.setRawInputType(Configuration.KEYBOARD_QWERTY);
         task_btn_edit = (Button) findViewById(R.id.subTask_editBtn);
         task_btn_delete = (Button) findViewById(R.id.subTask_deleteBtn);
         task_btn_add_ = (Button) findViewById(R.id.subTask_addBtn);

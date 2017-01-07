@@ -207,7 +207,7 @@
                     android:layout_marginTop="20dp"
                     tools:context="com.example.doctorsbuilding.nav.Map" />
 
-                <TextView
+                <com.uncopt.android.widget.text.justify.JustifiedTextView
                     android:id="@+id/content_main_biography"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -215,9 +215,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_weight="1"
                     android:lineSpacingExtra="10dp"
-                    android:maxLines="10"
                     android:scrollbars="vertical"
-                    android:text=""
                     android:textSize="14sp" />
 
             </LinearLayout>

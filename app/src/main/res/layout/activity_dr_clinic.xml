@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="end"
-    android:background="@color/colorFragment"
     android:orientation="vertical"
     android:scrollbars="none">
 
@@ -12,13 +11,12 @@
     <com.example.doctorsbuilding.nav.VerticalScrollview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_vertical_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -26,7 +24,7 @@
                 android:id="@+id/dr_office_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_spinner">
 
             </Spinner>
@@ -35,7 +33,7 @@
                 android:id="@+id/dr_office_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_spinner">
 
             </Spinner>
@@ -44,33 +42,32 @@
                 android:id="@+id/dr_office_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_edit_text"
                 android:hint="@string/drAddress"
                 android:inputType="text|textNoSuggestions"
                 android:maxLength="2000"
                 android:maxLines="10"
-                android:padding="8dp"
-                android:textSize="14sp" />
+                android:padding="8dp" />
 
             <EditText
                 android:id="@+id/dr_office_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_edit_text"
                 android:hint="@string/drPhone"
-                android:inputType="phone|textNoSuggestions"
+                android:inputType="number|textNoSuggestions"
+                android:digits="0123456789"
                 android:maxLength="11"
                 android:maxLines="1"
-                android:padding="8dp"
-                android:textSize="14sp" />
+                android:padding="8dp" />
 
             <Spinner
                 android:id="@+id/dr_office_spec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_spinner">
 
             </Spinner>
@@ -79,7 +76,7 @@
                 android:id="@+id/dr_office_subSpec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_spinner">
 
             </Spinner>
@@ -101,8 +98,8 @@
             <EditText
                 android:id="@+id/dr_office_biography"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/my_edit_text"
                 android:gravity="start"
                 android:hint="بیوگرافی"
@@ -110,15 +107,14 @@
                 android:inputType="textMultiLine|textNoSuggestions"
                 android:maxLength="1000"
                 android:maxLines="10"
-                android:padding="8dp"
-                android:textSize="14sp" />
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/dr_office_btnInsert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/my_button"
                 android:padding="8dp"
                 android:text="@string/clinic_btn_insert"
