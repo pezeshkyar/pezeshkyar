@@ -126,7 +126,7 @@ public class ActivityUpdate extends AppCompatActivity {
     }
 
     private void loadData() {
-//        G.getSharedPreferences().edit().remove("ignore").apply();
+        G.getSharedPreferences().edit().remove("ignore").apply();
         frm_run.setVisibility(View.VISIBLE);
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -240,12 +240,12 @@ public class ActivityUpdate extends AppCompatActivity {
                     }
                 };
                 if (versionInfo.isForce()) {
-                    MyAlertDialogFragment builder = MyAlertDialogFragment.newInstance("بروزرسانی"
+                    MyAlertDialogFragment builder = MyAlertDialogFragment.newInstance("بروزرسانی", android.R.drawable.ic_dialog_info
                             , versionInfo.getDetails(), "نسخه جدید");
                     builder.setOnClickListener(myDialogFrag).show(getFragmentManager(), "");
                     builder.setCancelable(false);
                 } else {
-                    MyAlertDialogFragment builder = MyAlertDialogFragment.newInstance("بروزرسانی"
+                    MyAlertDialogFragment builder = MyAlertDialogFragment.newInstance("بروزرسانی", android.R.drawable.ic_dialog_info
                             , versionInfo.getDetails(), "نسخه جدید", "انصراف");
                     builder.setOnClickListener(myDialogFrag).show(getFragmentManager(), "");
                     builder.setCancelable(false);

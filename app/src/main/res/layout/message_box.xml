@@ -1,71 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="5dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/msgTitle"
+        android:id="@+id/msg_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
         android:text="توجه"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/msgWarning"
+        android:id="@+id/msg_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
-        android:src="@drawable/ic_warning" />
+        android:src="@android:drawable/stat_sys_warning"
+        android:tint="@color/myyellow" />
 
-    <View
-        android:id="@+id/msgLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/msgTitle"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorDivider" />
+    <!--<View-->
+    <!--android:id="@+id/msgLine"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_below="@+id/msgTitle"-->
+    <!--android:layout_marginBottom="5dp"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:background="@color/colorDivider" />-->
 
     <TextView
-        android:id="@+id/message_error"
+        android:id="@+id/msg_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/msgLine"
-        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/msg_icon"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="@color/textColor"
+        android:gravity="right"
         android:lineSpacingExtra="10dp"
         android:padding="@dimen/my_padding"
+        android:textColor="@color/textColor"
         android:textSize="16sp" />
 
-    <View
-        android:id="@+id/msgLine1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/message_error"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorDivider" />
+    <!--<View-->
+    <!--android:id="@+id/msgLine1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_below="@id/message_error"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:background="@color/colorDivider" />-->
 
     <Button
-        android:id="@+id/message_btn_accept"
+        android:id="@+id/msg_neutralButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/msgLine1"
+        android:layout_below="@id/msg_message"
         android:layout_gravity="center_horizontal"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:text="قبول"
+        android:text="تایید"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/msg_positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/msg_message"
+        android:layout_toRightOf="@+id/msg_negativeButton"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:minWidth="0dp"
         android:textColor="@color/colorPrimary"
-        android:textSize="14sp" />
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/msg_negativeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/msg_icon"
+        android:layout_below="@id/msg_message"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="30dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:minWidth="0dp"
+        android:textColor="@color/delete"
+        android:visibility="gone" />
 
 </RelativeLayout>

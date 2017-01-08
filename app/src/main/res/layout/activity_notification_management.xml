@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/my_add_button"
+            android:background="@drawable/my_button"
             android:text="مشاهده نوبت"
             android:textColor="@android:color/white" />
 
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/my_margin"
             android:layout_marginTop="@dimen/my_margin"
-            android:background="@drawable/my_button"
+            android:background="@drawable/my_add_button"
             android:text="ارسال"
             android:textColor="@android:color/white" />
     </LinearLayout>

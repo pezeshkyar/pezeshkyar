@@ -36,8 +36,8 @@ public class MessageBox extends Dialog implements View.OnClickListener{
     }
 
     private void initViews(){
-        tv_error = (TextView)findViewById(R.id.message_error);
-        btn_accept = (Button)findViewById(R.id.message_btn_accept);
+        tv_error = (TextView)findViewById(R.id.msg_message);
+        btn_accept = (Button)findViewById(R.id.msg_neutralButton);
         //set views
         tv_error.setText(errorMessage);
         btn_accept.setOnClickListener(this);
@@ -45,7 +45,7 @@ public class MessageBox extends Dialog implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.message_btn_accept){
+        if(view.getId() == R.id.msg_neutralButton){
             btnSatate = true;
             dismiss();
         }
