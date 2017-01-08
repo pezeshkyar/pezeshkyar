@@ -30,24 +30,38 @@
                     android:divider="@android:color/transparent"
                     android:dividerHeight="8dp" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/my_doctor_fab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|left"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/ic_add_white"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="#f47721" />
-                </FrameLayout>
-
             </FrameLayout>
 
         </LinearLayout>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/my_doctor_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_add_white"
+        android:tint="@android:color/white"
+        app:backgroundTint="#f47721" />
+
+    <FrameLayout
+        android:id="@+id/my_doctor_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:background="#90000000"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="10dp"
+            android:padding="20dp"
+            android:text="شما بیمار پزشکی نمی باشید، جهت مشاهده لیست پزشک های سامانه بر روی آیکون زیر کلیک نمایید ."
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

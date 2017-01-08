@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ActivityMyDoctors extends AppCompatActivity {
     TextView pageTitle;
     ImageButton backBtn;
+    private FrameLayout frm_nothing;
     FloatingActionButton addButton;
     ListView doctorsListView;
     ArrayList<Office> doctors = new ArrayList<Office>();
@@ -101,6 +103,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
 
     private void initViews() {
         database = new DatabaseAdapter(ActivityMyDoctors.this);
+        frm_nothing = (FrameLayout) findViewById(R.id.my_doctor_nothing);
         doctorsListView = (ListView) findViewById(R.id.my_doctor_lv);
         addButton = (FloatingActionButton) findViewById(R.id.my_doctor_fab);
         pageTitle = (TextView) findViewById(R.id.toolbar_title);
@@ -113,6 +116,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                frm_nothing.setVisibility(View.GONE);
                 if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
                     startActivity(new Intent(ActivityMyDoctors.this, ActivityAllDoctors.class));
                 }
@@ -194,7 +198,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
                         task_getDoctorPic.execute(String.valueOf(i));
                     }
                 } else {
-                    new MessageBox(ActivityMyDoctors.this, "شما بیمار پزشکی نمی باشید، جهت افزودن پزشک از دکمه افزودن استفاده نمایید.").show();
+                    frm_nothing.setVisibility(View.VISIBLE);
                 }
             }
         }
