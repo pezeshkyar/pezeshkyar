@@ -146,7 +146,7 @@ public class CustomOfficeEndLessAdapter extends BaseAdapter {
         public TextView phone;
 //        public TextView officeCode;
         public Button btnDelete;
-        public Button btnFavorite;
+        public ImageView btnFavorite;
 
         public Holder(View v) {
             imageView = (ImageView) v.findViewById(R.id.offices_item_image);
@@ -155,7 +155,7 @@ public class CustomOfficeEndLessAdapter extends BaseAdapter {
             address = (TextView) v.findViewById(R.id.offices_item_address);
             phone = (TextView) v.findViewById(R.id.offices_item_phone);
             btnDelete = (Button) v.findViewById(R.id.offices_btn_delete);
-            btnFavorite = (Button) v.findViewById(R.id.offices_btn_favorite);
+            btnFavorite = (ImageView) v.findViewById(R.id.offices_btn_favorite);
 //            officeCode = (TextView) v.findViewById(R.id.offices_item_officeCode);
         }
     }
@@ -195,7 +195,8 @@ public class CustomOfficeEndLessAdapter extends BaseAdapter {
                 if (result != null && result.toUpperCase().equals("OK")) {
                     Animation pulse = AnimationUtils.loadAnimation(context, R.anim.like_anim);
                     holder.btnFavorite.startAnimation(pulse);
-                    holder.btnFavorite.setBackgroundResource(R.drawable.ic_heart_red_24);
+                    holder.btnFavorite.setImageResource(R.drawable.ic_heart_red_24);
+                    holder.btnFavorite.setColorFilter(ContextCompat.getColor(context, R.color.delete));
                     if (office != null) {
                         office.setMyOffice(false);
                         database = new DatabaseAdapter(context);

@@ -105,18 +105,21 @@ public class MyAlertDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 onClickListener.onClick(DialogInterface.BUTTON_NEUTRAL);
+                dismiss();
             }
         });
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickListener.onClick(DialogInterface.BUTTON_POSITIVE);
+                dismiss();
             }
         });
         negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickListener.onClick(DialogInterface.BUTTON_NEGATIVE);
+                dismiss();
             }
         });
     }

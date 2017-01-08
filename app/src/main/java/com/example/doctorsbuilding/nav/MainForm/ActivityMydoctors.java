@@ -199,6 +199,7 @@ public class ActivityMyDoctors extends AppCompatActivity {
                     }
                 } else {
                     frm_nothing.setVisibility(View.VISIBLE);
+                    addButton.bringToFront();
                 }
             }
         }

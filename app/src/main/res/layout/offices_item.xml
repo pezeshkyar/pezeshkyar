@@ -53,28 +53,28 @@
             android:id="@+id/offices_item_expert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_marginBottom="4dp"
-            android:text="فوق تخصص داخلی اطفال" />
+            android:text="فوق تخصص داخلی اطفال"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/offices_item_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:textSize="14sp"
             android:maxLines="1"
             android:text="ساری بوار امیر مازندرانی جنب کوچه صفا ساختمان بلور کلینیک دکتر سخایی پلاک 19"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/offices_item_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:gravity="right"
             android:text="تلفن : 0113332658"
-            android:textColor="@color/textColor" />
+            android:textColor="@color/textColor"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <FrameLayout
@@ -89,13 +89,13 @@
             android:background="?selectableItemBackgroundBorderless"
             android:drawableTop="@drawable/ic_clear_black_24dp" />
 
-        <Button
+        <ImageView
             android:id="@+id/offices_btn_favorite"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:background="?selectableItemBackgroundBorderless"
-            android:drawableTop="@drawable/ic_favorite_border_black_24dp"
+            android:src="@drawable/ic_favorite_border_black_24dp"
             android:visibility="gone" />
     </FrameLayout>
 

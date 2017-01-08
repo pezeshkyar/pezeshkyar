@@ -1,11 +1,11 @@
 package com.example.doctorsbuilding.nav.MainForm;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.doctorsbuilding.nav.Databases.DatabaseAdapter;
 import com.example.doctorsbuilding.nav.Dr.Clinic.Office;
 import com.example.doctorsbuilding.nav.G;
+import com.example.doctorsbuilding.nav.MyAlertDialogFragment;
 import com.example.doctorsbuilding.nav.PException;
 import com.example.doctorsbuilding.nav.R;
 import com.example.doctorsbuilding.nav.SignInActivity;
@@ -60,7 +61,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
         public TextView expert;
         public TextView address;
         public TextView phone;
-//        public TextView officeCode;
+        //        public TextView officeCode;
         public Button btnDelete;
 
         public Holder(View v) {
@@ -123,7 +124,7 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 if (G.UserInfo != null && G.UserInfo.getUserName().length() != 0 && G.UserInfo.getPassword().length() != 0) {
-                    deleteActionByArdeshir(position);
+                    deleteClinic(position);
                 } else {
                     context.startActivity(new Intent(context, SignInActivity.class));
                 }
@@ -144,26 +145,24 @@ public class CustomDoctorsListAdapter extends BaseAdapter {
         return rowView;
     }
 
-    private void deleteActionByArdeshir(final int position) {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private void deleteClinic(final int position) {
+        MyAlertDialogFragment.OnClickListener dialogClickListener = new MyAlertDialogFragment.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
+            public void onClick(int whichButton) {
+                switch (whichButton) {
                     case DialogInterface.BUTTON_POSITIVE:
                         AsyncDeleteOfficeForUser deleteOfficeForUser = new AsyncDeleteOfficeForUser();
                         deleteOfficeForUser.execute(String.valueOf(position));
                         break;
-
                     case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
                         break;
                 }
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("آیا مطئنید می خواهید این مطب را حذف نمایید؟").setPositiveButton("بله", dialogClickListener)
-                .setNegativeButton("خیر", dialogClickListener).show();
+        MyAlertDialogFragment builder = MyAlertDialogFragment.newInstance("حذف مطب", android.R.drawable.ic_menu_delete
+                , "آیا مطئنید می خواهید این مطب را حذف نمایید؟", "بلی", "خیر");
+        builder.setOnClickListener(dialogClickListener).show(((Activity) context).getFragmentManager(), "");
     }
 
 
