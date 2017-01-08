@@ -56,10 +56,10 @@ public class WebService {
     //SOAP Action URI again Namespace + Web method name
     private static String SOAP_ACTION = Util.getStringWS(R.string.ws_package);
 
-    private static final String connectMessage = "برقراری ارتباط با سرور امکان پذیر نیست !";
-    private static final String nothingFromServer = "هیچ جوابی از سرور دریافت نشده است !";
-    private static final String otherMessage = "خطایی در ارتباط با سرور رخ داده است !";
-    private static final String isOnlineMessage = "دسترسی به اینترنت امکان پذیر نمی باشد، لطفا تنظیمات اینترنت خود را چک نمایید .";
+    private static final String connectMessage = Util.getStringWS(R.string.ws_connectMessage);
+    private static final String nothingFromServer = Util.getStringWS(R.string.ws_nothingFromServer);
+    private static final String otherMessage = Util.getStringWS(R.string.ws_otherMessage);
+    private static final String isOnlineMessage = Util.getStringWS(R.string.ws_isOnlineMessage);
 
 
     public static ArrayList<State> invokeGetProvinceNameWS() throws PException {

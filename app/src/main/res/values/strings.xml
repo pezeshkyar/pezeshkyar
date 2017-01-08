@@ -295,5 +295,9 @@
     <string name="loadingATVdwn">در حال دانلود ...</string>
     <string name="ws_Ignore">ignore</string>
     <string name="etebar_err1">مبلغ وارد شده نادرست می باشد .</string>
+    <string name="ws_connectMessage">برقراری ارتباط با سرور امکان پذیر نیست !</string>
+    <string name="ws_nothingFromServer">هیچ جوابی از سرور دریافت نشده است !</string>
+    <string name="ws_otherMessage">خطایی در ارتباط با سرور رخ داده است !</string>
+    <string name="ws_isOnlineMessage">دسترسی به اینترنت امکان پذیر نمی باشد، لطفا تنظیمات اینترنت خود را چک نمایید .</string>
 
 </resources>
